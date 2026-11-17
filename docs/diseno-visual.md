@@ -33,19 +33,19 @@ Las fotos propias están en `backend/public/images/` en formato WebP (entre 50 y
 
 ## Formularios
 
-Inspirados en la claridad de los formularios de gob.pe, con pasos, ayudas y validación amable. Kit en :
+Inspirados en la claridad de los formularios de gob.pe, con pasos, ayudas y validación amable. Kit en `components/form/Pregunta.tsx`:
 
 | Regla | Cómo se aplica |
 | --- | --- |
-| Cada dato es una pregunta numerada | , etiqueta en negrita de 19 px y en minúsculas normales |
-| La ayuda va antes del campo | Prop , enlazada con  |
-| Campos grandes y con borde visible | : 48 px de alto, letra de 19 px y borde  |
-| Opciones fáciles de tocar |  con radio nativo en toda la tarjeta; Sí/No/Aún no lo sé en botones de 48 px |
-| Errores claros | Mensaje con icono junto al campo y  arriba, con enlaces a cada campo |
+| Cada dato es una pregunta numerada | `<Pregunta numero={1} etiqueta="...">`, etiqueta en negrita de 19 px y en minúsculas normales |
+| La ayuda va antes del campo | Prop `ayuda`, enlazada con `aria-describedby` |
+| Campos grandes y con borde visible | `claseCampo()`: 48 px de alto, letra de 19 px y borde `slate-400` |
+| Opciones fáciles de tocar | `<OpcionesTarjeta>` con radio nativo en toda la tarjeta; Sí/No/Aún no lo sé en botones de 48 px |
+| Errores claros | Mensaje con icono junto al campo y `<ResumenErrores>` arriba, con enlaces a cada campo |
 | Formularios largos divididos | Máximo unas 5 preguntas por paso, con barra de progreso y un paso final para revisar y cambiar |
-| Nada de MAYÚSCULAS diminutas | Ningún texto de lectura queda por debajo de  (14,9 px) |
+| Nada de MAYÚSCULAS diminutas | Ningún texto de lectura queda por debajo de `text-sm` (14,9 px) |
 
-Formularios que siguen estas reglas: datos del local (, 14 preguntas en 3 pasos) y afiliación de proveedores (, 9 preguntas en 3 pasos).
+Formularios que siguen estas reglas: datos del local (`/autoevaluacion/nueva`, 14 preguntas en 3 pasos) y afiliación de proveedores (`/directorio/anunciate`, 9 preguntas en 3 pasos).
 
 ## Componentes compartidos
 
