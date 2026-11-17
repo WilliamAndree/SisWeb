@@ -6,7 +6,26 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    /*
+      Identidad visual CheckITSE (docs/diseno-visual.md):
+        primary -> verde de seguridad (confianza, "listo para operar")
+        ink     -> superficies de alto contraste (hero, CTA)
+        sun     -> acento cálido para emprendimiento y llamadas a la acción secundarias
+        canvas  -> fondo general cálido, menos frío que el gris neutro
+    */
+    --color-ink-900: #0b1f1a;
+    --color-ink-800: #12302a;
+    --color-ink-700: #1b4038;
+    --color-sun-50: #fff8eb;
+    --color-sun-100: #ffefcc;
+    --color-sun-300: #fcd27a;
+    --color-sun-400: #fbbf24;
+    --color-sun-500: #f59e0b;
+    --color-sun-700: #a15c07;
+    --color-canvas: #f6f7f4;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

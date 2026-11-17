@@ -12,7 +12,7 @@ export const RegistrarLocalButton: React.FC<RegistrarLocalButtonProps> = ({ vari
         'inline-flex min-h-[44px] items-center justify-center font-bold text-white bg-primary hover:bg-primary-700 active:scale-95 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2';
 
     const estiloVariante =
-        variant === 'large' ? 'px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-2xl' : 'px-3 py-2 text-xs rounded-xl shrink-0';
+        variant === 'large' ? 'px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm rounded-2xl' : 'px-4 py-2 text-sm rounded-full shrink-0';
 
     return (
         <Link href={route('autoevaluacion.nueva')} onClick={onClick} className={`${estiloBase} ${estiloVariante} ${className}`.trim()}>

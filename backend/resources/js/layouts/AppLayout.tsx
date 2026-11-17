@@ -7,7 +7,7 @@ interface AppLayoutProps {
 
 export default function AppLayout({ children }: Readonly<AppLayoutProps>) {
     return (
-        <div className="flex min-h-screen flex-col bg-neutral-50 font-sans text-neutral-900 antialiased print:bg-white">
+        <div className="bg-canvas flex min-h-screen flex-col font-sans text-neutral-900 antialiased print:bg-white">
             <a
                 href="#main-content"
                 className="focus:bg-primary-700 focus:ring-primary-500 sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-xl focus:px-4 focus:py-2.5 focus:text-xs focus:font-bold focus:text-white focus:shadow-lg focus:ring-2 focus:outline-none"

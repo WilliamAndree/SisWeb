@@ -7,8 +7,8 @@
       "pantalla": "Inicio",
       "h1": 1,
       "width": 320,
-      "content": 311,
-      "title": "Identifica qué revisar en tu local",
+      "content": 315,
+      "title": "Abre tu negocio seguro y llega listo a tu ITSE",
       "missingLabels": 0
     },
     {
@@ -16,7 +16,7 @@
       "h1": 1,
       "width": 390,
       "content": 375,
-      "title": "Identifica qué revisar en tu local",
+      "title": "Abre tu negocio seguro y llega listo a tu ITSE",
       "missingLabels": 0
     },
     {
@@ -24,7 +24,7 @@
       "h1": 1,
       "width": 768,
       "content": 753,
-      "title": "Identifica qué revisar en tu local",
+      "title": "Abre tu negocio seguro y llega listo a tu ITSE",
       "missingLabels": 0
     },
     {
@@ -32,14 +32,14 @@
       "h1": 1,
       "width": 1440,
       "content": 1425,
-      "title": "Identifica qué revisar en tu local",
+      "title": "Abre tu negocio seguro y llega listo a tu ITSE",
       "missingLabels": 0
     },
     {
       "pantalla": "Datos",
       "h1": 1,
       "width": 320,
-      "content": 311,
+      "content": 315,
       "title": "Cuéntanos sobre tu local",
       "missingLabels": 0
     },
@@ -71,7 +71,7 @@
       "pantalla": "Condiciones",
       "h1": 1,
       "width": 320,
-      "content": 311,
+      "content": 315,
       "title": "Revisa las condiciones de tu local",
       "missingLabels": 0
     },
@@ -103,7 +103,7 @@
       "pantalla": "Resumen",
       "h1": 1,
       "width": 320,
-      "content": 311,
+      "content": 315,
       "title": "Tu resumen de autoevaluación",
       "missingLabels": 0
     },

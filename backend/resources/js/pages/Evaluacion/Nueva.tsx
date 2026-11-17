@@ -1,5 +1,14 @@
 import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
 import { GuiaModal } from '@/components/GuiaModal';
+import {
+    FUNCIONES_ECONOMICAS,
+    TEXTO_MODALIDAD,
+    clasificarItse,
+    leerNumero,
+    type ClasificacionItse,
+    type ModalidadItse,
+} from '@/lib/clasificacion-itse';
+import { formatearNivelRiesgo } from '@/lib/riesgo';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { Head, Link, useForm } from '@inertiajs/react';
 import {
@@ -14,8 +23,6 @@ import {
     Clock,
     Flame,
     Footprints,
-    Gauge,
-    Info,
     Layers,
     MapPin,
     Package,
@@ -23,7 +30,7 @@ import {
     Store,
     UtensilsCrossed,
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type ValorNumericoFlexible = string | number | null;
 
@@ -79,38 +86,27 @@ interface FormEvaluacionData {
     [key: string]: FormDataConvertible;
 }
 
-type ModalidadTramite = 'EX_POST' | 'EX_ANTE';
-
 export interface PrecalificacionInput {
-    area_techada?: ValorNumericoFlexible;
+    area_m2?: ValorNumericoFlexible;
     aforo?: ValorNumericoFlexible;
     pisos?: ValorNumericoFlexible;
-    usa_glp?: boolean;
-    tiene_freidora?: boolean;
-    tiene_escaleras?: boolean;
-    tiene_estanterias?: boolean;
-    area_m2?: ValorNumericoFlexible;
-    tiene_equipos_fritura?: boolean | null;
-    tiene_estanterias_altas?: boolean | null;
     funcion_economica?: string;
+    usa_glp?: boolean | null;
     galones_glp?: ValorNumericoFlexible;
     usa_caldero?: boolean | null;
     usa_liquidos_inflamables?: boolean | null;
     en_sotano?: boolean | null;
     galeria_sin_itse?: boolean | null;
-    combustibles_liquidos_m3?: ValorNumericoFlexible;
 }
-
-export type NivelRiesgoEstimado = 'BAJO' | 'MEDIO' | 'ALTO' | 'MUY_ALTO';
 
 export interface PrecalificacionOrientativa {
-    modalidad: ModalidadTramite;
+    modalidad: ModalidadItse;
     titulo: string;
-    nivel: NivelRiesgoEstimado;
+    nivel: ClasificacionItse['nivel'];
     factores: string[];
+    /** Situaciones que el servidor no clasifica pero conviene consultar con la municipalidad. */
+    avisos: string[];
 }
-
-export type PrecalificacionResultado = PrecalificacionOrientativa;
 
 /**
  * Criterios normativos que el motor de aplicabilidad habilita a partir de cada
@@ -125,190 +121,56 @@ const CRITERIOS_POR_DECLARACION = [
 
 const CAMPOS_DECLARACION = ['usa_glp', 'tiene_equipos_fritura', 'tiene_escaleras', 'tiene_estanterias_altas'] as const;
 
-const AREA_MAXIMA_EX_POST = 750;
-const PISOS_MAXIMOS_EX_POST = 2;
-const AFORO_MAXIMO_EX_POST = 50;
-const GALONES_MAXIMOS_EX_POST = 118.18;
-const GIROS_ESPECIALES = new Set<string>(['Hospedaje', 'Salud']);
-
-const SEMAFORO_CONFIG: Record<string, { fondo: string; texto: string; borde: string }> = {
-    BAJO: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
-    MEDIO: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
-    ALTO: { fondo: 'bg-rose-50', texto: 'text-rose-900', borde: 'border-rose-200' },
-    MUY_ALTO: { fondo: 'bg-rose-100', texto: 'text-rose-950', borde: 'border-rose-300' },
-    Bajo: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
-    Medio: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
-    Alto: { fondo: 'bg-rose-50', texto: 'text-rose-900', borde: 'border-rose-200' },
-    'Muy Alto': { fondo: 'bg-rose-100', texto: 'text-rose-950', borde: 'border-rose-300' },
+const ESTILO_NIVEL: Record<ClasificacionItse['nivel'], { fondo: string; texto: string; borde: string }> = {
+    BAJO_MEDIO: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
+    ALTO_MUY_ALTO: { fondo: 'bg-amber-50', texto: 'text-amber-900', borde: 'border-amber-200' },
 };
 
-function aNumero(valor: string | number | null | undefined): number | null {
-    if (valor === null || valor === undefined || valor === '') return null;
-    const n = Number(valor);
-    return Number.isFinite(n) ? n : null;
-}
-
-interface DatosRiesgosEspeciales {
-    usaGlp: boolean;
-    galones: number | null;
-    tieneFreidora: boolean;
-    usaCaldero: boolean;
-    usaLiquidos: boolean;
-    combustiblesM3: number | null;
-}
-
-const evaluarEscalaFisica = (area: number | null, pisos: number | null, aforo: number | null, funcionEconomica?: string | null): string[] => {
-    const factores: string[] = [];
-
-    if (area !== null && area > AREA_MAXIMA_EX_POST) {
-        factores.push(`Área techada de ${area} m², sobre el máximo de ${AREA_MAXIMA_EX_POST} m²`);
-    }
-
-    if (pisos !== null && pisos > PISOS_MAXIMOS_EX_POST) {
-        factores.push(`${pisos} pisos, sobre el límite de ${PISOS_MAXIMOS_EX_POST} pisos permitidos para ITSE posterior`);
-    }
-
-    if (aforo !== null && aforo > AFORO_MAXIMO_EX_POST) {
-        factores.push(`Aforo de ${aforo} personas, sobre el límite de ${AFORO_MAXIMO_EX_POST} personas permitidas para ITSE posterior`);
-    }
-
-    if (funcionEconomica && GIROS_ESPECIALES.has(funcionEconomica) && aforo !== null && aforo > AFORO_MAXIMO_EX_POST) {
-        factores.push(`Aforo de ${aforo} personas en giro de ${funcionEconomica.toLowerCase()}, sobre el límite de ${AFORO_MAXIMO_EX_POST}`);
-    }
-
-    return factores;
-};
-
-const evaluarRiesgosEspeciales = (datos: DatosRiesgosEspeciales): string[] => {
-    const factores: string[] = [];
-
-    if (datos.usaGlp) {
-        if (datos.galones !== null && datos.galones > GALONES_MAXIMOS_EX_POST) {
-            factores.push(`Tanque de GLP estacionario de ${datos.galones} galones (> 0.45 m³ / 118 galones)`);
-        } else {
-            factores.push('Uso de Gas Licuado de Petróleo (GLP) reportado en el establecimiento');
-        }
-    }
-
-    if (datos.tieneFreidora) {
-        factores.push('Equipos de freidora comercial o cocción con aceites y grasas a alta temperatura (Clase K)');
-    }
-
-    if ((datos.combustiblesM3 !== null && datos.combustiblesM3 > 1) || datos.usaLiquidos) {
-        factores.push('Almacenamiento de combustibles líquidos > 1 m³ (264 galones) o manipulación de líquidos inflamables');
-    }
-
-    if (datos.usaCaldero) {
-        factores.push('Uso y operación de calderas en el establecimiento');
-    }
-
-    return factores;
-};
-
-const evaluarCondicionUbicacion = (enSotano: boolean, galeriaSinItse: boolean): string[] => {
-    const factores: string[] = [];
-
-    if (enSotano) {
-        factores.push('Actividades de encuentro o reunión situadas en sótano o semisótano (Riesgo Muy Alto)');
-    }
-
-    if (galeriaSinItse) {
-        factores.push('Local en galería comercial cuyas áreas comunes no cuentan con Certificado ITSE vigente');
-    }
-
-    return factores;
-};
-
-const tieneDatosIngresados = (
-    area: number | null,
-    pisos: number | null,
-    aforo: number | null,
-    datos: DatosRiesgosEspeciales,
-    enSotano: boolean,
-    galeriaSinItse: boolean,
-): boolean => {
+function tieneDatosParaClasificar(input: PrecalificacionInput): boolean {
     return (
-        area !== null ||
-        pisos !== null ||
-        aforo !== null ||
-        datos.usaGlp ||
-        datos.tieneFreidora ||
-        datos.usaCaldero ||
-        datos.usaLiquidos ||
-        enSotano ||
-        galeriaSinItse
+        [input.area_m2, input.pisos, input.aforo].some((valor) => leerNumero(valor) !== null) ||
+        Boolean(input.usa_glp || input.usa_caldero || input.usa_liquidos_inflamables)
     );
-};
+}
 
 /**
- * Precalificación estrictamente local y orientativa sincronizada con ItseRiskService.
- *
- * Umbrales normativos vigentes (D.S. 002-2018-PCM y R.J. 016-2018-CENEPRED/J):
- * - Área techada <= 750 m²
- * - Aforo <= 50 personas
- * - Pisos <= 2
- * - Presencia de GLP o freidoras industriales fuerza clasificación a 'ALTO'.
+ * Precalificación local y orientativa. La modalidad sale de `clasificarItse()`,
+ * espejo exacto de `ItseRiskService::clasificarTramite()`, para que el ciudadano
+ * vea aquí lo mismo que luego mostrará el resumen. Sótano y galería sin ITSE no
+ * forman parte de esa regla del servidor: se muestran como avisos aparte.
  */
 export function precalificarLocalmente(input: PrecalificacionInput): PrecalificacionOrientativa | null {
-    const area = aNumero(input.area_techada ?? input.area_m2);
-    const pisos = aNumero(input.pisos);
-    const aforo = aNumero(input.aforo);
-    const galones = aNumero(input.galones_glp);
-    const combustiblesM3 = aNumero(input.combustibles_liquidos_m3);
-    const usaGlp = Boolean(input.usa_glp);
-    const tieneFreidora = Boolean(input.tiene_freidora ?? input.tiene_equipos_fritura);
-    const usaCaldero = Boolean(input.usa_caldero);
-    const usaLiquidos = Boolean(input.usa_liquidos_inflamables);
-    const enSotano = Boolean(input.en_sotano);
-    const galeriaSinItse = Boolean(input.galeria_sin_itse);
-
-    const riesgosEspeciales: DatosRiesgosEspeciales = {
-        usaGlp,
-        galones,
-        tieneFreidora,
-        usaCaldero,
-        usaLiquidos,
-        combustiblesM3,
-    };
-
-    const factores: string[] = [
-        ...evaluarEscalaFisica(area, pisos, aforo, input.funcion_economica),
-        ...evaluarRiesgosEspeciales(riesgosEspeciales),
-        ...evaluarCondicionUbicacion(enSotano, galeriaSinItse),
-    ];
-
-    if (factores.length > 0) {
-        const esMuyAlto = enSotano || (area !== null && area > AREA_MAXIMA_EX_POST);
-        return {
-            modalidad: 'EX_ANTE',
-            titulo: 'ITSE Previa (Ex-Ante)',
-            nivel: esMuyAlto ? 'MUY_ALTO' : 'ALTO',
-            factores,
-        };
-    }
-
-    if (!tieneDatosIngresados(area, pisos, aforo, riesgosEspeciales, enSotano, galeriaSinItse)) {
+    if (!tieneDatosParaClasificar(input)) {
         return null;
     }
 
-    const nivelEscala: NivelRiesgoEstimado = area !== null && area > 300 ? 'MEDIO' : 'BAJO';
+    const clasificacion = clasificarItse({
+        funcion: input.funcion_economica,
+        areaM2: leerNumero(input.area_m2),
+        pisos: leerNumero(input.pisos),
+        aforo: leerNumero(input.aforo),
+        usaGlp: input.usa_glp,
+        galonesGlp: leerNumero(input.galones_glp),
+        usaCaldero: input.usa_caldero,
+        usaLiquidosInflamables: input.usa_liquidos_inflamables,
+    });
+
+    const avisos: string[] = [];
+    if (input.en_sotano)
+        avisos.push('Actividades en sótano o semisótano: la matriz de riesgos puede elevar el nivel. Consúltalo con tu municipalidad.');
+    if (input.galeria_sin_itse)
+        avisos.push('Las áreas comunes de tu galería no tienen ITSE vigente: esto puede elevar el nivel de riesgo de tu local.');
 
     return {
-        modalidad: 'EX_POST',
-        titulo: 'ITSE Posterior (Ex-Post)',
-        nivel: nivelEscala,
-        factores: [
-            `Área techada hasta ${AREA_MAXIMA_EX_POST} m², hasta ${PISOS_MAXIMOS_EX_POST} pisos, aforo hasta ${AFORO_MAXIMO_EX_POST} personas y sin factores agravantes obligatorios`,
-        ],
+        modalidad: clasificacion.modalidad,
+        titulo: TEXTO_MODALIDAD[clasificacion.modalidad].titulo,
+        nivel: clasificacion.nivel,
+        factores:
+            clasificacion.motivos.length > 0
+                ? clasificacion.motivos
+                : ['Tu local está dentro de los límites de tamaño y no declara factores agravantes.'],
+        avisos,
     };
-}
-
-/**
- * Estima directamente el nivel de riesgo con tipo de retorno estricto NivelRiesgoEstimado.
- */
-export function estimarNivelRiesgo(input: PrecalificacionInput): NivelRiesgoEstimado {
-    const res = precalificarLocalmente(input);
-    return res ? res.nivel : 'BAJO';
 }
 
 interface SelectorSiNoProps {
@@ -504,10 +366,10 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
                             <>
                                 <span
                                     className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-extrabold tracking-wide uppercase ${
-                                        SEMAFORO_CONFIG[precalificacion.nivel].fondo
-                                    } ${SEMAFORO_CONFIG[precalificacion.nivel].texto} ${SEMAFORO_CONFIG[precalificacion.nivel].borde}`}
+                                        ESTILO_NIVEL[precalificacion.nivel].fondo
+                                    } ${ESTILO_NIVEL[precalificacion.nivel].texto} ${ESTILO_NIVEL[precalificacion.nivel].borde}`}
                                 >
-                                    Riesgo {precalificacion.nivel.replace('_', ' ')}
+                                    {formatearNivelRiesgo(precalificacion.nivel)}
                                 </span>
                                 <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-600">
                                     <Clock className="h-3 w-3" />
@@ -527,6 +389,12 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
                                 <li key={factor} className="flex items-start gap-2 text-xs leading-relaxed text-slate-700 sm:text-sm">
                                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
                                     {factor}
+                                </li>
+                            ))}
+                            {precalificacion.avisos.map((aviso) => (
+                                <li key={aviso} className="flex items-start gap-2 text-xs leading-relaxed text-amber-900 sm:text-sm">
+                                    <AlertTriangle aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" />
+                                    {aviso}
                                 </li>
                             ))}
                         </ul>
@@ -705,13 +573,11 @@ function SeccionIdentificacionGiro({ data, setData, erroresFormulario, errors, l
                         onChange={(e) => setData('funcion_economica', e.target.value)}
                         className="h-12 w-full cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm"
                     >
-                        <option value="Comercio">Comercio (Bodegas, Farmacias, Tiendas, Bazares)</option>
-                        <option value="Encuentro">Encuentro (Restaurantes, Cafeterías, Bares, Discotecas)</option>
-                        <option value="Hospedaje">Hospedaje (Hoteles, Hostales)</option>
-                        <option value="Salud">Salud (Consultorios, Clínicas, Laboratorios)</option>
-                        <option value="Educacion">Educación (Colegios, Academias, Nidos)</option>
-                        <option value="Industrial">Industrial (Talleres mecánicos, Carpinterías, Fábricas)</option>
-                        <option value="Oficinas">Oficinas y Servicios Administrativos</option>
+                        {FUNCIONES_ECONOMICAS.map((funcion) => (
+                            <option key={funcion.valor} value={funcion.valor}>
+                                {funcion.etiqueta} ({funcion.ejemplos})
+                            </option>
+                        ))}
                     </select>
                 </div>
             </div>
@@ -760,7 +626,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
                             errorArea ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
                         }`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">Orientación: hasta 750 m² suele calificar a ITSE posterior.</span>
+                    <span className="mt-1 block text-xs text-slate-500">Si no lo sabes exacto, pon un aproximado.</span>
                     {errorArea && (
                         <span id="error-area" className="text-danger-600 mt-1 block text-xs">
                             {errorArea}
@@ -789,7 +655,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
                             errorPisos ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
                         }`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">Orientación: hasta 2 pisos suele calificar a ITSE posterior.</span>
+                    <span className="mt-1 block text-xs text-slate-500">Cuenta el sótano como un piso.</span>
                     {errorPisos && (
                         <span id="error-pisos" className="text-danger-600 mt-1 block text-xs">
                             {errorPisos}
@@ -817,9 +683,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
                             errorAforo ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
                         }`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">
-                        Personas simultáneas estimadas (hasta 50 suele calificar a ITSE posterior).
-                    </span>
+                    <span className="mt-1 block text-xs text-slate-500">Personas al mismo tiempo, contando clientes y personal.</span>
                     {errorAforo && (
                         <span id="error-aforo" className="text-danger-600 mt-1 block text-xs">
                             {errorAforo}
@@ -870,7 +734,7 @@ function TarjetaCondicionGlp({ data, setData, errorGlp, limpiarErrorDe }: Readon
             {errorGlp && <span className="text-danger-600 mt-2 block text-xs font-medium">{errorGlp}</span>}
 
             {data.usa_glp === true && (
-                <div className="mt-3 rounded-xl border border-t border-amber-200 border-amber-200/60 bg-amber-50/70 p-3 pt-3">
+                <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50/70 p-3">
                     <label htmlFor="est-galones" className="mb-1 block text-xs font-bold text-amber-900 uppercase">
                         Cantidad Total Estimada de GLP (Galones){' '}
                         <span className="font-semibold tracking-normal text-amber-700 normal-case">(opcional)</span>
@@ -1028,118 +892,134 @@ function SeccionInstalacionesCondiciones({ data, setData, erroresFormulario, lim
                     )}
                 </div>
 
-                {/* Condiciones adicionales y factores de triaje (D.S. N° 002-2018-PCM) */}
-                <div className="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
-                    {/* Caldero */}
-                    <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                        <div>
-                            <span id="label-usa_caldero" className="block text-xs font-bold text-slate-800">
-                                ¿Cuenta con caldero?
-                            </span>
-                            <span id="desc-usa_caldero" className="text-xs text-slate-500">
-                                Calderas industriales o de vapor (Riesgo Alto obligatorio).
-                            </span>
+                {/* Condiciones adicionales y factores de triaje (D.S. N° 002-2018-PCM).
+                    Plegadas: la mayoría de locales pequeños no las tiene. */}
+                <details
+                    className="group rounded-2xl border border-slate-200 bg-white"
+                    open={Boolean(data.usa_caldero || data.usa_liquidos_inflamables || data.en_sotano || data.galeria_sin_itse)}
+                >
+                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-800">
+                        <span>
+                            Condiciones especiales <span className="font-normal text-slate-500">(caldero, inflamables, sótano o galería)</span>
+                        </span>
+                        <span aria-hidden="true" className="text-slate-400 transition group-open:rotate-180">
+                            ▾
+                        </span>
+                    </summary>
+                    <div className="grid grid-cols-1 gap-4 border-t border-slate-100 p-4 sm:grid-cols-2">
+                        {/* Caldero */}
+                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                            <div>
+                                <span id="label-usa_caldero" className="block text-xs font-bold text-slate-800">
+                                    ¿Cuenta con caldero?
+                                </span>
+                                <span id="desc-usa_caldero" className="text-xs text-slate-500">
+                                    Calderas industriales o de vapor (Riesgo Alto obligatorio).
+                                </span>
+                            </div>
+                            <SelectorSiNo
+                                etiquetaId="label-usa_caldero"
+                                descripcionId="desc-usa_caldero"
+                                valor={data.usa_caldero}
+                                onSeleccion={(valor) => setData('usa_caldero', valor)}
+                            />
                         </div>
-                        <SelectorSiNo
-                            etiquetaId="label-usa_caldero"
-                            descripcionId="desc-usa_caldero"
-                            valor={data.usa_caldero}
-                            onSeleccion={(valor) => setData('usa_caldero', valor)}
-                        />
-                    </div>
 
-                    {/* Líquidos Inflamables */}
-                    <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                        <div>
-                            <span id="label-usa_liquidos_inflamables" className="block text-xs font-bold text-slate-800">
-                                ¿Almacena combustibles o líquidos inflamables?
-                            </span>
-                            <span id="desc-usa_liquidos_inflamables" className="text-xs text-slate-500">
-                                Combustibles &gt; 1 m³ (264 gal) o solventes/pinturas.
-                            </span>
+                        {/* Líquidos Inflamables */}
+                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                            <div>
+                                <span id="label-usa_liquidos_inflamables" className="block text-xs font-bold text-slate-800">
+                                    ¿Almacena combustibles o líquidos inflamables?
+                                </span>
+                                <span id="desc-usa_liquidos_inflamables" className="text-xs text-slate-500">
+                                    Combustibles &gt; 1 m³ (264 gal) o solventes/pinturas.
+                                </span>
+                            </div>
+                            <SelectorSiNo
+                                etiquetaId="label-usa_liquidos_inflamables"
+                                descripcionId="desc-usa_liquidos_inflamables"
+                                valor={data.usa_liquidos_inflamables}
+                                onSeleccion={(valor) => {
+                                    setData('usa_liquidos_inflamables', valor);
+                                    if (!valor) setData('combustibles_liquidos_m3', '');
+                                }}
+                            />
                         </div>
-                        <SelectorSiNo
-                            etiquetaId="label-usa_liquidos_inflamables"
-                            descripcionId="desc-usa_liquidos_inflamables"
-                            valor={data.usa_liquidos_inflamables}
-                            onSeleccion={(valor) => {
-                                setData('usa_liquidos_inflamables', valor);
-                                if (!valor) setData('combustibles_liquidos_m3', '');
-                            }}
-                        />
-                    </div>
 
-                    {/* Actividades en Sótano o Semisótano */}
-                    <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                        <div>
-                            <span id="label-en_sotano" className="block text-xs font-bold text-slate-800">
-                                ¿Actividad o reunión en sótano/semisótano?
-                            </span>
-                            <span id="desc-en_sotano" className="text-xs text-slate-500">
-                                Encuentro o concurrencia bajo nivel de calle (Riesgo Muy Alto).
-                            </span>
+                        {/* Actividades en Sótano o Semisótano */}
+                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                            <div>
+                                <span id="label-en_sotano" className="block text-xs font-bold text-slate-800">
+                                    ¿Actividad o reunión en sótano/semisótano?
+                                </span>
+                                <span id="desc-en_sotano" className="text-xs text-slate-500">
+                                    Reuniones o atención al público bajo el nivel de la calle.
+                                </span>
+                            </div>
+                            <SelectorSiNo
+                                etiquetaId="label-en_sotano"
+                                descripcionId="desc-en_sotano"
+                                valor={data.en_sotano}
+                                onSeleccion={(valor) => setData('en_sotano', valor)}
+                            />
                         </div>
-                        <SelectorSiNo
-                            etiquetaId="label-en_sotano"
-                            descripcionId="desc-en_sotano"
-                            valor={data.en_sotano}
-                            onSeleccion={(valor) => setData('en_sotano', valor)}
-                        />
-                    </div>
 
-                    {/* Galería Comercial sin ITSE Matriz */}
-                    <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                        <div>
-                            <span id="label-galeria_sin_itse" className="block text-xs font-bold text-slate-800">
-                                ¿Galería comercial sin ITSE en áreas comunes?
-                            </span>
-                            <span id="desc-galeria_sin_itse" className="text-xs text-slate-500">
-                                Si las áreas comunes no tienen ITSE, el local pasa a ITSE Previa.
-                            </span>
+                        {/* Galería Comercial sin ITSE Matriz */}
+                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
+                            <div>
+                                <span id="label-galeria_sin_itse" className="block text-xs font-bold text-slate-800">
+                                    ¿Galería comercial sin ITSE en áreas comunes?
+                                </span>
+                                <span id="desc-galeria_sin_itse" className="text-xs text-slate-500">
+                                    Si las áreas comunes no tienen ITSE, puede subir el nivel de riesgo de tu local.
+                                </span>
+                            </div>
+                            <SelectorSiNo
+                                etiquetaId="label-galeria_sin_itse"
+                                descripcionId="desc-galeria_sin_itse"
+                                valor={data.galeria_sin_itse}
+                                onSeleccion={(valor) => setData('galeria_sin_itse', valor)}
+                            />
                         </div>
-                        <SelectorSiNo
-                            etiquetaId="label-galeria_sin_itse"
-                            descripcionId="desc-galeria_sin_itse"
-                            valor={data.galeria_sin_itse}
-                            onSeleccion={(valor) => setData('galeria_sin_itse', valor)}
-                        />
                     </div>
-                </div>
+                </details>
             </div>
         </div>
     );
 }
 
+const GRUPOS = [
+    { boton: 'Tu local', titulo: 'Tu local', ayuda: 'Solo el nombre y el tipo de negocio son obligatorios.' },
+    {
+        boton: 'Características',
+        titulo: 'Características del establecimiento',
+        ayuda: 'Responde con lo que ves hoy en tu local. Si no sabes algo, elige “Aún no lo sé”.',
+    },
+    { boton: 'Revisar datos', titulo: 'Revisa antes de continuar', ayuda: 'Puedes volver a cualquier paso para corregir.' },
+] as const;
+
+const claseCampoOpcional =
+    'h-12 w-full rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm';
+
 export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
     const [grupo, setGrupo] = useState(0);
     const [showGuia, setShowGuia] = useState<boolean>(false);
     const [erroresFormulario, setErroresFormulario] = useState<Record<string, string>>({});
+    const primerRender = useRef(true);
 
     const { data, setData, post, processing, errors } = useForm<FormEvaluacionData>(construirValoresIniciales(reevaluacionDe));
 
     useEffect(() => {
+        // Al cambiar de grupo se mueve el foco al título para lectores de pantalla,
+        // pero no en la carga inicial: ahí el foco debe quedar en el inicio de la página.
+        if (primerRender.current) {
+            primerRender.current = false;
+            return;
+        }
         document.getElementById('grupo-datos')?.focus();
     }, [grupo]);
-    const precalificacion = precalificarLocalmente({
-        area_techada: data.area_m2,
-        aforo: data.aforo,
-        pisos: data.pisos,
-        usa_glp: Boolean(data.usa_glp),
-        tiene_freidora: Boolean(data.tiene_equipos_fritura),
-        tiene_escaleras: Boolean(data.tiene_escaleras),
-        tiene_estanterias: Boolean(data.tiene_estanterias_altas),
-        area_m2: data.area_m2,
-        tiene_equipos_fritura: data.tiene_equipos_fritura,
-        tiene_estanterias_altas: data.tiene_estanterias_altas,
-        funcion_economica: data.funcion_economica,
-        galones_glp: data.galones_glp,
-        usa_caldero: data.usa_caldero,
-        usa_liquidos_inflamables: data.usa_liquidos_inflamables,
-        en_sotano: data.en_sotano,
-        galeria_sin_itse: data.galeria_sin_itse,
-        combustibles_liquidos_m3: data.combustibles_liquidos_m3,
-    });
 
+    const precalificacion = precalificarLocalmente(data);
     const declaracionesPendientes = CAMPOS_DECLARACION.filter((campo) => data[campo] == null).length;
 
     const limpiarErrorDe = (campo: string) => {
@@ -1174,173 +1054,114 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
         }
     };
 
+    const resumenDatos: Array<[string, string | number]> = [
+        ['Local', data.nombre_comercio || 'Sin nombre'],
+        ['Actividad', FUNCIONES_ECONOMICAS.find((f) => f.valor === data.funcion_economica)?.etiqueta ?? data.funcion_economica],
+        ['Área', data.area_m2 ? data.area_m2 + ' m²' : 'No declarada'],
+        ['Pisos', data.pisos || 'No declarado'],
+        ['Aforo', data.aforo || 'No declarado'],
+        ...CAMPOS_DECLARACION.map((campo): [string, string] => [
+            {
+                usa_glp: 'Uso de GLP',
+                tiene_equipos_fritura: 'Equipos de fritura',
+                tiene_escaleras: 'Escaleras',
+                tiene_estanterias_altas: 'Estanterías altas',
+            }[campo],
+            data[campo] == null ? 'Aún no lo sé' : data[campo] ? 'Sí' : 'No',
+        ]),
+    ];
+
     return (
         <>
             <Head title="CheckITSE Huancayo - Datos del Establecimiento" />
             <GuiaModal isOpen={showGuia} onClose={() => setShowGuia(false)} />
 
-            <div className="relative">
-                {/* Capa de patrón grid sutil, acotada a la columna de contenido */}
+            <div className="mx-auto max-w-3xl pb-16 text-left">
+                <FlujoCiudadano actual={1} />
 
-                <div className="relative mx-auto max-w-3xl pb-16 text-left">
-                    {/* ============================================== */}
-                    {/* Cabecera                                     */}
-                    {/* ============================================== */}
-                    <div className="mb-7 text-center">
-                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold tracking-wider text-emerald-700 uppercase">
-                            <Gauge className="h-3.5 w-3.5" />
-                            Paso 1 de 3 · Datos del local
-                        </span>
-                        <h1 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Cuéntanos sobre tu local</h1>
-                        <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-slate-600 sm:text-base">
-                            Registra la información de tu establecimiento. El motor de aplicabilidad determinará qué criterios normativos aplican
-                            realmente a tu caso.
-                        </p>
+                <div className="mb-6">
+                    <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Cuéntanos sobre tu local</h1>
+                    <p className="mt-2 text-base leading-relaxed text-slate-600">
+                        Con estos datos elegimos solo las preguntas que aplican a tu negocio.{' '}
+                        <button
+                            type="button"
+                            onClick={() => setShowGuia(true)}
+                            className="text-primary-700 inline-flex cursor-pointer items-center gap-1 font-semibold underline underline-offset-2"
+                        >
+                            <BookOpen aria-hidden="true" className="h-3.5 w-3.5" />
+                            Base legal
+                        </button>
+                    </p>
+                    <AvisoPreventivo />
+                </div>
+
+                {reevaluacionDe && <BannerReevaluacionPreventiva reevaluacionDe={reevaluacionDe} />}
+
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                    <nav aria-label="Grupos de datos">
+                        <ol className="grid grid-cols-3 gap-1 rounded-2xl bg-slate-200/60 p-1">
+                            {GRUPOS.map((g, index) => (
+                                <li key={g.boton}>
+                                    <button
+                                        type="button"
+                                        disabled={processing}
+                                        aria-current={grupo === index ? 'step' : undefined}
+                                        onClick={() => setGrupo(index)}
+                                        className={`min-h-11 w-full cursor-pointer rounded-xl px-2 py-2.5 text-sm font-semibold transition ${
+                                            grupo === index ? 'text-primary-800 bg-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                    >
+                                        {index + 1}. {g.boton}
+                                    </button>
+                                </li>
+                            ))}
+                        </ol>
+                    </nav>
+
+                    <div>
+                        <h2 id="grupo-datos" tabIndex={-1} className="text-xl font-bold text-slate-900 focus:outline-none">
+                            {GRUPOS[grupo].titulo}
+                        </h2>
+                        <p className="mt-1 text-sm text-slate-600">{GRUPOS[grupo].ayuda}</p>
                     </div>
 
-                    {/* ============================================== */}
-                    {/* Barra de progreso del flujo                    */}
-                    {/* ============================================== */}
-                    <FlujoCiudadano actual={1} />
-                    <AvisoPreventivo />
-
-                    {/* ============================================== */}
-                    {/* Caja reactiva de precalificación             */}
-                    {/* ============================================== */}
-                    <details className="mb-6 rounded-2xl border border-slate-200 bg-white p-4">
-                        <summary className="cursor-pointer text-base font-semibold">Ver estimación orientativa (opcional)</summary>
-                        <PanelPrecalificacionOrientativa
-                            precalificacion={precalificacion}
-                            data={data}
-                            declaracionesPendientes={declaracionesPendientes}
-                        />
-                    </details>
-
-                    {/* ============================================== */}
-                    {/* Tarjeta Contextual de Sustento Cívico          */}
-                    {/* ============================================== */}
-                    <details className="mb-5 rounded-2xl border border-slate-200 bg-white p-4">
-                        <summary className="cursor-pointer text-sm font-semibold">Ayuda y base legal</summary>{' '}
-                        <div className="mb-7 flex flex-col items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-xs sm:flex-row sm:items-center sm:p-5">
-                            <div className="flex items-start gap-3.5">
-                                <div className="bg-info-50 text-info-700 border-info-100 mt-0.5 shrink-0 rounded-2xl border p-2.5">
-                                    <Info className="h-4 w-4" />
-                                </div>
-                                <div>
-                                    <div className="flex flex-wrap items-center gap-2">
-                                        <h2 className="text-sm font-bold text-slate-900">Herramienta de Autoevaluación y Preparación Técnica</h2>
-                                        <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-xs font-semibold text-slate-600">
-                                            R.J. 016-2018-CENEPRED / D.S. 002-2018-PCM
-                                        </span>
-                                    </div>
-                                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600">
-                                        Plataforma de acceso libre para comerciantes y vecinos de Huancayo. Los resultados corresponden únicamente a
-                                        lo que tú declaras y no constituyen una inspección oficial.
-                                    </p>
-                                </div>
+                    {Object.keys(errors).length > 0 && (
+                        <div className="bg-danger-50 border-danger-300 text-danger-950 rounded-2xl border p-4 text-left text-sm" role="alert">
+                            <div className="mb-1 flex items-center gap-2 font-bold">
+                                <AlertCircle className="text-danger-600 h-4 w-4" />
+                                <span>Por favor corrige los siguientes datos:</span>
                             </div>
-
-                            <button
-                                type="button"
-                                onClick={() => setShowGuia(true)}
-                                className="text-info-800 hover:text-info-900 bg-info-50/60 hover:bg-info-50 border-info-100 focus-visible:ring-info-500 inline-flex shrink-0 cursor-pointer items-center gap-1.5 self-end rounded-xl border px-3.5 py-2 text-sm font-bold transition focus-visible:ring-2 focus-visible:outline-none active:scale-95 sm:self-center"
-                            >
-                                <BookOpen className="h-3.5 w-3.5" />
-                                <span>Ver Base Legal</span>
-                            </button>
-                        </div>
-                    </details>
-                    {/* ============================================== */}
-                    {/* Banner de Reevaluación Preventiva              */}
-                    {/* ============================================== */}
-                    {reevaluacionDe && <BannerReevaluacionPreventiva reevaluacionDe={reevaluacionDe} />}
-
-                    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                        <nav aria-label="Grupos de datos">
-                            <ol className="grid grid-cols-3 gap-2">
-                                {['Tu local', 'Características', 'Revisar datos'].map((nombre, index) => (
-                                    <li key={nombre}>
-                                        <button
-                                            type="button"
-                                            disabled={processing}
-                                            aria-current={grupo === index ? 'step' : undefined}
-                                            onClick={() => setGrupo(index)}
-                                            className={`min-h-11 w-full rounded-xl border px-2 py-3 text-sm font-semibold ${grupo === index ? 'border-primary bg-primary-50 text-primary-900' : 'border-slate-200 bg-white text-slate-600'}`}
-                                        >
-                                            {index + 1}. {nombre}
-                                        </button>
-                                    </li>
+                            <ul className="text-danger-800 list-inside list-disc space-y-0.5 text-xs">
+                                {Object.entries(errors).map(([campo, err]) => (
+                                    <li key={campo}>{err}</li>
                                 ))}
-                            </ol>
-                        </nav>
-                        <h2 id="grupo-datos" tabIndex={-1} className="text-xl font-semibold">
-                            {['Tu local', 'Características del establecimiento', 'Revisa antes de continuar'][grupo]}
-                        </h2>
-                        <p className="text-sm text-slate-600">
-                            Los datos permanecen en esta pantalla mientras cambias de grupo. Aún no hay guardado en el servidor.
-                        </p>
-                        {/* Alerta de errores de validación backend */}
-                        {Object.keys(errors).length > 0 && (
-                            <div className="bg-danger-50 border-danger-300 text-danger-950 rounded-2xl border p-4 text-left text-sm" role="alert">
-                                <div className="mb-1 flex items-center gap-2 font-bold">
-                                    <AlertCircle className="text-danger-600 h-4 w-4" />
-                                    <span>Por favor corrige los siguientes datos:</span>
-                                </div>
-                                <ul className="text-danger-800 list-inside list-disc space-y-0.5 text-xs">
-                                    {Object.entries(errors).map(([campo, err]) => (
-                                        <li key={campo}>{err}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-
-                        {/* ========================================== */}
-                        {/* Tarjeta 1: Datos Generales                */}
-                        {/* ========================================== */}
-                        <div hidden={grupo !== 0}>
-                            <SeccionIdentificacionGiro
-                                data={data}
-                                setData={setData}
-                                erroresFormulario={erroresFormulario}
-                                errors={errors}
-                                limpiarErrorDe={limpiarErrorDe}
-                            />
+                            </ul>
                         </div>
+                    )}
 
-                        {/* ========================================== */}
-                        {/* Tarjeta 2: Escala Física                  */}
-                        {/* ========================================== */}
-                        <div hidden={grupo !== 1}>
-                            <SeccionEscalaFisica
-                                data={data}
-                                setData={setData}
-                                erroresFormulario={erroresFormulario}
-                                errors={errors}
-                                limpiarErrorDe={limpiarErrorDe}
-                            />
-
-                            {/* ========================================== */}
-                            {/* Tarjeta 3: Instalaciones y Condiciones    */}
-                            {/* ========================================== */}
-                            <SeccionInstalacionesCondiciones
-                                data={data}
-                                setData={setData}
-                                erroresFormulario={erroresFormulario}
-                                limpiarErrorDe={limpiarErrorDe}
-                            />
-                        </div>
-                        {/* ========================================== */}
-                        {/* Tarjeta 4: Ubicación del Establecimiento   */}
-                        {/* ========================================== */}
-                        <div hidden={grupo !== 0} className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
-                            <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-900">
-                                <MapPin className="h-4 w-4 text-emerald-600" /> Ubicación del Establecimiento
-                            </h3>
-
-                            <div className="space-y-4">
+                    {/* Grupo 1: identificación y ubicación opcional */}
+                    <div hidden={grupo !== 0} className="space-y-4">
+                        <SeccionIdentificacionGiro
+                            data={data}
+                            setData={setData}
+                            erroresFormulario={erroresFormulario}
+                            errors={errors}
+                            limpiarErrorDe={limpiarErrorDe}
+                        />
+                        <details className="group rounded-3xl border border-slate-200 bg-white" open={Boolean(data.direccion || data.referencia)}>
+                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-6 py-4 text-sm font-semibold text-slate-800">
+                                <span className="flex items-center gap-2">
+                                    <MapPin aria-hidden="true" className="h-4 w-4 text-emerald-600" />
+                                    Agregar dirección <span className="font-normal text-slate-500">(opcional)</span>
+                                </span>
+                                <span aria-hidden="true" className="text-slate-400 transition group-open:rotate-180">
+                                    ▾
+                                </span>
+                            </summary>
+                            <div className="grid gap-4 border-t border-slate-100 p-6 sm:grid-cols-2">
                                 <div>
                                     <label htmlFor="est-direccion" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                                        Dirección <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
+                                        Dirección
                                     </label>
                                     <input
                                         id="est-direccion"
@@ -1349,16 +1170,12 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                         value={data.direccion}
                                         onChange={(e) => setData('direccion', e.target.value)}
                                         placeholder="Ej: Jr. Ancash 345, Huancayo"
-                                        className="h-12 w-full rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm"
+                                        className={claseCampoOpcional}
                                     />
-                                    <span className="mt-1 block text-xs text-slate-500">
-                                        Ayuda a identificar tu local; aparecerá en tu resumen y registro.
-                                    </span>
                                 </div>
-
                                 <div>
                                     <label htmlFor="est-referencia" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                                        Referencia <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
+                                        Referencia
                                     </label>
                                     <input
                                         id="est-referencia"
@@ -1367,73 +1184,83 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                         value={data.referencia}
                                         onChange={(e) => setData('referencia', e.target.value)}
                                         placeholder="Ej: frente al parque Huamanmarca"
-                                        className="h-12 w-full rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm"
+                                        className={claseCampoOpcional}
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </details>
+                    </div>
 
-                        <section hidden={grupo !== 2} className="rounded-2xl border border-slate-200 bg-white p-5">
-                            <h3 className="text-lg font-semibold">Lo que vas a declarar</h3>
-                            <dl className="mt-4 grid gap-4 sm:grid-cols-2">
-                                {[
-                                    ['Local', data.nombre_comercio || 'Sin nombre'],
-                                    ['Actividad', data.funcion_economica],
-                                    ['Área', data.area_m2 ? data.area_m2 + ' m²' : 'No declarada'],
-                                    ['Aforo', data.aforo || 'No declarado'],
-                                    ...CAMPOS_DECLARACION.map((campo) => [
-                                        {
-                                            usa_glp: 'Uso de GLP',
-                                            tiene_equipos_fritura: 'Equipos de fritura',
-                                            tiene_escaleras: 'Escaleras',
-                                            tiene_estanterias_altas: 'Estanterías altas',
-                                        }[campo],
-                                        data[campo] == null ? 'Aún no lo sé' : data[campo] ? 'Sí' : 'No',
-                                    ]),
-                                ].map(([label, value]) => (
-                                    <div key={label}>
-                                        <dt className="text-sm text-slate-600">{label}</dt>
-                                        <dd className="mt-1 text-base font-semibold break-words">{value}</dd>
+                    {/* Grupo 2: escala física e instalaciones */}
+                    <div hidden={grupo !== 1} className="space-y-4">
+                        <SeccionEscalaFisica
+                            data={data}
+                            setData={setData}
+                            erroresFormulario={erroresFormulario}
+                            errors={errors}
+                            limpiarErrorDe={limpiarErrorDe}
+                        />
+                        <SeccionInstalacionesCondiciones
+                            data={data}
+                            setData={setData}
+                            erroresFormulario={erroresFormulario}
+                            limpiarErrorDe={limpiarErrorDe}
+                        />
+                    </div>
+
+                    {/* Grupo 3: revisión y orientación */}
+                    <div hidden={grupo !== 2} className="space-y-4">
+                        <section className="rounded-3xl border border-slate-200 bg-white p-6">
+                            <h3 className="text-lg font-bold text-slate-900">Lo que vas a declarar</h3>
+                            <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                                {resumenDatos.map(([label, value]) => (
+                                    <div key={label} className="border-b border-slate-100 pb-3">
+                                        <dt className="text-xs font-semibold text-slate-500 uppercase">{label}</dt>
+                                        <dd className="mt-1 text-base font-semibold break-words text-slate-900">{value}</dd>
                                     </div>
                                 ))}
                             </dl>
-                            <p className="mt-5 text-sm text-slate-600">
-                                Puedes volver para corregir datos. Los valores desconocidos se mantienen como no declarados.
-                            </p>
                         </section>
-                        {grupo > 0 && (
+                        <PanelPrecalificacionOrientativa
+                            precalificacion={precalificacion}
+                            data={data}
+                            declaracionesPendientes={declaracionesPendientes}
+                        />
+                    </div>
+
+                    <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                        {grupo > 0 ? (
                             <button
                                 type="button"
                                 disabled={processing}
-                                className="min-h-11 rounded-xl border border-slate-400 bg-white px-5 py-3 font-semibold"
+                                className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-700 hover:bg-slate-100"
                                 onClick={() => setGrupo(grupo - 1)}
                             >
+                                <ArrowLeft aria-hidden="true" className="h-4 w-4" />
                                 Volver al grupo anterior
                             </button>
-                        )}
-                        {/* Botones de Navegación y Envío */}
-                        <div className="flex flex-col-reverse items-center justify-between gap-4 pt-4 sm:flex-row">
+                        ) : (
                             <Link
                                 href="/"
-                                className="inline-flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
+                                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                             >
-                                <ArrowLeft className="h-4 w-4" />
-                                <span>Volver a la portada</span>
+                                <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+                                Volver a la portada
                             </Link>
+                        )}
 
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="bg-primary hover:bg-primary-700 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-sm font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
-                            >
-                                <span>
-                                    {processing ? 'Iniciando autoevaluación...' : grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones'}
-                                </span>
-                                <ArrowRight className="h-4 w-4" />
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="bg-primary hover:bg-primary-700 flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl px-8 text-sm font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
+                        >
+                            <span>
+                                {processing ? 'Iniciando autoevaluación...' : grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones'}
+                            </span>
+                            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                        </button>
+                    </div>
+                </form>
             </div>
         </>
     );
