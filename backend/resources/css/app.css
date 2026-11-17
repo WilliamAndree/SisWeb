@@ -218,6 +218,14 @@
 }
 
 @layer base {
+    /*
+      Letra base de 17 px (en lugar de 16) para lectores nuevos en la plataforma.
+      Todas las clases de Tailwind están en rem, así que escalan con este valor.
+    */
+    html {
+        font-size: 106.25%;
+    }
+
     body {
         @apply bg-background text-foreground;
     }

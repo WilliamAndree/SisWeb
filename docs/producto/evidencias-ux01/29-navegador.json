@@ -7,7 +7,7 @@
       "pantalla": "Inicio",
       "h1": 1,
       "width": 320,
-      "content": 315,
+      "content": 305,
       "title": "Abre tu negocio seguro y llega listo a tu ITSE",
       "missingLabels": 0
     },
@@ -39,7 +39,7 @@
       "pantalla": "Datos",
       "h1": 1,
       "width": 320,
-      "content": 315,
+      "content": 305,
       "title": "Cuéntanos sobre tu local",
       "missingLabels": 0
     },
@@ -71,7 +71,7 @@
       "pantalla": "Condiciones",
       "h1": 1,
       "width": 320,
-      "content": 315,
+      "content": 305,
       "title": "Revisa las condiciones de tu local",
       "missingLabels": 0
     },
@@ -103,7 +103,7 @@
       "pantalla": "Resumen",
       "h1": 1,
       "width": 320,
-      "content": 315,
+      "content": 305,
       "title": "Tu resumen de autoevaluación",
       "missingLabels": 0
     },

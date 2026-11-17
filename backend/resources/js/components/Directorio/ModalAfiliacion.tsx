@@ -1,13 +1,15 @@
 import { useForm } from '@inertiajs/react';
 import { CheckCircle2, Loader2, Send, Store, X } from 'lucide-react';
-import React, { useCallback, useEffect, useRef } from 'react';
 import type { FC } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 interface Props {
     readonly isOpen: boolean;
     readonly onClose: () => void;
     /** Numero de WhatsApp institucional, opcional */
     readonly whatsapp?: string;
+    /** Plan elegido en /directorio#anunciate; se anota en la solicitud. */
+    readonly planInicial?: string | null;
 }
 
 interface AfiliacionFormData {
@@ -22,7 +24,7 @@ interface AfiliacionFormData {
     notas: string;
 }
 
-export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readonly<Props>) => {
+export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose, planInicial = null }: Readonly<Props>) => {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
 
@@ -74,6 +76,14 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
     );
 
     useEffect(() => {
+        if (isOpen && planInicial) {
+            setData('notas', `Plan de interés: ${planInicial}`);
+        }
+        // Solo al abrir con un plan: no se pisa lo que el usuario escriba después.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, planInicial]);
+
+    useEffect(() => {
         if (!isOpen) return;
 
         const anteriormenteFocalizado = document.activeElement as HTMLElement | null;
@@ -105,29 +115,27 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
         <dialog
             open
             aria-labelledby="modal-afiliacion-titulo"
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent border-0 max-w-none max-h-none w-full h-full m-0"
+            className="fixed inset-0 z-50 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-0 bg-transparent p-4"
         >
             <button
                 type="button"
                 aria-label="Cerrar modal"
                 tabIndex={-1}
                 onClick={onClose}
-                className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm cursor-default"
+                className="fixed inset-0 cursor-default bg-slate-950/60 backdrop-blur-sm"
             />
             <div
                 ref={panelRef}
-                className="relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-200 bg-white text-left shadow-2xl"
+                className="relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-slate-200 bg-white text-left shadow-2xl"
             >
-                <header className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5 sticky top-0 bg-white/95 backdrop-blur-xs z-10">
+                <header className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-slate-100 bg-white/95 px-6 py-5 backdrop-blur-xs">
                     <div className="flex items-center gap-3">
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
                             <Store className="h-5 w-5" />
                         </span>
                         <div>
-                            <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">
-                                Red de Aliados Técnicos
-                            </span>
-                            <h2 id="modal-afiliacion-titulo" className="text-base font-bold text-slate-900 leading-snug">
+                            <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase">Red de Aliados Técnicos</span>
+                            <h2 id="modal-afiliacion-titulo" className="text-base leading-snug font-bold text-slate-900">
                                 Postular al Directorio Cívico
                             </h2>
                         </div>
@@ -145,19 +153,20 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
 
                 <div className="p-6">
                     {wasSuccessful ? (
-                        <div className="py-8 text-center space-y-4">
+                        <div className="space-y-4 py-8 text-center">
                             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 shadow-xs">
                                 <CheckCircle2 className="h-9 w-9" />
                             </div>
                             <h3 className="text-lg font-black text-slate-900">¡Postulación Registrada con Éxito!</h3>
-                            <p className="text-xs leading-relaxed text-slate-600 max-w-sm mx-auto">
-                                Tu solicitud de afiliación ha sido registrada en el sistema. El equipo técnico validará los datos para incorporarte al directorio cívico de Huancayo.
+                            <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-600">
+                                Tu solicitud de afiliación ha sido registrada en el sistema. El equipo técnico validará los datos para incorporarte al
+                                directorio cívico de Huancayo.
                             </p>
                             <div className="pt-2">
                                 <button
                                     type="button"
                                     onClick={onClose}
-                                    className="min-h-[44px] px-6 rounded-xl bg-slate-900 text-xs font-bold text-white transition hover:bg-slate-800"
+                                    className="min-h-[44px] rounded-xl bg-slate-900 px-6 text-xs font-bold text-white transition hover:bg-slate-800"
                                 >
                                     Cerrar y volver al directorio
                                 </button>
@@ -166,12 +175,13 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <p className="text-xs leading-relaxed text-slate-500">
-                                La postulación al catálogo es gratuita y de carácter informativo. Los prestadores registrados figuran como referencia técnica independiente para comerciantes que buscan resolver observaciones preventivas.
+                                La postulación al catálogo es gratuita y de carácter informativo. Los prestadores registrados figuran como referencia
+                                técnica independiente para comerciantes que buscan resolver observaciones preventivas.
                             </p>
 
                             <div className="space-y-3">
                                 <div>
-                                    <label htmlFor="nombre_comercial" className="block text-xs font-bold text-slate-700 mb-1">
+                                    <label htmlFor="nombre_comercial" className="mb-1 block text-xs font-bold text-slate-700">
                                         Nombre Comercial / Razón Social <span className="text-rose-500">*</span>
                                     </label>
                                     <input
@@ -184,13 +194,13 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                         className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                     />
                                     {errors.nombre_comercial && (
-                                        <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.nombre_comercial}</p>
+                                        <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.nombre_comercial}</p>
                                     )}
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="contacto_nombre" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="contacto_nombre" className="mb-1 block text-xs font-bold text-slate-700">
                                             Contacto / Especialista <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -203,12 +213,12 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                             className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         />
                                         {errors.contacto_nombre && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.contacto_nombre}</p>
+                                            <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.contacto_nombre}</p>
                                         )}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="numero_documento" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="numero_documento" className="mb-1 block text-xs font-bold text-slate-700">
                                             RUC o DNI <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -222,14 +232,14 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                             className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         />
                                         {errors.numero_documento && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.numero_documento}</p>
+                                            <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.numero_documento}</p>
                                         )}
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="telefono" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="telefono" className="mb-1 block text-xs font-bold text-slate-700">
                                             Teléfono / WhatsApp <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -241,13 +251,11 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                             placeholder="Ej: 976541230"
                                             className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         />
-                                        {errors.telefono && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.telefono}</p>
-                                        )}
+                                        {errors.telefono && <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.telefono}</p>}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="email" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="email" className="mb-1 block text-xs font-bold text-slate-700">
                                             Correo Electrónico <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -259,56 +267,50 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                             placeholder="correo@ejemplo.pe"
                                             className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         />
-                                        {errors.email && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.email}</p>
-                                        )}
+                                        {errors.email && <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.email}</p>}
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="rubro" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="rubro" className="mb-1 block text-xs font-bold text-slate-700">
                                             Especialidad Técnica <span className="text-rose-500">*</span>
                                         </label>
                                         <select
                                             id="rubro"
                                             value={data.rubro}
                                             onChange={(e) => setData('rubro', e.target.value)}
-                                            className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                                            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         >
                                             <option value="electricas">Instalaciones Eléctricas y Pozo a Tierra</option>
                                             <option value="incendios">Extintores y Detección de Humo</option>
                                             <option value="arquitectura_senaletica">Señalética Celtex y Evacuación</option>
                                             <option value="estructuras">Estructuras y Vidrios de Seguridad</option>
                                         </select>
-                                        {errors.rubro && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.rubro}</p>
-                                        )}
+                                        {errors.rubro && <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.rubro}</p>}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="distrito" className="block text-xs font-bold text-slate-700 mb-1">
+                                        <label htmlFor="distrito" className="mb-1 block text-xs font-bold text-slate-700">
                                             Sede / Distrito <span className="text-rose-500">*</span>
                                         </label>
                                         <select
                                             id="distrito"
                                             value={data.distrito}
                                             onChange={(e) => setData('distrito', e.target.value)}
-                                            className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                                            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                         >
                                             <option value="Huancayo">Huancayo Centro</option>
                                             <option value="El Tambo">El Tambo</option>
                                             <option value="Chilca">Chilca</option>
                                             <option value="Huancayo Metropolitano">Huancayo Metropolitano (Todos)</option>
                                         </select>
-                                        {errors.distrito && (
-                                            <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.distrito}</p>
-                                        )}
+                                        {errors.distrito && <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.distrito}</p>}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label htmlFor="notas" className="block text-xs font-bold text-slate-700 mb-1">
+                                    <label htmlFor="notas" className="mb-1 block text-xs font-bold text-slate-700">
                                         Servicios ofrecidos / Colegiatura / Registro (Opcional)
                                     </label>
                                     <textarea
@@ -319,9 +321,7 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                         placeholder="Ej: Medición de pozos a tierra con protocolo firmado CIP, recarga conforme a norma NTP 350.043-1..."
                                         className="w-full rounded-xl border border-slate-300 px-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-none"
                                     />
-                                    {errors.notas && (
-                                        <p className="mt-1 text-[11px] text-rose-600 font-medium">{errors.notas}</p>
-                                    )}
+                                    {errors.notas && <p className="mt-1 text-[11px] font-medium text-rose-600">{errors.notas}</p>}
                                 </div>
                             </div>
 
@@ -329,7 +329,7 @@ export const ModalAfiliacion: FC<Readonly<Props>> = ({ isOpen, onClose }: Readon
                                 <button
                                     type="submit"
                                     disabled={processing}
-                                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 disabled:opacity-60"
+                                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-60"
                                 >
                                     {processing ? (
                                         <>

@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 // Portada pública y directorio
 Route::get('/', [EvaluacionController::class, 'index'])->name('autoevaluacion.index');
 Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio.index');
-// Página estática: el contenido vive en resources/js/data/respaldoCientifico.ts
-Route::inertia('/respaldo-cientifico', 'RespaldoCientifico/Index')->name('respaldo.index');
 Route::post('/directorio/afiliarse', [DirectorioController::class, 'solicitarAfiliacion'])->name('directorio.afiliarse');
 
 // Flujo de Autoevaluación Ciudadana

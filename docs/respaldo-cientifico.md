@@ -1,8 +1,21 @@
 # Respaldo científico y normativo
 
-CheckITSE se sustenta en la normativa peruana de ITSE y en investigaciones revisadas por pares. La fuente única de estas referencias es `backend/resources/js/data/respaldoCientifico.ts`. La página pública `/respaldo-cientifico` se genera desde ese archivo, así que para agregar una referencia basta con añadir una entrada allí y actualizar esta tabla.
+CheckITSE se sustenta en la normativa peruana de ITSE y en investigaciones revisadas por pares. Este documento es la evidencia académica del proyecto: muestra de qué fuente salió cada decisión de diseño y de negocio. **No se publica dentro de la aplicación**; la web solo muestra al usuario datos prácticos (plazos, costo, vigencia), citando el artículo de la norma.
 
 Los documentos originales están en la carpeta compartida de Drive del proyecto. Los datos de cita se tomaron de la primera página de cada PDF.
+
+## Datos que muestra la web y su fuente
+
+| Dato en la portada | Fuente verificada |
+| --- | --- |
+| Inspección en máximo 7 días hábiles y trámite en 9 (riesgo bajo o medio) | D.S. N° 002-2018-PCM, art. 21 |
+| Inspección en máximo 5 días hábiles y trámite en 7 (riesgo alto o muy alto) | D.S. N° 002-2018-PCM, art. 26 |
+| La ITSE va incluida en el derecho de licencia de funcionamiento | D.S. N° 002-2018-PCM, art. 6.1 |
+| Vigencia de 2 años | D.S. N° 002-2018-PCM, art. 15.4 |
+| Renovación: solicitud, tasa y declaración jurada; con riesgo bajo o medio se entrega el certificado renovado y la inspección es posterior | D.S. N° 002-2018-PCM, arts. 24 y 29 |
+| S/ 698.10 por la ITSE de un local de riesgo alto en Huancayo y 41 días para obtener ITSE y licencia | Banco Mundial, *Doing Business en el Perú 2020*, perfil de Huancayo (datos al 1 de mayo de 2019) |
+
+El texto oficial del decreto se consultó en el portal de CENEPRED: http://www.cenepred.gob.pe/web/transparencia/resoluciones/ministeriales/DS-002-2018-PCM.pdf. El perfil de Doing Business está en https://subnational.doingbusiness.org/content/dam/doingBusiness/subnational-profiles/es/peru-huancayo.pdf. Los montos cambian según el TUPA vigente de cada municipalidad.
 
 ## Normativa
 

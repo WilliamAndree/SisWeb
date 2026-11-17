@@ -3,7 +3,8 @@
 | Documento | Contenido |
 | --- | --- |
 | [arquitectura.md](arquitectura.md) | Modelo C4, capas del backend y del frontend, módulos y reglas de diseño |
-| [respaldo-cientifico.md](respaldo-cientifico.md) | Normativa, artículos y tesis que sustentan cada módulo |
+| [respaldo-cientifico.md](respaldo-cientifico.md) | Evidencia académica: normativa, artículos y tesis que sustentan cada módulo, y fuente de cada dato de la web |
+| [modelo-de-negocio.md](modelo-de-negocio.md) | Propuesta de valor, planes para proveedores y cómo escala |
 | [diseno-visual.md](diseno-visual.md) | Público objetivo, tokens de diseño, componentes compartidos y accesibilidad |
 | [desarrollo-local.md](desarrollo-local.md) | Instalación con XAMPP o Docker y solución de problemas de MySQL |
 | [pruebas.md](pruebas.md) | Entorno aislado de pruebas, comandos y CI |

@@ -48,7 +48,6 @@ export const Navbar: React.FC = () => {
     const enlaces: EnlaceNav[] = [
         { etiqueta: 'Inicio', href: route('autoevaluacion.index'), activo: esInicio },
         { etiqueta: 'Cómo funciona', href: esInicio ? '#como-funciona' : '/#como-funciona', activo: false },
-        { etiqueta: 'Respaldo científico', href: route('respaldo.index'), activo: Boolean(route().current('respaldo.index')) },
         { etiqueta: 'Aliados técnicos', href: route('directorio.index'), activo: Boolean(route().current('directorio.*')) },
     ];
     if (usuario) {
@@ -130,7 +129,8 @@ export const Navbar: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2 lg:hidden">
-                    <RegistrarLocalButton variant="compact" onClick={cerrarMenu} />
+                    {/* En pantallas muy angostas (< 380 px) el botón vive dentro del menú. */}
+                    <RegistrarLocalButton variant="compact" onClick={cerrarMenu} className="max-[379px]:hidden" />
                     <button
                         ref={menuButtonRef}
                         type="button"
@@ -151,6 +151,7 @@ export const Navbar: React.FC = () => {
                     aria-label="Navegación móvil"
                     className="max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto border-t border-slate-200/70 bg-white px-4 py-4 lg:hidden"
                 >
+                    <RegistrarLocalButton variant="large" onClick={cerrarMenu} className="mb-3 w-full min-[380px]:hidden" />
                     {enlaces.map((enlace) => renderEnlace(enlace, true))}
                     <div className="mt-3 space-y-1 border-t border-slate-100 pt-3">
                         {usuario ? (

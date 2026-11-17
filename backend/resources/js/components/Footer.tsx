@@ -4,7 +4,6 @@ import { ShieldCheck } from 'lucide-react';
 /** `ancla` marca los destinos que son un fragmento dentro de la portada. */
 const ENLACES_NAVEGACION: { texto: string; href: string; ancla?: boolean }[] = [
     { texto: '¿Cómo funciona?', href: '/#como-funciona', ancla: true },
-    { texto: 'Respaldo científico', href: '/respaldo-cientifico' },
     { texto: 'Proveedores', href: '/directorio' },
     { texto: 'Autoevaluar mi local', href: '/autoevaluacion/nueva' },
 ];

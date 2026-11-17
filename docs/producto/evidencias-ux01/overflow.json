@@ -1,20 +1,38 @@
 [
   {
-    "tag": "LI",
-    "classes": "flex items-center gap-1.5",
-    "text": "3Resumen",
-    "right": 326.75
+    "tag": "BUTTON",
+    "classes": "flex size-10 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500",
+    "text": "",
+    "right": 334.484375
+  },
+  {
+    "tag": "svg",
+    "classes": {},
+    "text": "",
+    "right": 333.484375
+  },
+  {
+    "tag": "line",
+    "classes": {},
+    "text": "",
+    "right": 329.9427185058594
+  },
+  {
+    "tag": "line",
+    "classes": {},
+    "text": "",
+    "right": 329.9427185058594
+  },
+  {
+    "tag": "line",
+    "classes": {},
+    "text": "",
+    "right": 329.9427185058594
   },
   {
     "tag": "DIV",
-    "classes": "flex items-center gap-1.5 rounded-full px-3 py-1 transition bg-primary text-white shadow-2xs",
-    "text": "3Resumen",
-    "right": 326.75
-  },
-  {
-    "tag": "SPAN",
-    "classes": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shrink-0 bg-emerald-50 text-emerald-800 border-emerald-200",
-    "text": "Conforme",
-    "right": 321.109375
+    "classes": "bg-primary-500/25 absolute -top-32 -left-24 size-96 rounded-full blur-3xl",
+    "text": "",
+    "right": 323
   }
 ]

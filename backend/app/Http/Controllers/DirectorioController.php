@@ -51,6 +51,7 @@ class DirectorioController extends Controller
 
         return Inertia::render('Directorio/Index', [
             'aliados' => $aliados,
+            'planes' => config('aliados.planes', []),
             'filtros' => [
                 'categoria' => $categoria,
                 'distrito' => $distrito,

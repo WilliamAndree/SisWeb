@@ -239,4 +239,54 @@ return [
             ],
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Planes para proveedores (modelo de ingresos)
+    |--------------------------------------------------------------------------
+    |
+    | Precios de lanzamiento en soles por mes. Se muestran en /directorio#anunciate.
+    | Ajusta montos y beneficios aquí; la página los toma sin cambios de código.
+    |
+    */
+    'planes' => [
+        [
+            'id' => 'basico',
+            'nombre' => 'Básico',
+            'precio' => 0,
+            'descripcion' => 'Para empezar a recibir clientes.',
+            'destacado' => false,
+            'beneficios' => [
+                'Ficha de tu negocio en el directorio',
+                'Contacto directo por WhatsApp',
+                '1 especialidad',
+            ],
+        ],
+        [
+            'id' => 'destacado',
+            'nombre' => 'Destacado',
+            'precio' => 49,
+            'descripcion' => 'Aparece cuando un local descubre que le falta lo que vendes.',
+            'destacado' => true,
+            'beneficios' => [
+                'Todo lo del plan Básico',
+                'Primero en tu especialidad, con sello "Destacado"',
+                'Recomendado en el plan de mejoras de cada local',
+                'Reporte mensual de visitas y contactos',
+            ],
+        ],
+        [
+            'id' => 'premium',
+            'nombre' => 'Premium',
+            'precio' => 99,
+            'descripcion' => 'Para tiendas con catálogo y varias especialidades.',
+            'destacado' => false,
+            'beneficios' => [
+                'Todo lo del plan Destacado',
+                'Catálogo de hasta 20 productos con precio',
+                'Visible en la portada de CheckITSE',
+                'Hasta 3 especialidades',
+            ],
+        ],
+    ],
 ];

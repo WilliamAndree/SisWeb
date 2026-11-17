@@ -1,6 +1,6 @@
 import { GuiaModal } from '@/components/GuiaModal';
+import { RenovacionRapida } from '@/components/landing/RenovacionRapida';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { REFERENCIAS } from '@/data/respaldoCientifico';
 import {
     FUNCIONES_ECONOMICAS,
     FUNCIONES_ESCALA_ESPECIAL,
@@ -12,18 +12,19 @@ import {
 import { Head, Link } from '@inertiajs/react';
 import {
     ArrowRight,
+    BadgeDollarSign,
     BookOpen,
     Boxes,
-    Building2,
+    CalendarClock,
     CheckCircle2,
-    ClipboardCheck,
+    Clock3,
     FileSignature,
-    Flame,
     FlameKindling,
-    Footprints,
     Gauge,
+    Hourglass,
     Info,
     Landmark,
+    Megaphone,
     Sparkles,
     Store,
     Wrench,
@@ -37,78 +38,103 @@ const RUTA_ITSE = [
         icono: Store,
         donde: 'En CheckITSE',
         titulo: 'Simula tu local',
-        texto: 'Cuéntanos qué vendes, el tamaño de tu local y qué equipos usas. Te toma unos 5 minutos.',
+        texto: 'Cuéntanos qué vendes, el tamaño de tu local y qué equipos usas. Toma unos 5 minutos.',
     },
     {
         icono: Wrench,
         donde: 'En CheckITSE',
         titulo: 'Corrige lo pendiente',
-        texto: 'Recibe tu lista de mejoras con ejemplos y fotos de referencia, y encuentra técnicos aliados en Huancayo.',
+        texto: 'Recibe tu lista de mejoras y compra lo que te falta a proveedores de Huancayo.',
     },
     {
         icono: FileSignature,
         donde: 'Con tus documentos',
         titulo: 'Prepara tu expediente',
-        texto: 'Descarga el borrador de la declaración jurada (Anexo 4) con tus datos y revisa qué planos te pedirán.',
+        texto: 'Descarga tu declaración jurada (Anexo 4) ya llenada con tus datos.',
     },
     {
         icono: Landmark,
         donde: 'En tu municipalidad',
         titulo: 'Solicita tu ITSE',
-        texto: 'Presenta tu trámite. Si todo está en orden, obtienes tu certificado ITSE, que dura 2 años.',
+        texto: 'Presenta tu trámite y recibe tu certificado, válido por 2 años.',
     },
 ] as const;
 
-const AREAS_REVISION = [
-    { icono: Flame, titulo: 'Extintores', texto: 'Tipo correcto, carga vigente y fácil acceso.' },
-    { icono: Footprints, titulo: 'Evacuación', texto: 'Salidas libres, señales y luces de emergencia.' },
-    { icono: Zap, titulo: 'Electricidad', texto: 'Tablero con tapa, llaves y cables protegidos.' },
-    { icono: FlameKindling, titulo: 'Gas (GLP)', texto: 'Balones ventilados y conexiones seguras.' },
-    { icono: Boxes, titulo: 'Estructura', texto: 'Escaleras con pasamanos y estantes anclados.' },
+/**
+ * Datos del trámite. Fuente: D.S. N° 002-2018-PCM (arts. 6.1, 15.4, 21 y 26).
+ * Evidencia completa en docs/respaldo-cientifico.md.
+ */
+const DATOS_CLAVE = [
+    {
+        icono: Clock3,
+        cifra: '7 días',
+        titulo: 'Inspección si tu riesgo es bajo o medio',
+        texto: 'Días hábiles máximos para que te inspeccionen después de recibir tu licencia. Todo el trámite: hasta 9 días.',
+    },
+    {
+        icono: Hourglass,
+        cifra: '5 días',
+        titulo: 'Inspección si tu riesgo es alto',
+        texto: 'Días hábiles máximos para inspeccionarte antes de darte la licencia. Todo el trámite: hasta 7 días.',
+    },
+    {
+        icono: BadgeDollarSign,
+        cifra: 'Incluido',
+        titulo: 'Costo dentro de tu licencia',
+        texto: 'Si tramitas licencia de funcionamiento, la ITSE ya está incluida en ese pago. Cada municipalidad fija el monto en su TUPA.',
+    },
+    {
+        icono: CalendarClock,
+        cifra: '2 años',
+        titulo: 'Vigencia del certificado',
+        texto: 'Después debes renovarlo. Si tu riesgo es bajo o medio, te lo entregan al presentar tu declaración jurada.',
+    },
+] as const;
+
+const RUBROS = [
+    { foto: '/images/local-perfumeria.webp', nombre: 'Perfumerías y cosméticos' },
+    { foto: '/images/local-farmacia.webp', nombre: 'Farmacias y boticas' },
+    { foto: '/images/local-salon.webp', nombre: 'Salones de belleza' },
+    { foto: '/images/emprendedora-tienda.webp', nombre: 'Tiendas de ropa' },
+] as const;
+
+const AREAS_CON_FOTO = [
+    { foto: '/images/extintor.webp', titulo: 'Extintores', texto: 'Tipo correcto, carga vigente y fácil acceso.' },
+    { foto: '/images/salida-emergencia.webp', titulo: 'Evacuación', texto: 'Salidas libres, señales y luces de emergencia.' },
+    { foto: '/images/tablero-electrico.webp', titulo: 'Electricidad', texto: 'Tablero con tapa, llaves y cables protegidos.' },
+] as const;
+
+const AREAS_CON_ICONO = [
+    { icono: FlameKindling, titulo: 'Gas (GLP)', texto: 'Balones ventilados y conexiones seguras. Solo si usas gas.' },
+    { icono: Boxes, titulo: 'Estructura', texto: 'Escaleras con pasamanos y estantes altos anclados a la pared.' },
 ] as const;
 
 const PREGUNTAS_FRECUENTES = [
+    { titulo: '¿Cuánto cuesta usar CheckITSE?', respuesta: 'Nada. La simulación es gratuita para emprendedores y comerciantes de Huancayo.' },
     {
-        titulo: '¿Cuánto cuesta usar CheckITSE?',
-        respuesta: 'Nada. Es una herramienta gratuita de orientación para emprendedores y comerciantes de Huancayo.',
-    },
-    {
-        titulo: '¿CheckITSE me da el certificado ITSE?',
+        titulo: '¿Cuánto cuesta el certificado ITSE real?',
         respuesta:
-            'No. El certificado lo emite tu municipalidad después de su propia inspección. CheckITSE te ayuda a llegar preparado para que no te observen cosas que podías corregir antes.',
+            'Si tramitas licencia de funcionamiento, la ITSE está incluida en ese pago (D.S. 002-2018-PCM, art. 6.1). El monto lo fija cada municipalidad en su TUPA según tu nivel de riesgo. Como referencia, en Huancayo la ITSE de un local de riesgo alto costaba S/ 698.10 (Doing Business en el Perú 2020). Confirma el monto vigente en tu municipalidad.',
     },
     {
-        titulo: '¿Cuánto tiempo dura el certificado ITSE?',
-        respuesta: 'Dos años desde que se expide (Ley N° 30619). Si cambias el uso, amplías o remodelas tu local, necesitas una nueva ITSE.',
+        titulo: '¿En cuánto tiempo sale?',
+        respuesta:
+            'Por ley, si tu riesgo es bajo o medio la inspección se hace en máximo 7 días hábiles después de tu licencia; si es alto, en máximo 5 días hábiles antes de la licencia. En la práctica puede tardar más si te observan algo, por eso conviene llegar preparado.',
     },
     {
-        titulo: '¿Envían mis respuestas a la municipalidad?',
-        respuesta: 'No. CheckITSE no está conectado a sistemas municipales ni genera actas de fiscalización.',
+        titulo: '¿CheckITSE me da el certificado?',
+        respuesta: 'No. El certificado lo emite tu municipalidad después de su inspección. CheckITSE te prepara para pasarla a la primera.',
     },
-    {
-        titulo: '¿Necesito RUC para empezar?',
-        respuesta: 'No. Puedes agregarlo si lo tienes para identificar tu reporte, pero no es obligatorio.',
-    },
-];
-
-const HALLAZGOS = [
-    {
-        cita: 'Zhang et al., 2019',
-        texto: 'Las inspecciones anuales no alcanzan para asegurar el cumplimiento continuo: la autoinspección de los usuarios lo complementa.',
-    },
-    {
-        cita: 'Bai et al., 2025',
-        texto: 'Modelar el local como una red de ambientes permite trazar rutas de evacuación con cerca de 70 % menos riesgo.',
-    },
+    { titulo: '¿Envían mis respuestas a la municipalidad?', respuesta: 'No. CheckITSE no está conectado a sistemas municipales ni genera actas.' },
 ];
 
 function ResultadoCalculadora({ resultado }: Readonly<{ resultado: ClasificacionItse | null }>) {
     if (!resultado) {
         return (
-            <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 p-6 text-center">
-                <Gauge aria-hidden="true" className="size-8 text-slate-400" />
-                <p className="mt-3 text-sm font-semibold text-slate-700">Tu resultado aparecerá aquí</p>
-                <p className="mt-1 text-sm text-slate-500">Completa al menos el tamaño de tu local.</p>
+            <div className="flex h-full min-h-56 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center">
+                <Gauge aria-hidden="true" className="size-10 text-slate-400" />
+                <p className="mt-3 text-lg font-semibold text-slate-700">Tu resultado aparecerá aquí</p>
+                <p className="mt-1 text-base text-slate-500">Completa al menos el tamaño de tu local.</p>
             </div>
         );
     }
@@ -121,29 +147,44 @@ function ResultadoCalculadora({ resultado }: Readonly<{ resultado: Clasificacion
             className={`h-full rounded-2xl border p-6 ${previa ? 'border-amber-200 bg-amber-50' : 'border-primary-200 bg-primary-50'}`}
             aria-live="polite"
         >
-            <p className={`text-xs font-bold tracking-wide uppercase ${previa ? 'text-amber-800' : 'text-primary-800'}`}>Resultado orientativo</p>
-            <p className="mt-2 text-2xl font-extrabold text-slate-900">{texto.titulo}</p>
-            <p className="mt-2 text-sm leading-relaxed text-slate-700">{texto.resumen}</p>
+            <p className={`text-sm font-bold tracking-wide uppercase ${previa ? 'text-amber-800' : 'text-primary-800'}`}>Resultado orientativo</p>
+            <p className="mt-2 text-3xl font-extrabold text-slate-900">{texto.titulo}</p>
+            <p className="mt-2 text-lg leading-relaxed text-slate-700">{texto.resumen}</p>
+            <p className="mt-3 text-base text-slate-700">
+                Plazo legal de inspección: <strong>{previa ? 'hasta 5 días hábiles' : 'hasta 7 días hábiles'}</strong>.
+            </p>
             {resultado.motivos.length > 0 ? (
-                <ul className="mt-4 space-y-1.5">
+                <ul className="mt-4 space-y-2">
                     {resultado.motivos.map((motivo) => (
-                        <li key={motivo} className="flex gap-2 text-sm text-slate-700">
-                            <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-amber-600" />
+                        <li key={motivo} className="flex gap-2 text-base text-slate-700">
+                            <span aria-hidden="true" className="mt-2.5 size-2 shrink-0 rounded-full bg-amber-600" />
                             {motivo}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p className="text-primary-900 mt-4 flex items-center gap-2 text-sm font-medium">
-                    <CheckCircle2 aria-hidden="true" className="size-4" /> Sin factores que eleven el riesgo.
+                <p className="text-primary-900 mt-4 flex items-center gap-2 text-base font-medium">
+                    <CheckCircle2 aria-hidden="true" className="size-5" /> Sin factores que eleven el riesgo.
                 </p>
             )}
             <Link
                 href={route('autoevaluacion.nueva')}
-                className="text-primary-800 mt-5 inline-flex min-h-10 items-center gap-1.5 text-sm font-bold hover:underline"
+                className="text-primary-800 mt-5 inline-flex min-h-11 items-center gap-1.5 text-lg font-bold hover:underline"
             >
-                Ver qué debo revisar en mi local <ArrowRight aria-hidden="true" className="size-4" />
+                Ver qué debo revisar en mi local <ArrowRight aria-hidden="true" className="size-5" />
             </Link>
+        </div>
+    );
+}
+
+function EncabezadoSeccion({ id, etiqueta, titulo, texto }: Readonly<{ id: string; etiqueta: string; titulo: string; texto?: string }>) {
+    return (
+        <div className="max-w-3xl">
+            <p className="text-primary-700 text-base font-bold">{etiqueta}</p>
+            <h2 id={id} className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                {titulo}
+            </h2>
+            {texto && <p className="mt-3 text-lg leading-relaxed text-slate-600">{texto}</p>}
         </div>
     );
 }
@@ -158,8 +199,6 @@ export default function Home() {
     const [error, setError] = useState<string | null>(null);
 
     const pideAforo = (FUNCIONES_ESCALA_ESPECIAL as ReadonlyArray<string>).includes(giro);
-    const totalArticulos = REFERENCIAS.filter((ref) => ref.tipo === 'articulo').length;
-    const totalNormas = REFERENCIAS.filter((ref) => ref.tipo === 'normativa').length;
 
     const calcular = (e: FormEvent) => {
         e.preventDefault();
@@ -179,7 +218,7 @@ export default function Home() {
     };
 
     const claseCampo =
-        'h-12 w-full rounded-xl border border-slate-300 bg-white px-3.5 text-base text-slate-900 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20';
+        'h-13 w-full rounded-xl border border-slate-300 bg-white px-4 text-lg text-slate-900 outline-none focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20';
 
     return (
         <>
@@ -187,128 +226,178 @@ export default function Home() {
             <GuiaModal isOpen={showGuia} onClose={() => setShowGuia(false)} />
 
             {/* HERO */}
-            <section
-                aria-labelledby="hero-titulo"
-                className="bg-ink-900 relative overflow-hidden rounded-3xl px-6 py-10 text-white sm:px-10 sm:py-14 lg:px-14"
-            >
-                <div aria-hidden="true" className="bg-primary-500/25 absolute -top-32 -right-24 size-96 rounded-full blur-3xl" />
-                <div aria-hidden="true" className="bg-sun-500/15 absolute -bottom-40 -left-24 size-96 rounded-full blur-3xl" />
-                <div className="relative grid items-center gap-10 lg:grid-cols-[1.15fr_1fr]">
-                    <div>
-                        <p className="text-sun-300 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-bold">
-                            <Sparkles aria-hidden="true" className="size-3.5" />
+            <section aria-labelledby="hero-titulo" className="bg-ink-900 relative overflow-hidden rounded-3xl text-white">
+                <div aria-hidden="true" className="bg-primary-500/25 absolute -top-32 -left-24 size-96 rounded-full blur-3xl" />
+                <div className="relative grid items-center lg:grid-cols-[1.1fr_1fr]">
+                    <div className="px-6 py-10 sm:px-10 sm:py-14 lg:py-16 lg:pl-14">
+                        <p className="text-sun-300 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-bold">
+                            <Sparkles aria-hidden="true" className="size-4" />
                             Para emprendedores de Huancayo
                         </p>
                         <h1 id="hero-titulo" className="mt-5 text-4xl leading-[1.08] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                             Abre tu negocio seguro y llega <span className="text-primary-300">listo a tu ITSE</span>
                         </h1>
-                        <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-300">
-                            Simula la inspección técnica de seguridad de tu local, descubre qué te observarían y corrígelo antes de ir a la
-                            municipalidad.
+                        <p className="mt-5 max-w-xl text-xl leading-relaxed text-slate-200">
+                            Simula la inspección de tu local, descubre qué te observarían y corrígelo antes de ir a la municipalidad.
                         </p>
                         <div className="mt-8 flex flex-wrap items-center gap-3">
                             <Link
                                 href={route('autoevaluacion.nueva')}
-                                className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-12 items-center gap-2 rounded-xl px-6 text-base font-bold transition focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                                className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-14 items-center gap-2 rounded-xl px-7 text-lg font-bold transition focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                             >
-                                Simular mi local <ArrowRight aria-hidden="true" className="size-5" />
+                                Simular mi local gratis <ArrowRight aria-hidden="true" className="size-5" />
                             </Link>
                             <a
-                                href="#como-funciona"
-                                className="inline-flex min-h-12 items-center rounded-xl border border-white/20 px-5 text-base font-semibold text-white transition hover:bg-white/10"
+                                href="#renovacion"
+                                className="inline-flex min-h-14 items-center rounded-xl border border-white/25 px-6 text-lg font-semibold text-white transition hover:bg-white/10"
                             >
-                                Cómo funciona
+                                Renovar mi certificado
                             </a>
                         </div>
-                        <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-300">
+                        <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-base text-slate-200">
                             {['Gratis', 'Sin crear cuenta', 'Unos 5 minutos'].map((item) => (
-                                <li key={item} className="flex items-center gap-1.5">
-                                    <CheckCircle2 aria-hidden="true" className="text-primary-300 size-4" /> {item}
+                                <li key={item} className="flex items-center gap-2">
+                                    <CheckCircle2 aria-hidden="true" className="text-primary-300 size-5" /> {item}
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Vista previa del resultado: muestra lo que obtendrá el emprendedor. */}
-                    <div aria-hidden="true" className="rounded-2xl bg-white p-5 text-slate-900 shadow-2xl shadow-black/30 sm:p-6">
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="min-w-0">
-                                <p className="text-xs font-semibold text-slate-500">Ejemplo de resultado</p>
-                                <p className="truncate font-bold">Café Wanka · 60 m²</p>
+                    <div className="relative h-80 sm:h-96 lg:h-full lg:min-h-[34rem]">
+                        <img
+                            src="/images/emprendedora-tienda.webp"
+                            alt="Emprendedora sonriendo en su tienda"
+                            className="absolute inset-0 h-full w-full object-cover lg:rounded-l-3xl"
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="from-ink-900 absolute inset-0 bg-gradient-to-t via-transparent to-transparent lg:bg-gradient-to-r"
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="absolute right-4 bottom-4 left-4 rounded-2xl bg-white p-5 text-slate-900 shadow-2xl shadow-black/30 sm:right-8 sm:left-auto sm:w-96"
+                        >
+                            <div className="flex items-center justify-between gap-3">
+                                <p className="truncate text-base font-bold">Boutique Wanka · 45 m²</p>
+                                <span className="bg-primary-50 text-primary-800 shrink-0 rounded-full px-2.5 py-1 text-xs font-bold">
+                                    ITSE posterior
+                                </span>
                             </div>
-                            <span className="bg-primary-50 text-primary-800 shrink-0 rounded-full px-2.5 py-1 text-xs font-bold">ITSE posterior</span>
-                        </div>
-                        <div className="mt-5">
-                            <div className="flex justify-between text-xs font-semibold text-slate-600">
+                            <div className="mt-3 flex justify-between text-sm font-semibold text-slate-600">
                                 <span>Condiciones listas</span>
-                                <span>8 de 11</span>
+                                <span>9 de 11</span>
                             </div>
-                            <div className="mt-2 h-2 rounded-full bg-slate-100">
-                                <div className="bg-primary h-2 w-[73%] rounded-full" />
+                            <div className="mt-2 h-2.5 rounded-full bg-slate-100">
+                                <div className="bg-primary h-2.5 w-[82%] rounded-full" />
                             </div>
+                            <p className="mt-3 flex items-center gap-2 text-sm text-slate-700">
+                                <span className="size-3 shrink-0 rounded-full border-2 border-amber-500" /> Falta: luz de emergencia
+                            </p>
                         </div>
-                        <ul className="mt-5 space-y-2.5 text-sm">
-                            <li className="flex items-center gap-2.5">
-                                <CheckCircle2 className="text-primary-600 size-4 shrink-0" /> Extintor PQS con carga vigente
-                            </li>
-                            <li className="flex items-center gap-2.5">
-                                <CheckCircle2 className="text-primary-600 size-4 shrink-0" /> Salida libre y señalizada
-                            </li>
-                            <li className="flex items-center gap-2.5">
-                                <span className="size-4 shrink-0 rounded-full border-2 border-amber-500" /> Falta extintor Clase K para la cocina
-                            </li>
-                            <li className="flex items-center gap-2.5">
-                                <span className="size-4 shrink-0 rounded-full border-2 border-amber-500" /> Tablero eléctrico sin tapa
-                            </li>
-                        </ul>
                     </div>
                 </div>
-                <p className="relative mt-10 flex items-start gap-2 text-xs leading-relaxed text-slate-400">
-                    <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
-                    Es una simulación orientativa basada en lo que declaras. No reemplaza la inspección oficial ni emite certificados ITSE.
-                </p>
+            </section>
+            <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-slate-500">
+                <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+                Es una simulación orientativa basada en lo que declaras. No reemplaza la inspección oficial ni emite certificados ITSE.
+            </p>
+
+            {/* DATOS CLAVE */}
+            <section aria-labelledby="datos-titulo" className="mt-20">
+                <EncabezadoSeccion
+                    id="datos-titulo"
+                    etiqueta="Datos clave del certificado ITSE"
+                    titulo="Lo que dice la ley, en simple"
+                    texto="Plazos máximos y costos según el Reglamento de ITSE (D.S. N° 002-2018-PCM)."
+                />
+                <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {DATOS_CLAVE.map((dato) => {
+                        const Icono = dato.icono;
+                        return (
+                            <li key={dato.titulo} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                                <Icono aria-hidden="true" className="text-primary-700 size-7" />
+                                <p className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900">{dato.cifra}</p>
+                                <h3 className="mt-1 text-lg font-bold text-slate-900">{dato.titulo}</h3>
+                                <p className="mt-2 text-base leading-relaxed text-slate-600">{dato.texto}</p>
+                            </li>
+                        );
+                    })}
+                </ul>
+                <div className="border-sun-300 bg-sun-50 mt-4 flex flex-col gap-4 rounded-2xl border p-6 sm:flex-row sm:items-center">
+                    <p className="text-sun-700 shrink-0 text-5xl font-extrabold">41 días</p>
+                    <p className="text-lg leading-relaxed text-slate-800">
+                        tomó en la práctica obtener la ITSE y la licencia de un local de riesgo alto en Huancayo, frente a los 7 días hábiles que fija
+                        la ley. Las observaciones alargan el trámite: <strong>llegar preparado te ahorra semanas.</strong>
+                        <span className="mt-1 block text-sm text-slate-600">
+                            Fuente: Doing Business en el Perú 2020, Banco Mundial (datos de 2019).
+                        </span>
+                    </p>
+                </div>
             </section>
 
             {/* RUTA */}
             <section id="como-funciona" aria-labelledby="ruta-titulo" className="mt-20 scroll-mt-24">
-                <div className="max-w-2xl">
-                    <p className="text-primary-700 text-sm font-bold">Cómo funciona</p>
-                    <h2 id="ruta-titulo" className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                        Tu camino hacia el certificado ITSE
-                    </h2>
-                    <p className="mt-3 text-base text-slate-600">Los dos primeros pasos los haces aquí. Los otros dos, con tu municipalidad.</p>
-                </div>
-                <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <EncabezadoSeccion
+                    id="ruta-titulo"
+                    etiqueta="Cómo funciona"
+                    titulo="Tu camino hacia el certificado ITSE"
+                    texto="Los dos primeros pasos los haces aquí. Los otros dos, con tu municipalidad."
+                />
+                <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {RUTA_ITSE.map((paso, index) => {
                         const Icono = paso.icono;
                         const enApp = index < 2;
                         return (
                             <li
                                 key={paso.titulo}
-                                className={`relative rounded-2xl border p-6 ${enApp ? 'border-primary-200 bg-white shadow-sm' : 'border-slate-200 bg-white/60'}`}
+                                className={`rounded-2xl border p-6 ${enApp ? 'border-primary-200 bg-white shadow-sm' : 'border-slate-200 bg-white/60'}`}
                             >
                                 <div className="flex items-center justify-between">
                                     <span
-                                        className={`flex size-11 items-center justify-center rounded-xl ${enApp ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'}`}
+                                        className={`flex size-12 items-center justify-center rounded-xl ${enApp ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'}`}
                                     >
-                                        <Icono aria-hidden="true" className="size-5" />
+                                        <Icono aria-hidden="true" className="size-6" />
                                     </span>
-                                    <span className="text-4xl font-extrabold text-slate-100" aria-hidden="true">
+                                    <span className="text-5xl font-extrabold text-slate-100" aria-hidden="true">
                                         {index + 1}
                                     </span>
                                 </div>
-                                <p className={`mt-5 text-xs font-bold tracking-wide uppercase ${enApp ? 'text-primary-700' : 'text-slate-500'}`}>
+                                <p className={`mt-5 text-sm font-bold tracking-wide uppercase ${enApp ? 'text-primary-700' : 'text-slate-500'}`}>
                                     {paso.donde}
                                 </p>
-                                <h3 className="mt-1 text-lg font-bold text-slate-900">
+                                <h3 className="mt-1 text-xl font-bold text-slate-900">
                                     <span className="sr-only">Paso {index + 1}: </span>
                                     {paso.titulo}
                                 </h3>
-                                <p className="mt-2 text-sm leading-relaxed text-slate-600">{paso.texto}</p>
+                                <p className="mt-2 text-base leading-relaxed text-slate-600">{paso.texto}</p>
                             </li>
                         );
                     })}
                 </ol>
+            </section>
+
+            {/* RUBROS */}
+            <section aria-labelledby="rubros-titulo" className="mt-20">
+                <EncabezadoSeccion
+                    id="rubros-titulo"
+                    etiqueta="Para cualquier rubro"
+                    titulo="Preguntas hechas a la medida de tu negocio"
+                    texto="Una perfumería no necesita lo mismo que un restaurante. Solo te preguntamos lo que aplica a tu local."
+                />
+                <ul className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    {RUBROS.map((rubro) => (
+                        <li key={rubro.nombre} className="group relative h-56 overflow-hidden rounded-2xl sm:h-72">
+                            <img
+                                src={rubro.foto}
+                                alt=""
+                                loading="lazy"
+                                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                            />
+                            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                            <p className="absolute right-4 bottom-4 left-4 text-lg leading-tight font-bold text-white">{rubro.nombre}</p>
+                        </li>
+                    ))}
+                </ul>
             </section>
 
             {/* CALCULADORA */}
@@ -316,23 +405,23 @@ export default function Home() {
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
                     <div className="grid gap-10 lg:grid-cols-2">
                         <div>
-                            <p className="text-primary-700 text-sm font-bold">Calculadora rápida</p>
-                            <h2 id="calc-titulo" className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+                            <p className="text-primary-700 text-base font-bold">Calculadora rápida</p>
+                            <h2 id="calc-titulo" className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">
                                 ¿Tu ITSE va antes o después de la licencia?
                             </h2>
-                            <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                                Depende de tu actividad y del tamaño de tu local, según la Matriz de Riesgos del Manual de ITSE de CENEPRED.{' '}
+                            <p className="mt-3 text-lg leading-relaxed text-slate-600">
+                                Depende de tu actividad y del tamaño de tu local.{' '}
                                 <button
                                     type="button"
                                     onClick={() => setShowGuia(true)}
                                     className="text-primary-700 inline-flex cursor-pointer items-center gap-1 font-semibold underline underline-offset-2"
                                 >
-                                    <BookOpen aria-hidden="true" className="size-3.5" /> Ver base legal
+                                    <BookOpen aria-hidden="true" className="size-4" /> Ver base legal
                                 </button>
                             </p>
                             <form onSubmit={calcular} className="mt-6 space-y-4" noValidate>
                                 <div>
-                                    <label htmlFor="calc-giro" className="mb-1.5 block text-sm font-semibold text-slate-800">
+                                    <label htmlFor="calc-giro" className="mb-1.5 block text-base font-semibold text-slate-800">
                                         ¿Qué tipo de negocio es?
                                     </label>
                                     <select
@@ -350,7 +439,7 @@ export default function Home() {
                                 </div>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label htmlFor="calc-area" className="mb-1.5 block text-sm font-semibold text-slate-800">
+                                        <label htmlFor="calc-area" className="mb-1.5 block text-base font-semibold text-slate-800">
                                             Área techada (m²)
                                         </label>
                                         <input
@@ -365,7 +454,7 @@ export default function Home() {
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="calc-pisos" className="mb-1.5 block text-sm font-semibold text-slate-800">
+                                        <label htmlFor="calc-pisos" className="mb-1.5 block text-base font-semibold text-slate-800">
                                             Pisos <span className="font-normal text-slate-500">(opcional)</span>
                                         </label>
                                         <input
@@ -382,7 +471,7 @@ export default function Home() {
                                 </div>
                                 {pideAforo && (
                                     <div>
-                                        <label htmlFor="calc-aforo" className="mb-1.5 block text-sm font-semibold text-slate-800">
+                                        <label htmlFor="calc-aforo" className="mb-1.5 block text-base font-semibold text-slate-800">
                                             Personas al mismo tiempo <span className="font-normal text-slate-500">(opcional)</span>
                                         </label>
                                         <input
@@ -398,15 +487,15 @@ export default function Home() {
                                     </div>
                                 )}
                                 {error && (
-                                    <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                                    <p role="alert" className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-base text-rose-800">
                                         {error}
                                     </p>
                                 )}
                                 <button
                                     type="submit"
-                                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-6 font-bold text-white sm:w-auto"
+                                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-13 w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-7 text-lg font-bold text-white sm:w-auto"
                                 >
-                                    <Gauge aria-hidden="true" className="size-4" /> Calcular
+                                    <Gauge aria-hidden="true" className="size-5" /> Calcular
                                 </button>
                             </form>
                         </div>
@@ -417,121 +506,124 @@ export default function Home() {
 
             {/* QUÉ REVISAMOS */}
             <section aria-labelledby="areas-titulo" className="mt-20">
-                <div className="max-w-2xl">
-                    <p className="text-primary-700 text-sm font-bold">Qué revisaremos</p>
-                    <h2 id="areas-titulo" className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                        Lo mismo que mirará el inspector
-                    </h2>
-                    <p className="mt-3 text-base text-slate-600">
-                        Solo te preguntamos lo que aplica a tu local: si no usas gas, no verás preguntas de gas.
-                    </p>
-                </div>
+                <EncabezadoSeccion
+                    id="areas-titulo"
+                    etiqueta="Qué revisaremos"
+                    titulo="Lo mismo que mirará el inspector"
+                    texto="Si no usas gas, no verás preguntas de gas. Solo lo que aplica a tu local."
+                />
                 <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                    {AREAS_REVISION.map((item) => {
+                    {AREAS_CON_FOTO.map((item) => (
+                        <li key={item.titulo} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                            <img src={item.foto} alt="" loading="lazy" className="h-40 w-full object-cover" />
+                            <div className="p-5">
+                                <h3 className="text-xl font-bold text-slate-900">{item.titulo}</h3>
+                                <p className="mt-1 text-base leading-relaxed text-slate-600">{item.texto}</p>
+                            </div>
+                        </li>
+                    ))}
+                    {AREAS_CON_ICONO.map((item) => {
                         const Icono = item.icono;
                         return (
-                            <li key={item.titulo} className="rounded-2xl border border-slate-200 bg-white p-5">
-                                <Icono aria-hidden="true" className="text-primary-700 size-6" />
-                                <h3 className="mt-3 font-bold text-slate-900">{item.titulo}</h3>
-                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{item.texto}</p>
+                            <li key={item.titulo} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                                <div className="bg-primary-50 flex h-40 items-center justify-center">
+                                    <Icono aria-hidden="true" className="text-primary-700 size-14" />
+                                </div>
+                                <div className="p-5">
+                                    <h3 className="text-xl font-bold text-slate-900">{item.titulo}</h3>
+                                    <p className="mt-1 text-base leading-relaxed text-slate-600">{item.texto}</p>
+                                </div>
                             </li>
                         );
                     })}
                 </ul>
             </section>
 
-            {/* RESPALDO */}
-            <section aria-labelledby="respaldo-titulo" className="mt-20">
-                <div className="bg-ink-900 grid gap-8 rounded-3xl p-6 text-white sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-                    <div>
-                        <p className="text-sun-300 text-sm font-bold">Respaldo científico</p>
-                        <h2 id="respaldo-titulo" className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
-                            Basado en la norma y en la ciencia
-                        </h2>
-                        <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                            Usamos el D.S. N° 002-2018-PCM, el Manual de ITSE de CENEPRED y {totalArticulos} artículos científicos indexados sobre
-                            seguridad contra incendios y autoinspección.
-                        </p>
-                        <div className="mt-6 flex gap-6">
-                            <p>
-                                <span className="block text-3xl font-extrabold">{totalNormas}</span>
-                                <span className="text-xs text-slate-400">normas oficiales</span>
-                            </p>
-                            <p>
-                                <span className="block text-3xl font-extrabold">{totalArticulos}</span>
-                                <span className="text-xs text-slate-400">artículos científicos</span>
-                            </p>
-                        </div>
-                        <Link
-                            href={route('respaldo.index')}
-                            className="text-sun-300 mt-6 inline-flex min-h-10 items-center gap-1.5 text-sm font-bold hover:underline"
-                        >
-                            Ver todas las fuentes <ArrowRight aria-hidden="true" className="size-4" />
-                        </Link>
-                    </div>
-                    <ul className="space-y-3">
-                        {HALLAZGOS.map((hallazgo) => (
-                            <li key={hallazgo.cita} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                                <p className="text-sm leading-relaxed text-slate-200">“{hallazgo.texto}”</p>
-                                <p className="text-primary-300 mt-2 text-xs font-bold">{hallazgo.cita}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            {/* RENOVACIÓN */}
+            <section
+                id="renovacion"
+                aria-labelledby="renovacion-titulo"
+                className="mt-20 scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10"
+            >
+                <RenovacionRapida />
+            </section>
+
+            {/* ALIADOS */}
+            <section aria-labelledby="aliados-titulo" className="mt-20 grid gap-4 lg:grid-cols-2">
+                <Link
+                    href={route('directorio.index')}
+                    className="group bg-ink-900 relative flex min-h-72 flex-col justify-end overflow-hidden rounded-3xl p-8 text-white"
+                >
+                    <img
+                        src="/images/extintor.webp"
+                        alt=""
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover opacity-40 transition duration-500 group-hover:scale-105"
+                    />
+                    <div aria-hidden="true" className="from-ink-900 absolute inset-0 bg-gradient-to-t to-transparent" />
+                    <span className="relative">
+                        <span className="text-sun-300 text-base font-bold">Tienda de aliados</span>
+                        <span id="aliados-titulo" className="mt-1 block text-3xl font-extrabold">
+                            Compra lo que le falta a tu local
+                        </span>
+                        <span className="mt-2 flex items-center gap-2 text-lg text-slate-200">
+                            Extintores, señalética, luces de emergencia y técnicos en Huancayo
+                            <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+                        </span>
+                    </span>
+                </Link>
+                <Link
+                    href={`${route('directorio.index')}#anunciate`}
+                    className="group border-sun-300 bg-sun-50 flex min-h-72 flex-col justify-between rounded-3xl border p-8"
+                >
+                    <Megaphone aria-hidden="true" className="text-sun-700 size-10" />
+                    <span>
+                        <span className="text-sun-700 text-base font-bold">Para proveedores</span>
+                        <span className="mt-1 block text-3xl font-extrabold text-slate-900">¿Vendes equipos de seguridad?</span>
+                        <span className="mt-2 flex items-center gap-2 text-lg text-slate-700">
+                            Aparece justo cuando un negocio descubre que necesita tu producto
+                            <ArrowRight aria-hidden="true" className="size-5 shrink-0 transition group-hover:translate-x-1" />
+                        </span>
+                    </span>
+                </Link>
             </section>
 
             {/* FAQ */}
             <section aria-labelledby="faq-titulo" className="mt-20 grid gap-8 lg:grid-cols-[1fr_2fr]">
                 <div>
-                    <p className="text-primary-700 text-sm font-bold">Preguntas frecuentes</p>
-                    <h2 id="faq-titulo" className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">
+                    <p className="text-primary-700 text-base font-bold">Preguntas frecuentes</p>
+                    <h2 id="faq-titulo" className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
                         Lo que todos preguntan
                     </h2>
                 </div>
-                <Accordion type="single" collapsible className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-5">
+                <Accordion type="single" collapsible className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-6">
                     {PREGUNTAS_FRECUENTES.map((pregunta, idx) => (
                         <AccordionItem key={pregunta.titulo} value={`faq-${idx}`} className="border-0">
-                            <AccordionTrigger className="py-5 text-left text-base font-semibold text-slate-900 hover:no-underline">
+                            <AccordionTrigger className="py-5 text-left text-lg font-semibold text-slate-900 hover:no-underline">
                                 {pregunta.titulo}
                             </AccordionTrigger>
-                            <AccordionContent className="pb-5 text-sm leading-relaxed text-slate-600">{pregunta.respuesta}</AccordionContent>
+                            <AccordionContent className="pb-5 text-base leading-relaxed text-slate-600">{pregunta.respuesta}</AccordionContent>
                         </AccordionItem>
                     ))}
                 </Accordion>
             </section>
 
             {/* CTA FINAL */}
-            <section className="mt-20 grid gap-4 lg:grid-cols-[2fr_1fr]">
-                <div className="bg-primary-700 flex flex-col items-start justify-between gap-6 rounded-3xl p-8 text-white sm:flex-row sm:items-center sm:p-10">
-                    <div>
-                        <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">¿Listo para revisar tu local?</h2>
-                        <p className="text-primary-100 mt-2 text-sm">Empieza ahora. Puedes guardar tu avance y volver cuando quieras.</p>
-                    </div>
-                    <Link
-                        href={route('autoevaluacion.nueva')}
-                        className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-12 shrink-0 items-center gap-2 rounded-xl px-6 font-bold"
-                    >
-                        Simular mi local <ArrowRight aria-hidden="true" className="size-4" />
-                    </Link>
+            <section className="bg-primary-700 mt-20 flex flex-col items-start justify-between gap-6 rounded-3xl p-8 text-white sm:flex-row sm:items-center sm:p-12">
+                <div>
+                    <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">¿Listo para revisar tu local?</h2>
+                    <p className="text-primary-100 mt-2 text-lg">Empieza ahora. Puedes guardar tu avance y volver cuando quieras.</p>
                 </div>
                 <Link
-                    href={route('directorio.index')}
-                    className="group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 transition hover:border-slate-300"
+                    href={route('autoevaluacion.nueva')}
+                    className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-14 shrink-0 items-center gap-2 rounded-xl px-7 text-lg font-bold"
                 >
-                    <Building2 aria-hidden="true" className="text-primary-700 size-7" />
-                    <span className="mt-6">
-                        <span className="block text-lg font-bold text-slate-900">¿Necesitas un técnico?</span>
-                        <span className="mt-1 flex items-center gap-1 text-sm text-slate-600">
-                            Electricistas, recarga de extintores y señalética
-                            <ArrowRight aria-hidden="true" className="size-4 shrink-0 transition group-hover:translate-x-0.5" />
-                        </span>
-                    </span>
+                    Simular mi local <ArrowRight aria-hidden="true" className="size-5" />
                 </Link>
             </section>
-
-            <p className="mt-6 flex items-center gap-2 text-xs text-slate-500">
-                <ClipboardCheck aria-hidden="true" className="size-3.5" />
-                Referencia normativa: D.S. N° 002-2018-PCM y R.J. N° 016-2018-CENEPRED/J.
+            <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
+                <Zap aria-hidden="true" className="size-4" />
+                Basado en el D.S. N° 002-2018-PCM y el Manual de Ejecución de ITSE (R.J. N° 016-2018-CENEPRED/J).
             </p>
         </>
     );
