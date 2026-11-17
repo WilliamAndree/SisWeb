@@ -2,12 +2,15 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import AppLayout from '../../resources/js/layouts/AppLayout';
+import Login from '../../resources/js/pages/Auth/Login';
+import Register from '../../resources/js/pages/Auth/Register';
 import Checklist from '../../resources/js/pages/Evaluacion/Checklist';
 import ExpedienteDigital from '../../resources/js/pages/Evaluacion/ExpedienteDigital';
 import Home from '../../resources/js/pages/Evaluacion/Home';
 import Nueva from '../../resources/js/pages/Evaluacion/Nueva';
 import Resumen from '../../resources/js/pages/Evaluacion/Resumen';
 import SubsanacionDirecta from '../../resources/js/pages/Evaluacion/SubsanacionDirecta';
+import PanelProveedor from '../../resources/js/pages/Proveedor/Panel';
 
 const pantalla = new URLSearchParams(location.search).get('pantalla') || 'Inicio';
 const rutas: Record<string, string> = {
@@ -73,7 +76,39 @@ const asistenciaDemo = (codigo: string, titulo: string) => ({
     rango_costo: { referencia_soles: 100, minimo_soles: 80, maximo_soles: 150 },
     guia_autoayuda: ['Revisa la etiqueta de carga.'],
     aliados: [aliadoDemo],
+    ofertas: [
+        { id: 1, nombre: `${titulo} · opción económica`, precio_soles: 45, unidad: 'servicio', proveedor: { ...aliadoDemo, plan: 'basico' } },
+        {
+            id: 2,
+            nombre: `${titulo} · nuevo con instalación`,
+            precio_soles: 155,
+            unidad: 'unidad',
+            proveedor: { ...aliadoDemo, id: 'A2', nombre_comercial: 'Apu Seguridad · Datos ficticios', plan: 'destacado', sede: 'Chilca' },
+        },
+    ],
 });
+const panelProveedor = {
+    perfil: {
+        nombre_comercial: 'Extintores Wanka · Datos ficticios',
+        especialidad: 'incendios',
+        descripcion: null,
+        telefono: '964112233',
+        whatsapp: null,
+        distrito: 'El Tambo',
+        direccion: 'Jr. Puno 450',
+        latitud: null,
+        longitud: null,
+        plan: 'basico',
+        verificado: false,
+    },
+    ofertas: [
+        { id: 1, criterio_codigo: 'CRIT-01', nombre: 'Extintor PQS 6 kg', descripcion: null, precio_soles: 140, unidad: 'unidad', activo: true },
+    ],
+    criterios: [{ codigo: 'CRIT-01', titulo: 'Extintor portátil adecuado y vigente' }],
+    distritos: ['Huancayo', 'El Tambo', 'Chilca'],
+    unidades: ['unidad', 'servicio'],
+    planes: [{ id: 'basico', nombre: 'Básico', precio: 0, descripcion: '', destacado: false, beneficios: [] }],
+};
 const itemsSubsanar = [
     {
         id: 1,
@@ -150,6 +185,7 @@ const props = {
         ? { autoevaluacion: { ...autoevaluacion, sector_huancayo: 'El Tambo' }, items: itemsSubsanar, total_observaciones: 2 }
         : {}),
     ...(pantalla === 'Expediente' ? { autoevaluacion, modalidad: 'EX_POST', documentos: documentosExpediente, tamano_maximo_mb: 10 } : {}),
+    ...(pantalla === 'Proveedor' ? panelProveedor : {}),
     ...(pantalla === 'Resumen'
         ? {
               autoevaluacion,
@@ -167,11 +203,22 @@ const props = {
           }
         : {}),
 };
-const pages = { Inicio: Home, Datos: Nueva, Condiciones: Checklist, Resumen, Subsanar: SubsanacionDirecta, Expediente: ExpedienteDigital };
+const pages = {
+    Inicio: Home,
+    Datos: Nueva,
+    Condiciones: Checklist,
+    Resumen,
+    Subsanar: SubsanacionDirecta,
+    Expediente: ExpedienteDigital,
+    Login,
+    Registro: Register,
+    Proveedor: PanelProveedor,
+};
+const sinLayout = new Set(['Login', 'Registro']);
 const Component = pages[pantalla as keyof typeof pages] || Home;
 void createInertiaApp({
     page: { component: pantalla, props, url: location.pathname, version: null, clearHistory: false, encryptHistory: false },
-    resolve: () => Object.assign(Component, { layout: (page: React.ReactNode) => <AppLayout>{page}</AppLayout> }),
+    resolve: () => Object.assign(Component, { layout: (page: React.ReactNode) => (sinLayout.has(pantalla) ? page : <AppLayout>{page}</AppLayout>) }),
     setup({ App, props: appProps }) {
         createRoot(document.getElementById('app')!).render(<App {...appProps} />);
     },

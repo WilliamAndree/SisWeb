@@ -659,7 +659,7 @@ export default function CroquisEditor({
                     <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
                         <div className="flex items-center gap-3">
                             <Link
-                                href={`/autoevaluacion/subsanacion/${autoevaluacion.uuid}`}
+                                href={`/autoevaluacion/${autoevaluacion.uuid}/subsanar-items`}
                                 className="rounded-xl p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
                                 title="Volver a la subsanación"
                             >

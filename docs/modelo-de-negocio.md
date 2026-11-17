@@ -29,12 +29,37 @@ Se configuran en `backend/config/aliados.php` (clave `planes`) y se muestran en 
 
 Los proveedores con plan pagado se muestran marcados, el usuario elige libremente con quién trabajar y ningún proveedor puede garantizar la aprobación de la ITSE. El texto está en la página del directorio.
 
+## Cuentas separadas
+
+| Cuenta | Qué hace | Dónde |
+| --- | --- | --- |
+| Emprendedor (`tipo_cuenta = cliente`) | Simula su local, ve "Lo que te falta", compara ofertas, elige y arma su expediente digital | `/panel-ciudadano` |
+| Proveedor (`tipo_cuenta = proveedor`) | Publica su perfil (especialidad, descripción, contacto, distrito, dirección y ubicación exacta con el GPS del celular) y sus productos con precio, ligados al criterio ITSE que resuelven | `/proveedor` |
+
+El tipo se elige al registrarse ("Soy emprendedor" o "Soy proveedor") y el servidor envía a cada uno a su panel después de iniciar sesión.
+
+## Cotizador en "Lo que te falta"
+
+1. Cada producto del proveedor está ligado a un criterio (`ofertas_proveedor.criterio_codigo`, por ejemplo `CRIT-01` = extintor).
+2. Cuando a un local le falta algo, o está "por revisar", la tarjeta muestra "Desde S/ X" con el precio más bajo publicado.
+3. Al abrir el ítem, el costo aproximado es el rango real de las ofertas (mínimo a máximo). Si aún no hay ofertas, se muestra el rango referencial del catálogo.
+4. El emprendedor elige una oferta y "Tu presupuesto" suma lo elegido. La elección se guarda en su dispositivo, por evaluación.
+5. Primero aparecen los planes pagados (Premium y luego Destacado) y después el precio más bajo.
+
+**Ubicación honesta:** solo los proveedores con cuenta propia, que registraron su punto, muestran la dirección y la ruta exacta en Google Maps. Los del catálogo de ejemplo muestran solo su zona.
+
+Los proveedores y precios iniciales (`OfertasDemoSeeder`) son **datos de ejemplo** para la demostración.
+
 ## Próximos pasos técnicos
 
 | Paso | Estado |
 | --- | --- |
 | Página de planes y solicitud en 3 pasos con el plan elegido (`/directorio/anunciate`) | Hecho |
-| Campo `plan` y fecha de vencimiento en `proveedores_recursos` para ordenar a los destacados primero | Pendiente |
-| Mostrar proveedores del plan Destacado dentro del resumen de mejoras de cada local | Pendiente |
-| Cobro en línea (Culqi, Mercado Pago o Izipay) | Pendiente |
+| Cuentas separadas de emprendedor y proveedor | Hecho |
+| Panel del proveedor: perfil, ubicación GPS y productos con precio | Hecho |
+| Ofertas con precio en "Lo que te falta", elección y presupuesto | Hecho |
+| Orden por plan (Premium, Destacado, Básico) y sello "Destacado" | Hecho (el plan se asigna manualmente en `proveedores_recursos.plan`) |
+| Cobro en línea de los planes (Culqi, Mercado Pago o Izipay) y vencimiento del plan | Pendiente |
 | Panel del proveedor con visitas y clics a WhatsApp | Pendiente |
+| Verificación de proveedores por un administrador (`verificado`) | Pendiente (hoy se marca en la base de datos) |
+| Guardar la elección del emprendedor en el servidor, para verla desde otro dispositivo | Pendiente |

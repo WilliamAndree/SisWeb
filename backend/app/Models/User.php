@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'telefono',
+        'tipo_cuenta',
     ];
 
     /**
@@ -51,5 +53,19 @@ class User extends Authenticatable
     public function autoevaluaciones(): HasMany
     {
         return $this->hasMany(Autoevaluacion::class);
+    }
+
+    public const TIPO_CLIENTE = 'cliente';
+
+    public const TIPO_PROVEEDOR = 'proveedor';
+
+    public function esProveedor(): bool
+    {
+        return $this->tipo_cuenta === self::TIPO_PROVEEDOR;
+    }
+
+    public function proveedor(): HasOne
+    {
+        return $this->hasOne(ProveedorRecurso::class);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\ExpedienteDigitalController;
 use App\Http\Controllers\PlanoEstablecimientoController;
+use App\Http\Controllers\ProveedorPanelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -122,6 +123,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/autoevaluaciones/mis-evaluaciones', [EvaluacionController::class, 'misEvaluaciones'])->name('api.autoevaluaciones.mis-evaluaciones');
     Route::get('/mis-autoevaluaciones/{uuid}/expediente', [EvaluacionController::class, 'expediente'])->name('mis-autoevaluaciones.expediente')->whereUuid('uuid');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Panel del proveedor: perfil, ubicación y productos con precio
+    Route::prefix('proveedor')->name('proveedor.')->group(function () {
+        Route::get('/', [ProveedorPanelController::class, 'panel'])->name('panel');
+        Route::put('/perfil', [ProveedorPanelController::class, 'guardarPerfil'])->name('perfil');
+        Route::post('/ofertas', [ProveedorPanelController::class, 'guardarOferta'])->name('ofertas.store');
+        Route::put('/ofertas/{oferta}', [ProveedorPanelController::class, 'actualizarOferta'])->whereNumber('oferta')->name('ofertas.update');
+        Route::delete('/ofertas/{oferta}', [ProveedorPanelController::class, 'eliminarOferta'])->whereNumber('oferta')->name('ofertas.destroy');
+    });
 });
 
 // Autenticación liviana (Inertia + Throttle preventivo)

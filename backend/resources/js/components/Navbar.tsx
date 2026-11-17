@@ -7,6 +7,7 @@ interface Usuario {
     readonly id: number;
     readonly name: string;
     readonly email: string;
+    readonly tipo_cuenta?: string;
 }
 
 interface EnlaceNav {
@@ -50,7 +51,9 @@ export const Navbar: React.FC = () => {
         { etiqueta: 'Cómo funciona', href: esInicio ? '#como-funciona' : '/#como-funciona', activo: false },
         { etiqueta: 'Aliados técnicos', href: route('directorio.index'), activo: Boolean(route().current('directorio.*')) },
     ];
-    if (usuario) {
+    if (usuario?.tipo_cuenta === 'proveedor') {
+        enlaces.push({ etiqueta: 'Mi negocio', href: route('proveedor.panel'), activo: Boolean(route().current('proveedor.*')) });
+    } else if (usuario) {
         enlaces.push({
             etiqueta: 'Mi panel',
             href: route('dashboard'),

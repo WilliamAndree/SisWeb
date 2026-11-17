@@ -2169,6 +2169,7 @@ export default function Resumen({
                                 ...por_revisar.map((item) => ({ ...item, estado: 'POR_REVISAR' })),
                             ].map((item) => ({ ...item, codigo: String(item.codigo ?? ''), titulo: String(item.titulo ?? '') }))}
                             nombreLocal={autoevaluacion?.nombre_comercio}
+                            claveSeleccion={autoevaluacion?.uuid}
                         />
                     )}
                     <SeccionSaludTecnica

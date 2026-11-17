@@ -44,7 +44,7 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Network.setBlockedURLs', { urls: ['https://*', '*generativelanguage.googleapis.com*'] });
         const wait = async (expression) => { for (let i = 0; i < 100; i++) { if (await evaluate(expression)) return; await new Promise((r) => setTimeout(r, 50)); } throw Error('No se cumplió: ' + expression); };
         const observations = [];
-        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen', 'Subsanar', 'Expediente']) {
+        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen', 'Subsanar', 'Expediente', 'Login', 'Registro', 'Proveedor']) {
             for (const width of [320, 390, 768, 1440]) {
                 await send('Emulation.setDeviceMetricsOverride', { width, height: 960, deviceScaleFactor: 1, mobile: false });
                 await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=${pantalla}` });
@@ -66,8 +66,12 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=Subsanar` });
         await wait('document.querySelector("#falta-titulo") !== null');
         await evaluate(`[...document.querySelectorAll('[aria-pressed]')].find(b=>b.textContent.includes('Botiquín')).click()`);
-        await wait(`document.body.innerText.includes('Escribir por WhatsApp')`);
+        await wait(`document.body.innerText.includes('Elige tu opción')`);
         assert.match(await evaluate('document.querySelector("a[href^=\\"https://wa.me/\\"]").href'), /Botiqu%C3%ADn/);
+        // Elegir la oferta de S/ 155 la suma a "Tu presupuesto".
+        await evaluate(`document.querySelectorAll('input[name="oferta-CRIT-09"]')[1].click()`);
+        await wait(`document.body.innerText.includes('Tu elección')`);
+        assert.match(await evaluate('document.querySelector("#falta-titulo").closest("section").innerText'), /S\/ 155[\s\S]*1 de 2 elegidos/);
         await evaluate('document.querySelector("#falta-titulo").scrollIntoView()');
         await new Promise((r) => setTimeout(r, 300));
         const panelFalta = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });

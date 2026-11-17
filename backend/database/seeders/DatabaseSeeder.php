@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(NormativaCatalogSeeder::class);
         $this->call(ProveedorRecursoSeeder::class);
+        $this->call(OfertasDemoSeeder::class);
         $this->seedRecursosEducativos();
     }
 

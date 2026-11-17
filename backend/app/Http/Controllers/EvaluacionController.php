@@ -246,20 +246,17 @@ class EvaluacionController extends Controller
         return redirect()->route('autoevaluacion.simulacion', ['uuid' => $uuid]);
     }
 
-    public function panelSubsanacion(Request $request, string $uuid): Response
+    /**
+     * La antigua pantalla de subsanación se unificó en "Subsanar" (subsanar-items),
+     * que muestra lo que falta con fotos, proveedores y evidencias. La dirección
+     * vieja se conserva solo como redirección para no romper enlaces guardados.
+     */
+    public function panelSubsanacion(Request $request, string $uuid): RedirectResponse
     {
-        $autoevaluacion = Autoevaluacion::with(['simulaciones.subsanaciones'])
-            ->where('uuid_trazabilidad', $uuid)
-            ->firstOrFail();
-
+        $autoevaluacion = Autoevaluacion::where('uuid_trazabilidad', $uuid)->firstOrFail();
         $this->autorizarAccesoAutoevaluacion($request, $autoevaluacion);
 
-        $ultimaRevision = $autoevaluacion->simulaciones->sortByDesc('created_at')->first();
-
-        return Inertia::render('Evaluacion/Subsanacion', [
-            'autoevaluacion' => $autoevaluacion,
-            'ultimaRevision' => $ultimaRevision ? $ultimaRevision->load('subsanaciones') : null,
-        ]);
+        return redirect()->route('autoevaluacion.subsanar_items', ['uuid' => $uuid], 301);
     }
 
     public function guardarSubsanacion(Request $request, string $uuid): RedirectResponse
@@ -416,7 +413,7 @@ class EvaluacionController extends Controller
             throw $e;
         }
 
-        return redirect()->route('autoevaluacion.subsanacion', ['uuid' => $uuid])
+        return redirect()->route('autoevaluacion.subsanar_items', ['uuid' => $uuid])
             ->with('success', 'Plan de subsanación preventiva actualizado.');
     }
 

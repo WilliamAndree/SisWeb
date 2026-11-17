@@ -43,7 +43,9 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', Password::defaults()],
             'telefono' => ['nullable', 'string', 'max:20'],
+            'tipo_cuenta' => ['nullable', 'string', 'in:'.User::TIPO_CLIENTE.','.User::TIPO_PROVEEDOR],
         ], [
+            'tipo_cuenta.in' => 'Elige si eres emprendedor o proveedor.',
             'name.required' => 'Escribe tu nombre y apellido.',
             'email.required' => 'Escribe tu correo electrónico.',
             'email.email' => 'Ingresa un correo electrónico válido.',
@@ -58,12 +60,13 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'telefono' => $validated['telefono'] ?? null,
+            'tipo_cuenta' => $validated['tipo_cuenta'] ?? User::TIPO_CLIENTE,
         ]);
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        return $this->authResponse($request);
+        return $this->authResponse($request, route('autoevaluacion.nueva'));
     }
 
     public function logout(Request $request): RedirectResponse|JsonResponse
@@ -87,7 +90,7 @@ class AuthController extends Controller
         ]);
     }
 
-    private function authResponse(Request $request): RedirectResponse|JsonResponse
+    private function authResponse(Request $request, ?string $destinoCliente = null): RedirectResponse|JsonResponse
     {
         if ($request->expectsJson()) {
             return response()->json([
@@ -95,6 +98,9 @@ class AuthController extends Controller
             ]);
         }
 
-        return back();
+        // Cada tipo de cuenta llega a su propio panel, salvo que venía de una página protegida.
+        $destino = $request->user()?->esProveedor() ? route('proveedor.panel') : ($destinoCliente ?? route('dashboard'));
+
+        return redirect()->intended($destino);
     }
 }

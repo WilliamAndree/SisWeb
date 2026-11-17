@@ -315,7 +315,9 @@ class CheckItseModulosTest extends TestCase
         $evaluacion = $this->crearAutoevaluacion();
         $this->registrarSimulacion($evaluacion, $this->verificacionesMixtas(), 1);
 
-        $this->get(route('autoevaluacion.subsanacion', ['uuid' => $evaluacion->uuid_trazabilidad]))->assertOk();
+        // La pantalla antigua se unificó en Subsanar: la dirección vieja redirige.
+        $this->get(route('autoevaluacion.subsanacion', ['uuid' => $evaluacion->uuid_trazabilidad]))
+            ->assertRedirect(route('autoevaluacion.subsanar_items', ['uuid' => $evaluacion->uuid_trazabilidad]));
     }
 
     public function test_subsanacion_persiste_estado_en_proceso_sin_recalculo(): void

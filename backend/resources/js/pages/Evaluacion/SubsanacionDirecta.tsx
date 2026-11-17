@@ -382,6 +382,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         <LoQueTeFalta
                             items={pendientes}
                             nombreLocal={autoevaluacion.nombre_comercio}
+                            claveSeleccion={autoevaluacion.uuid}
                             onAdjuntarEvidencia={(codigo) => {
                                 const item = items.find((it) => it.codigo === codigo);
                                 if (item) setCriterioEvidenciaModal(item);

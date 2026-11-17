@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\OfertaProveedor;
 use App\Models\ProveedorRecurso;
 use Throwable;
 
@@ -206,7 +207,9 @@ class DirectorioAliadosService
         try {
             $proveedores = ProveedorRecurso::with('categoria')
                 ->where('activo', true)
-                ->get();
+                ->get()
+                ->sortBy(fn (ProveedorRecurso $p): string => (ProveedorRecurso::ORDEN_PLAN[$p->plan ?? 'basico'] ?? 9).($p->verificado ? '0' : '1').str_pad((string) $p->id, 8, '0', STR_PAD_LEFT))
+                ->values();
 
             if ($proveedores->isNotEmpty()) {
                 return $proveedores->map(fn (ProveedorRecurso $p) => $this->transformarProveedor($p))->all();
@@ -265,6 +268,81 @@ class DirectorioAliadosService
             'cobertura' => $proveedor->distrito ? "Huancayo / {$proveedor->distrito}" : 'Huancayo Metropolitano',
             'verificado' => (bool) ($proveedor->verificado ?? true),
             'servicios' => $servicios,
+            'plan' => (string) ($proveedor->plan ?? 'basico'),
+            'descripcion' => $proveedor->descripcion,
+            ...$this->ubicacionPublica($proveedor),
+        ];
+    }
+
+    /**
+     * Solo los proveedores con cuenta propia (que registraron su local) muestran
+     * dirección y coordenadas exactas. Los del catálogo de ejemplo muestran solo
+     * su zona, para no enviar a nadie a una dirección no verificada.
+     *
+     * @return array{direccion: string|null, latitud: float|null, longitud: float|null, ubicacion_exacta: bool}
+     */
+    private function ubicacionPublica(ProveedorRecurso $proveedor): array
+    {
+        $exacta = $proveedor->user_id !== null && $proveedor->latitud !== null && $proveedor->longitud !== null;
+
+        return [
+            'direccion' => $proveedor->user_id !== null ? $proveedor->direccion : null,
+            'latitud' => $exacta ? (float) $proveedor->latitud : null,
+            'longitud' => $exacta ? (float) $proveedor->longitud : null,
+            'ubicacion_exacta' => $exacta,
+        ];
+    }
+
+    /**
+     * Ofertas con precio de los proveedores activos para un criterio del catálogo
+     * normativo (CRIT-xx). Primero los planes pagados y luego el precio más bajo.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function ofertasPorCriterio(string $criterioCodigo): array
+    {
+        try {
+            $ofertas = OfertaProveedor::activas()
+                ->with('proveedor.categoria')
+                ->where('criterio_codigo', mb_strtoupper(trim($criterioCodigo)))
+                ->get();
+        } catch (Throwable) {
+            return [];
+        }
+
+        return $ofertas
+            ->sortBy(fn (OfertaProveedor $o): string => (ProveedorRecurso::ORDEN_PLAN[$o->proveedor->plan ?? 'basico'] ?? 9)
+                .str_pad(number_format((float) $o->precio_soles, 2, '.', ''), 12, '0', STR_PAD_LEFT))
+            ->map(fn (OfertaProveedor $o): array => [
+                'id' => $o->id,
+                'nombre' => $o->nombre,
+                'descripcion' => $o->descripcion,
+                'precio_soles' => (float) $o->precio_soles,
+                'unidad' => $o->unidad,
+                'proveedor' => $this->transformarProveedor($o->proveedor),
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Rango de costo a partir de precios reales publicados por proveedores.
+     *
+     * @param  array<int, array{precio_soles: float}>  $ofertas
+     * @return array{referencia_soles: float, minimo_soles: float, maximo_soles: float, fuente: string}|null
+     */
+    public function rangoDesdeOfertas(array $ofertas): ?array
+    {
+        if ($ofertas === []) {
+            return null;
+        }
+        $precios = array_map(fn (array $o): float => (float) $o['precio_soles'], $ofertas);
+
+        return [
+            'referencia_soles' => round(array_sum($precios) / count($precios), 2),
+            'minimo_soles' => round(min($precios), 2),
+            'maximo_soles' => round(max($precios), 2),
+            'fuente' => 'proveedores',
         ];
     }
 
@@ -578,6 +656,12 @@ class DirectorioAliadosService
             'cobertura' => (string) ($aliado['cobertura'] ?? ''),
             'verificado' => (bool) ($aliado['verificado'] ?? false),
             'servicios' => $servicios,
+            'plan' => (string) ($aliado['plan'] ?? 'basico'),
+            'descripcion' => isset($aliado['descripcion']) ? (string) $aliado['descripcion'] : null,
+            'direccion' => isset($aliado['direccion']) ? (string) $aliado['direccion'] : null,
+            'latitud' => isset($aliado['latitud']) ? (float) $aliado['latitud'] : null,
+            'longitud' => isset($aliado['longitud']) ? (float) $aliado['longitud'] : null,
+            'ubicacion_exacta' => (bool) ($aliado['ubicacion_exacta'] ?? false),
         ];
     }
 }

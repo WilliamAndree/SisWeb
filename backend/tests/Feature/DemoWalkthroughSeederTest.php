@@ -70,13 +70,9 @@ test('Doña María: caso observado con 2 condiciones pendientes de subsanación 
 
     // 2. Acceso a Panel de Subsanación
     $responseSubsanacion = $this->get(route('autoevaluacion.subsanacion', ['uuid' => $autoevaluacion->uuid_trazabilidad]));
-    $responseSubsanacion->assertOk();
-    $responseSubsanacion->assertInertia(fn (Assert $page) => $page
-        ->component('Evaluacion/Subsanacion')
-        ->where('autoevaluacion.nombre_comercio', 'Minimarket El Carmen')
-        ->where('ultimaRevision.total_observaciones', 2)
-        ->has('ultimaRevision.subsanaciones', 2)
-    );
+    // La pantalla antigua se unificó en Subsanar.
+    $responseSubsanacion->assertRedirect(route('autoevaluacion.subsanar_items', ['uuid' => $autoevaluacion->uuid_trazabilidad]));
+    expect($autoevaluacion->simulaciones()->latest()->first()->subsanaciones()->count())->toBe(2);
 });
 
 test('Comerciante Nuevo: usuario sin locales que visualiza el estado vacío y botón para nuevo registro', function () {

@@ -202,6 +202,12 @@ export interface AliadoAsistenciaContrato {
     cobertura: string;
     verificado: boolean;
     servicios: string[];
+    plan?: string | null;
+    descripcion?: string | null;
+    direccion?: string | null;
+    latitud?: number | null;
+    longitud?: number | null;
+    ubicacion_exacta?: boolean;
 }
 
 /**
@@ -283,10 +289,7 @@ export interface EspecialidadDesglose {
  * `conteo_condiciones`. Solo las autoevaluaciones del flujo nuevo lo reciben, y
  * las condiciones `NO_APLICA` quedan excluidas por no ser condiciones evaluadas.
  */
-export type DesgloseEspecialidades = Record<
-    'electricas' | 'incendios' | 'arquitectura' | 'estructuras',
-    EspecialidadDesglose
->;
+export type DesgloseEspecialidades = Record<'electricas' | 'incendios' | 'arquitectura' | 'estructuras', EspecialidadDesglose>;
 
 /** Cabecera que `Resumen` recibe del backend. */
 export interface ResumenAutoevaluacion {

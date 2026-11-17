@@ -194,6 +194,102 @@
       "content": 1425,
       "title": "Bodega de ejemplo · Datos ficticios",
       "missingLabels": 0
+    },
+    {
+      "pantalla": "Login",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Bienvenido de vuelta",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Login",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Bienvenido de vuelta",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Login",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Bienvenido de vuelta",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Login",
+      "h1": 1,
+      "width": 1440,
+      "content": 1440,
+      "title": "Bienvenido de vuelta",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Registro",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Prepara tu local y llega listo a tu ITSE",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Registro",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Prepara tu local y llega listo a tu ITSE",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Registro",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Prepara tu local y llega listo a tu ITSE",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Registro",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Prepara tu local y llega listo a tu ITSE",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Proveedor",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Extintores Wanka · Datos ficticios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Proveedor",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Extintores Wanka · Datos ficticios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Proveedor",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Extintores Wanka · Datos ficticios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Proveedor",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Extintores Wanka · Datos ficticios",
+      "missingLabels": 0
     }
   ],
   "payload": {

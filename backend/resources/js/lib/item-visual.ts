@@ -108,8 +108,30 @@ export function enlaceWhatsapp(numero: string, producto: string, local?: string 
     const limpio = numero.replace(/\D/g, '');
     if (limpio.length < 9) return null;
     const conPais = limpio.startsWith('51') ? limpio : `51${limpio}`;
-    const mensaje = `Hola, vi su negocio en CheckITSE. Necesito cotizar: ${producto}${local ? ` para mi local "${local}"` : ''} en Huancayo.`;
+    const paraLocal = local ? ` para mi local "${local}"` : '';
+    const mensaje = `Hola, vi su negocio en CheckITSE. Necesito cotizar: ${producto}${paraLocal} en Huancayo.`;
     return `https://wa.me/${conPais}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/** Mapa de un punto exacto (coordenadas que registró el propio proveedor). */
+export function mapaPunto(latitud: number, longitud: number): { embed: string; abrir: string } {
+    const punto = `${latitud},${longitud}`;
+    return {
+        embed: `https://www.google.com/maps?q=${punto}&z=17&output=embed`,
+        abrir: `https://www.google.com/maps/dir/?api=1&destination=${punto}`,
+    };
+}
+
+/** Mapa para un proveedor: punto exacto si lo registró, si no, su zona. */
+export function mapaProveedor(p: { latitud?: number | null; longitud?: number | null; sede?: string | null }): {
+    embed: string;
+    abrir: string;
+    exacto: boolean;
+} {
+    if (typeof p.latitud === 'number' && typeof p.longitud === 'number') {
+        return { ...mapaPunto(p.latitud, p.longitud), exacto: true };
+    }
+    return { ...mapaZona(p.sede || 'Huancayo'), exacto: false };
 }
 
 /** Búsqueda de Google Maps por zona. No requiere clave de API. */

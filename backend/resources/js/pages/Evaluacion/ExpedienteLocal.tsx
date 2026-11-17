@@ -513,7 +513,7 @@ function TarjetaEvaluacionOriginal({
                         {pendientes > 0 ? (
                             <>
                                 <Link
-                                    href={route('autoevaluacion.subsanacion', { uuid: original.uuid_trazabilidad })}
+                                    href={route('autoevaluacion.subsanar_items', { uuid: original.uuid_trazabilidad })}
                                     className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
                                 >
                                     <Sparkles className="h-4 w-4 text-indigo-600" />

@@ -718,7 +718,7 @@ function TabPendientes({ autoevaluacionUuid, noCumple, porRevisar, cumpleCount, 
                             <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-[#c9251d]" />
                             <p>
                                 Cuando declares que una condición quedó atendida, podrás registrarlo en tu{' '}
-                                <Link href={`/autoevaluacion/subsanacion/${autoevaluacionUuid}`} className="font-bold text-[#c9251d] underline">
+                                <Link href={`/autoevaluacion/${autoevaluacionUuid}/subsanar-items`} className="font-bold text-[#c9251d] underline">
                                     Plan de Subsanación Preventiva
                                 </Link>{' '}
                                 y llevar el seguimiento de tus acciones de mejora.
@@ -996,7 +996,7 @@ export default function Resultado({ autoevaluacion, catalogo = [] }: Readonly<Pr
                         </button>
 
                         <Link
-                            href={`/autoevaluacion/subsanacion/${autoevaluacion.uuid_trazabilidad}`}
+                            href={`/autoevaluacion/${autoevaluacion.uuid_trazabilidad}/subsanar-items`}
                             className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#FF3B30] px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-[#E0342A] active:scale-95"
                         >
                             <FileText className="h-3.5 w-3.5" />

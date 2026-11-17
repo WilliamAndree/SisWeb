@@ -1,5 +1,5 @@
 import { ModalContactoProveedor } from '@/components/Directorio/ModalContactoProveedor';
-import { mapaZona } from '@/lib/item-visual';
+import { mapaProveedor } from '@/lib/item-visual';
 import type { AliadoAsistenciaContrato } from '@/types/contrato';
 import { Head, Link, router } from '@inertiajs/react';
 import {
@@ -288,16 +288,26 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                         {aliados.map((aliado) => {
                             const Icono = ICONO_CATEGORIA[aliado.categoria] ?? Store;
                             return (
-                                <li key={aliado.id} className="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                                <li
+                                    key={aliado.id}
+                                    className={`flex flex-col rounded-3xl border bg-white p-6 shadow-sm ${aliado.plan && aliado.plan !== 'basico' ? 'border-sun-400 ring-sun-100 ring-4' : 'border-slate-200'}`}
+                                >
                                     <div className="flex items-start justify-between gap-3">
                                         <span className="bg-primary-50 text-primary-700 flex size-14 shrink-0 items-center justify-center rounded-2xl">
                                             <Icono aria-hidden="true" className="size-7" />
                                         </span>
-                                        {aliado.verificado && (
-                                            <span className="bg-primary-50 text-primary-800 inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold">
-                                                <ShieldCheck aria-hidden="true" className="size-4" /> Verificado
-                                            </span>
-                                        )}
+                                        <span className="flex flex-wrap justify-end gap-2">
+                                            {aliado.plan && aliado.plan !== 'basico' && (
+                                                <span className="bg-sun-100 text-sun-700 inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold">
+                                                    ★ Destacado
+                                                </span>
+                                            )}
+                                            {aliado.verificado && (
+                                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-700">
+                                                    <ShieldCheck aria-hidden="true" className="size-4" /> Verificado
+                                                </span>
+                                            )}
+                                        </span>
                                     </div>
                                     <h3 className="mt-4 text-xl leading-snug font-bold text-slate-900">{aliado.nombre_comercial}</h3>
                                     <p className="text-primary-700 mt-1 text-base font-semibold">
@@ -333,13 +343,13 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                             <div className="mt-2 overflow-hidden rounded-xl border border-slate-200">
                                                 <iframe
                                                     title={`Mapa de la zona de ${aliado.nombre_comercial}`}
-                                                    src={mapaZona(aliado.sede || 'Huancayo').embed}
+                                                    src={mapaProveedor(aliado).embed}
                                                     loading="lazy"
                                                     referrerPolicy="no-referrer-when-downgrade"
                                                     className="h-56 w-full border-0"
                                                 />
                                                 <a
-                                                    href={mapaZona(aliado.sede || 'Huancayo').abrir}
+                                                    href={mapaProveedor(aliado).abrir}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="text-primary-700 flex min-h-11 items-center justify-center text-base font-semibold"
@@ -444,10 +454,10 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                         ))}
                                     </ul>
                                     <Link
-                                        href={route('directorio.afiliacion', { plan: plan.id })}
+                                        href={plan.precio === 0 ? '/registro?tipo=proveedor' : route('directorio.afiliacion', { plan: plan.id })}
                                         className={`mt-8 flex min-h-13 w-full items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
                                     >
-                                        {plan.precio === 0 ? 'Registrarme gratis' : `Quiero el plan ${plan.nombre}`}
+                                        {plan.precio === 0 ? 'Crear mi cuenta de proveedor' : `Quiero el plan ${plan.nombre}`}
                                     </Link>
                                 </li>
                             ))}

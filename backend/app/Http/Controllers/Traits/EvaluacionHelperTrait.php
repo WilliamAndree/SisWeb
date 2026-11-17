@@ -454,16 +454,22 @@ trait EvaluacionHelperTrait
         $codigoOriginal = $codigo;
         $resumen = $this->directorioAliados->obtenerPorCriterio($codigo);
 
+        // Ofertas con precio publicadas por proveedores para este criterio. Si existen,
+        // el costo aproximado sale de esos precios reales y no del catálogo referencial.
+        $ofertas = $this->directorioAliados->ofertasPorCriterio($codigoOriginal);
+        $rangoReal = $this->directorioAliados->rangoDesdeOfertas($ofertas);
+
         // Un criterio sin equivalente en el directorio (p. ej. GLP o calderas) igual
-        // puede mostrar su guía de autoayuda, por lo que no se descarta el bloque.
+        // puede mostrar su guía de autoayuda y las ofertas que existan.
         if (! $resumen['criterio_conocido']) {
             return [
                 'codigo' => $codigoOriginal,
                 'titulo' => $titulo ?? $codigoOriginal,
                 'norma' => $norma,
                 'guia_autoayuda' => [],
-                'rango_costo' => null,
+                'rango_costo' => $rangoReal,
                 'aliados' => [],
+                'ofertas' => $ofertas,
             ];
         }
 
@@ -472,8 +478,9 @@ trait EvaluacionHelperTrait
             'titulo' => $titulo ?? $resumen['criterio'],
             'norma' => $norma ?? $resumen['norma'],
             'guia_autoayuda' => $resumen['guia_autoayuda'],
-            'rango_costo' => $resumen['rango_costo'],
+            'rango_costo' => $rangoReal ?? $resumen['rango_costo'],
             'aliados' => array_merge([$resumen['aliado']], $resumen['alternativas']),
+            'ofertas' => $ofertas,
         ];
     }
 
