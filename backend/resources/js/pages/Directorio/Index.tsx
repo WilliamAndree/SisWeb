@@ -10,7 +10,6 @@ import {
     Compass,
     DoorClosed,
     Flame,
-    Lightbulb,
     MapPin,
     Megaphone,
     MessageCircle,
@@ -69,6 +68,7 @@ const LO_MAS_BUSCADO = [
         motivo: 'Salida, ruta de escape y zona segura.',
         categoria: 'arquitectura_senaletica',
         foto: '/images/salida-emergencia.webp',
+        encuadre: 'object-top',
     },
     {
         nombre: 'Pozo a tierra y tablero',
@@ -76,12 +76,9 @@ const LO_MAS_BUSCADO = [
         categoria: 'electricas',
         foto: '/images/tablero-electrico.webp',
     },
-] as const;
-
-const LO_MAS_BUSCADO_ICONOS = [
-    { nombre: 'Luces de emergencia', motivo: 'Encienden solas si se corta la luz.', categoria: 'incendios', icono: Lightbulb },
-    { nombre: 'Extintor Clase K', motivo: 'Si cocinas o fríes con aceite.', categoria: 'incendios', icono: Flame },
-    { nombre: 'Anclaje de estantes', motivo: 'Estantes altos fijados a la pared.', categoria: 'estructuras', icono: DoorClosed },
+    { nombre: 'Luces de emergencia', motivo: 'Encienden solas si se corta la luz.', categoria: 'incendios', foto: '/images/luz-emergencia.webp' },
+    { nombre: 'Extintor Clase K', motivo: 'Si cocinas o fríes con aceite.', categoria: 'incendios', foto: '/images/cocina-comercial.webp' },
+    { nombre: 'Anclaje de estantes', motivo: 'Estantes altos fijados a la pared.', categoria: 'estructuras', foto: '/images/estanteria.webp' },
 ] as const;
 
 const RAZONES_PROVEEDOR = [
@@ -172,52 +169,32 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                     Lo que más le falta a un local nuevo
                 </h2>
                 <p className="mt-3 text-lg text-slate-600">Toca un producto para ver quién lo vende o instala.</p>
-                <ul className="mt-8 grid gap-4 md:grid-cols-3">
+                <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
                     {LO_MAS_BUSCADO.map((item) => (
                         <li key={item.nombre}>
                             <button
                                 type="button"
                                 onClick={() => aplicarFiltro('categoria', item.categoria)}
-                                className="group w-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white text-left transition hover:shadow-lg"
+                                className="group flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left transition hover:shadow-lg"
                             >
-                                <img
-                                    src={item.foto}
-                                    alt=""
-                                    loading="lazy"
-                                    className="h-48 w-full object-cover transition duration-500 group-hover:scale-105"
-                                />
-                                <span className="block p-5">
-                                    <span className="block text-xl font-bold text-slate-900">{item.nombre}</span>
+                                <span className="block overflow-hidden">
+                                    <img
+                                        src={item.foto}
+                                        alt=""
+                                        loading="lazy"
+                                        className={`h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-48 ${'encuadre' in item ? item.encuadre : ''}`}
+                                    />
+                                </span>
+                                <span className="flex flex-1 flex-col p-4 sm:p-5">
+                                    <span className="block text-lg leading-snug font-bold text-slate-900 sm:text-xl">{item.nombre}</span>
                                     <span className="mt-1 block text-base text-slate-600">{item.motivo}</span>
-                                    <span className="text-primary-700 mt-3 inline-flex items-center gap-1.5 text-base font-bold">
+                                    <span className="text-primary-700 mt-auto inline-flex items-center gap-1.5 pt-3 text-base font-bold">
                                         Ver proveedores <ArrowRight aria-hidden="true" className="size-4" />
                                     </span>
                                 </span>
                             </button>
                         </li>
                     ))}
-                </ul>
-                <ul className="mt-4 grid gap-4 md:grid-cols-3">
-                    {LO_MAS_BUSCADO_ICONOS.map((item) => {
-                        const Icono = item.icono;
-                        return (
-                            <li key={item.nombre}>
-                                <button
-                                    type="button"
-                                    onClick={() => aplicarFiltro('categoria', item.categoria)}
-                                    className="flex w-full cursor-pointer items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left transition hover:shadow-md"
-                                >
-                                    <span className="bg-primary-50 text-primary-700 flex size-14 shrink-0 items-center justify-center rounded-xl">
-                                        <Icono aria-hidden="true" className="size-7" />
-                                    </span>
-                                    <span>
-                                        <span className="block text-lg font-bold text-slate-900">{item.nombre}</span>
-                                        <span className="block text-base text-slate-600">{item.motivo}</span>
-                                    </span>
-                                </button>
-                            </li>
-                        );
-                    })}
                 </ul>
             </section>
 

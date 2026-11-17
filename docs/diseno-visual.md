@@ -39,7 +39,7 @@ Las fotos propias están en `backend/public/images/` en formato WebP (entre 50 y
 
 | Pantalla | Secciones |
 | --- | --- |
-| Portada (`/`) | Hero con foto · datos clave de la ley · ruta de 4 pasos · rubros con fotos · calculadora de modalidad · áreas que revisa el inspector · renovación con recordatorio · accesos a la tienda de aliados · preguntas frecuentes |
+| Portada (`/`, ancho completo) | Hero cinematográfico a pantalla completa (4 fotos con fundido y acercamiento lento, pausa y puntos) · franja de rubros que se desliza · Hero con foto · datos clave de la ley · ruta de 4 pasos · rubros con fotos · calculadora de modalidad · áreas que revisa el inspector · renovación con recordatorio · accesos a la tienda de aliados · preguntas frecuentes |
 | Datos del local (`/autoevaluacion/nueva`) | Un indicador de pasos · 3 grupos de datos · campos opcionales plegados · precalificación al final |
 | Aliados (`/directorio`) | Hero · lo más buscado (por producto) · proveedores con filtros · sección para proveedores con planes |
 

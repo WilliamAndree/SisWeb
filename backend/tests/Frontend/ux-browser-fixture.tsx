@@ -214,11 +214,12 @@ const pages = {
     Registro: Register,
     Proveedor: PanelProveedor,
 };
-const sinLayout = new Set(['Login', 'Registro']);
 const Component = pages[pantalla as keyof typeof pages] || Home;
 void createInertiaApp({
     page: { component: pantalla, props, url: location.pathname, version: null, clearHistory: false, encryptHistory: false },
-    resolve: () => Object.assign(Component, { layout: (page: React.ReactNode) => (sinLayout.has(pantalla) ? page : <AppLayout>{page}</AppLayout>) }),
+    // Respeta el layout propio de la página (portada de ancho completo, login sin layout).
+    resolve: () =>
+        Reflect.get(Component, 'layout') ? Component : Object.assign(Component, { layout: (page: React.ReactNode) => <AppLayout>{page}</AppLayout> }),
     setup({ App, props: appProps }) {
         createRoot(document.getElementById('app')!).render(<App {...appProps} />);
     },

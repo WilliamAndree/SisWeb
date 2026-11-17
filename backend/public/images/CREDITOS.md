@@ -23,3 +23,8 @@ Para agregar una foto, verifica que la página diga "Free to use under the Unspl
 | escalera-pasamanos.webp | Adi Goldstein | https://unsplash.com/photos/Zb0tQk413aU |
 | estanteria.webp | Nathália Rosa | https://unsplash.com/photos/rWMIbqmOxrY |
 | luz-emergencia.webp | Glenn Villas | https://unsplash.com/photos/-RrHhp58MZo |
+
+## Fondos de la portada (1920 px)
+
+`hero-emprendedora.webp`, `hero-perfumeria.webp`, `hero-salon.webp` y `hero-farmacia.webp` son versiones en alta resolución de las fotos de Vitaly Gariev, Trung Do Bao, Barney Goodman y David Trinks listadas arriba.
+| cocina-comercial.webp | Ahmet Safa Türkyılmaz | https://unsplash.com/photos/F9v4iq0RDZ0 |

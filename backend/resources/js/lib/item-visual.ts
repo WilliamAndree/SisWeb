@@ -30,7 +30,7 @@ export interface VisualItem {
 
 const POR_CODIGO: Record<string, VisualItem> = {
     'CRIT-01': { nombreCorto: 'Extintor con carga vigente', imagen: '/images/extintor.webp', icono: 'extintor', especialidad: 'incendios' },
-    'CRIT-02A': { nombreCorto: 'Extintor Clase K para cocina', imagen: '/images/extintor.webp', icono: 'extintor', especialidad: 'incendios' },
+    'CRIT-02A': { nombreCorto: 'Extintor Clase K para cocina', imagen: '/images/cocina-comercial.webp', icono: 'extintor', especialidad: 'incendios' },
     'CRIT-02B': {
         nombreCorto: 'Señales de seguridad y evacuación',
         imagen: '/images/salida-emergencia.webp',
@@ -76,7 +76,7 @@ const POR_CODIGO: Record<string, VisualItem> = {
     },
     'CRIT-14B': { nombreCorto: 'Materiales lejos del calor', imagen: '/images/extintor.webp', icono: 'extintor', especialidad: 'incendios' },
     'CRIT-15': { nombreCorto: 'Detectores y alarma contra incendios', imagen: null, icono: 'alarma', especialidad: 'incendios' },
-    'CRIT-16': { nombreCorto: 'Campana extractora de cocina', imagen: null, icono: 'cocina', especialidad: null },
+    'CRIT-16': { nombreCorto: 'Campana extractora de cocina', imagen: '/images/cocina-comercial.webp', icono: 'cocina', especialidad: null },
     'CRIT-17': { nombreCorto: 'Caldero revisado', imagen: null, icono: 'caldero', especialidad: null },
 };
 

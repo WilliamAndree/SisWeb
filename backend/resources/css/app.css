@@ -306,3 +306,48 @@
         letter-spacing: -0.025em;
     }
 }
+
+/*
+  Movimiento de la portada: acercamiento lento de la foto activa (Ken Burns) y
+  franja de fotos que se desliza. Ambos usan `motion-reduce:animate-none` en el
+  marcado para quien prefiere reducir el movimiento.
+*/
+@keyframes zoom-lento {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.12);
+    }
+}
+
+@keyframes deslizar {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes avance {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@utility animate-zoom-lento {
+    animation: zoom-lento 9s ease-out forwards;
+}
+
+@utility animate-deslizar {
+    animation: deslizar 45s linear infinite;
+}
+
+@utility animate-avance {
+    transform-origin: left;
+    animation: avance var(--duracion-slide, 6s) linear forwards;
+}
