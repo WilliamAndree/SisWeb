@@ -1,7 +1,7 @@
-import React from 'react';
+import AuthLayout from '@/layouts/AuthLayout';
 import { Head, router, useForm } from '@inertiajs/react';
 import { AlertTriangle, Loader2, UserPlus } from 'lucide-react';
-import AuthLayout from '@/layouts/AuthLayout';
+import React from 'react';
 
 /**
  * `useForm` exige un tipo con firma de índice, que TypeScript solo infiere para
@@ -58,16 +58,14 @@ export default function Register() {
 
     const claseInputConError = (hayError: boolean) =>
         `${claseInput} ${
-            hayError
-                ? 'border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-red-500/20'
-                : 'border-slate-300 focus:border-emerald-500'
+            hayError ? 'border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-300 focus:border-emerald-500'
         }`;
 
-    const claseEtiqueta = 'mb-1 block text-xs font-bold tracking-wider text-slate-500 uppercase';
+    const claseEtiqueta = 'mb-1 block text-sm font-bold text-slate-500 ';
 
     const mensajeError = (campo: keyof DatosRegistro, id: string) =>
         errors[campo] ? (
-            <p id={id} role="alert" className="mt-1 text-xs font-semibold text-red-700">
+            <p id={id} role="alert" className="mt-1 text-sm font-semibold text-red-700">
                 {errors[campo]}
             </p>
         ) : null;
@@ -183,7 +181,7 @@ export default function Register() {
                             {errors.password ? (
                                 mensajeError('password', 'error-password')
                             ) : (
-                                <p id="ayuda-password" className="mt-1 text-xs text-slate-500">
+                                <p id="ayuda-password" className="mt-1 text-sm text-slate-500">
                                     Usa al menos 8 caracteres.
                                 </p>
                             )}
@@ -212,10 +210,7 @@ export default function Register() {
 
                         <p className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-left text-sm leading-relaxed text-slate-700">
                             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                            <span>
-                                Al crear tu cuenta, tus autoevaluaciones se conservan de forma segura y podrás
-                                retomarlas cuando desees.
-                            </span>
+                            <span>Al crear tu cuenta, tus autoevaluaciones se conservan de forma segura y podrás retomarlas cuando desees.</span>
                         </p>
 
                         <button

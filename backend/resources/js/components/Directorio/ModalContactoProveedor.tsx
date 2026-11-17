@@ -50,20 +50,20 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
         <dialog
             open
             aria-labelledby="modal-contacto-titulo"
-            className="animate-in fade-in fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs duration-200 border-0 max-w-none max-h-none w-full h-full m-0"
+            className="animate-in fade-in fixed inset-0 z-50 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-0 bg-slate-900/60 p-4 backdrop-blur-xs duration-200"
         >
             <div className="animate-in zoom-in-95 relative w-full max-w-lg space-y-5 overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl duration-200">
                 {/* Cabecera */}
                 <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-4">
                     <div className="space-y-1">
-                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-black tracking-wider text-emerald-800 uppercase">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-sm font-black text-emerald-800">
                             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                             Contacto Cívico Transparente
                         </span>
                         <h2 id="modal-contacto-titulo" className="text-lg leading-tight font-black text-slate-900">
                             {aliado.nombre_comercial}
                         </h2>
-                        {aliado.contacto_nombre && <p className="text-xs font-medium text-slate-500">Atención: {aliado.contacto_nombre}</p>}
+                        {aliado.contacto_nombre && <p className="text-sm font-medium text-slate-500">Atención: {aliado.contacto_nombre}</p>}
                     </div>
                     <button
                         type="button"
@@ -76,7 +76,7 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                 </div>
 
                 {/* Acreditación Técnica y Ubicación */}
-                <div className="flex flex-wrap items-center gap-2 text-xs">
+                <div className="flex flex-wrap items-center gap-2 text-sm">
                     {aliado.acreditacion && (
                         <span className="inline-flex items-center gap-1.5 rounded-lg border border-sky-300 bg-sky-50 px-2.5 py-1 font-bold text-sky-900">
                             <FileCheck className="h-3.5 w-3.5 text-sky-700" />
@@ -92,35 +92,37 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                 {/* Documentación Técnica para Trámite (Formato Normativo) */}
                 {aliado.entregable_oficial && (
                     <div className="space-y-1.5 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-3.5 shadow-2xs">
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold tracking-wider text-emerald-900 uppercase">
+                        <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-900">
                             <FileCheck className="h-3.5 w-3.5 shrink-0 text-emerald-700" />
                             <span>Documentación Técnica para Trámite (Formato Normativo)</span>
                         </div>
-                        <p className="text-xs leading-relaxed font-medium text-emerald-950">{aliado.entregable_oficial}</p>
+                        <p className="text-sm leading-relaxed font-medium text-emerald-950">{aliado.entregable_oficial}</p>
                     </div>
                 )}
 
                 {/* Plantilla de Mensaje para Cotización */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-800">Plantilla de mensaje de contacto recomendada:</span>
+                        <span className="text-sm font-bold text-slate-800">Plantilla de mensaje de contacto recomendada:</span>
                         <button
                             type="button"
                             onClick={copiarMensaje}
-                            className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-bold text-emerald-700 transition hover:text-emerald-800"
+                            className="inline-flex cursor-pointer items-center gap-1 text-sm font-bold text-emerald-700 transition hover:text-emerald-800"
                         >
                             {copiado ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                             <span>{copiado ? '¡Copiado!' : 'Copiar texto'}</span>
                         </button>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 font-mono text-xs leading-relaxed text-slate-700 select-all">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 font-mono text-sm leading-relaxed text-slate-700 select-all">
                         {plantillaMensaje}
                     </div>
                 </div>
 
                 {/* Deslinde de No Intermediación */}
-                <p className="text-[11px] leading-relaxed text-slate-500">
-                    CheckITSE Huancayo es una iniciativa ciudadana preventiva. No cobra comisiones, no fija precios, no intermedia en la contratación ni garantiza la idoneidad del prestador. El contacto y acuerdo se realiza de manera directa y privada entre el establecimiento comercial y el especialista independiente.
+                <p className="text-sm leading-relaxed text-slate-500">
+                    CheckITSE Huancayo es una iniciativa ciudadana preventiva. No cobra comisiones, no fija precios, no intermedia en la contratación
+                    ni garantiza la idoneidad del prestador. El contacto y acuerdo se realiza de manera directa y privada entre el establecimiento
+                    comercial y el especialista independiente.
                 </p>
 
                 {/* Botonera de Contacto */}
@@ -130,7 +132,7 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                             href={urlWhatsapp}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 sm:flex-1"
+                            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 sm:flex-1"
                         >
                             <MessageCircle className="h-4 w-4" />
                             <span>Continuar por WhatsApp</span>
@@ -141,7 +143,7 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                     {numeroTelefono ? (
                         <a
                             href={`tel:${numeroTelefono}`}
-                            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 sm:w-auto"
+                            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 sm:w-auto"
                         >
                             <Phone className="h-4 w-4 text-slate-500" />
                             <span>Llamar</span>
@@ -151,7 +153,7 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                     <button
                         type="button"
                         onClick={onClose}
-                        className="flex w-full cursor-pointer items-center justify-center rounded-xl border border-transparent px-4 py-2.5 text-xs font-bold text-slate-500 transition hover:text-slate-800 sm:w-auto"
+                        className="flex w-full cursor-pointer items-center justify-center rounded-xl border border-transparent px-4 py-2.5 text-sm font-bold text-slate-500 transition hover:text-slate-800 sm:w-auto"
                     >
                         Cerrar
                     </button>

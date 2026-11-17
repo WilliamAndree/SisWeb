@@ -1,13 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import {
-    Building2,
-    FileCheck,
-    Fingerprint,
-    MapPin,
-    Ruler,
-    Scale,
-    Users,
-} from 'lucide-react';
+import { Building2, FileCheck, Fingerprint, MapPin, Ruler, Scale, Users } from 'lucide-react';
 
 export interface EvaluacionDatosFisicos {
     nombre_comercio?: string;
@@ -32,18 +24,18 @@ interface InformeDatosGeneralesProps {
     readonly subtipoTramite: string;
 }
 
-export function InformeDatosGenerales({
-    evaluacion,
-    nivelRiesgoLegible,
-    subtipoTramite,
-}: Readonly<InformeDatosGeneralesProps>) {
+export function InformeDatosGenerales({ evaluacion, nivelRiesgoLegible, subtipoTramite }: Readonly<InformeDatosGeneralesProps>) {
     const areaTexto = evaluacion.area_techada
         ? `${evaluacion.area_techada} m²`
-        : (evaluacion.area_m2 ? `${evaluacion.area_m2} m²` : 'Área no declarada');
+        : evaluacion.area_m2
+          ? `${evaluacion.area_m2} m²`
+          : 'Área no declarada';
 
     const aforoTexto = evaluacion.aforo_estimado
         ? `${evaluacion.aforo_estimado} personas`
-        : (evaluacion.aforo ? `${evaluacion.aforo} personas` : 'Aforo no declarado');
+        : evaluacion.aforo
+          ? `${evaluacion.aforo} personas`
+          : 'Aforo no declarado';
 
     const pisosTexto = `${evaluacion.numero_pisos ?? evaluacion.pisos ?? 1} piso(s)`;
 
@@ -94,26 +86,17 @@ export function InformeDatosGenerales({
         <section>
             <div className="mb-2.5 flex items-center gap-2">
                 <FileCheck className="h-4 w-4 text-emerald-600" />
-                <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">
-                    Datos Generales Declarados del Establecimiento
-                </h2>
+                <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Datos Generales Declarados del Establecimiento</h2>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3">
                 {datosGenerales.map((item) => (
-                    <div
-                        key={item.label}
-                        className="rounded-xl border border-slate-200 bg-slate-50/60 p-3"
-                    >
+                    <div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
                         <div className="mb-1 flex items-center gap-1.5">
                             <item.icon className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                            <span className="text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                {item.label}
-                            </span>
+                            <span className="text-[9px] font-bold tracking-wider text-slate-500 uppercase">{item.label}</span>
                         </div>
-                        <p className="text-xs leading-snug font-bold break-words text-slate-900">
-                            {item.value}
-                        </p>
+                        <p className="text-xs leading-snug font-bold break-words text-slate-900">{item.value}</p>
                         <p className="mt-0.5 text-[9px] text-slate-400">{item.sub}</p>
                     </div>
                 ))}

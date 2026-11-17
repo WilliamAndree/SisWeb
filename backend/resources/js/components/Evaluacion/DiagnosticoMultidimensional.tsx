@@ -278,12 +278,12 @@ function TarjetaEje({
                 <div className="flex min-w-0 items-center gap-2.5">
                     <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${estilos.claseIcono}`}>{iconoPrincipal}</div>
                     <div>
-                        <span className="block text-[10px] font-black tracking-wider text-slate-500 uppercase">{etiquetaEje}</span>
+                        <span className="block text-sm font-black text-slate-500">{etiquetaEje}</span>
                         <h3 className="text-sm leading-snug font-black text-slate-900">{titulo}</h3>
                     </div>
                 </div>
 
-                <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${estilos.claseBadge}`}>
+                <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-bold ${estilos.claseBadge}`}>
                     {esConforme ? (
                         <>
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
@@ -300,18 +300,18 @@ function TarjetaEje({
                 </span>
             </div>
 
-            <p className="text-xs leading-relaxed text-slate-600">{descripcion}</p>
+            <p className="text-sm leading-relaxed text-slate-600">{descripcion}</p>
 
             {/* Barra de Score / Conformidad */}
             <div className="space-y-1.5 rounded-xl border border-slate-200/80 bg-white p-3 shadow-2xs">
-                <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center justify-between text-sm">
                     <span className="font-bold text-slate-700">Conformidad del Eje</span>
                     <span className={`font-mono font-black ${estilos.clasePorcentaje}`}>{pct}%</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                     <div style={{ width: `${pct}%` }} className={`h-full rounded-full transition-all duration-700 ${estilos.claseBarra}`} />
                 </div>
-                <div className="flex items-center justify-between pt-0.5 text-[11px] text-slate-500">
+                <div className="flex items-center justify-between pt-0.5 text-sm text-slate-500">
                     <span>
                         {cumplidas} de {total} condiciones conformes
                     </span>
@@ -321,8 +321,8 @@ function TarjetaEje({
 
             {/* Criterios clave fiscalizados en este eje */}
             <div className="space-y-2 border-t border-slate-200/60 pt-1">
-                <span className="block text-[11px] font-bold text-slate-700">Criterios Normativos Evaluados:</span>
-                <ul className="space-y-1.5 text-xs text-slate-600">{children}</ul>
+                <span className="block text-sm font-bold text-slate-700">Criterios Normativos Evaluados:</span>
+                <ul className="space-y-1.5 text-sm text-slate-600">{children}</ul>
             </div>
         </div>
     );
@@ -371,18 +371,18 @@ export function DiagnosticoMultidimensional({
                             <h2 className="text-base font-black tracking-tight text-slate-900 sm:text-lg">
                                 Diagnóstico Analítico Multidimensional de Riesgo
                             </h2>
-                            <span className="hidden items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-0.5 text-[10px] font-black tracking-wider text-indigo-800 uppercase sm:inline-flex">
+                            <span className="hidden items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-0.5 text-sm font-black text-indigo-800 sm:inline-flex">
                                 Anexo 17 CENEPRED
                             </span>
                         </div>
-                        <p className="mt-0.5 text-xs text-slate-600">
+                        <p className="mt-0.5 text-sm text-slate-600">
                             Evaluación desglosada {nombreComercio ? `para "${nombreComercio}" ` : ''}por los dos ejes determinantes de la seguridad en
                             edificaciones (D.S. N° 002-2018-PCM / R.J. N° 016-2018-CENEPRED/J).
                         </p>
                     </div>
                 </div>
 
-                <span className="w-fit rounded-lg border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-[11px] font-bold text-slate-500">
+                <span className="w-fit rounded-lg border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-sm font-bold text-slate-500">
                     Matriz de Riesgo CENEPRED (D.S. N° 002-2018-PCM)
                 </span>
             </div>
@@ -485,21 +485,19 @@ export function DiagnosticoMultidimensional({
                     </div>
                     <div>
                         <h4 className="text-sm font-black tracking-wider uppercase">Principio de Prevalencia del Mayor Riesgo (Anexo 17 CENEPRED)</h4>
-                        <span className="text-[11px] font-medium opacity-90">Criterio de ingeniería de seguridad humana no compensatoria</span>
+                        <span className="text-sm font-medium opacity-90">Criterio de ingeniería de seguridad humana no compensatoria</span>
                     </div>
                 </div>
 
-                <p className="text-xs leading-relaxed">
+                <p className="text-sm leading-relaxed">
                     Conforme a la normativa nacional (<strong>Anexo 17 CENEPRED / D.S. N° 002-2018-PCM</strong>), el nivel de riesgo final{' '}
                     <strong>no es un promedio aritmético</strong>: si un establecimiento tiene condiciones seguras en evacuación pero presenta
                     observaciones críticas en electricidad o fuego, <strong>prevalece el nivel de mayor riesgo para salvaguardar la vida</strong>. Una
                     sola falla crítica en el eje de incendio impide la aprobación de la ITSE.
                 </p>
 
-                <div className="space-y-1 rounded-xl border border-black/5 bg-white/70 p-3.5 text-xs font-medium">
-                    <strong className="block text-[11px] tracking-wider text-slate-700 uppercase">
-                        Diagnóstico específico para tu establecimiento:
-                    </strong>
+                <div className="space-y-1 rounded-xl border border-black/5 bg-white/70 p-3.5 text-sm font-medium">
+                    <strong className="block text-sm text-slate-700">Diagnóstico específico para tu establecimiento:</strong>
                     <p className="leading-relaxed">{diagnosticoPrevalencia}</p>
                 </div>
             </div>
@@ -507,35 +505,35 @@ export function DiagnosticoMultidimensional({
             {/* 4. Bloque de Métricas Analíticas Consolidadas */}
             <div className="grid grid-cols-1 gap-3.5 border-t border-slate-100 pt-2 sm:grid-cols-3">
                 <div className="space-y-1 rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
-                    <span className="block text-[10px] font-black tracking-wider text-slate-500 uppercase">Nivel Global Resultante</span>
+                    <span className="block text-sm font-black text-slate-500">Nivel Global Resultante</span>
                     <div className="flex items-center gap-2">
                         <ShieldCheck className={`h-4 w-4 ${esPrevia ? 'text-rose-600' : 'text-emerald-600'}`} />
                         <span className="text-sm font-bold text-slate-900">{esPrevia ? 'Riesgo Alto / Muy Alto' : 'Riesgo Bajo / Medio'}</span>
                     </div>
-                    <span className="block text-[10px] text-slate-500">
+                    <span className="block text-sm text-slate-500">
                         {esPrevia ? 'Trámite ITSE Previa (Anexo 9)' : 'Trámite ITSE Posterior (Anexo 4)'}
                     </span>
                 </div>
 
                 <div className="space-y-1 rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
-                    <span className="block text-[10px] font-black tracking-wider text-slate-500 uppercase">Conformidad por Eje</span>
-                    <div className="flex items-center gap-2 font-mono text-xs font-bold text-slate-800">
+                    <span className="block text-sm font-black text-slate-500">Conformidad por Eje</span>
+                    <div className="flex items-center gap-2 font-mono text-sm font-bold text-slate-800">
                         <span className={esEje1Conforme ? 'text-emerald-700' : 'text-rose-600'}>Incendio: {pct1}%</span>
                         <span className="text-slate-300">·</span>
                         <span className={esEje2Conforme ? 'text-emerald-700' : 'text-amber-700'}>Evacuación: {pct2}%</span>
                     </div>
-                    <span className="block text-[10px] text-slate-500">
+                    <span className="block text-sm text-slate-500">
                         {totalAlertas === 0 ? 'Sin alertas activas' : `${totalAlertas} alertas combinadas`}
                     </span>
                 </div>
 
                 <div className="space-y-1 rounded-xl border border-slate-200 bg-slate-50/70 p-3.5">
-                    <span className="block text-[10px] font-black tracking-wider text-slate-500 uppercase">Tiempo Estimado de Subsanación</span>
+                    <span className="block text-sm font-black text-slate-500">Tiempo Estimado de Subsanación</span>
                     <div className="flex items-center gap-1.5">
                         <Clock className="h-4 w-4 text-slate-600" />
-                        <span className="text-xs leading-tight font-bold text-slate-900">{diasEstimadosResolucion}</span>
+                        <span className="text-sm leading-tight font-bold text-slate-900">{diasEstimadosResolucion}</span>
                     </div>
-                    <span className="block text-[10px] text-slate-500">Plazo preventivo referencial Huancayo</span>
+                    <span className="block text-sm text-slate-500">Plazo preventivo referencial Huancayo</span>
                 </div>
             </div>
         </section>

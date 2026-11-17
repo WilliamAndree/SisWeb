@@ -1,4 +1,3 @@
-import { ModalAfiliacion } from '@/components/Directorio/ModalAfiliacion';
 import { ModalContactoProveedor } from '@/components/Directorio/ModalContactoProveedor';
 import type { AliadoAsistenciaContrato } from '@/types/contrato';
 import { Head, Link, router } from '@inertiajs/react';
@@ -90,15 +89,11 @@ const RAZONES_PROVEEDOR = [
     { icono: BarChart3, titulo: 'Resultados medibles', texto: 'Sabes cuántas personas vieron tu ficha y te escribieron por WhatsApp.' },
 ] as const;
 
-const WHATSAPP_ALIADOS_NUMERO = import.meta.env.VITE_WHATSAPP_ALIADOS ?? '';
-
 function irA(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 }
 
 export default function Directorio({ aliados, planes = [], filtros, categorias, distritos }: Readonly<DirectorioProps>) {
-    const [modalAfiliacionAbierto, setModalAfiliacionAbierto] = useState(false);
-    const [planElegido, setPlanElegido] = useState<string | null>(null);
     const [aliadoSeleccionado, setAliadoSeleccionado] = useState<AliadoAsistenciaContrato | null>(null);
 
     const filtroCategoria = filtros.categoria ?? '';
@@ -114,11 +109,6 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
     };
 
     const limpiarFiltros = () => router.get('/directorio', {}, { preserveState: true, preserveScroll: true, replace: true });
-
-    const abrirAfiliacion = (plan: string | null) => {
-        setPlanElegido(plan);
-        setModalAfiliacionAbierto(true);
-    };
 
     const claseChip = (activo: boolean) =>
         `inline-flex min-h-12 cursor-pointer items-center rounded-full border px-5 text-base font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 ${
@@ -420,13 +410,12 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                             </li>
                                         ))}
                                     </ul>
-                                    <button
-                                        type="button"
-                                        onClick={() => abrirAfiliacion(plan.nombre)}
-                                        className={`mt-8 min-h-13 w-full cursor-pointer rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+                                    <Link
+                                        href={route('directorio.afiliacion', { plan: plan.id })}
+                                        className={`mt-8 flex min-h-13 w-full items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
                                     >
                                         {plan.precio === 0 ? 'Registrarme gratis' : `Quiero el plan ${plan.nombre}`}
-                                    </button>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -448,12 +437,6 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                 onClose={() => setAliadoSeleccionado(null)}
                 aliado={aliadoSeleccionado}
                 distritoSeleccionado={filtroDistrito}
-            />
-            <ModalAfiliacion
-                isOpen={modalAfiliacionAbierto}
-                onClose={() => setModalAfiliacionAbierto(false)}
-                whatsapp={WHATSAPP_ALIADOS_NUMERO}
-                planInicial={planElegido}
             />
         </>
     );

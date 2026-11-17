@@ -47,13 +47,13 @@ export function PanelResultadoAnalisisIA({
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-sky-900">Analizando fotografía con IA (Gemini Multimodal)...</span>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold text-sky-800">
+                            <span className="text-sm font-bold text-sky-900">Analizando fotografía con IA (Gemini Multimodal)...</span>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-sky-100 px-2 py-0.5 text-sm font-bold text-sky-800">
                                 <Sparkles className="h-3 w-3" />
                                 En cola preventiva
                             </span>
                         </div>
-                        <p className="mt-0.5 text-xs text-sky-700">
+                        <p className="mt-0.5 text-sm text-sky-700">
                             Estamos procesando visualmente la evidencia para correlacionarla con el criterio {codigoCriterio}. Puedes continuar
                             revisando mientras se procesa.
                         </p>
@@ -66,7 +66,7 @@ export function PanelResultadoAnalisisIA({
     // Render para estado FALLIDO
     if (estado === 'FALLIDO') {
         return (
-            <div className="mt-3 rounded-2xl border border-rose-200 bg-rose-50/70 p-4 text-xs">
+            <div className="mt-3 rounded-2xl border border-rose-200 bg-rose-50/70 p-4 text-sm">
                 <div className="flex items-start gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-600">
                         <AlertTriangle className="h-5 w-5" />
@@ -82,7 +82,7 @@ export function PanelResultadoAnalisisIA({
                                 type="button"
                                 disabled={estaReanalizando}
                                 onClick={onReanalizar}
-                                className="mt-2.5 inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-rose-300 bg-white px-3 py-1.5 text-xs font-bold text-rose-800 shadow-2xs transition hover:bg-rose-50 active:scale-95 disabled:opacity-50"
+                                className="mt-2.5 inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-rose-300 bg-white px-3 py-1.5 text-sm font-bold text-rose-800 shadow-2xs transition hover:bg-rose-50 active:scale-95 disabled:opacity-50"
                             >
                                 {estaReanalizando ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCw className="h-3.5 w-3.5" />}
                                 <span>Reintentar orientación con IA</span>
@@ -97,7 +97,7 @@ export function PanelResultadoAnalisisIA({
     // Si no hay resultado procesado aún pero está marcado para revisión
     if (!resultado) {
         return (
-            <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-xs">
+            <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm">
                 <div className="flex items-start gap-3">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
                         <AlertTriangle className="h-5 w-5" />
@@ -113,7 +113,7 @@ export function PanelResultadoAnalisisIA({
                                 type="button"
                                 disabled={estaReanalizando}
                                 onClick={onReanalizar}
-                                className="mt-2.5 inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-xs font-bold text-amber-800 shadow-2xs transition hover:bg-amber-50 active:scale-95 disabled:opacity-50"
+                                className="mt-2.5 inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-sm font-bold text-amber-800 shadow-2xs transition hover:bg-amber-50 active:scale-95 disabled:opacity-50"
                             >
                                 <RotateCw className="h-3.5 w-3.5" />
                                 <span>Reintentar análisis</span>
@@ -218,10 +218,10 @@ export function PanelResultadoAnalisisIA({
                     </div>
                     <div>
                         <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="text-xs font-black tracking-tight text-slate-900">Orientación Visual Asistida con IA (Gemini API)</span>
-                            <span className="rounded-md bg-indigo-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-indigo-700">Auxiliar</span>
+                            <span className="text-sm font-black tracking-tight text-slate-900">Orientación Visual Asistida con IA (Gemini API)</span>
+                            <span className="rounded-md bg-indigo-100 px-1.5 py-0.5 font-mono text-sm font-bold text-indigo-700">Auxiliar</span>
                         </div>
-                        <p className="text-[11px] text-slate-500">Evaluación asistida de la imagen adjunta para el criterio {codigoCriterio}</p>
+                        <p className="text-sm text-slate-500">Evaluación asistida de la imagen adjunta para el criterio {codigoCriterio}</p>
                     </div>
                 </div>
 
@@ -246,7 +246,7 @@ export function PanelResultadoAnalisisIA({
                     </span>
 
                     {esRequiereRevision && (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-900">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-sm font-bold text-amber-900">
                             <AlertTriangle className="h-2.5 w-2.5" />
                             Requiere Mejor Foto
                         </span>
@@ -256,7 +256,7 @@ export function PanelResultadoAnalisisIA({
 
             {/* Resumen Pedagógico */}
             {resultado.resumen_pedagogico && (
-                <div className="mt-3.5 rounded-2xl border border-indigo-100 bg-white p-3.5 text-xs leading-relaxed text-slate-700 shadow-2xs">
+                <div className="mt-3.5 rounded-2xl border border-indigo-100 bg-white p-3.5 text-sm leading-relaxed text-slate-700 shadow-2xs">
                     <div className="mb-1 flex items-center gap-1.5 font-bold text-indigo-950">
                         <Bot className="h-3.5 w-3.5 shrink-0 text-indigo-600" />
                         <span>Diagnóstico pedagógico visual:</span>
@@ -268,9 +268,7 @@ export function PanelResultadoAnalisisIA({
             {/* Elementos Detectados */}
             {resultado.elementos_detectados && resultado.elementos_detectados.length > 0 && (
                 <div className="mt-3.5 space-y-2">
-                    <span className="block text-[11px] font-black tracking-wider text-slate-600 uppercase">
-                        Elementos Identificados en la Fotografía:
-                    </span>
+                    <span className="block text-sm font-black text-slate-600">Elementos Identificados en la Fotografía:</span>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                         {resultado.elementos_detectados.map((item, idx) => {
                             const badge = getBadgeEstadoVisual(item.estado_visual);
@@ -278,7 +276,7 @@ export function PanelResultadoAnalisisIA({
                             return (
                                 <div
                                     key={`${item.elemento}-${idx}`}
-                                    className="rounded-2xl border border-slate-200/90 bg-white p-2.5 text-xs shadow-2xs"
+                                    className="rounded-2xl border border-slate-200/90 bg-white p-2.5 text-sm shadow-2xs"
                                 >
                                     <div className="mb-1 flex items-start justify-between gap-1.5">
                                         <span className="leading-snug font-bold text-slate-900">{item.elemento}</span>
@@ -289,7 +287,7 @@ export function PanelResultadoAnalisisIA({
                                             {badge.texto}
                                         </span>
                                     </div>
-                                    {item.detalle && <p className="text-[11px] leading-relaxed text-slate-600">{item.detalle}</p>}
+                                    {item.detalle && <p className="text-sm leading-relaxed text-slate-600">{item.detalle}</p>}
                                 </div>
                             );
                         })}
@@ -299,12 +297,12 @@ export function PanelResultadoAnalisisIA({
 
             {/* Observaciones Visuales */}
             {resultado.visual_observations && resultado.visual_observations.length > 0 && (
-                <div className="mt-3.5 space-y-1.5 rounded-2xl border border-slate-200 bg-white p-3.5 text-xs shadow-2xs">
+                <div className="mt-3.5 space-y-1.5 rounded-2xl border border-slate-200 bg-white p-3.5 text-sm shadow-2xs">
                     <div className="flex items-center gap-1.5 font-bold text-slate-800">
                         <Eye className="h-3.5 w-3.5 shrink-0 text-slate-600" />
                         <span>Detalles observables en la imagen:</span>
                     </div>
-                    <ul className="list-disc space-y-1 pl-4 text-[11px] leading-relaxed text-slate-600">
+                    <ul className="list-disc space-y-1 pl-4 text-sm leading-relaxed text-slate-600">
                         {resultado.visual_observations.map((obs, idx) => (
                             <li key={`obs-${idx}`}>{obs}</li>
                         ))}
@@ -317,7 +315,7 @@ export function PanelResultadoAnalisisIA({
                 <button
                     type="button"
                     onClick={() => setDetallesExpandidos(!detallesExpandidos)}
-                    className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-bold text-indigo-700 transition hover:text-indigo-900"
+                    className="inline-flex cursor-pointer items-center gap-1 text-sm font-bold text-indigo-700 transition hover:text-indigo-900"
                 >
                     {detallesExpandidos ? (
                         <>
@@ -337,7 +335,7 @@ export function PanelResultadoAnalisisIA({
                         type="button"
                         disabled={estaReanalizando}
                         onClick={onReanalizar}
-                        className="inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95 disabled:opacity-50"
+                        className="inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95 disabled:opacity-50"
                         title="Analizar nuevamente la fotografía actual"
                     >
                         {estaReanalizando ? (
@@ -355,17 +353,17 @@ export function PanelResultadoAnalisisIA({
                 <div className="mt-3 space-y-3 border-t border-slate-200/80 pt-3">
                     {/* Límites de observabilidad */}
                     {resultado.not_observable && resultado.not_observable.length > 0 && (
-                        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-3.5 text-xs text-amber-950">
+                        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-3.5 text-sm text-amber-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-amber-900">
                                 <ShieldAlert className="h-3.5 w-3.5 shrink-0 text-amber-600" />
                                 <span>Aspectos técnicos que NO pueden verificarse solo con una fotografía:</span>
                             </div>
-                            <ul className="list-disc space-y-1 pl-4 text-[11px] leading-relaxed text-amber-800">
+                            <ul className="list-disc space-y-1 pl-4 text-sm leading-relaxed text-amber-800">
                                 {resultado.not_observable.map((lim, idx) => (
                                     <li key={`lim-${idx}`}>{lim}</li>
                                 ))}
                             </ul>
-                            <p className="mt-2 text-[10px] text-amber-700 italic">
+                            <p className="mt-2 text-sm text-amber-700 italic">
                                 * Las pruebas de continuidad eléctrica, resistencia de pozo a tierra, certificados de calibración o carga de
                                 extintores requieren verificación física o documental colegiada.
                             </p>
@@ -374,12 +372,12 @@ export function PanelResultadoAnalisisIA({
 
                     {/* Recomendaciones de captura */}
                     {resultado.photo_improvement_recommendations && resultado.photo_improvement_recommendations.length > 0 && (
-                        <div className="rounded-2xl border border-sky-200 bg-sky-50/60 p-3.5 text-xs text-sky-950">
+                        <div className="rounded-2xl border border-sky-200 bg-sky-50/60 p-3.5 text-sm text-sky-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-sky-900">
                                 <Camera className="h-3.5 w-3.5 shrink-0 text-sky-600" />
                                 <span>Cómo tomar una mejor fotografía para respaldar tu local:</span>
                             </div>
-                            <ul className="list-disc space-y-1 pl-4 text-[11px] leading-relaxed text-sky-800">
+                            <ul className="list-disc space-y-1 pl-4 text-sm leading-relaxed text-sky-800">
                                 {resultado.photo_improvement_recommendations.map((rec, idx) => (
                                     <li key={`rec-${idx}`}>{rec}</li>
                                 ))}
@@ -390,7 +388,7 @@ export function PanelResultadoAnalisisIA({
             )}
 
             {/* Deslinde Legal y Pedagógico Innegociable */}
-            <div className="mt-3.5 rounded-2xl border border-slate-200 bg-slate-50/90 p-3 text-[10px] leading-relaxed text-slate-600">
+            <div className="mt-3.5 rounded-2xl border border-slate-200 bg-slate-50/90 p-3 text-sm leading-relaxed text-slate-600">
                 <div className="mb-0.5 flex items-center gap-1 font-bold text-slate-800">
                     <Scale className="h-3 w-3 shrink-0 text-slate-500" />
                     <span>Aviso Preventivo Ciudadano:</span>

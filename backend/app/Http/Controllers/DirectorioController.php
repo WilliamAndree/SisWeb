@@ -12,6 +12,21 @@ use Inertia\Response;
 
 class DirectorioController extends Controller
 {
+    private const CATEGORIAS = [
+        ['valor' => '', 'etiqueta' => 'Todas las especialidades'],
+        ['valor' => 'incendios', 'etiqueta' => 'Extintores y Señalética'],
+        ['valor' => 'electricas', 'etiqueta' => 'Electricidad y Puesta a Tierra'],
+        ['valor' => 'arquitectura_senaletica', 'etiqueta' => 'Planos y Evacuación'],
+        ['valor' => 'estructuras', 'etiqueta' => 'Estructuras y Vidrios'],
+    ];
+
+    private const DISTRITOS = [
+        ['valor' => '', 'etiqueta' => 'Todos los distritos'],
+        ['valor' => 'Huancayo', 'etiqueta' => 'Huancayo Centro'],
+        ['valor' => 'El Tambo', 'etiqueta' => 'El Tambo'],
+        ['valor' => 'Chilca', 'etiqueta' => 'Chilca'],
+    ];
+
     protected DirectorioAliadosService $directorioAliados;
 
     public function __construct(DirectorioAliadosService $directorioAliados)
@@ -56,19 +71,25 @@ class DirectorioController extends Controller
                 'categoria' => $categoria,
                 'distrito' => $distrito,
             ],
-            'categorias' => [
-                ['valor' => '', 'etiqueta' => 'Todas las especialidades'],
-                ['valor' => 'incendios', 'etiqueta' => 'Extintores y Señalética'],
-                ['valor' => 'electricas', 'etiqueta' => 'Electricidad y Puesta a Tierra'],
-                ['valor' => 'arquitectura_senaletica', 'etiqueta' => 'Planos y Evacuación'],
-                ['valor' => 'estructuras', 'etiqueta' => 'Estructuras y Vidrios'],
-            ],
-            'distritos' => [
-                ['valor' => '', 'etiqueta' => 'Todos los distritos'],
-                ['valor' => 'Huancayo', 'etiqueta' => 'Huancayo Centro'],
-                ['valor' => 'El Tambo', 'etiqueta' => 'El Tambo'],
-                ['valor' => 'Chilca', 'etiqueta' => 'Chilca'],
-            ],
+            'categorias' => self::CATEGORIAS,
+            'distritos' => self::DISTRITOS,
+        ]);
+    }
+
+    /**
+     * Formulario de afiliación para proveedores, con el plan elegido preseleccionado.
+     */
+    public function afiliacion(Request $request): Response
+    {
+        $planes = config('aliados.planes', []);
+        $plan = $this->filtroTexto($request->query('plan'));
+        $planValido = collect($planes)->contains('id', $plan) ? $plan : null;
+
+        return Inertia::render('Directorio/Afiliacion', [
+            'planes' => $planes,
+            'planSeleccionado' => $planValido,
+            'rubros' => array_values(array_filter(self::CATEGORIAS, fn (array $categoria): bool => $categoria['valor'] !== '')),
+            'distritos' => array_values(array_filter(self::DISTRITOS, fn (array $distrito): bool => $distrito['valor'] !== '')),
         ]);
     }
 

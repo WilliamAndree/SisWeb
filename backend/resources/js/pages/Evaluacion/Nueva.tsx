@@ -1,5 +1,6 @@
 import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
 import { GuiaModal } from '@/components/GuiaModal';
+import { claseCampo } from '@/components/form/Pregunta';
 import {
     FUNCIONES_ECONOMICAS,
     TEXTO_MODALIDAD,
@@ -11,25 +12,7 @@ import {
 import { formatearNivelRiesgo } from '@/lib/riesgo';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { Head, Link, useForm } from '@inertiajs/react';
-import {
-    AlertCircle,
-    AlertTriangle,
-    ArrowLeft,
-    ArrowRight,
-    BookOpen,
-    Building2,
-    Check,
-    CheckCircle2,
-    Clock,
-    Flame,
-    Footprints,
-    Layers,
-    MapPin,
-    Package,
-    RefreshCw,
-    Store,
-    UtensilsCrossed,
-} from 'lucide-react';
+import { AlertCircle, AlertTriangle, ArrowLeft, ArrowRight, BookOpen, Building2, Check, CheckCircle2, Clock, MapPin, RefreshCw } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 type ValorNumericoFlexible = string | number | null;
@@ -181,13 +164,9 @@ interface SelectorSiNoProps {
 }
 
 /**
- * Declaraciones binarias (Sí/No) presentadas como selector tipo pastilla.
- *
- * Es una pieza puramente presentacional: no guarda estado propio ni conoce el
- * motor de aplicabilidad. Recibe el valor declarado y emite la intención del
- * ciudadano, de modo que la escritura en `useForm()` sigue ocurriendo en el
- * manejador que la acompaña. El estado activo se marca con relleno sólido,
- * anillo y un icono de confirmación, para que sea inequívoco al tacto.
+ * Respuesta Sí / No / Aún no lo sé con botones grandes (48 px), en la misma
+ * fila en pantallas medianas y apilados en celular. Es presentacional: la
+ * escritura en `useForm()` ocurre en el manejador que lo acompaña.
  */
 function SelectorSiNo({ etiquetaId, descripcionId, valor, onSeleccion }: Readonly<SelectorSiNoProps>) {
     const opciones: Array<{ texto: string; valor: boolean | null }> = [
@@ -197,28 +176,23 @@ function SelectorSiNo({ etiquetaId, descripcionId, valor, onSeleccion }: Readonl
     ];
 
     return (
-        <fieldset
-            aria-labelledby={etiquetaId}
-            aria-describedby={descripcionId}
-            className="m-0 inline-flex shrink-0 flex-wrap items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
-        >
+        <fieldset aria-labelledby={etiquetaId} aria-describedby={descripcionId} className="m-0 mt-3 grid grid-cols-3 gap-2 sm:max-w-md">
             <legend className="sr-only">Selecciona una respuesta</legend>
             {opciones.map(({ texto, valor: opcion }) => {
                 const activo = (valor ?? null) === opcion;
-
                 return (
                     <button
                         key={texto}
                         type="button"
                         aria-pressed={activo}
                         onClick={() => onSeleccion(opcion)}
-                        className={`inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full px-5 text-sm font-bold transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 sm:h-11 ${
+                        className={`inline-flex min-h-12 cursor-pointer items-center justify-center gap-1.5 rounded-lg border-2 px-2 text-base font-semibold transition focus-visible:ring-4 focus-visible:ring-emerald-100 focus-visible:outline-none ${
                             activo
-                                ? 'bg-primary text-white shadow-sm ring-1 ring-emerald-600'
-                                : 'bg-white text-slate-600 shadow-2xs hover:bg-slate-50 hover:text-slate-900'
+                                ? 'border-primary-700 bg-primary-50 text-primary-900'
+                                : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
                         }`}
                     >
-                        {activo && <Check className="h-3.5 w-3.5" aria-hidden="true" />}
+                        {activo && <Check className="h-4 w-4 shrink-0" aria-hidden="true" />}
                         {texto}
                     </button>
                 );
@@ -371,13 +345,13 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
                                 >
                                     {formatearNivelRiesgo(precalificacion.nivel)}
                                 </span>
-                                <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-600">
+                                <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-sm font-bold text-slate-600">
                                     <Clock className="h-3 w-3" />
                                     {precalificacion.titulo}
                                 </span>
                             </>
                         ) : (
-                            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-500">
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-sm font-bold text-slate-500">
                                 Reúne datos
                             </span>
                         )}
@@ -386,20 +360,20 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
                     {precalificacion ? (
                         <ul className="mt-3.5 space-y-1.5">
                             {precalificacion.factores.map((factor) => (
-                                <li key={factor} className="flex items-start gap-2 text-xs leading-relaxed text-slate-700 sm:text-sm">
+                                <li key={factor} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700 sm:text-sm">
                                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
                                     {factor}
                                 </li>
                             ))}
                             {precalificacion.avisos.map((aviso) => (
-                                <li key={aviso} className="flex items-start gap-2 text-xs leading-relaxed text-amber-900 sm:text-sm">
+                                <li key={aviso} className="flex items-start gap-2 text-sm leading-relaxed text-amber-900 sm:text-sm">
                                     <AlertTriangle aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" />
                                     {aviso}
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p className="mt-2 text-xs leading-relaxed text-slate-600 sm:text-sm">
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-sm">
                             Completa el área, los pisos o el aforo para ver una orientación preliminar. Puedes dejarlos en blanco si no los conoces
                             con exactitud.
                         </p>
@@ -410,7 +384,7 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
             {/* Criterios que el motor habilitará según lo declarado */}
             <div className="mt-4 border-t border-emerald-200/70 pt-4">
                 <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="mr-1 text-[11px] font-bold tracking-wider text-slate-500 uppercase">Criterios que se activarán</span>
+                    <span className="mr-1 text-sm font-bold text-slate-500">Criterios que se activarán</span>
                     {CRITERIOS_POR_DECLARACION.map((criterio) => {
                         const estado = data[criterio.campo] as boolean | null | undefined;
                         const activo = estado === true;
@@ -429,13 +403,13 @@ function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesP
                 </div>
 
                 {declaracionesPendientes > 0 && (
-                    <p className="mt-2.5 text-[11px] leading-relaxed text-amber-800">
+                    <p className="mt-2.5 text-sm leading-relaxed text-amber-800">
                         Faltan {declaracionesPendientes} de 4 declaraciones obligatorias. Sin ellas el motor no puede filtrar los criterios que te
                         corresponden.
                     </p>
                 )}
 
-                <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
+                <p className="mt-3 text-sm leading-relaxed text-slate-500">
                     Orientación calculada en tu navegador a partir de lo que declaras, conforme a los umbrales del{' '}
                     <strong className="font-semibold text-slate-700">Manual CENEPRED (R.J. 016-2018-CENEPRED/J)</strong> y el{' '}
                     <strong className="font-semibold text-slate-700">D.S. 002-2018-PCM</strong>. No se envía ni se registra como clasificación: la
@@ -455,30 +429,71 @@ function BannerReevaluacionPreventiva({ reevaluacionDe }: Readonly<BannerReevalu
         <div
             role="note"
             aria-label="Información de reevaluación preventiva"
-            className="mb-6 flex flex-col items-start justify-between gap-4 rounded-3xl border border-emerald-200 bg-emerald-50/70 p-5 text-left text-xs text-slate-900 shadow-xs sm:flex-row sm:items-center sm:text-sm"
+            className="mb-6 flex flex-col items-start justify-between gap-4 rounded-3xl border border-emerald-200 bg-emerald-50/70 p-5 text-left text-sm text-slate-900 shadow-xs sm:flex-row sm:items-center sm:text-sm"
         >
             <div className="flex items-start gap-3">
                 <div className="bg-primary mt-0.5 shrink-0 rounded-2xl p-2.5 text-white">
                     <RefreshCw className="h-4 w-4" />
                 </div>
                 <div>
-                    <span className="rounded-full border border-emerald-200 bg-white/90 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-700 uppercase">
+                    <span className="rounded-full border border-emerald-200 bg-white/90 px-2 py-0.5 text-sm font-bold text-emerald-700">
                         Nueva Reevaluación Preventiva
                     </span>
                     <h2 className="mt-1 text-sm font-extrabold text-slate-900 sm:text-base">Reevaluando: {reevaluacionDe.nombre_comercio}</h2>
-                    <p className="mt-0.5 max-w-2xl text-xs leading-relaxed text-slate-600">
+                    <p className="mt-0.5 max-w-2xl text-sm leading-relaxed text-slate-600">
                         Los datos del establecimiento han sido precargados desde tu evaluación anterior
                         {reevaluacionDe.fecha_anterior ? ` del ${reevaluacionDe.fecha_anterior}` : ''}. Tu evaluación previa se conservará sin cambios
                         en tu historial.
                     </p>
                 </div>
             </div>
-            <span className="shrink-0 rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-[11px] font-bold text-emerald-800 shadow-2xs">
+            <span className="shrink-0 rounded-xl border border-emerald-200 bg-white px-3 py-1.5 text-sm font-bold text-emerald-800 shadow-2xs">
                 Trazabilidad independiente
             </span>
         </div>
     );
 }
+
+interface EtiquetaPreguntaProps {
+    numero: number;
+    texto: string;
+    htmlFor?: string;
+    id?: string;
+    opcional?: boolean;
+}
+
+/** Etiqueta numerada del formulario (mismo estilo que components/form/Pregunta). */
+function EtiquetaPregunta({ numero, texto, htmlFor, id, opcional = false }: Readonly<EtiquetaPreguntaProps>) {
+    const contenido = (
+        <>
+            <span className="text-primary-700 mr-1">{numero}.</span>
+            {texto}
+            {opcional && <span className="ml-1.5 font-normal text-slate-500">(opcional)</span>}
+        </>
+    );
+    const clase = 'block text-lg leading-snug font-semibold text-slate-900';
+    return htmlFor ? (
+        <label htmlFor={htmlFor} id={id} className={clase}>
+            {contenido}
+        </label>
+    ) : (
+        <span id={id} className={clase}>
+            {contenido}
+        </span>
+    );
+}
+
+function MensajeError({ id, mensaje }: Readonly<{ id: string; mensaje?: string }>) {
+    if (!mensaje) return null;
+    return (
+        <p id={id} className="mt-2 flex items-start gap-2 text-base font-medium text-rose-700">
+            <AlertCircle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" />
+            {mensaje}
+        </p>
+    );
+}
+
+const claseTarjetaGrupo = 'space-y-7 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8';
 
 interface SeccionIdentificacionGiroProps {
     data: FormEvaluacionData;
@@ -493,93 +508,71 @@ function SeccionIdentificacionGiro({ data, setData, erroresFormulario, errors, l
     const errorRuc = obtenerErrorCampo('ruc', erroresFormulario, errors);
 
     return (
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs" id="campo-nombre_comercio">
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-900">
-                <Store className="h-4 w-4 text-emerald-600" /> Identificación y Giro Económico
-            </h3>
+        <div className={claseTarjetaGrupo}>
+            <div id="campo-nombre_comercio">
+                <EtiquetaPregunta numero={1} texto="Nombre de tu negocio" htmlFor="est-nombre" />
+                <p id="ayuda-nombre" className="mt-1 text-base text-slate-600">
+                    Como aparece en tu letrero o como te conocen tus clientes.
+                </p>
+                <input
+                    id="est-nombre"
+                    type="text"
+                    required
+                    value={data.nombre_comercio}
+                    onChange={(e) => {
+                        setData('nombre_comercio', e.target.value);
+                        limpiarErrorDe('nombre_comercio');
+                    }}
+                    placeholder="Ej. Perfumería Billy"
+                    aria-invalid={Boolean(errorNombre)}
+                    aria-describedby={errorNombre ? 'ayuda-nombre error-nombre' : 'ayuda-nombre'}
+                    className={`mt-3 ${claseCampo(Boolean(errorNombre))}`}
+                />
+                <MensajeError id="error-nombre" mensaje={errorNombre} />
+            </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                    <label htmlFor="est-nombre" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        Nombre Comercial del Establecimiento{' '}
-                        <span className="text-danger-500" aria-hidden="true">
-                            *
-                        </span>
-                    </label>
-                    <input
-                        id="est-nombre"
-                        type="text"
-                        required
-                        value={data.nombre_comercio}
-                        onChange={(e) => {
-                            setData('nombre_comercio', e.target.value);
-                            limpiarErrorDe('nombre_comercio');
-                        }}
-                        placeholder="Ej: Bodega Don Pepe"
-                        aria-invalid={Boolean(errorNombre)}
-                        aria-describedby={errorNombre ? 'error-nombre' : undefined}
-                        className={`h-12 w-full rounded-2xl bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm ${
-                            errorNombre ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
-                        }`}
-                    />
-                    {errorNombre && (
-                        <span id="error-nombre" className="text-danger-600 mt-1 block text-xs">
-                            {errorNombre}
-                        </span>
-                    )}
-                </div>
+            <div id="campo-funcion_economica">
+                <EtiquetaPregunta numero={2} texto="¿Qué tipo de negocio es?" htmlFor="est-funcion" />
+                <p id="ayuda-funcion" className="mt-1 text-base text-slate-600">
+                    Elige el que más se parezca. Con esto sabemos qué normas te aplican.
+                </p>
+                <select
+                    id="est-funcion"
+                    required
+                    value={data.funcion_economica}
+                    onChange={(e) => setData('funcion_economica', e.target.value)}
+                    aria-describedby="ayuda-funcion"
+                    className={`mt-3 cursor-pointer ${claseCampo()}`}
+                >
+                    {FUNCIONES_ECONOMICAS.map((funcion) => (
+                        <option key={funcion.valor} value={funcion.valor}>
+                            {funcion.etiqueta} ({funcion.ejemplos})
+                        </option>
+                    ))}
+                </select>
+            </div>
 
-                <div id="campo-ruc">
-                    <label htmlFor="est-ruc" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        RUC del Titular <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
-                    </label>
-                    <input
-                        id="est-ruc"
-                        type="text"
-                        maxLength={11}
-                        value={data.ruc}
-                        onChange={(e) => {
-                            setData('ruc', e.target.value.replace(/\D/g, ''));
-                            limpiarErrorDe('ruc');
-                        }}
-                        placeholder="Ej: 20601234567"
-                        aria-invalid={Boolean(errorRuc)}
-                        aria-describedby={errorRuc ? 'error-ruc' : 'ayuda-ruc'}
-                        className={`h-12 w-full rounded-2xl bg-slate-50 px-3.5 font-mono text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm ${
-                            errorRuc ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
-                        }`}
-                    />
-                    <span id="ayuda-ruc" className="mt-1 block text-xs text-slate-500">
-                        Opcional. Si no cuentas con RUC, puedes continuar tu autoevaluación libremente.
-                    </span>
-                    {errorRuc && (
-                        <span id="error-ruc" className="text-danger-600 mt-1 block text-xs">
-                            {errorRuc}
-                        </span>
-                    )}
-                </div>
-
-                <div className="sm:col-span-2">
-                    <label htmlFor="est-funcion" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        Función Económica (R.J. 016-2018-CENEPRED){' '}
-                        <span className="text-danger-500" aria-hidden="true">
-                            *
-                        </span>
-                    </label>
-                    <select
-                        id="est-funcion"
-                        required
-                        value={data.funcion_economica}
-                        onChange={(e) => setData('funcion_economica', e.target.value)}
-                        className="h-12 w-full cursor-pointer rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm"
-                    >
-                        {FUNCIONES_ECONOMICAS.map((funcion) => (
-                            <option key={funcion.valor} value={funcion.valor}>
-                                {funcion.etiqueta} ({funcion.ejemplos})
-                            </option>
-                        ))}
-                    </select>
-                </div>
+            <div id="campo-ruc">
+                <EtiquetaPregunta numero={3} texto="RUC del negocio" htmlFor="est-ruc" opcional />
+                <p id="ayuda-ruc" className="mt-1 text-base text-slate-600">
+                    Si aún no tienes RUC, déjalo vacío y continúa.
+                </p>
+                <input
+                    id="est-ruc"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={11}
+                    value={data.ruc}
+                    onChange={(e) => {
+                        setData('ruc', e.target.value.replace(/\D/g, ''));
+                        limpiarErrorDe('ruc');
+                    }}
+                    placeholder="11 dígitos"
+                    aria-invalid={Boolean(errorRuc)}
+                    aria-describedby={errorRuc ? 'ayuda-ruc error-ruc' : 'ayuda-ruc'}
+                    className={`mt-3 sm:max-w-xs ${claseCampo(Boolean(errorRuc))}`}
+                />
+                <MensajeError id="error-ruc" mensaje={errorRuc} />
             </div>
         </div>
     );
@@ -598,162 +591,108 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
     const errorPisos = obtenerErrorCampo('pisos', erroresFormulario, errors);
     const errorAforo = obtenerErrorCampo('aforo', erroresFormulario, errors);
 
+    const campos = [
+        {
+            campo: 'area_m2',
+            id: 'est-area',
+            numero: 4,
+            texto: 'Área techada en metros cuadrados',
+            ayuda: 'Si no lo sabes exacto, pon un aproximado. Ej. un local de 5 x 12 metros = 60 m².',
+            error: errorArea,
+            valor: data.area_m2,
+            onChange: (v: string) => setData('area_m2', v),
+            placeholder: 'Ej. 60',
+            min: '0.1',
+            step: '0.1',
+        },
+        {
+            campo: 'pisos',
+            id: 'est-pisos',
+            numero: 5,
+            texto: '¿Cuántos pisos usa tu local?',
+            ayuda: 'Cuenta el sótano como un piso.',
+            error: errorPisos,
+            valor: data.pisos,
+            onChange: (v: string) => setData('pisos', parsearEnteroOpcional(v)),
+            placeholder: 'Ej. 1',
+            min: '1',
+            step: '1',
+        },
+        {
+            campo: 'aforo',
+            id: 'est-aforo',
+            numero: 6,
+            texto: '¿Cuántas personas puede haber al mismo tiempo?',
+            ayuda: 'Clientes y trabajadores juntos, en el momento de más gente.',
+            error: errorAforo,
+            valor: data.aforo,
+            onChange: (v: string) => setData('aforo', parsearEnteroOpcional(v)),
+            placeholder: 'Ej. 15',
+            min: '1',
+            step: '1',
+        },
+    ] as const;
+
     return (
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-900">
-                <Layers className="h-4 w-4 text-emerald-600" /> Escala Física y Capacidad (RNE G.040)
-            </h3>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div id="campo-area_m2">
-                    <label htmlFor="est-area" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        Área Techada (m²) <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
-                    </label>
+        <div className={claseTarjetaGrupo}>
+            {campos.map((c) => (
+                <div key={c.campo} id={`campo-${c.campo}`}>
+                    <EtiquetaPregunta numero={c.numero} texto={c.texto} htmlFor={c.id} opcional />
+                    <p id={`ayuda-${c.campo}`} className="mt-1 text-base text-slate-600">
+                        {c.ayuda}
+                    </p>
                     <input
-                        id="est-area"
+                        id={c.id}
                         type="number"
-                        min="0.1"
-                        step="0.1"
-                        value={data.area_m2}
+                        inputMode={c.campo === 'area_m2' ? 'decimal' : 'numeric'}
+                        min={c.min}
+                        step={c.step}
+                        value={c.valor}
                         onChange={(e) => {
-                            setData('area_m2', e.target.value);
-                            limpiarErrorDe('area_m2');
+                            c.onChange(e.target.value);
+                            limpiarErrorDe(c.campo);
                         }}
-                        placeholder="Ej: 60"
-                        aria-invalid={Boolean(errorArea)}
-                        aria-describedby={errorArea ? 'error-area' : undefined}
-                        className={`h-12 w-full rounded-2xl bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm ${
-                            errorArea ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
-                        }`}
+                        placeholder={c.placeholder}
+                        aria-invalid={Boolean(c.error)}
+                        aria-describedby={c.error ? `ayuda-${c.campo} error-${c.campo}` : `ayuda-${c.campo}`}
+                        className={`mt-3 sm:max-w-xs ${claseCampo(Boolean(c.error))}`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">Si no lo sabes exacto, pon un aproximado.</span>
-                    {errorArea && (
-                        <span id="error-area" className="text-danger-600 mt-1 block text-xs">
-                            {errorArea}
-                        </span>
-                    )}
+                    <MensajeError id={`error-${c.campo}`} mensaje={c.error} />
                 </div>
-
-                <div id="campo-pisos">
-                    <label htmlFor="est-pisos" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        Número de Pisos <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
-                    </label>
-                    <input
-                        id="est-pisos"
-                        type="number"
-                        min="1"
-                        max="50"
-                        value={data.pisos}
-                        onChange={(e) => {
-                            setData('pisos', parsearEnteroOpcional(e.target.value));
-                            limpiarErrorDe('pisos');
-                        }}
-                        placeholder="Ej: 1"
-                        aria-invalid={Boolean(errorPisos)}
-                        aria-describedby={errorPisos ? 'error-pisos' : undefined}
-                        className={`h-12 w-full rounded-2xl bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm ${
-                            errorPisos ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
-                        }`}
-                    />
-                    <span className="mt-1 block text-xs text-slate-500">Cuenta el sótano como un piso.</span>
-                    {errorPisos && (
-                        <span id="error-pisos" className="text-danger-600 mt-1 block text-xs">
-                            {errorPisos}
-                        </span>
-                    )}
-                </div>
-
-                <div id="campo-aforo">
-                    <label htmlFor="est-aforo" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
-                        Aforo Estimado <span className="font-semibold tracking-normal text-slate-400 normal-case">(opcional)</span>
-                    </label>
-                    <input
-                        id="est-aforo"
-                        type="number"
-                        min="1"
-                        value={data.aforo}
-                        onChange={(e) => {
-                            setData('aforo', parsearEnteroOpcional(e.target.value));
-                            limpiarErrorDe('aforo');
-                        }}
-                        placeholder="Ej: 15"
-                        aria-invalid={Boolean(errorAforo)}
-                        aria-describedby={errorAforo ? 'error-aforo' : undefined}
-                        className={`h-12 w-full rounded-2xl bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm ${
-                            errorAforo ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
-                        }`}
-                    />
-                    <span className="mt-1 block text-xs text-slate-500">Personas al mismo tiempo, contando clientes y personal.</span>
-                    {errorAforo && (
-                        <span id="error-aforo" className="text-danger-600 mt-1 block text-xs">
-                            {errorAforo}
-                        </span>
-                    )}
-                </div>
-            </div>
+            ))}
         </div>
     );
 }
 
-interface TarjetaCondicionGlpProps {
-    data: FormEvaluacionData;
-    setData: ActualizarCampoFormulario;
-    errorGlp?: string;
-    limpiarErrorDe: (campo: string) => void;
+interface PreguntaSiNoProps {
+    campo:
+        | 'usa_glp'
+        | 'tiene_equipos_fritura'
+        | 'tiene_escaleras'
+        | 'tiene_estanterias_altas'
+        | 'usa_caldero'
+        | 'usa_liquidos_inflamables'
+        | 'en_sotano'
+        | 'galeria_sin_itse';
+    numero: number;
+    texto: string;
+    ayuda: string;
+    valor: boolean | null | undefined;
+    error?: string;
+    onSeleccion: (valor: boolean | null) => void;
+    children?: React.ReactNode;
 }
 
-function TarjetaCondicionGlp({ data, setData, errorGlp, limpiarErrorDe }: Readonly<TarjetaCondicionGlpProps>) {
+function PreguntaSiNo({ campo, numero, texto, ayuda, valor, error, onSeleccion, children }: Readonly<PreguntaSiNoProps>) {
     return (
-        <div
-            id="campo-usa_glp"
-            className={`rounded-2xl p-4 transition ${errorGlp ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'}`}
-        >
-            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <div>
-                    <span id="label-usa_glp" className="block text-xs font-bold text-slate-800">
-                        ¿Usa Gas Licuado de Petróleo (GLP)? <span className="text-danger-500">*</span>
-                    </span>
-                    <span id="desc-usa_glp" className="text-xs text-slate-500">
-                        Balones o tanques de GLP para cocción o proceso comercial (determina aplicabilidad de CRIT-10).
-                    </span>
-                </div>
-                <SelectorSiNo
-                    etiquetaId="label-usa_glp"
-                    descripcionId="desc-usa_glp"
-                    valor={data.usa_glp}
-                    onSeleccion={(valor) => {
-                        setData('usa_glp', valor);
-                        if (!valor) {
-                            setData('galones_glp', '');
-                        }
-                        limpiarErrorDe('usa_glp');
-                    }}
-                />
-            </div>
-
-            {errorGlp && <span className="text-danger-600 mt-2 block text-xs font-medium">{errorGlp}</span>}
-
-            {data.usa_glp === true && (
-                <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50/70 p-3">
-                    <label htmlFor="est-galones" className="mb-1 block text-xs font-bold text-amber-900 uppercase">
-                        Cantidad Total Estimada de GLP (Galones){' '}
-                        <span className="font-semibold tracking-normal text-amber-700 normal-case">(opcional)</span>
-                    </label>
-                    <input
-                        id="est-galones"
-                        type="number"
-                        min="0"
-                        step="0.5"
-                        value={data.galones_glp}
-                        onChange={(e) => setData('galones_glp', e.target.value === '' ? '' : Number.parseFloat(e.target.value))}
-                        placeholder="Ej: 10"
-                        className="h-11 w-full rounded-xl border border-amber-300 bg-white px-3 text-sm font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:w-48"
-                    />
-                    <span className="mt-1 block text-xs text-amber-800">
-                        Indica la cantidad estimada en galones si cuentas con dicha información.
-                    </span>
-                </div>
-            )}
+        <div id={`campo-${campo}`}>
+            <EtiquetaPregunta numero={numero} texto={texto} id={`label-${campo}`} />
+            <p id={`desc-${campo}`} className="mt-1 text-base text-slate-600">
+                {ayuda}
+            </p>
+            <SelectorSiNo etiquetaId={`label-${campo}`} descripcionId={`desc-${campo}`} valor={valor} onSeleccion={onSeleccion} />
+            <MensajeError id={`error-${campo}`} mensaje={error} />
+            {children}
         </div>
     );
 }
@@ -766,224 +705,126 @@ interface SeccionInstalacionesCondicionesProps {
 }
 
 function SeccionInstalacionesCondiciones({ data, setData, erroresFormulario, limpiarErrorDe }: Readonly<SeccionInstalacionesCondicionesProps>) {
+    const responder = (campo: PreguntaSiNoProps['campo']) => (valor: boolean | null) => {
+        setData(campo, valor);
+        limpiarErrorDe(campo);
+    };
+    const tieneEspeciales = Boolean(data.usa_caldero || data.usa_liquidos_inflamables || data.en_sotano || data.galeria_sin_itse);
+
     return (
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
-            <div>
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                        <Flame className="h-4 w-4 text-emerald-600" /> Instalaciones y Condiciones Físicas del Establecimiento
-                    </h3>
-                    <span className="rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
-                        Responde Sí o No en cada condición
+        <div className={claseTarjetaGrupo}>
+            <PreguntaSiNo
+                campo="usa_glp"
+                numero={7}
+                texto="¿Usas gas (balones de GLP)?"
+                ayuda="Para cocinar o para algún equipo del negocio."
+                valor={data.usa_glp}
+                error={erroresFormulario.usa_glp}
+                onSeleccion={(valor) => {
+                    setData('usa_glp', valor);
+                    if (!valor) setData('galones_glp', '');
+                    limpiarErrorDe('usa_glp');
+                }}
+            >
+                {data.usa_glp === true && (
+                    <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                        <label htmlFor="est-galones" className="block text-base font-semibold text-slate-900">
+                            ¿Cuántos galones de gas tienes en total? <span className="font-normal text-slate-500">(opcional)</span>
+                        </label>
+                        <p id="ayuda-galones" className="mt-1 text-base text-slate-700">
+                            Un balón doméstico de 10 kg tiene unos 5 galones.
+                        </p>
+                        <input
+                            id="est-galones"
+                            type="number"
+                            min="0"
+                            step="0.5"
+                            value={data.galones_glp}
+                            onChange={(e) => setData('galones_glp', e.target.value === '' ? '' : Number.parseFloat(e.target.value))}
+                            placeholder="Ej. 10"
+                            aria-describedby="ayuda-galones"
+                            className={`mt-3 sm:max-w-xs ${claseCampo()}`}
+                        />
+                    </div>
+                )}
+            </PreguntaSiNo>
+            <PreguntaSiNo
+                campo="tiene_equipos_fritura"
+                numero={8}
+                texto="¿Fríes o cocinas con aceite?"
+                ayuda="Freidoras, cocina con mucho aceite o grasa. Si respondes Sí, te pedirán un extintor Clase K."
+                valor={data.tiene_equipos_fritura}
+                error={erroresFormulario.tiene_equipos_fritura}
+                onSeleccion={responder('tiene_equipos_fritura')}
+            />
+            <PreguntaSiNo
+                campo="tiene_escaleras"
+                numero={9}
+                texto="¿Tu local tiene escaleras?"
+                ayuda="Escaleras que usan clientes o trabajadores. Deben tener pasamanos."
+                valor={data.tiene_escaleras}
+                error={erroresFormulario.tiene_escaleras}
+                onSeleccion={responder('tiene_escaleras')}
+            />
+            <PreguntaSiNo
+                campo="tiene_estanterias_altas"
+                numero={10}
+                texto="¿Tienes estantes o muebles altos que podrían caerse?"
+                ayuda="Por ejemplo, anaqueles de más de 1,8 m. Deben estar fijados a la pared o al piso."
+                valor={data.tiene_estanterias_altas}
+                error={erroresFormulario.tiene_estanterias_altas}
+                onSeleccion={responder('tiene_estanterias_altas')}
+            />
+
+            {/* Condiciones poco frecuentes: plegadas para no recargar el formulario. */}
+            <details className="group rounded-xl border border-slate-300" open={tieneEspeciales}>
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-lg font-semibold text-slate-900">
+                    <span>
+                        ¿Tu local tiene algo especial?{' '}
+                        <span className="block text-base font-normal text-slate-600 sm:inline">Caldero, productos inflamables, sótano o galería</span>
                     </span>
+                    <span aria-hidden="true" className="text-slate-500 transition group-open:rotate-180">
+                        ▾
+                    </span>
+                </summary>
+                <div className="space-y-7 border-t border-slate-200 p-5">
+                    <PreguntaSiNo
+                        campo="usa_caldero"
+                        numero={11}
+                        texto="¿Usas caldero?"
+                        ayuda="Calderas a vapor o industriales. Si respondes Sí, la inspección será antes de la licencia."
+                        valor={data.usa_caldero}
+                        onSeleccion={(valor) => setData('usa_caldero', valor)}
+                    />
+                    <PreguntaSiNo
+                        campo="usa_liquidos_inflamables"
+                        numero={12}
+                        texto="¿Guardas combustibles, pinturas o solventes?"
+                        ayuda="Gasolina, petróleo, thinner, pinturas u otros líquidos que arden."
+                        valor={data.usa_liquidos_inflamables}
+                        onSeleccion={(valor) => {
+                            setData('usa_liquidos_inflamables', valor);
+                            if (!valor) setData('combustibles_liquidos_m3', '');
+                        }}
+                    />
+                    <PreguntaSiNo
+                        campo="en_sotano"
+                        numero={13}
+                        texto="¿Atiendes al público en un sótano?"
+                        ayuda="Reuniones o atención bajo el nivel de la calle."
+                        valor={data.en_sotano}
+                        onSeleccion={(valor) => setData('en_sotano', valor)}
+                    />
+                    <PreguntaSiNo
+                        campo="galeria_sin_itse"
+                        numero={14}
+                        texto="¿Tu local está en una galería sin certificado ITSE?"
+                        ayuda="Si las áreas comunes de la galería no tienen ITSE, puede subir el nivel de riesgo de tu local."
+                        valor={data.galeria_sin_itse}
+                        onSeleccion={(valor) => setData('galeria_sin_itse', valor)}
+                    />
                 </div>
-                <p className="mt-1 mb-4 text-xs leading-relaxed text-slate-500">
-                    Declara con precisión las características de tu local. El motor de aplicabilidad las utilizará para determinar qué criterios
-                    normativos aplican y cuáles se excluyen de tu evaluación.
-                </p>
-            </div>
-
-            <div className="space-y-4">
-                {/* 1. GLP (CRIT-10) */}
-                <TarjetaCondicionGlp data={data} setData={setData} errorGlp={erroresFormulario.usa_glp} limpiarErrorDe={limpiarErrorDe} />
-
-                {/* 2. Equipos de fritura / cocción con aceites (CRIT-02A) */}
-                <div
-                    id="campo-tiene_equipos_fritura"
-                    className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_equipos_fritura ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
-                    }`}
-                >
-                    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                        <div className="flex items-start gap-2.5">
-                            <UtensilsCrossed className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                            <div>
-                                <span id="label-tiene_equipos_fritura" className="block text-xs font-bold text-slate-800">
-                                    ¿Cuenta con freidoras o cocción con aceites y grasas? <span className="text-danger-500">*</span>
-                                </span>
-                                <span id="desc-tiene_equipos_fritura" className="text-xs text-slate-500">
-                                    Determina la exigencia de extintor especializado Clase K (CRIT-02A).
-                                </span>
-                            </div>
-                        </div>
-                        <SelectorSiNo
-                            etiquetaId="label-tiene_equipos_fritura"
-                            descripcionId="desc-tiene_equipos_fritura"
-                            valor={data.tiene_equipos_fritura}
-                            onSeleccion={(valor) => {
-                                setData('tiene_equipos_fritura', valor);
-                                limpiarErrorDe('tiene_equipos_fritura');
-                            }}
-                        />
-                    </div>
-
-                    {erroresFormulario.tiene_equipos_fritura && (
-                        <span className="text-danger-600 mt-2 block text-xs font-medium">{erroresFormulario.tiene_equipos_fritura}</span>
-                    )}
-                </div>
-
-                {/* 3. Escaleras de circulación (CRIT-11) */}
-                <div
-                    id="campo-tiene_escaleras"
-                    className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_escaleras ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
-                    }`}
-                >
-                    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                        <div className="flex items-start gap-2.5">
-                            <Footprints className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                            <div>
-                                <span id="label-tiene_escaleras" className="block text-xs font-bold text-slate-800">
-                                    ¿El local cuenta con escaleras de circulación? <span className="text-danger-500">*</span>
-                                </span>
-                                <span id="desc-tiene_escaleras" className="text-xs text-slate-500">
-                                    Determina la exigencia de pasamanos y peldaños antideslizantes (CRIT-11).
-                                </span>
-                            </div>
-                        </div>
-                        <SelectorSiNo
-                            etiquetaId="label-tiene_escaleras"
-                            descripcionId="desc-tiene_escaleras"
-                            valor={data.tiene_escaleras}
-                            onSeleccion={(valor) => {
-                                setData('tiene_escaleras', valor);
-                                limpiarErrorDe('tiene_escaleras');
-                            }}
-                        />
-                    </div>
-
-                    {erroresFormulario.tiene_escaleras && (
-                        <span className="text-danger-600 mt-2 block text-xs font-medium">{erroresFormulario.tiene_escaleras}</span>
-                    )}
-                </div>
-
-                {/* 4. Estanterías altas o mobiliario alto (CRIT-13) */}
-                <div
-                    id="campo-tiene_estanterias_altas"
-                    className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_estanterias_altas ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
-                    }`}
-                >
-                    <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                        <div className="flex items-start gap-2.5">
-                            <Package className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                            <div>
-                                <span id="label-tiene_estanterias_altas" className="block text-xs font-bold text-slate-800">
-                                    ¿Cuenta con estanterías altas o mobiliario con riesgo de volteo? <span className="text-danger-500">*</span>
-                                </span>
-                                <span id="desc-tiene_estanterias_altas" className="text-xs text-slate-500">
-                                    Determina la exigencia de arriostramiento antisísmico a pared o piso (CRIT-13).
-                                </span>
-                            </div>
-                        </div>
-                        <SelectorSiNo
-                            etiquetaId="label-tiene_estanterias_altas"
-                            descripcionId="desc-tiene_estanterias_altas"
-                            valor={data.tiene_estanterias_altas}
-                            onSeleccion={(valor) => {
-                                setData('tiene_estanterias_altas', valor);
-                                limpiarErrorDe('tiene_estanterias_altas');
-                            }}
-                        />
-                    </div>
-
-                    {erroresFormulario.tiene_estanterias_altas && (
-                        <span className="text-danger-600 mt-2 block text-xs font-medium">{erroresFormulario.tiene_estanterias_altas}</span>
-                    )}
-                </div>
-
-                {/* Condiciones adicionales y factores de triaje (D.S. N° 002-2018-PCM).
-                    Plegadas: la mayoría de locales pequeños no las tiene. */}
-                <details
-                    className="group rounded-2xl border border-slate-200 bg-white"
-                    open={Boolean(data.usa_caldero || data.usa_liquidos_inflamables || data.en_sotano || data.galeria_sin_itse)}
-                >
-                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-800">
-                        <span>
-                            Condiciones especiales <span className="font-normal text-slate-500">(caldero, inflamables, sótano o galería)</span>
-                        </span>
-                        <span aria-hidden="true" className="text-slate-400 transition group-open:rotate-180">
-                            ▾
-                        </span>
-                    </summary>
-                    <div className="grid grid-cols-1 gap-4 border-t border-slate-100 p-4 sm:grid-cols-2">
-                        {/* Caldero */}
-                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                            <div>
-                                <span id="label-usa_caldero" className="block text-xs font-bold text-slate-800">
-                                    ¿Cuenta con caldero?
-                                </span>
-                                <span id="desc-usa_caldero" className="text-xs text-slate-500">
-                                    Calderas industriales o de vapor (Riesgo Alto obligatorio).
-                                </span>
-                            </div>
-                            <SelectorSiNo
-                                etiquetaId="label-usa_caldero"
-                                descripcionId="desc-usa_caldero"
-                                valor={data.usa_caldero}
-                                onSeleccion={(valor) => setData('usa_caldero', valor)}
-                            />
-                        </div>
-
-                        {/* Líquidos Inflamables */}
-                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                            <div>
-                                <span id="label-usa_liquidos_inflamables" className="block text-xs font-bold text-slate-800">
-                                    ¿Almacena combustibles o líquidos inflamables?
-                                </span>
-                                <span id="desc-usa_liquidos_inflamables" className="text-xs text-slate-500">
-                                    Combustibles &gt; 1 m³ (264 gal) o solventes/pinturas.
-                                </span>
-                            </div>
-                            <SelectorSiNo
-                                etiquetaId="label-usa_liquidos_inflamables"
-                                descripcionId="desc-usa_liquidos_inflamables"
-                                valor={data.usa_liquidos_inflamables}
-                                onSeleccion={(valor) => {
-                                    setData('usa_liquidos_inflamables', valor);
-                                    if (!valor) setData('combustibles_liquidos_m3', '');
-                                }}
-                            />
-                        </div>
-
-                        {/* Actividades en Sótano o Semisótano */}
-                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                            <div>
-                                <span id="label-en_sotano" className="block text-xs font-bold text-slate-800">
-                                    ¿Actividad o reunión en sótano/semisótano?
-                                </span>
-                                <span id="desc-en_sotano" className="text-xs text-slate-500">
-                                    Reuniones o atención al público bajo el nivel de la calle.
-                                </span>
-                            </div>
-                            <SelectorSiNo
-                                etiquetaId="label-en_sotano"
-                                descripcionId="desc-en_sotano"
-                                valor={data.en_sotano}
-                                onSeleccion={(valor) => setData('en_sotano', valor)}
-                            />
-                        </div>
-
-                        {/* Galería Comercial sin ITSE Matriz */}
-                        <div className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-100 bg-slate-50 p-3.5">
-                            <div>
-                                <span id="label-galeria_sin_itse" className="block text-xs font-bold text-slate-800">
-                                    ¿Galería comercial sin ITSE en áreas comunes?
-                                </span>
-                                <span id="desc-galeria_sin_itse" className="text-xs text-slate-500">
-                                    Si las áreas comunes no tienen ITSE, puede subir el nivel de riesgo de tu local.
-                                </span>
-                            </div>
-                            <SelectorSiNo
-                                etiquetaId="label-galeria_sin_itse"
-                                descripcionId="desc-galeria_sin_itse"
-                                valor={data.galeria_sin_itse}
-                                onSeleccion={(valor) => setData('galeria_sin_itse', valor)}
-                            />
-                        </div>
-                    </div>
-                </details>
-            </div>
+            </details>
         </div>
     );
 }
@@ -997,9 +838,6 @@ const GRUPOS = [
     },
     { boton: 'Revisar datos', titulo: 'Revisa antes de continuar', ayuda: 'Puedes volver a cualquier paso para corregir.' },
 ] as const;
-
-const claseCampoOpcional =
-    'h-12 w-full rounded-2xl border border-slate-300 bg-slate-50 px-3.5 text-base font-medium outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 sm:h-11 sm:text-sm';
 
 export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
     const [grupo, setGrupo] = useState(0);
@@ -1107,7 +945,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                         disabled={processing}
                                         aria-current={grupo === index ? 'step' : undefined}
                                         onClick={() => setGrupo(index)}
-                                        className={`min-h-11 w-full cursor-pointer rounded-xl px-2 py-2.5 text-sm font-semibold transition ${
+                                        className={`min-h-12 w-full cursor-pointer rounded-xl px-2 py-2.5 text-base font-semibold transition ${
                                             grupo === index ? 'text-primary-800 bg-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                                         }`}
                                     >
@@ -1119,10 +957,10 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                     </nav>
 
                     <div>
-                        <h2 id="grupo-datos" tabIndex={-1} className="text-xl font-bold text-slate-900 focus:outline-none">
+                        <h2 id="grupo-datos" tabIndex={-1} className="text-2xl font-bold text-slate-900 focus:outline-none">
                             {GRUPOS[grupo].titulo}
                         </h2>
-                        <p className="mt-1 text-sm text-slate-600">{GRUPOS[grupo].ayuda}</p>
+                        <p className="mt-1 text-lg text-slate-600">{GRUPOS[grupo].ayuda}</p>
                     </div>
 
                     {Object.keys(errors).length > 0 && (
@@ -1131,7 +969,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                 <AlertCircle className="text-danger-600 h-4 w-4" />
                                 <span>Por favor corrige los siguientes datos:</span>
                             </div>
-                            <ul className="text-danger-800 list-inside list-disc space-y-0.5 text-xs">
+                            <ul className="text-danger-800 list-inside list-disc space-y-0.5 text-sm">
                                 {Object.entries(errors).map(([campo, err]) => (
                                     <li key={campo}>{err}</li>
                                 ))}
@@ -1149,7 +987,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             limpiarErrorDe={limpiarErrorDe}
                         />
                         <details className="group rounded-3xl border border-slate-200 bg-white" open={Boolean(data.direccion || data.referencia)}>
-                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-6 py-4 text-sm font-semibold text-slate-800">
+                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-6 py-4 text-lg font-semibold text-slate-900">
                                 <span className="flex items-center gap-2">
                                     <MapPin aria-hidden="true" className="h-4 w-4 text-emerald-600" />
                                     Agregar dirección <span className="font-normal text-slate-500">(opcional)</span>
@@ -1160,7 +998,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             </summary>
                             <div className="grid gap-4 border-t border-slate-100 p-6 sm:grid-cols-2">
                                 <div>
-                                    <label htmlFor="est-direccion" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
+                                    <label htmlFor="est-direccion" className="mb-2 block text-lg font-semibold text-slate-900">
                                         Dirección
                                     </label>
                                     <input
@@ -1170,11 +1008,11 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                         value={data.direccion}
                                         onChange={(e) => setData('direccion', e.target.value)}
                                         placeholder="Ej: Jr. Ancash 345, Huancayo"
-                                        className={claseCampoOpcional}
+                                        className={claseCampo()}
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="est-referencia" className="mb-1 block text-xs font-bold text-slate-500 uppercase">
+                                    <label htmlFor="est-referencia" className="mb-2 block text-lg font-semibold text-slate-900">
                                         Referencia
                                     </label>
                                     <input
@@ -1184,7 +1022,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                         value={data.referencia}
                                         onChange={(e) => setData('referencia', e.target.value)}
                                         placeholder="Ej: frente al parque Huamanmarca"
-                                        className={claseCampoOpcional}
+                                        className={claseCampo()}
                                     />
                                 </div>
                             </div>
@@ -1215,7 +1053,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
                                 {resumenDatos.map(([label, value]) => (
                                     <div key={label} className="border-b border-slate-100 pb-3">
-                                        <dt className="text-xs font-semibold text-slate-500 uppercase">{label}</dt>
+                                        <dt className="text-sm font-semibold text-slate-500">{label}</dt>
                                         <dd className="mt-1 text-base font-semibold break-words text-slate-900">{value}</dd>
                                     </div>
                                 ))}
@@ -1233,7 +1071,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             <button
                                 type="button"
                                 disabled={processing}
-                                className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                                className="inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 text-base font-semibold text-slate-700 hover:bg-slate-100"
                                 onClick={() => setGrupo(grupo - 1)}
                             >
                                 <ArrowLeft aria-hidden="true" className="h-4 w-4" />
@@ -1242,7 +1080,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                         ) : (
                             <Link
                                 href="/"
-                                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-base font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                             >
                                 <ArrowLeft aria-hidden="true" className="h-4 w-4" />
                                 Volver a la portada
@@ -1252,7 +1090,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="bg-primary hover:bg-primary-700 flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl px-8 text-sm font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
+                            className="bg-primary hover:bg-primary-700 flex min-h-13 w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl px-8 text-lg font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
                         >
                             <span>
                                 {processing ? 'Iniciando autoevaluación...' : grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones'}

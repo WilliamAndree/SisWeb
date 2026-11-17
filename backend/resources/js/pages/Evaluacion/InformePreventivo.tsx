@@ -45,9 +45,7 @@ export default function InformePreventivo({
     const nivelRiesgoLegible = formatearNivelRiesgo(evaluacion.nivel_riesgo);
     const gapFinal = `${(resumen?.gap_final ?? 0).toFixed(1)}%`;
 
-    const subtipoTramite = evaluacion.tipo_tramite
-        ? (esExAnte ? 'ITSE Previa (Ex-Ante)' : 'ITSE Posterior (Ex-Post)')
-        : 'Evaluación preventiva';
+    const subtipoTramite = evaluacion.tipo_tramite ? (esExAnte ? 'ITSE Previa (Ex-Ante)' : 'ITSE Posterior (Ex-Post)') : 'Evaluación preventiva';
 
     const conteo = useMemo<ConteoEstados>(() => {
         if (conteoEstados) {
@@ -101,9 +99,7 @@ export default function InformePreventivo({
     }, [evaluacion.semaforo, autoevaluacion.semaforo]);
 
     const es100Cumplimiento =
-        (evaluacion.porcentaje_cumplimiento ?? autoevaluacion.porcentaje_cumplimiento) >= 100 &&
-        conteo.no_cumple === 0 &&
-        conteo.por_revisar === 0;
+        (evaluacion.porcentaje_cumplimiento ?? autoevaluacion.porcentaje_cumplimiento) >= 100 && conteo.no_cumple === 0 && conteo.por_revisar === 0;
 
     const metricas = [
         {
@@ -137,9 +133,7 @@ export default function InformePreventivo({
     return (
         <div className="mx-auto w-full max-w-3xl space-y-6">
             <Head
-                title={`${
-                    esReevaluacion ? 'Informe Preventivo Reevaluación' : 'Informe de Autoevaluación Preventiva ITSE'
-                } - ${nombreComercial}`}
+                title={`${esReevaluacion ? 'Informe Preventivo Reevaluación' : 'Informe de Autoevaluación Preventiva ITSE'} - ${nombreComercial}`}
             />
 
             {/* Acciones de navegación superior */}
@@ -164,10 +158,7 @@ export default function InformePreventivo({
 
             {/* Hoja física pericial del informe */}
             <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
-                <div
-                    className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03] select-none"
-                    aria-hidden="true"
-                >
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03] select-none" aria-hidden="true">
                     <ShieldCheck className="h-[460px] w-[460px] text-emerald-600" />
                 </div>
 
@@ -184,9 +175,7 @@ export default function InformePreventivo({
                         </span>
 
                         <h1 className="mt-2 text-center text-lg leading-snug font-black tracking-tight text-slate-900 uppercase sm:text-2xl">
-                            {esReevaluacion
-                                ? 'Informe Preventivo — Reevaluación'
-                                : 'Informe de Autoevaluación Preventiva ITSE'}
+                            {esReevaluacion ? 'Informe Preventivo — Reevaluación' : 'Informe de Autoevaluación Preventiva ITSE'}
                         </h1>
 
                         {esReevaluacion && (
@@ -194,15 +183,13 @@ export default function InformePreventivo({
                                 <div className="flex items-start gap-2">
                                     <Info className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
                                     <div className="text-[11px] leading-relaxed text-sky-900">
-                                        <strong className="font-bold">Nota contextual de reevaluación:</strong>{' '}
-                                        Este informe corresponde a una <strong>reevaluación preventiva</strong> del establecimiento.
+                                        <strong className="font-bold">Nota contextual de reevaluación:</strong> Este informe corresponde a una{' '}
+                                        <strong>reevaluación preventiva</strong> del establecimiento.
                                         {evaluacionOrigen?.uuid_trazabilidad && (
                                             <span>
                                                 {' '}
                                                 Evaluación original de referencia: UUID{' '}
-                                                <span className="font-mono font-semibold">
-                                                    {evaluacionOrigen.uuid_trazabilidad}
-                                                </span>
+                                                <span className="font-mono font-semibold">{evaluacionOrigen.uuid_trazabilidad}</span>
                                                 {evaluacionOrigen.fecha && ` (${evaluacionOrigen.fecha})`}.
                                             </span>
                                         )}
@@ -226,29 +213,19 @@ export default function InformePreventivo({
                         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                             <div className="inline-flex items-center gap-2 rounded-lg border border-emerald-600/40 bg-emerald-50/70 px-3 py-1.5">
                                 <FileText className="h-3.5 w-3.5 text-emerald-600" />
-                                <span className="text-[10px] font-bold text-emerald-600 uppercase">
-                                    N° de Informe:
-                                </span>
-                                <span className="font-mono text-xs font-black text-emerald-600">
-                                    {codigoInforme}
-                                </span>
+                                <span className="text-[10px] font-bold text-emerald-600 uppercase">N° de Informe:</span>
+                                <span className="font-mono text-xs font-black text-emerald-600">{codigoInforme}</span>
                             </div>
                             <div className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5">
                                 <CalendarClock className="h-3.5 w-3.5 text-slate-500" />
                                 <span className="text-[10px] font-bold text-slate-600 uppercase">Fecha:</span>
-                                <span className="font-mono text-[11px] font-bold text-slate-800">
-                                    {fechaEmision}
-                                </span>
+                                <span className="font-mono text-[11px] font-bold text-slate-800">{fechaEmision}</span>
                             </div>
                         </div>
 
                         {(hashIntegridad || hashFinal) && (
                             <div className="mt-3 flex justify-center">
-                                <CryptoSealBadge
-                                    hash={hashIntegridad || hashFinal}
-                                    fecha={fechaEmision}
-                                    esInmutable={true}
-                                />
+                                <CryptoSealBadge hash={hashIntegridad || hashFinal} fecha={fechaEmision} esInmutable={true} />
                             </div>
                         )}
 
@@ -256,16 +233,14 @@ export default function InformePreventivo({
                             <div className="flex items-start gap-2">
                                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
                                 <div className="text-[10px] leading-relaxed text-amber-950">
-                                    <strong className="block font-bold uppercase tracking-wider text-amber-900">
+                                    <strong className="block font-bold tracking-wider text-amber-900 uppercase">
                                         Aviso Preventivo Importante — No Oficial
                                     </strong>
-                                    Este documento es de carácter estrictamente informativo, educativo y preventivo.
-                                    Ha sido generado de forma automatizada a partir de las declaraciones voluntarias
-                                    del responsable del establecimiento.{' '}
+                                    Este documento es de carácter estrictamente informativo, educativo y preventivo. Ha sido generado de forma
+                                    automatizada a partir de las declaraciones voluntarias del responsable del establecimiento.{' '}
                                     <strong>
-                                        No constituye certificado de ITSE, no otorga aprobación ni autorización
-                                        municipal, y no convalida condiciones de seguridad ante ninguna autoridad u
-                                        órgano ejecutante.
+                                        No constituye certificado de ITSE, no otorga aprobación ni autorización municipal, y no convalida condiciones
+                                        de seguridad ante ninguna autoridad u órgano ejecutante.
                                     </strong>
                                 </div>
                             </div>
@@ -273,28 +248,19 @@ export default function InformePreventivo({
                     </header>
 
                     {/* 2. Datos generales declarados del establecimiento */}
-                    <InformeDatosGenerales
-                        evaluacion={evaluacion}
-                        nivelRiesgoLegible={nivelRiesgoLegible}
-                        subtipoTramite={subtipoTramite}
-                    />
+                    <InformeDatosGenerales evaluacion={evaluacion} nivelRiesgoLegible={nivelRiesgoLegible} subtipoTramite={subtipoTramite} />
 
                     {/* 3. Resumen de diagnóstico preventivo */}
                     <section>
                         <div className="mb-2.5 flex items-center gap-2">
                             <Gauge className="h-4 w-4 text-emerald-600" />
-                            <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">
-                                Resumen de Diagnóstico Preventivo
-                            </h2>
+                            <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Resumen de Diagnóstico Preventivo</h2>
                         </div>
 
                         <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4">
                             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                 <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3">
-                                    <span
-                                        className={`h-3 w-3 shrink-0 rounded-full ${semaforoInfo.dotColor}`}
-                                        aria-hidden="true"
-                                    />
+                                    <span className={`h-3 w-3 shrink-0 rounded-full ${semaforoInfo.dotColor}`} aria-hidden="true" />
                                     <div>
                                         <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
                                             Semáforo Preventivo
@@ -311,9 +277,7 @@ export default function InformePreventivo({
                                     <span className="text-sm font-black text-emerald-600">{gapFinal}</span>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-white p-3">
-                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                        Subsanación Declarada
-                                    </span>
+                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Subsanación Declarada</span>
                                     <span className="text-sm font-black text-emerald-600">
                                         {resumen?.porcentaje_subsanado ?? (es100Cumplimiento ? 100 : 0)}%
                                     </span>
@@ -321,17 +285,14 @@ export default function InformePreventivo({
                             </div>
 
                             <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3 text-left">
-                                <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                    Diagnóstico Declarado
-                                </span>
+                                <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Diagnóstico Declarado</span>
                                 <p className="mt-0.5 text-xs font-bold text-slate-800">{semaforoInfo.label}</p>
                                 <p className="mt-0.5 text-[10px] text-slate-600">{semaforoInfo.desc}</p>
                                 {es100Cumplimiento && (
                                     <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50/60 p-2 text-[10px] text-emerald-600">
-                                        <strong>Nota de conformidad declarada:</strong> Según las respuestas
-                                        declaradas en esta autoevaluación, no se identificaron incumplimientos
-                                        declarados en las condiciones evaluadas. Este informe tiene carácter
-                                        preventivo y no sustituye la inspección oficial ITSE.
+                                        <strong>Nota de conformidad declarada:</strong> Según las respuestas declaradas en esta autoevaluación, no se
+                                        identificaron incumplimientos declarados en las condiciones evaluadas. Este informe tiene carácter preventivo
+                                        y no sustituye la inspección oficial ITSE.
                                     </p>
                                 )}
                             </div>
@@ -339,15 +300,10 @@ export default function InformePreventivo({
 
                         <div className="mt-2.5 grid grid-cols-2 gap-2.5 md:grid-cols-4">
                             {metricas.map((item) => (
-                                <div
-                                    key={item.label}
-                                    className="rounded-xl border border-slate-200 bg-white p-3"
-                                >
+                                <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-3">
                                     <div className="mb-1 flex items-center gap-1.5">
                                         <item.icon className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                                        <span className="text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                            {item.label}
-                                        </span>
+                                        <span className="text-[9px] font-bold tracking-wider text-slate-500 uppercase">{item.label}</span>
                                     </div>
                                     <p className="text-sm leading-snug font-black text-slate-900">{item.value}</p>
                                     <p className="mt-0.5 text-[9px] text-slate-400">{item.sub}</p>
@@ -357,11 +313,7 @@ export default function InformePreventivo({
                     </section>
 
                     {/* 4. Matriz Completa de Condiciones Evaluadas */}
-                    <InformeMatrizCondiciones
-                        conteo={conteo}
-                        condicionesEvaluadas={condiciones_evaluadas}
-                        condicionesChecklist={detalleChecklist}
-                    />
+                    <InformeMatrizCondiciones conteo={conteo} condicionesEvaluadas={condiciones_evaluadas} condicionesChecklist={detalleChecklist} />
 
                     {/* 5. Trazabilidad Legal, Matriz de Subsanaciones y Huella Criptográfica */}
                     <InformeTrazabilidadLegal

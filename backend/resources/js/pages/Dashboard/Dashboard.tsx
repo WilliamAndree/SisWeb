@@ -148,7 +148,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                             {badgeEstadoTexto}
                         </span>
 
-                        <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-slate-900/60 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-xs">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-slate-900/60 px-2.5 py-0.5 text-sm font-semibold text-white backdrop-blur-xs">
                             <MapPin className="h-3 w-3 text-emerald-400" aria-hidden="true" />
                             {record.sector_huancayo || 'Huancayo'}
                         </span>
@@ -186,7 +186,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                                 : 'Datos del local por completar';
 
                             return (
-                                <p className="mt-0.5 truncate text-[11px] font-semibold text-slate-200">
+                                <p className="mt-0.5 truncate text-sm font-semibold text-slate-200">
                                     {record.funcion_economica} • {datosFisicosTexto}
                                 </p>
                             );
@@ -208,21 +208,19 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                 <div className="space-y-3.5">
                     {/* Caja de alerta de estado */}
                     {esConforme ? (
-                        <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-3 text-xs text-emerald-950">
+                        <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-3 text-sm text-emerald-950">
                             <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                             <div className="leading-tight">
                                 <strong className="font-bold">APTO PARA MESA DE PARTES</strong>
-                                <p className="text-[11px] text-emerald-800">
-                                    Condiciones técnicas de seguridad 100% conformes según autodeclaración.
-                                </p>
+                                <p className="text-sm text-emerald-800">Condiciones técnicas de seguridad 100% conformes según autodeclaración.</p>
                             </div>
                         </div>
                     ) : (
-                        <div className="flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50/90 p-3 text-xs text-amber-950">
+                        <div className="flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50/90 p-3 text-sm text-amber-950">
                             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
                             <div className="leading-tight">
                                 <strong className="font-bold">REQUIERE SUBSANACIÓN TÉCNICA</strong>
-                                <p className="text-[11px] text-amber-800">
+                                <p className="text-sm text-amber-800">
                                     Se detectaron {totalObservaciones} condiciones observadas pendientes de evidencia.
                                 </p>
                             </div>
@@ -230,7 +228,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                     )}
 
                     {/* Dirección y Condición de Gas */}
-                    <div className="grid grid-cols-1 gap-2 text-xs text-slate-600 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-2 text-sm text-slate-600 sm:grid-cols-2">
                         <div className="flex items-center gap-1.5 truncate">
                             <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
                             <span className="truncate">{record.direccion || 'Dirección no consignada'}</span>
@@ -244,7 +242,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
 
                     {/* Barra de Progreso y Desglose */}
                     <div>
-                        <div className="mb-1.5 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+                        <div className="mb-1.5 flex items-center justify-between text-sm font-semibold text-slate-500">
                             <span>Cumplimiento normativo</span>
                             <span className="font-bold text-slate-800">
                                 {conteo.cumple} conformes de {conteo.total || record.area_m2 ? conteo.total : '-'}
@@ -258,16 +256,16 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                                 }}
                             />
                         </div>
-                        <p className="mt-1 text-[10px] text-slate-400">
+                        <p className="mt-1 text-sm text-slate-400">
                             {conteo.cumple} conformes • {conteo.no_cumple + conteo.por_revisar} observados • {conteo.na} no aplican
                         </p>
                     </div>
 
                     {/* Detalles técnicos plegados */}
-                    <details className="group rounded-2xl border border-slate-200/60 bg-slate-50/80 p-2.5 font-mono text-[11px] text-slate-600 transition">
-                        <summary className="flex cursor-pointer items-center justify-between font-sans text-xs font-bold text-slate-600 select-none hover:text-slate-900">
+                    <details className="group rounded-2xl border border-slate-200/60 bg-slate-50/80 p-2.5 font-mono text-sm text-slate-600 transition">
+                        <summary className="flex cursor-pointer items-center justify-between font-sans text-sm font-bold text-slate-600 select-none hover:text-slate-900">
                             <span>Detalles técnicos</span>
-                            <span className="text-[10px] font-normal text-slate-400 transition-transform group-open:rotate-180">▼</span>
+                            <span className="text-sm font-normal text-slate-400 transition-transform group-open:rotate-180">▼</span>
                         </summary>
 
                         <div className="mt-2 space-y-1.5 border-t border-slate-200/60 pt-2 font-mono">
@@ -280,7 +278,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                                     type="button"
                                     onClick={() => copiarTexto(record.uuid_trazabilidad, setCopiadoUuid)}
                                     aria-label="Copiar código de expediente"
-                                    className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
+                                    className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-sm font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
                                 >
                                     {copiadoUuid ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                                     {copiadoUuid ? 'Copiado' : 'Copiar'}
@@ -297,7 +295,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                                         type="button"
                                         onClick={() => copiarTexto(record.hash_integridad!, setCopiadoHash)}
                                         aria-label="Copiar firma"
-                                        className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
+                                        className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-sm font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
                                     >
                                         {copiadoHash ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                                         {copiadoHash ? 'Copiado' : 'Copiar'}
@@ -313,7 +311,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                     {/* Botón Primario */}
                     <Link
                         href={route('autoevaluacion.resumen', { uuid: record.uuid_trazabilidad })}
-                        className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
+                        className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
                     >
                         <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                         <span>Ver Estado y Trazabilidad</span>
@@ -324,7 +322,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                     <div className="flex flex-wrap items-center gap-1.5">
                         <Link
                             href={route('autoevaluacion.checklist', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <ClipboardList className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
                             Checklist
@@ -332,7 +330,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
 
                         <Link
                             href={route('autoevaluacion.informe', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <FileText className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
                             Informe
@@ -340,7 +338,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
 
                         <Link
                             href={route('mis-autoevaluaciones.expediente', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <FileSpreadsheet className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
                             Expediente
@@ -350,7 +348,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                             href={route('autoevaluacion.anexo', { uuid: record.uuid_trazabilidad })}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <ExternalLink className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
                             <span>Anexos</span>
@@ -359,7 +357,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
                         {!esConforme && totalObservaciones > 0 && (
                             <Link
                                 href={route('autoevaluacion.subsanar_items', { uuid: record.uuid_trazabilidad })}
-                                className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-900 transition hover:bg-amber-100 active:scale-95"
+                                className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-bold text-amber-900 transition hover:bg-amber-100 active:scale-95"
                             >
                                 <Wrench className="h-3.5 w-3.5 text-amber-600" aria-hidden="true" />
                                 <span>Subsanar ({totalObservaciones})</span>
@@ -422,7 +420,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/60 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800">
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/60 bg-emerald-50 px-3 py-1 text-sm font-bold text-emerald-800">
                                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
                                 Autoevaluación ITSE Huancayo
                             </span>
@@ -445,7 +443,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                     {/* Tarjeta 1: Nivel de Cumplimiento Normativo */}
                     <div className="flex h-full flex-col justify-between rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/40 p-5 shadow-xs transition-all hover:shadow-sm">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold tracking-wider text-emerald-800 uppercase">Nivel de Cumplimiento Normativo</span>
+                            <span className="text-sm font-bold text-emerald-800">Nivel de Cumplimiento Normativo</span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
                                 <ShieldCheck className="h-5 w-5" aria-hidden="true" />
                             </div>
@@ -454,7 +452,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <div className="mt-4">
                             <div className="flex items-baseline gap-2">
                                 <span className="text-4xl font-black tracking-tight text-slate-900">{promedioCumplimiento}%</span>
-                                <span className="text-xs font-bold text-slate-500">promedio global</span>
+                                <span className="text-sm font-bold text-slate-500">promedio global</span>
                             </div>
 
                             {/* Barra de progreso */}
@@ -465,7 +463,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                 />
                             </div>
 
-                            <p className="mt-2 text-xs font-semibold text-emerald-900">
+                            <p className="mt-2 text-sm font-semibold text-emerald-900">
                                 {kpis.aprobados} de {kpis.total_locales}{' '}
                                 {kpis.total_locales === 1 ? 'local con autoevaluación conforme' : 'locales con autoevaluación conforme'}
                             </p>
@@ -475,7 +473,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                     {/* Tarjeta 2: Locales con observaciones */}
                     <div className="flex h-full flex-col justify-between rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50/80 via-white to-orange-50/40 p-5 shadow-xs transition-all hover:shadow-sm">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold tracking-wider text-amber-800 uppercase">Locales con observaciones</span>
+                            <span className="text-sm font-bold text-amber-800">Locales con observaciones</span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
                                 <AlertTriangle className="h-5 w-5" aria-hidden="true" />
                             </div>
@@ -484,13 +482,13 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <div className="mt-4">
                             <div className="flex items-baseline gap-2">
                                 <span className="text-4xl font-black tracking-tight text-slate-900">{kpis.observados}</span>
-                                <span className="text-xs font-bold text-slate-500">
+                                <span className="text-sm font-bold text-slate-500">
                                     {kpis.observados === 1 ? 'local por revisar' : 'locales por revisar'}
                                 </span>
                             </div>
 
                             {kpis.observados > 0 ? (
-                                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-2.5 text-[11px] text-amber-900">
+                                <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-2.5 text-sm text-amber-900">
                                     <p className="leading-relaxed">
                                         <strong>Aviso preventivo:</strong> Tienes {kpis.observados}{' '}
                                         {kpis.observados === 1 ? 'local con condiciones por corregir' : 'locales con condiciones por corregir'} antes
@@ -498,7 +496,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                     </p>
                                 </div>
                             ) : (
-                                <p className="mt-3 text-xs leading-relaxed text-slate-500">
+                                <p className="mt-3 text-sm leading-relaxed text-slate-500">
                                     Todos tus locales están al día sin observaciones pendientes.
                                 </p>
                             )}
@@ -508,7 +506,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                     {/* Tarjeta 3: Tus expedientes guardados */}
                     <div className="flex h-full flex-col justify-between rounded-2xl border border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-slate-100/50 p-5 shadow-xs transition-all hover:shadow-sm">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold tracking-wider text-slate-700 uppercase">Tus expedientes guardados</span>
+                            <span className="text-sm font-bold text-slate-700">Tus expedientes guardados</span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
                                 <FileText className="h-5 w-5" aria-hidden="true" />
                             </div>
@@ -517,12 +515,12 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <div className="mt-4">
                             <div className="flex items-baseline gap-2">
                                 <span className="text-4xl font-black tracking-tight text-slate-900">{expedientesSellados.length}</span>
-                                <span className="text-xs font-bold text-slate-500">
+                                <span className="text-sm font-bold text-slate-500">
                                     {expedientesSellados.length === 1 ? 'expediente guardado' : 'expedientes guardados'}
                                 </span>
                             </div>
 
-                            <p className="mt-3 text-xs leading-relaxed text-slate-500">
+                            <p className="mt-3 text-sm leading-relaxed text-slate-500">
                                 Tu información está guardada y protegida para respaldo de tu negocio.
                             </p>
                         </div>
@@ -571,7 +569,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                     placeholder="Buscar por nombre comercial, dirección o UUID..."
                                     value={busqueda}
                                     onChange={(e) => setBusqueda(e.target.value)}
-                                    className="w-full rounded-2xl border border-slate-200 bg-white py-2.5 pr-4 pl-9 text-xs font-medium text-slate-800 placeholder-slate-400 shadow-2xs transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
+                                    className="w-full rounded-2xl border border-slate-200 bg-white py-2.5 pr-4 pl-9 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-2xs transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
                                 />
                             </div>
 
@@ -628,7 +626,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                         ? 'Aún no tienes locales guardados en tu panel'
                                         : 'No se encontraron locales que coincidan con la búsqueda'}
                                 </h3>
-                                <p className="mx-auto mt-2 max-w-lg text-xs leading-relaxed text-slate-500 sm:text-sm">
+                                <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-slate-500 sm:text-sm">
                                     {records.length === 0
                                         ? 'Al registrar un local podrás retomar tu autoevaluación y subsanar observaciones sin empezar de cero. Si ya realizaste una autoevaluación como invitado, puedes guardarla en tu panel iniciando sesión desde tu avance.'
                                         : 'Prueba modificando los filtros o el texto de búsqueda.'}
@@ -655,23 +653,23 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
                             <div>
                                 <h3 className="text-base font-black text-slate-900">Expedientes Guardados con Respaldo Digital</h3>
-                                <p className="text-xs text-slate-500">Registro seguro y protegido de tus autoevaluaciones según normativa ITSE.</p>
+                                <p className="text-sm text-slate-500">Registro seguro y protegido de tus autoevaluaciones según normativa ITSE.</p>
                             </div>
-                            <span className="rounded-full bg-slate-900 px-3 py-1 font-mono text-xs font-bold text-white">
+                            <span className="rounded-full bg-slate-900 px-3 py-1 font-mono text-sm font-bold text-white">
                                 {expedientesSellados.length} {expedientesSellados.length === 1 ? 'Expediente' : 'Expedientes'}
                             </span>
                         </div>
 
                         {expedientesSellados.length === 0 ? (
-                            <div className="p-8 text-center text-xs text-slate-500">
+                            <div className="p-8 text-center text-sm text-slate-500">
                                 Aún no tienes expedientes formalmente sellados con hash SHA-256. Finaliza una autoevaluación para generar el registro
                                 inmutable.
                             </div>
                         ) : (
                             <div className="divide-y divide-slate-100 overflow-x-auto">
-                                <table className="w-full text-left text-xs">
+                                <table className="w-full text-left text-sm">
                                     <thead>
-                                        <tr className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+                                        <tr className="text-sm font-bold text-slate-400">
                                             <th className="px-2 py-3">Establecimiento</th>
                                             <th className="px-2 py-3">UUID de Trazabilidad</th>
                                             <th className="px-2 py-3">Hash SHA-256</th>
@@ -693,7 +691,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                                 <td className="px-2 py-3 text-right">
                                                     <Link
                                                         href={route('mis-autoevaluaciones.expediente', { uuid: exp.uuid_trazabilidad })}
-                                                        className="inline-flex min-h-[44px] items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                                                        className="inline-flex min-h-[44px] items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100"
                                                     >
                                                         Ver Expediente
                                                     </Link>
@@ -711,14 +709,14 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                 <div className="relative overflow-hidden rounded-3xl border border-emerald-200/90 bg-gradient-to-r from-emerald-900 via-emerald-950 to-slate-950 p-6 text-white shadow-sm sm:p-8">
                     <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="max-w-2xl space-y-1.5">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-800/80 px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-emerald-200 uppercase">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-800/80 px-2.5 py-0.5 text-sm font-bold text-emerald-200">
                                 <Users className="h-3 w-3" aria-hidden="true" />
                                 Red de Profesionales Verificados
                             </span>
                             <h3 className="text-xl font-black tracking-tight text-white sm:text-2xl">
                                 ¿Necesitas técnicos autorizados para tu establecimiento comercial?
                             </h3>
-                            <p className="text-xs leading-relaxed text-slate-300 sm:text-sm">
+                            <p className="text-sm leading-relaxed text-slate-300 sm:text-sm">
                                 Encuentra ingenieros colegiados, especialistas en puesta a tierra, electricistas certificados y proveedores de
                                 extintores homologados en Huancayo.
                             </p>
@@ -726,7 +724,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
 
                         <Link
                             href={route('directorio.index')}
-                            className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-xs font-bold text-emerald-950 shadow-md transition hover:bg-emerald-50 active:scale-95"
+                            className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-bold text-emerald-950 shadow-md transition hover:bg-emerald-50 active:scale-95"
                         >
                             <Store className="h-4 w-4 text-emerald-700" aria-hidden="true" />
                             <span>Directorio de Aliados Técnicos</span>

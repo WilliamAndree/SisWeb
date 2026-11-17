@@ -1,14 +1,5 @@
+import { Check, Copy, FileCode2, Fingerprint, Hash, History, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
-import {
-    Check,
-    Copy,
-    Fingerprint,
-    FileCode2,
-    History,
-    ShieldAlert,
-    ShieldCheck,
-    Hash,
-} from 'lucide-react';
 
 export interface AuditoriaLogsProps {
     readonly uuid: string;
@@ -66,12 +57,8 @@ export function AuditoriaLogs({
                         <History className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <div>
-                        <h3 className="text-sm font-black tracking-tight text-slate-900">
-                            Auditoría y Trazabilidad Criptográfica
-                        </h3>
-                        <p className="text-[11px] text-slate-500">
-                            Garantía de inmutabilidad y verificación SHA-256
-                        </p>
+                        <h3 className="text-sm font-black tracking-tight text-slate-900">Auditoría y Trazabilidad Criptográfica</h3>
+                        <p className="text-[11px] text-slate-500">Garantía de inmutabilidad y verificación SHA-256</p>
                     </div>
                 </div>
 
@@ -97,15 +84,13 @@ export function AuditoriaLogs({
                     <div className="flex min-w-0 items-center gap-2">
                         <Fingerprint className="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
                         <span className="font-semibold text-slate-600">UUID de Trazabilidad:</span>
-                        <span className="truncate font-mono font-bold text-slate-900 select-all">
-                            {uuid}
-                        </span>
+                        <span className="truncate font-mono font-bold text-slate-900 select-all">{uuid}</span>
                     </div>
                     <button
                         type="button"
                         onClick={() => copiarTexto(uuid, setCopiadoUuid)}
                         aria-label="Copiar UUID de trazabilidad"
-                        className="inline-flex shrink-0 items-center gap-1 self-start rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-700 transition hover:bg-slate-100 cursor-pointer sm:self-auto"
+                        className="inline-flex shrink-0 cursor-pointer items-center gap-1 self-start rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-700 transition hover:bg-slate-100 sm:self-auto"
                     >
                         {copiadoUuid ? (
                             <>
@@ -125,7 +110,7 @@ export function AuditoriaLogs({
                 {hashIntegridad && (
                     <div className="rounded-2xl bg-slate-950 p-4 font-mono text-slate-300">
                         <div className="flex items-center justify-between gap-2 pb-2">
-                            <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-400">
+                            <span className="flex items-center gap-1.5 text-[10px] font-black tracking-wider text-emerald-400 uppercase">
                                 <Hash className="h-3 w-3" aria-hidden="true" />
                                 Sello Digital SHA-256
                             </span>
@@ -133,7 +118,7 @@ export function AuditoriaLogs({
                                 type="button"
                                 onClick={() => copiarTexto(hashIntegridad, setCopiadoHash)}
                                 aria-label="Copiar hash SHA-256"
-                                className="inline-flex items-center gap-1 rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white cursor-pointer"
+                                className="inline-flex cursor-pointer items-center gap-1 rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
                             >
                                 {copiadoHash ? (
                                     <>
@@ -148,9 +133,7 @@ export function AuditoriaLogs({
                                 )}
                             </button>
                         </div>
-                        <p className="break-all select-all text-xs font-semibold leading-relaxed text-emerald-300">
-                            {hashIntegridad}
-                        </p>
+                        <p className="text-xs leading-relaxed font-semibold break-all text-emerald-300 select-all">{hashIntegridad}</p>
                     </div>
                 )}
 
@@ -168,12 +151,10 @@ export function AuditoriaLogs({
                         <button
                             type="button"
                             onClick={() => setVerPayload(!verPayload)}
-                            className="inline-flex items-center gap-1.5 font-bold text-emerald-700 transition hover:text-emerald-800 cursor-pointer"
+                            className="inline-flex cursor-pointer items-center gap-1.5 font-bold text-emerald-700 transition hover:text-emerald-800"
                         >
                             <FileCode2 className="h-3.5 w-3.5" aria-hidden="true" />
-                            <span>
-                                {verPayload ? 'Ocultar payload canónico firmado' : 'Ver payload canónico firmado'}
-                            </span>
+                            <span>{verPayload ? 'Ocultar payload canónico firmado' : 'Ver payload canónico firmado'}</span>
                         </button>
                         {verPayload && (
                             <pre className="mt-2 max-h-52 overflow-auto rounded-2xl bg-slate-950 p-3.5 font-mono text-[10px] leading-relaxed text-slate-300">

@@ -257,25 +257,25 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             <div>
                                 <Link
                                     href={route('dashboard')}
-                                    className="inline-flex min-h-[44px] items-center gap-1.5 text-xs font-bold text-slate-500 transition hover:text-slate-800"
+                                    className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-bold text-slate-500 transition hover:text-slate-800"
                                 >
                                     <ArrowLeft className="h-4 w-4" />
                                     Volver al Panel Ciudadano
                                 </Link>
 
                                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-800">
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-sm font-bold text-amber-800">
                                         <Wrench className="h-3 w-3 text-amber-600" />
                                         Puesta a Punto ITSE
                                     </span>
                                     {autoevaluacion.sector_huancayo && (
-                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-700">
+                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-700">
                                             <MapPin className="h-3 w-3 text-slate-400" />
                                             {autoevaluacion.sector_huancayo}
                                         </span>
                                     )}
                                     {autoevaluacion.ruc && (
-                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 font-mono text-xs text-slate-600">
+                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 font-mono text-sm text-slate-600">
                                             RUC: {autoevaluacion.ruc}
                                         </span>
                                     )}
@@ -284,7 +284,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
                                     Subsanación y Puesta a Punto — {autoevaluacion.nombre_comercio}
                                 </h1>
-                                <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500 sm:text-sm">
+                                <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-sm">
                                     Corrige de forma preventiva las condiciones de seguridad observadas antes de tu inspección técnica municipal. Una
                                     vez subsanada la observación en tu local, márcala como cumplida.
                                 </p>
@@ -293,7 +293,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             <div className="flex items-center gap-2 self-start sm:self-center">
                                 <Link
                                     href={route('autoevaluacion.croquis', { uuid: autoevaluacion.uuid })}
-                                    className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-xs font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
+                                    className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
                                 >
                                     <Building2 className="h-4 w-4 text-indigo-600" />
                                     <span>Croquis 2D</span>
@@ -301,7 +301,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                                 <Link
                                     href={route('dashboard')}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                                    className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                                 >
                                     Ir al Dashboard
                                 </Link>
@@ -314,43 +314,43 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                 <main className="mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6">
                     {/* Banner de Trazabilidad, Evidencias, Orientación Visual y Deslinde Cívico */}
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-4 text-xs text-sky-950">
+                        <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-4 text-sm text-sky-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-sky-900">
                                 <CheckCircle2 className="h-4 w-4 shrink-0 text-sky-600" />
                                 <span>Declaración Cívica</span>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-sky-800">
+                            <p className="text-sm leading-relaxed text-sky-800">
                                 Al marcar una condición como subsanada, registras una declaración voluntaria de cumplimiento para tu preparación
                                 preventiva.
                             </p>
                         </div>
 
-                        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-xs text-emerald-950">
+                        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm text-emerald-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-emerald-900">
                                 <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-600" />
                                 <span>Custodia de Evidencias</span>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-emerald-800">
+                            <p className="text-sm leading-relaxed text-emerald-800">
                                 Puedes adjuntar fotografías o certificados (máx. 5 MB). Se almacenan en entorno privado y con respaldo hash SHA-256.
                             </p>
                         </div>
 
-                        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 text-xs text-indigo-950">
+                        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 text-sm text-indigo-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-indigo-900">
                                 <Sparkles className="h-4 w-4 shrink-0 text-indigo-600" />
                                 <span>Orientación Visual IA</span>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-indigo-800">
+                            <p className="text-sm leading-relaxed text-indigo-800">
                                 Asistencia fotográfica con Gemini para detectar elementos visibles, limitaciones y sugerencias de mejora preventiva.
                             </p>
                         </div>
 
-                        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-xs text-amber-950">
+                        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm text-amber-950">
                             <div className="mb-1 flex items-center gap-1.5 font-bold text-amber-900">
                                 <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
                                 <span>Sin Valor Municipal</span>
                             </div>
-                            <p className="text-[11px] leading-relaxed text-amber-800">
+                            <p className="text-sm leading-relaxed text-amber-800">
                                 CheckITSE no emite certificados ITSE ni reemplaza la inspección técnica de seguridad efectuada por inspectores
                                 municipales.
                             </p>
@@ -361,12 +361,12 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                     <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <span className="text-xs font-bold tracking-wider text-slate-400 uppercase">Progreso de Subsanación</span>
+                                <span className="text-sm font-bold text-slate-400">Progreso de Subsanación</span>
                                 <div className="mt-1 flex items-baseline gap-2">
                                     <span className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
                                         {subsanados.length} de {totalObservados}
                                     </span>
-                                    <span className="text-xs font-semibold text-slate-500">
+                                    <span className="text-sm font-semibold text-slate-500">
                                         {pendientes.length === 1
                                             ? '1 condición pendiente por regularizar'
                                             : `${pendientes.length} condiciones pendientes por regularizar`}
@@ -418,7 +418,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                         <h2 className="text-lg font-black tracking-tight text-slate-900 sm:text-xl">
                                             ¡Excelente trabajo! Has subsanado todas las observaciones
                                         </h2>
-                                        <p className="mt-1 max-w-xl text-xs leading-relaxed text-slate-600 sm:text-sm">
+                                        <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-sm">
                                             Todas las condiciones observadas han sido declaradas como subsanadas por el titular. En tu Panel Ciudadano
                                             este local figura con <strong>100% de cumplimiento declarado</strong> como preparación preventiva para tu
                                             trámite oficial ante la municipalidad.
@@ -429,7 +429,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 <div className="flex flex-wrap items-center gap-2">
                                     <Link
                                         href={route('dashboard')}
-                                        className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
+                                        className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                                     >
                                         <Store className="h-4 w-4" />
                                         <span>Volver al Dashboard</span>
@@ -440,7 +440,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                         href={route('autoevaluacion.anexo', { uuid: autoevaluacion.uuid })}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
+                                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
                                     >
                                         <FileSpreadsheet className="h-4 w-4 text-emerald-600" />
                                         <span>Descargar Anexo 4</span>
@@ -456,13 +456,13 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         <div className="rounded-3xl border border-dashed border-slate-200 bg-white p-12 text-center">
                             <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" />
                             <h3 className="mt-4 text-base font-bold text-slate-800">No hay observaciones pendientes en este local</h3>
-                            <p className="mx-auto mt-1 max-w-md text-xs text-slate-500">
+                            <p className="mx-auto mt-1 max-w-md text-sm text-slate-500">
                                 Tu establecimiento cuenta con todas las condiciones declaradas conformes en esta autoevaluación preventiva.
                             </p>
                             <div className="mt-6">
                                 <Link
                                     href={route('dashboard')}
-                                    className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-emerald-600 px-6 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700"
+                                    className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-emerald-600 px-6 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700"
                                 >
                                     Regresar al Panel Ciudadano
                                 </Link>
@@ -474,7 +474,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 <h2 className="text-sm font-black tracking-wider text-slate-700 uppercase">
                                     Condiciones Técnicas Observadas ({items.length})
                                 </h2>
-                                <span className="text-xs font-semibold text-slate-400">{pendientes.length} por resolver</span>
+                                <span className="text-sm font-semibold text-slate-400">{pendientes.length} por resolver</span>
                             </div>
 
                             <div className="grid grid-cols-1 gap-4">
@@ -495,16 +495,16 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                 {/* Cabecera del ítem */}
                                                 <div className="flex-1 space-y-2">
                                                     <div className="flex flex-wrap items-center gap-2">
-                                                        <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 font-mono text-[11px] font-bold text-white">
+                                                        <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 font-mono text-sm font-bold text-white">
                                                             {item.codigo}
                                                         </span>
 
-                                                        <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700">
+                                                        <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-sm font-semibold text-slate-700">
                                                             {item.categoria}
                                                         </span>
 
                                                         {item.norma_base && (
-                                                            <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+                                                            <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-sm font-medium text-slate-600">
                                                                 <BookOpen className="h-3 w-3 text-slate-400" />
                                                                 {item.norma_base}
                                                                 {item.articulo_referencia ? ` — Art. ${item.articulo_referencia}` : ''}
@@ -512,12 +512,12 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         )}
 
                                                         {estaSubsanado ? (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-sm font-bold text-emerald-800">
                                                                 <Check className="h-3 w-3 text-emerald-600" />
                                                                 Subsanado y conforme
                                                             </span>
                                                         ) : (
-                                                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-sm font-bold text-amber-800">
                                                                 <AlertTriangle className="h-3 w-3 text-amber-600" />
                                                                 Por regularizar
                                                             </span>
@@ -528,7 +528,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                                                     {/* Pregunta o qué observar */}
                                                     {(item.que_observar || item.pregunta_ciudadana) && (
-                                                        <div className="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-xs leading-relaxed text-slate-600">
+                                                        <div className="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-sm leading-relaxed text-slate-600">
                                                             <span className="block font-bold text-slate-700">
                                                                 ¿Qué verificar en tu establecimiento?
                                                             </span>
@@ -538,7 +538,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                                                     {/* Orientación técnica / Acción recomendada */}
                                                     {item.accion_mejora_orientativa && (
-                                                        <div className="space-y-1 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 text-xs leading-relaxed text-emerald-950">
+                                                        <div className="space-y-1 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 text-sm leading-relaxed text-emerald-950">
                                                             <div className="flex items-center gap-1.5 font-bold text-emerald-900">
                                                                 <Wrench className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
                                                                 <span>Acción correctiva recomendada:</span>
@@ -549,14 +549,14 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                                                     {/* Nota previamente registrada */}
                                                     {item.notas && (
-                                                        <div className="rounded-xl border border-slate-200/80 bg-white p-2.5 text-[11px] font-medium text-slate-500 italic">
+                                                        <div className="rounded-xl border border-slate-200/80 bg-white p-2.5 text-sm font-medium text-slate-500 italic">
                                                             <strong>Anotación del comerciante:</strong> "{item.notas}"
                                                         </div>
                                                     )}
 
                                                     {/* Aviso si la evidencia adjunta es un PDF */}
                                                     {item.evidencia_url && item.es_pdf && (
-                                                        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[11px] text-slate-600">
+                                                        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
                                                             <FileText className="h-4 w-4 shrink-0 text-slate-400" />
                                                             <span>
                                                                 Archivo PDF custodiado como respaldo documental. (La orientación visual con IA
@@ -589,7 +589,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                     <button
                                                         type="button"
                                                         onClick={() => abrirModalProveedores(item)}
-                                                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
+                                                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
                                                     >
                                                         <Users className="h-4 w-4 text-emerald-600" />
                                                         <span>Contactar especialistas Huancayo</span>
@@ -599,7 +599,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         <button
                                                             type="button"
                                                             onClick={() => abrirModalRecursos(item)}
-                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
+                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
                                                         >
                                                             <BookOpen className="h-4 w-4 text-sky-600" />
                                                             <span>Guía / Video técnico ({item.recursos_educativos.length})</span>
@@ -609,7 +609,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                     <button
                                                         type="button"
                                                         onClick={() => setCriterioEvidenciaModal(item)}
-                                                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
+                                                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
                                                     >
                                                         <Camera className="h-4 w-4 text-slate-500" />
                                                         <span>{item.evidencia_url ? 'Actualizar evidencia' : 'Adjuntar evidencia (foto/PDF)'}</span>
@@ -620,7 +620,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                             href={item.evidencia_url}
                                                             target="_blank"
                                                             rel="noreferrer"
-                                                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100"
+                                                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-2 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100"
                                                         >
                                                             <FileCheck className="h-4 w-4 text-emerald-600" />
                                                             <span>Ver evidencia</span>
@@ -633,7 +633,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                             type="button"
                                                             disabled={Boolean(solicitandoAnalisis[item.codigo])}
                                                             onClick={() => handleSolicitarAnalisis(item)}
-                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3.5 py-2 text-xs font-bold text-indigo-700 shadow-2xs transition hover:border-indigo-300 hover:bg-indigo-100 active:scale-95 disabled:opacity-50"
+                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3.5 py-2 text-sm font-bold text-indigo-700 shadow-2xs transition hover:border-indigo-300 hover:bg-indigo-100 active:scale-95 disabled:opacity-50"
                                                             title="Solicitar orientación visual con IA (Gemini)"
                                                         >
                                                             {solicitandoAnalisis[item.codigo] ? (
@@ -652,7 +652,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         <button
                                                             type="button"
                                                             disabled
-                                                            className="inline-flex min-h-[44px] cursor-default items-center gap-2 rounded-xl bg-emerald-100 px-4 py-2.5 text-xs font-bold text-emerald-800"
+                                                            className="inline-flex min-h-[44px] cursor-default items-center gap-2 rounded-xl bg-emerald-100 px-4 py-2.5 text-sm font-bold text-emerald-800"
                                                         >
                                                             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                                                             <span>Condición Subsanada</span>
@@ -662,7 +662,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                             type="button"
                                                             disabled={cargandoEsteItem}
                                                             onClick={() => setItemParaDeclarar(item)}
-                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
+                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
                                                         >
                                                             {cargandoEsteItem ? (
                                                                 <>
@@ -690,7 +690,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                     <div className="flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 sm:flex-row">
                         <Link
                             href={route('dashboard')}
-                            className="inline-flex min-h-[44px] items-center gap-2 text-xs font-bold text-slate-600 transition hover:text-slate-900"
+                            className="inline-flex min-h-[44px] items-center gap-2 text-sm font-bold text-slate-600 transition hover:text-slate-900"
                         >
                             <ArrowLeft className="h-4 w-4" />
                             <span>Volver al Panel Ciudadano</span>
@@ -699,7 +699,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         <div className="flex flex-wrap items-center gap-2">
                             <Link
                                 href={route('autoevaluacion.resumen', { uuid: autoevaluacion.uuid })}
-                                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
+                                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
                             >
                                 <FileText className="h-4 w-4 text-slate-400" />
                                 <span>Ver Diagnóstico Inicial (Resumen)</span>
@@ -707,7 +707,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                             <Link
                                 href={route('autoevaluacion.informe', { uuid: autoevaluacion.uuid })}
-                                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700"
+                                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700"
                             >
                                 <FileCheck className="h-4 w-4" />
                                 <span>Ver Informe Preventivo</span>
@@ -734,19 +734,19 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 <h3 id="modal-subsanar-title" className="text-base font-black text-slate-900">
                                     Declarar Condición Subsanada
                                 </h3>
-                                <span className="font-mono text-xs font-bold text-slate-500">
+                                <span className="font-mono text-sm font-bold text-slate-500">
                                     {itemParaDeclarar.codigo} — {itemParaDeclarar.titulo}
                                 </span>
                             </div>
                         </div>
 
-                        <p className="text-xs leading-relaxed text-slate-600">
+                        <p className="text-sm leading-relaxed text-slate-600">
                             Al marcar esta condición como cumplida, confirmas bajo declaración cívica que tu local en Huancayo cuenta con esta
                             condición de seguridad debidamente implementada.
                         </p>
 
                         <div className="space-y-1.5">
-                            <label htmlFor="nota-subsanacion" className="block text-xs font-bold text-slate-700">
+                            <label htmlFor="nota-subsanacion" className="block text-sm font-bold text-slate-700">
                                 ¿Cómo lo solucionaste? (Opcional)
                             </label>
                             <textarea
@@ -760,7 +760,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                         [itemParaDeclarar.codigo]: e.target.value,
                                     })
                                 }
-                                className="w-full rounded-2xl border border-slate-200 bg-white p-3 text-xs font-medium text-slate-800 placeholder-slate-400 shadow-2xs focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
+                                className="w-full rounded-2xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-2xs focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
                             />
                         </div>
 
@@ -768,7 +768,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             <button
                                 type="button"
                                 onClick={() => setItemParaDeclarar(null)}
-                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50"
+                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50"
                             >
                                 Cancelar
                             </button>
@@ -776,7 +776,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 type="button"
                                 disabled={procesandoCodigo !== null}
                                 onClick={() => handleDeclararSubsanado(itemParaDeclarar, notaSubsanacion[itemParaDeclarar.codigo])}
-                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
+                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
                             >
                                 {procesandoCodigo === itemParaDeclarar.codigo ? (
                                     <>

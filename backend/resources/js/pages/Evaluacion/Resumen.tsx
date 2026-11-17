@@ -674,7 +674,7 @@ function AccionesSolucionCriterio({
                 <button
                     type="button"
                     onClick={() => onAbrirAsistencia(asistencia)}
-                    className="bg-primary hover:bg-primary-700 inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold text-white shadow-2xs transition-colors"
+                    className="bg-primary hover:bg-primary-700 inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-bold text-white shadow-2xs transition-colors"
                 >
                     <Wrench className="h-3.5 w-3.5" />
                     <span>Ver especialistas sugeridos</span>
@@ -682,7 +682,7 @@ function AccionesSolucionCriterio({
             )}
             <Link
                 href={route('directorio.index', { especialidad: especialidadSlug })}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
                 title="Explorar especialistas habilitados para este rubro en el Directorio Cívico"
             >
                 <Store className="h-3.5 w-3.5 text-slate-500" />
@@ -702,7 +702,7 @@ function BarraFlujoSuperiorResumen({ mostrarBotonGuardar, onAbrirGuardar }: Read
         <div className="flex flex-col gap-3 border-b border-slate-200/80 pb-3 sm:flex-row sm:items-center sm:justify-between">
             <Link
                 href={route('autoevaluacion.index')}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 transition-colors hover:text-slate-900"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-600 transition-colors hover:text-slate-900"
             >
                 <ArrowLeft className="h-4 w-4 text-slate-400" />
                 <span>Volver a la Portada Cívica</span>
@@ -713,7 +713,7 @@ function BarraFlujoSuperiorResumen({ mostrarBotonGuardar, onAbrirGuardar }: Read
                     <button
                         type="button"
                         onClick={onAbrirGuardar}
-                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-emerald-300 bg-white px-3 py-1.5 text-xs font-bold text-emerald-700 shadow-2xs transition hover:bg-emerald-50"
+                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-emerald-300 bg-white px-3 py-1.5 text-sm font-bold text-emerald-700 shadow-2xs transition hover:bg-emerald-50"
                     >
                         <Save className="h-3.5 w-3.5" />
                         <span>Guardar en mi cuenta</span>
@@ -740,11 +740,11 @@ function SeccionSaludTecnica({ resumen, totalAplicables, pctCumple, pctPendiente
                     <h2 id="salud-tecnica-title" className="text-base font-bold text-slate-900 sm:text-lg">
                         Tus declaraciones, por estado
                     </h2>
-                    <p className="mt-0.5 text-xs text-slate-500">
+                    <p className="mt-0.5 text-sm text-slate-500">
                         Distribución descriptiva sobre {totalAplicables} condiciones normativas aplicables a tu actividad.
                     </p>
                 </div>
-                <span className="w-fit rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-xs font-semibold text-slate-600">
+                <span className="w-fit rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-sm font-semibold text-slate-600">
                     {totalAplicables} Condiciones aplicables
                 </span>
             </div>
@@ -787,8 +787,8 @@ function SeccionSaludTecnica({ resumen, totalAplicables, pctCumple, pctPendiente
                     </div>
                     <div className="min-w-0">
                         <span className="text-success-800 block text-2xl leading-tight font-black">{resumen?.total_cumple_declarado ?? 0}</span>
-                        <span className="text-xs font-bold text-slate-800">Condiciones Cumplen</span>
-                        <span className="block text-[10px] text-slate-500">Declaración cívica conforme</span>
+                        <span className="text-sm font-bold text-slate-800">Condiciones Cumplen</span>
+                        <span className="block text-sm text-slate-500">Declaración cívica conforme</span>
                     </div>
                 </div>
 
@@ -798,8 +798,8 @@ function SeccionSaludTecnica({ resumen, totalAplicables, pctCumple, pctPendiente
                     </div>
                     <div className="min-w-0">
                         <span className="text-warning-800 block text-2xl leading-tight font-black">{resumen?.total_pendiente_atender ?? 0}</span>
-                        <span className="text-xs font-bold text-slate-800">Por Subsanar</span>
-                        <span className="block text-[10px] text-slate-500">Requieren atención técnica</span>
+                        <span className="text-sm font-bold text-slate-800">Por Subsanar</span>
+                        <span className="block text-sm text-slate-500">Requieren atención técnica</span>
                     </div>
                 </div>
 
@@ -809,8 +809,8 @@ function SeccionSaludTecnica({ resumen, totalAplicables, pctCumple, pctPendiente
                     </div>
                     <div className="min-w-0">
                         <span className="block text-2xl leading-tight font-black text-sky-950">{resumen?.total_por_revisar ?? 0}</span>
-                        <span className="text-xs font-bold text-slate-800">Por Verificar</span>
-                        <span className="block text-[10px] text-slate-500">Revisión técnica sugerida</span>
+                        <span className="text-sm font-bold text-slate-800">Por Verificar</span>
+                        <span className="block text-sm text-slate-500">Revisión técnica sugerida</span>
                     </div>
                 </div>
             </div>
@@ -836,11 +836,11 @@ function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistenci
             {/* Cabecera del Criterio con Tag de Especialista */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-xs font-bold text-slate-900">
+                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-sm font-bold text-slate-900">
                         {item.codigo}
                     </span>
                     <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-xs font-semibold shadow-2xs ${tag.clase}`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-sm font-semibold shadow-2xs ${tag.clase}`}
                     >
                         <span>{tag.icono}</span>
                         <span>{tag.texto}</span>
@@ -848,7 +848,7 @@ function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistenci
                 </div>
 
                 {(item.norma_base || item.articulo_referencia) && (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-600">
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600">
                         {item.norma_base}
                         {item.articulo_referencia && ` (${item.articulo_referencia})`}
                     </span>
@@ -858,14 +858,14 @@ function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistenci
             <h3 className="text-sm font-bold text-slate-900 sm:text-base">{item.titulo}</h3>
 
             {item.que_observar && (
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3.5 text-xs text-slate-700">
+                <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3.5 text-sm text-slate-700">
                     <strong className="mb-1 block font-bold text-slate-900">Qué observar en el establecimiento:</strong>
                     {item.que_observar}
                 </div>
             )}
 
             {item.accion_mejora_orientativa && (
-                <div className="bg-warning-700/5 rounded-2xl border border-[#FF9500]/25 p-3.5 text-xs text-slate-800">
+                <div className="bg-warning-700/5 rounded-2xl border border-[#FF9500]/25 p-3.5 text-sm text-slate-800">
                     <strong className="text-warning-800 mb-1 block font-bold">Acción de corrección prioritaria:</strong>
                     {item.accion_mejora_orientativa}
                 </div>
@@ -874,21 +874,21 @@ function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistenci
             {/* Solución Técnica Oficial según CENEPRED / RNE / CNE con Acordeón interactivo */}
             <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="solucion-tecnica" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-4">
-                    <AccordionTrigger className="py-3 text-xs font-bold text-slate-900 hover:no-underline">
+                    <AccordionTrigger className="py-3 text-sm font-bold text-slate-900 hover:no-underline">
                         <div className="flex items-center gap-2">
                             <div className="bg-warning-700/10 text-warning-800 flex h-6 w-6 items-center justify-center rounded-lg">
                                 <Wrench className="h-3.5 w-3.5" />
                             </div>
                             <span>Orientación Técnica Normativa (CENEPRED / RNE)</span>
-                            <span className="ml-2 rounded-full border border-slate-200 bg-white px-2 py-0.5 font-mono text-[10px] text-slate-600">
+                            <span className="ml-2 rounded-full border border-slate-200 bg-white px-2 py-0.5 font-mono text-sm text-slate-600">
                                 {accionOficial.norma}
                             </span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="pt-1 pb-3 text-xs text-slate-700">
+                    <AccordionContent className="pt-1 pb-3 text-sm text-slate-700">
                         <p className="leading-relaxed font-normal">{accionOficial.solucionTecnica}</p>
                         {accionOficial.requerimientoProfesional && (
-                            <div className="mt-2.5 flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2.5 text-[11px] text-slate-600">
+                            <div className="mt-2.5 flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2.5 text-sm text-slate-600">
                                 <span className="font-semibold text-slate-900">Responsable recomendado:</span>
                                 <span className="text-warning-800 font-medium">{accionOficial.requerimientoProfesional}</span>
                             </div>
@@ -910,7 +910,7 @@ function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistenci
                     <button
                         type="button"
                         onClick={() => onAbrirRecurso(item)}
-                        className="hover:text-success-800 inline-flex cursor-pointer items-center gap-1.5 text-xs font-bold text-slate-700 transition-colors"
+                        className="hover:text-success-800 inline-flex cursor-pointer items-center gap-1.5 text-sm font-bold text-slate-700 transition-colors"
                     >
                         <BookOpen className="text-success-800 h-3.5 w-3.5" />
                         <span>Guía pedagógica ({item.recursos_educativos.length})</span>
@@ -957,16 +957,16 @@ function SeccionPlanSubsanacion({
                         <h2 id="subsanacion-title" className="text-base font-bold text-slate-900 sm:text-lg">
                             Plan de Subsanación Preventiva
                         </h2>
-                        <p className="text-xs text-slate-500">Criterios que presentan observaciones técnicas para subsanar antes de la inspección.</p>
+                        <p className="text-sm text-slate-500">Criterios que presentan observaciones técnicas para subsanar antes de la inspección.</p>
                     </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="bg-warning-700/10 text-warning-800 rounded-full border border-[#FF9500]/25 px-3.5 py-1 text-xs font-bold">
+                    <span className="bg-warning-700/10 text-warning-800 rounded-full border border-[#FF9500]/25 px-3.5 py-1 text-sm font-bold">
                         {totalPendienteAtender} observaciones
                     </span>
                     <Link
                         href={route('directorio.index')}
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
                     >
                         <Store className="h-3.5 w-3.5 text-slate-500" />
                         <span>Directorio</span>
@@ -978,7 +978,7 @@ function SeccionPlanSubsanacion({
                 <div className="bg-success-700/5 space-y-2 rounded-2xl border border-[#34C759]/20 p-6 text-center">
                     <CheckCircle2 className="text-success-800 mx-auto h-8 w-8" />
                     <p className="text-sm font-bold text-slate-900">¡Sin observaciones críticas pendientes!</p>
-                    <p className="text-xs text-slate-600">No declaraste condiciones en estado pendiente de atención preventiva.</p>
+                    <p className="text-sm text-slate-600">No declaraste condiciones en estado pendiente de atención preventiva.</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -1014,12 +1014,12 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                         <h2 id="estimador-economico-title" className="text-base font-bold text-slate-900 sm:text-lg">
                             Estimación de Inversión Preventiva vs. Sanción Municipal
                         </h2>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-sm text-slate-500">
                             Comparativa económica de subsanación técnica local frente al Régimen de Aplicación de Sanciones (RAS Huancayo).
                         </p>
                     </div>
                 </div>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-mono text-xs font-semibold text-slate-600">
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-mono text-sm font-semibold text-slate-600">
                     CUIS / Ley N° 27972
                 </span>
             </div>
@@ -1029,7 +1029,7 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                     <CheckCircle2 className="text-success-800 mt-0.5 h-5 w-5 shrink-0" />
                     <div className="space-y-1">
                         <p className="text-sm font-semibold text-slate-900">Sin pendientes según tus declaraciones</p>
-                        <p className="text-xs leading-relaxed text-slate-600">
+                        <p className="text-sm leading-relaxed text-slate-600">
                             No declaraste condiciones pendientes en esta revisión. Esto no elimina el riesgo de sanciones ni garantiza la continuidad
                             de operación. La comparativa existente muestra como referencia{' '}
                             <strong className="text-slate-900">0.50 a 1.00 UIT (S/ 2,675 a S/ 5,350)</strong>; no es una predicción de una sanción
@@ -1042,9 +1042,9 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {/* Tarjeta 1: Inversión Preventiva Estimada */}
                         <div className="bg-success-700/5 space-y-3 rounded-3xl border border-[#34C759]/25 p-5 shadow-2xs">
-                            <div className="flex items-center justify-between text-xs">
-                                <span className="text-[10px] font-bold tracking-wide text-slate-700 uppercase">Inversión Preventiva Estimada</span>
-                                <span className="bg-success-700/10 text-success-800 rounded-full border border-[#34C759]/30 px-2.5 py-0.5 text-[10px] font-bold">
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-sm font-bold text-slate-700">Inversión Preventiva Estimada</span>
+                                <span className="bg-success-700/10 text-success-800 rounded-full border border-[#34C759]/30 px-2.5 py-0.5 text-sm font-bold">
                                     Mercado Huancayo
                                 </span>
                             </div>
@@ -1053,7 +1053,7 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                                     S/ {estimacionEconomica.minTotal} — S/ {estimacionEconomica.maxTotal}
                                 </span>
                             </div>
-                            <p className="text-[11px] leading-snug text-slate-600">
+                            <p className="text-sm leading-snug text-slate-600">
                                 Costo referencial promedio de subsanación:{' '}
                                 <strong className="font-mono font-semibold text-slate-800">~S/ {estimacionEconomica.promedioTotal}</strong>{' '}
                                 (materiales normalizados y mano de obra técnica local para {pendienteAtenderCount} observación
@@ -1063,16 +1063,16 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
 
                         {/* Tarjeta 2: Sanción Municipal por Falta de ITSE */}
                         <div className="bg-danger-700/5 space-y-3 rounded-3xl border border-[#FF3B30]/25 p-5 shadow-2xs">
-                            <div className="flex items-center justify-between text-xs">
-                                <span className="text-[10px] font-bold tracking-wide text-slate-700 uppercase">Sanción / Clausura Municipal</span>
-                                <span className="bg-danger-700/10 text-danger-700 rounded-full border border-[#FF3B30]/30 px-2.5 py-0.5 text-[10px] font-bold">
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-sm font-bold text-slate-700">Sanción / Clausura Municipal</span>
+                                <span className="bg-danger-700/10 text-danger-700 rounded-full border border-[#FF3B30]/30 px-2.5 py-0.5 text-sm font-bold">
                                     0.50 — 1.00 UIT
                                 </span>
                             </div>
                             <div className="flex items-baseline gap-1.5">
                                 <span className="text-danger-700 font-mono text-2xl font-black">S/ 2,675 — S/ 5,350</span>
                             </div>
-                            <p className="text-[11px] leading-snug text-slate-700">
+                            <p className="text-sm leading-snug text-slate-700">
                                 Multa administrativa municipal por operar sin condiciones de seguridad +{' '}
                                 <strong className="text-danger-700">Clausura Temporal Inmediata</strong> y cese de ingresos comerciales.
                             </p>
@@ -1081,25 +1081,25 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
 
                     {/* Desglose individual de costos por criterio observado */}
                     <div className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                        <span className="block text-xs font-bold text-slate-800">Desglose orientativo por criterio observado:</span>
-                        <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
+                        <span className="block text-sm font-bold text-slate-800">Desglose orientativo por criterio observado:</span>
+                        <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
                             {estimacionEconomica.items.map((it) => (
                                 <div
                                     key={it.codigo}
                                     className="flex items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-white p-2.5 shadow-2xs"
                                 >
                                     <div className="min-w-0">
-                                        <span className="mr-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-900">
+                                        <span className="mr-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-sm font-bold text-slate-900">
                                             {it.codigo}
                                         </span>
                                         <span
-                                            className="inline-block max-w-[170px] truncate align-middle text-[11px] text-slate-700 sm:max-w-[190px]"
+                                            className="inline-block max-w-[170px] truncate align-middle text-sm text-slate-700 sm:max-w-[190px]"
                                             title={it.rubro}
                                         >
                                             {it.rubro}
                                         </span>
                                     </div>
-                                    <span className="text-success-800 shrink-0 font-mono text-[11px] font-bold">
+                                    <span className="text-success-800 shrink-0 font-mono text-sm font-bold">
                                         S/ {it.min} - {it.max}
                                     </span>
                                 </div>
@@ -1110,7 +1110,7 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                     {/* Callout de Retorno de la Prevención */}
                     <div className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
                         <TrendingDown className="mt-0.5 h-4 w-4 shrink-0 text-amber-800" />
-                        <p className="text-xs leading-relaxed text-amber-950">
+                        <p className="text-sm leading-relaxed text-amber-950">
                             <strong>Retorno de la Prevención:</strong> Subsanar estas observaciones antes de la fiscalización municipal cuesta
                             aproximadamente <strong>{Math.round(2675 / Math.max(1, estimacionEconomica.promedioTotal))} veces menos</strong> que el
                             monto mínimo de una multa municipal (S/ 2,675), asegurando la continuidad operativa ininterrumpida de tu negocio en
@@ -1139,18 +1139,18 @@ function TarjetaCriterioPorRevisar({ item, uuid, onAbrirRecurso, onAbrirAsistenc
         <div className="space-y-4 rounded-3xl border border-slate-200/90 bg-white p-5 shadow-xs sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-xs font-bold text-slate-900">
+                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-sm font-bold text-slate-900">
                         {item.codigo}
                     </span>
                     <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-xs font-semibold shadow-2xs ${tag.clase}`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-sm font-semibold shadow-2xs ${tag.clase}`}
                     >
                         <span>{tag.icono}</span>
                         <span>{tag.texto}</span>
                     </span>
                 </div>
                 {item.norma_base && (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-600">
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600">
                         {item.norma_base}
                     </span>
                 )}
@@ -1159,7 +1159,7 @@ function TarjetaCriterioPorRevisar({ item, uuid, onAbrirRecurso, onAbrirAsistenc
             <h3 className="text-sm font-bold text-slate-900 sm:text-base">{item.titulo}</h3>
 
             {item.orientacion && (
-                <div className="rounded-2xl border border-sky-200/70 bg-sky-50/70 p-3.5 text-xs text-sky-950">
+                <div className="rounded-2xl border border-sky-200/70 bg-sky-50/70 p-3.5 text-sm text-sky-950">
                     <strong className="mb-1 block font-bold text-sky-900">Orientación para la verificación:</strong>
                     {item.orientacion}
                 </div>
@@ -1177,7 +1177,7 @@ function TarjetaCriterioPorRevisar({ item, uuid, onAbrirRecurso, onAbrirAsistenc
                     <button
                         type="button"
                         onClick={() => onAbrirRecurso(item)}
-                        className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-bold text-slate-700 transition-colors hover:text-sky-700"
+                        className="inline-flex cursor-pointer items-center gap-1.5 text-sm font-bold text-slate-700 transition-colors hover:text-sky-700"
                     >
                         <BookOpen className="h-3.5 w-3.5 text-sky-600" />
                         <span>Material técnico ({item.recursos_educativos.length})</span>
@@ -1218,16 +1218,16 @@ function SeccionPorRevisar({ porRevisar, totalPorRevisar, uuid, onAbrirRecurso, 
                         <h2 id="por-revisar-title" className="text-base font-bold text-slate-900 sm:text-lg">
                             Aspectos con Verificación Pendiente
                         </h2>
-                        <p className="text-xs text-slate-500">Condiciones que requieren corroboración con un especialista calificado.</p>
+                        <p className="text-sm text-slate-500">Condiciones que requieren corroboración con un especialista calificado.</p>
                     </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full border border-sky-200 bg-sky-50 px-3.5 py-1 text-xs font-bold text-sky-800">
+                    <span className="rounded-full border border-sky-200 bg-sky-50 px-3.5 py-1 text-sm font-bold text-sky-800">
                         {totalPorRevisar} por verificar
                     </span>
                     <Link
                         href={route('directorio.index')}
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
                     >
                         <Store className="h-3.5 w-3.5 text-slate-500" />
                         <span>Directorio</span>
@@ -1236,7 +1236,7 @@ function SeccionPorRevisar({ porRevisar, totalPorRevisar, uuid, onAbrirRecurso, 
             </div>
 
             {porRevisar.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-xs text-slate-500 italic">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500 italic">
                     No hay condiciones con verificación pendiente.
                 </div>
             ) : (
@@ -1273,16 +1273,16 @@ function SeccionPuntosFuertes({ cumpleDeclarado, totalCumpleDeclarado }: Readonl
                         <h2 id="cumple-title" className="text-base font-bold text-slate-900 sm:text-lg">
                             Puntos Fuertes del Establecimiento
                         </h2>
-                        <p className="text-xs text-slate-500">Condiciones de seguridad que tu local ya cumple satisfactoriamente.</p>
+                        <p className="text-sm text-slate-500">Condiciones de seguridad que tu local ya cumple satisfactoriamente.</p>
                     </div>
                 </div>
-                <span className="bg-success-700/10 text-success-800 rounded-full border border-[#34C759]/25 px-3.5 py-1 text-xs font-bold">
+                <span className="bg-success-700/10 text-success-800 rounded-full border border-[#34C759]/25 px-3.5 py-1 text-sm font-bold">
                     {totalCumpleDeclarado} conformes
                 </span>
             </div>
 
             {cumpleDeclarado.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-xs text-slate-500 italic">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500 italic">
                     No se registraron declaraciones cumplidas aún.
                 </div>
             ) : (
@@ -1294,17 +1294,17 @@ function SeccionPuntosFuertes({ cumpleDeclarado, totalCumpleDeclarado }: Readonl
                         >
                             <div className="space-y-1.5">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-0.5 font-mono text-xs font-bold text-slate-900">
+                                    <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-0.5 font-mono text-sm font-bold text-slate-900">
                                         {item.codigo}
                                     </span>
-                                    <span className="bg-success-700/10 text-success-800 inline-flex items-center gap-1 rounded-full border border-[#34C759]/25 px-2.5 py-0.5 text-[11px] font-bold">
+                                    <span className="bg-success-700/10 text-success-800 inline-flex items-center gap-1 rounded-full border border-[#34C759]/25 px-2.5 py-0.5 text-sm font-bold">
                                         <Check className="h-3 w-3 stroke-[3]" />
                                         Cumple declarado
                                     </span>
                                 </div>
-                                <p className="text-xs font-semibold text-slate-800 sm:text-sm">{item.titulo}</p>
+                                <p className="text-sm font-semibold text-slate-800 sm:text-sm">{item.titulo}</p>
                             </div>
-                            {item.norma_base && <span className="hidden shrink-0 text-[11px] text-slate-400 sm:inline-block">{item.norma_base}</span>}
+                            {item.norma_base && <span className="hidden shrink-0 text-sm text-slate-400 sm:inline-block">{item.norma_base}</span>}
                         </div>
                     ))}
                 </div>
@@ -1330,22 +1330,22 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                     <modalidadTramite.contenido.icono className="h-5 w-5" />
                 </div>
                 <div>
-                    <h2 id="modalidad-tramite-title" className="text-xs font-black tracking-wider text-slate-500 uppercase">
+                    <h2 id="modalidad-tramite-title" className="text-sm font-black text-slate-500">
                         Modalidad de Trámite Municipal
                     </h2>
                     <p className="text-sm font-bold text-slate-900">{modalidadTramite.contenido.titulo}</p>
                 </div>
             </div>
 
-            <p className="text-xs leading-relaxed text-slate-700">{modalidadTramite.contenido.mensaje}</p>
+            <p className="text-sm leading-relaxed text-slate-700">{modalidadTramite.contenido.mensaje}</p>
 
             <div className="flex items-start gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 p-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
                 <div className="space-y-1">
-                    <p className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Plazo legal de subsanación</p>
-                    <p className="text-xs font-bold text-slate-800">{modalidadTramite.contenido.plazo}</p>
+                    <p className="text-sm font-bold text-slate-500">Plazo legal de subsanación</p>
+                    <p className="text-sm font-bold text-slate-800">{modalidadTramite.contenido.plazo}</p>
                     {'detallePlazo' in modalidadTramite.contenido && (
-                        <p className="text-[11px] leading-snug text-slate-600">
+                        <p className="text-sm leading-snug text-slate-600">
                             {(modalidadTramite.contenido as { detallePlazo?: string }).detallePlazo}
                         </p>
                     )}
@@ -1356,8 +1356,8 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                 <div className="flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50/70 p-3">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
                     <div className="space-y-0.5">
-                        <p className="text-[10px] font-bold tracking-wider text-amber-900 uppercase">Regla de diligencia y reprogramación</p>
-                        <p className="text-[11px] leading-snug text-amber-900">
+                        <p className="text-sm font-bold text-amber-900">Regla de diligencia y reprogramación</p>
+                        <p className="text-sm leading-snug text-amber-900">
                             {(modalidadTramite.contenido as { reprogramacion?: string }).reprogramacion}
                         </p>
                     </div>
@@ -1367,11 +1367,11 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
             {/* BOTONERA DE FORMATOS OFICIALES PARA MESA DE PARTES */}
             <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
                 <div className="space-y-0.5">
-                    <h3 className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                    <h3 className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
                         <FileText className="h-3.5 w-3.5 text-slate-600" />
                         Plantillas de Formatos Normativos (D.S. N° 002-2018-PCM)
                     </h3>
-                    <p className="text-[11px] leading-tight text-slate-500">
+                    <p className="text-sm leading-tight text-slate-500">
                         Plantillas orientativas de autoevaluación para preparar tu documentación previa al trámite municipal.
                     </p>
                 </div>
@@ -1381,15 +1381,15 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                     <div className="space-y-2 pt-1">
                         <div className="space-y-2 rounded-xl border border-emerald-300 bg-emerald-50/90 p-3">
                             <div className="flex items-center justify-between gap-1.5">
-                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-200/70 px-2 py-0.5 text-[10px] font-black tracking-wider text-emerald-800 uppercase">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-200/70 px-2 py-0.5 text-sm font-black text-emerald-800">
                                     <CheckCircle2 className="h-3 w-3 text-emerald-700" />
                                     Requisito Principal Mesa de Partes
                                 </span>
-                                <span className="font-mono text-[10px] font-bold text-emerald-700">D.S. 002-2018-PCM</span>
+                                <span className="font-mono text-sm font-bold text-emerald-700">D.S. 002-2018-PCM</span>
                             </div>
                             <div>
-                                <h4 className="text-xs font-bold text-emerald-950">Declaración Jurada ITSE (Anexo 4)</h4>
-                                <p className="mt-0.5 text-[11px] leading-tight text-emerald-800">
+                                <h4 className="text-sm font-bold text-emerald-950">Declaración Jurada ITSE (Anexo 4)</h4>
+                                <p className="mt-0.5 text-sm leading-tight text-emerald-800">
                                     Plantilla orientativa de trabajo basada en el Anexo 4 para orientar el trámite de Licencia de Funcionamiento con
                                     inspección técnica posterior.
                                 </p>
@@ -1398,7 +1398,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                 href={route('autoevaluacion.anexo', { uuid, numero: 4 })}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-primary hover:bg-primary-700 flex w-full items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold text-white shadow-2xs transition"
+                                className="bg-primary hover:bg-primary-700 flex w-full items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-2xs transition"
                             >
                                 <FileText className="h-3.5 w-3.5" />
                                 <span>Descargar / Imprimir Declaración Jurada (Anexo 4)</span>
@@ -1406,7 +1406,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                             <button
                                 type="button"
                                 onClick={onAbrirHojaModelo}
-                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-emerald-400 bg-white px-3.5 py-2 text-xs font-bold text-emerald-950 shadow-2xs transition hover:bg-emerald-50"
+                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-emerald-400 bg-white px-3.5 py-2 text-sm font-bold text-emerald-950 shadow-2xs transition hover:bg-emerald-50"
                             >
                                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                                 <span>Guía Visual de Llenado (Hoja Modelo Anexo 4)</span>
@@ -1417,7 +1417,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                             href={route('autoevaluacion.anexo', { uuid, numero: 9 })}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
+                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
                         >
                             <ClipboardList className="h-3.5 w-3.5 text-slate-500" />
                             <span>Ver Solicitud de ITSE (Anexo 9 — Opcional)</span>
@@ -1427,12 +1427,12 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                     /* MODALIDAD EX-ANTE: BLOQUEO DE ANEXO 4 + SOLICITUD ANEXO 9 + CHECKLIST EXPEDIENTE TÉCNICO */
                     <div className="space-y-3 pt-1">
                         {/* Alerta de bloqueo normativo de Anexo 4 */}
-                        <div className="space-y-1 rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-950">
+                        <div className="space-y-1 rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-sm text-amber-950">
                             <div className="flex items-center gap-1.5 font-bold text-amber-900">
                                 <AlertTriangle className="h-4 w-4 shrink-0 text-amber-700" />
                                 <span>No aplica Declaración Jurada (Anexo 4)</span>
                             </div>
-                            <p className="text-[11px] leading-snug text-amber-900">
+                            <p className="text-sm leading-snug text-amber-900">
                                 Por normativa peruana (D.S. N° 002-2018-PCM), los locales de <strong>Riesgo Alto o Muy Alto</strong> no pueden
                                 presentar Anexo 4. Requieren inspección técnica multidisciplinaria previa antes de la emisión de la Licencia.
                             </p>
@@ -1441,15 +1441,15 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                         {/* Botón destacado Solicitud de ITSE Previa (Anexo 9) */}
                         <div className="space-y-2 rounded-xl border border-sky-300 bg-sky-50/90 p-3">
                             <div className="flex items-center justify-between gap-1.5">
-                                <span className="inline-flex items-center gap-1 rounded-full bg-sky-200/70 px-2 py-0.5 text-[10px] font-black tracking-wider text-sky-800 uppercase">
+                                <span className="inline-flex items-center gap-1 rounded-full bg-sky-200/70 px-2 py-0.5 text-sm font-black text-sky-800">
                                     <FileCheck className="h-3 w-3 text-sky-700" />
                                     Requisito Principal Mesa de Partes
                                 </span>
-                                <span className="font-mono text-[10px] font-bold text-sky-700">ITSE Previa</span>
+                                <span className="font-mono text-sm font-bold text-sky-700">ITSE Previa</span>
                             </div>
                             <div>
-                                <h4 className="text-xs font-bold text-sky-950">Solicitud de ITSE Previa (Anexo 9)</h4>
-                                <p className="mt-0.5 text-[11px] leading-tight text-sky-800">
+                                <h4 className="text-sm font-bold text-sky-950">Solicitud de ITSE Previa (Anexo 9)</h4>
+                                <p className="mt-0.5 text-sm leading-tight text-sky-800">
                                     Plantilla orientativa de trabajo basada en el formato de solicitud para la programación de inspección técnica
                                     multidisciplinaria.
                                 </p>
@@ -1458,7 +1458,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                 href={route('autoevaluacion.anexo', { uuid, numero: 9 })}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-2 text-xs font-bold text-white shadow-2xs transition hover:bg-sky-700"
+                                className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-sky-600 px-3.5 py-2 text-sm font-bold text-white shadow-2xs transition hover:bg-sky-700"
                             >
                                 <ClipboardList className="h-3.5 w-3.5" />
                                 <span>Descargar Solicitud de ITSE Previa (Anexo 9)</span>
@@ -1466,7 +1466,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                             <button
                                 type="button"
                                 onClick={onAbrirHojaModelo}
-                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-sky-400 bg-white px-3.5 py-2 text-xs font-bold text-sky-950 shadow-2xs transition hover:bg-sky-50"
+                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-sky-400 bg-white px-3.5 py-2 text-sm font-bold text-sky-950 shadow-2xs transition hover:bg-sky-50"
                             >
                                 <Sparkles className="h-3.5 w-3.5 text-sky-600" />
                                 <span>Guía Visual de Llenado (Hoja Modelo Anexo 1 / 9)</span>
@@ -1476,19 +1476,19 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                         {/* Tarjeta de Checklist de Requisitos del Expediente Técnico */}
                         <div className="space-y-2.5 rounded-xl border border-slate-300 bg-white p-3.5 shadow-2xs">
                             <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                                <h4 className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                                <h4 className="flex items-center gap-1.5 text-sm font-bold text-slate-900">
                                     <Files className="h-3.5 w-3.5 text-slate-600" />
                                     Expediente Técnico Requerido (ITSE Previa)
                                 </h4>
-                                <span className="font-mono text-[10px] font-bold text-slate-500">D.S. 002-2018-PCM</span>
+                                <span className="font-mono text-sm font-bold text-slate-500">D.S. 002-2018-PCM</span>
                             </div>
-                            <p className="text-[11px] leading-tight text-slate-600">
+                            <p className="text-sm leading-tight text-slate-600">
                                 Para admitir a trámite su solicitud de ITSE Previa en Mesa de Partes (Huancayo), debe adjuntar la documentación
                                 técnica firmada por profesionales colegiados:
                             </p>
-                            <ul className="space-y-2 text-xs text-slate-700">
+                            <ul className="space-y-2 text-sm text-slate-700">
                                 <li className="flex items-start gap-2">
-                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-[10px] font-bold text-slate-600">
+                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-sm font-bold text-slate-600">
                                         1
                                     </span>
                                     <span className="leading-snug">
@@ -1498,7 +1498,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-[10px] font-bold text-slate-600">
+                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-sm font-bold text-slate-600">
                                         2
                                     </span>
                                     <span className="leading-snug">
@@ -1508,7 +1508,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-[10px] font-bold text-slate-600">
+                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-sm font-bold text-slate-600">
                                         3
                                     </span>
                                     <span className="leading-snug">
@@ -1518,7 +1518,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-[10px] font-bold text-slate-600">
+                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-sm font-bold text-slate-600">
                                         4
                                     </span>
                                     <span className="leading-snug">
@@ -1527,7 +1527,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     </span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-[10px] font-bold text-slate-600">
+                                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-slate-50 text-sm font-bold text-slate-600">
                                         5
                                     </span>
                                     <span className="leading-snug">
@@ -1542,7 +1542,7 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
 
                 <Link
                     href={route('autoevaluacion.informe', { uuid })}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-slate-800"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-slate-800"
                 >
                     <FileText className="h-3.5 w-3.5" />
                     <span>Ver Informe Preventivo</span>
@@ -1562,11 +1562,11 @@ function SeccionPronosticoDiligencia({ esApto, tipoTramite }: Readonly<SeccionPr
         <section aria-label="Alcance de la orientación preventiva" className="space-y-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs">
             <div className="flex items-center gap-2 border-b border-slate-100 pb-2.5">
                 <Scale className="h-4 w-4 text-slate-600" />
-                <h3 className="text-xs font-black tracking-wider text-slate-700 uppercase">Alcance de esta orientación</h3>
+                <h3 className="text-sm font-black text-slate-700">Alcance de esta orientación</h3>
             </div>
 
             {esApto ? (
-                <div className="space-y-1 rounded-xl border border-emerald-300 bg-emerald-50/80 p-3 text-xs text-emerald-950">
+                <div className="space-y-1 rounded-xl border border-emerald-300 bg-emerald-50/80 p-3 text-sm text-emerald-950">
                     <strong className="block font-bold text-emerald-900">Condiciones declaradas sin pendientes:</strong>
                     <p>
                         Las condiciones declaradas se alinean con los requisitos técnicos exigidos para el trámite de ITSE (D.S. N° 002-2018-PCM).
@@ -1574,7 +1574,7 @@ function SeccionPronosticoDiligencia({ esApto, tipoTramite }: Readonly<SeccionPr
                     </p>
                 </div>
             ) : (
-                <div className="space-y-1 rounded-xl border border-amber-300 bg-amber-50/80 p-3 text-xs text-amber-950">
+                <div className="space-y-1 rounded-xl border border-amber-300 bg-amber-50/80 p-3 text-sm text-amber-950">
                     <strong className="block font-bold text-amber-900">Condiciones Observadas por Subsanar:</strong>
                     <p>
                         En una diligencia municipal presencial, las observaciones no subsanadas dan lugar a un Acta de Diligencia con plazo de
@@ -1584,7 +1584,7 @@ function SeccionPronosticoDiligencia({ esApto, tipoTramite }: Readonly<SeccionPr
                 </div>
             )}
 
-            <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-3 text-[11px] leading-snug text-rose-900">
+            <div className="rounded-xl border border-rose-200 bg-rose-50/60 p-3 text-sm leading-snug text-rose-900">
                 <strong className="mb-0.5 block font-bold text-rose-950">Advertencia de Denegatoria Inmediata:</strong>
                 <p>
                     Incongruencia física grave de giro/riesgo o local no habilitado para operar causan denegatoria inmediata sin plazo (numeral 1.2.9
@@ -1612,17 +1612,15 @@ function SeccionCaracteristicasDeclaradas({ caracteristicasDeclaradas }: Readonl
                                 <ClipboardList className="h-4 w-4" />
                             </div>
                             <div>
-                                <h3 className="text-xs font-bold text-slate-900">
+                                <h3 className="text-sm font-bold text-slate-900">
                                     Características Físicas Declaradas ({caracteristicasDeclaradas.length})
                                 </h3>
-                                <p className="text-[11px] font-normal text-slate-500">
-                                    Parámetros base usados para filtrar las condiciones aplicables.
-                                </p>
+                                <p className="text-sm font-normal text-slate-500">Parámetros base usados para filtrar las condiciones aplicables.</p>
                             </div>
                         </div>
                     </AccordionTrigger>
                     <AccordionContent className="border-t border-slate-100 bg-slate-50/50 p-5">
-                        <dl className="grid grid-cols-1 gap-2.5 text-xs">
+                        <dl className="grid grid-cols-1 gap-2.5 text-sm">
                             {caracteristicasDeclaradas.map((caract) => (
                                 <div key={caract.clave} className="flex items-center justify-between gap-2 border-b border-slate-200/60 pb-2">
                                     <dt className="text-slate-600">{caract.etiqueta}</dt>
@@ -1654,20 +1652,20 @@ function SeccionCondicionesNoAplicables({ noAplica }: Readonly<SeccionCondicione
                                 <ShieldAlert className="h-4 w-4" />
                             </div>
                             <div>
-                                <h3 className="text-xs font-bold text-slate-700">Condiciones No Aplicables ({noAplica.length})</h3>
-                                <p className="text-[11px] font-normal text-slate-400">Descartadas automáticamente por reglas del sistema.</p>
+                                <h3 className="text-sm font-bold text-slate-700">Condiciones No Aplicables ({noAplica.length})</h3>
+                                <p className="text-sm font-normal text-slate-400">Descartadas automáticamente por reglas del sistema.</p>
                             </div>
                         </div>
                     </AccordionTrigger>
                     <AccordionContent className="space-y-2.5 border-t border-slate-100 bg-slate-50/50 p-5">
                         {noAplica.map((item) => (
-                            <div key={item.codigo} className="space-y-1 rounded-2xl border border-slate-200 bg-white p-3 text-xs">
+                            <div key={item.codigo} className="space-y-1 rounded-2xl border border-slate-200 bg-white p-3 text-sm">
                                 <div className="flex items-center justify-between">
-                                    <span className="font-mono text-[11px] font-bold text-slate-800">{item.codigo}</span>
-                                    <span className="text-[10px] text-slate-400">Excluido por motor</span>
+                                    <span className="font-mono text-sm font-bold text-slate-800">{item.codigo}</span>
+                                    <span className="text-sm text-slate-400">Excluido por motor</span>
                                 </div>
                                 <p className="font-semibold text-slate-800">{item.titulo}</p>
-                                <p className="text-[11px] text-slate-500 italic">Razón: {item.motivo}</p>
+                                <p className="text-sm text-slate-500 italic">Razón: {item.motivo}</p>
                             </div>
                         ))}
                     </AccordionContent>
@@ -1698,22 +1696,22 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
                             <ShieldCheck className="h-6 w-6 stroke-[2]" />
                         </div>
                         <span className="font-mono text-[9px] font-bold tracking-widest text-slate-400 uppercase">CÓDIGO DE REGISTRO</span>
-                        <span className="mt-0.5 font-mono text-xs font-black tracking-wider text-emerald-400">
+                        <span className="mt-0.5 font-mono text-sm font-black tracking-wider text-emerald-400">
                             {autoevaluacion.codigo_acceso || 'CHK-ITSE'}
                         </span>
                     </div>
 
                     <div className="max-w-xl space-y-1.5">
                         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
-                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-800/80 bg-emerald-950/80 px-2.5 py-0.5 font-mono text-[10px] font-bold tracking-widest text-emerald-400 uppercase">
+                            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-800/80 bg-emerald-950/80 px-2.5 py-0.5 font-mono text-sm font-bold text-emerald-400">
                                 <ShieldCheck className="h-3 w-3" />
                                 {esRegistrada ? 'REGISTRO DE AUTOEVALUACIÓN FINALIZADO' : 'BORRADOR PREVENTIVO'}
                             </span>
-                            <span className="font-mono text-xs text-slate-400">{esRegistrada ? 'VERSIÓN SELLADA' : 'FASE PREVIA'}</span>
+                            <span className="font-mono text-sm text-slate-400">{esRegistrada ? 'VERSIÓN SELLADA' : 'FASE PREVIA'}</span>
                         </div>
 
                         <h3 className="text-base font-bold tracking-tight text-white">Diagnóstico Técnico Orientativo — CheckITSE Huancayo</h3>
-                        <p className="text-xs leading-relaxed text-slate-400">
+                        <p className="text-sm leading-relaxed text-slate-400">
                             Registro de Autoevaluación Finalizado — Carácter Orientativo y No Vinculante (D.S. N° 002-2018-PCM / R.J. N°
                             016-2018-CENEPRED/J). No constituye certificado ITSE ni exime de la inspección in situ de la Municipalidad Provincial de
                             Huancayo.
@@ -1758,7 +1756,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
                     <div className="flex flex-wrap items-center justify-center gap-2">
                         <Link
                             href={route('autoevaluacion.checklist', { uuid: autoevaluacion.uuid })}
-                            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
                         >
                             <RotateCcw className="h-3.5 w-3.5 text-slate-400" />
                             <span>{esRegistrada ? 'Ver en checklist' : 'Editar checklist'}</span>
@@ -1768,7 +1766,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
                             <>
                                 <Link
                                     href={route('mis-autoevaluaciones')}
-                                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
+                                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
                                 >
                                     <Building2 className="h-3.5 w-3.5 text-slate-400" />
                                     <span>Mis Autoevaluaciones</span>
@@ -1776,7 +1774,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
 
                                 <Link
                                     href={route('mis-autoevaluaciones.expediente', { uuid: autoevaluacion.uuid })}
-                                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
+                                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white"
                                 >
                                     <FileCheck className="h-3.5 w-3.5 text-slate-400" />
                                     <span>Ver Expediente</span>
@@ -1787,7 +1785,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
                         {esRegistrada && (
                             <Link
                                 href={route('autoevaluacion.reevaluar', { uuid: autoevaluacion.uuid })}
-                                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-700/80 bg-emerald-950 px-3 py-1.5 text-xs font-bold text-emerald-300 transition hover:bg-emerald-900"
+                                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-700/80 bg-emerald-950 px-3 py-1.5 text-sm font-bold text-emerald-300 transition hover:bg-emerald-900"
                             >
                                 <RefreshCw className="h-3.5 w-3.5 text-emerald-400" />
                                 <span>Reevaluar local</span>
@@ -1799,7 +1797,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
 
             {/* Trazabilidad y Huella de Registro (si está registrada) */}
             {esRegistrada && autoevaluacion.hash_integridad && (
-                <div className="mt-4 flex flex-col justify-between gap-3 pt-4 text-xs text-slate-400 sm:flex-row sm:items-center">
+                <div className="mt-4 flex flex-col justify-between gap-3 pt-4 text-sm text-slate-400 sm:flex-row sm:items-center">
                     <CryptoSealBadge
                         hash={autoevaluacion.hash_integridad}
                         fecha={
@@ -1807,7 +1805,7 @@ function PieSelloValidezCivica({ autoevaluacion, esRegistrada, tieneUsuario, onC
                         }
                         esInmutable={true}
                     />
-                    <div className="rounded-xl border border-slate-700/60 bg-slate-800/50 px-3 py-1.5 text-[11px] text-slate-300">
+                    <div className="rounded-xl border border-slate-700/60 bg-slate-800/50 px-3 py-1.5 text-sm text-slate-300">
                         <strong className="text-emerald-400">Diagnóstico Inicial Inmutable:</strong> Este registro base está protegido
                         criptográficamente. Las subsanaciones posteriores se administran en su propio espacio operativo sin modificar el snapshot
                         inicial.
@@ -1862,7 +1860,7 @@ function ModalConfirmacionRegistro({
                             <h2 id="modal-confirmar-titulo" className="text-lg font-bold text-slate-900">
                                 Confirmar y Registrar Autoevaluación
                             </h2>
-                            <p className="text-xs text-slate-500">Cierre formal e inmutable del diagnóstico técnico.</p>
+                            <p className="text-sm text-slate-500">Cierre formal e inmutable del diagnóstico técnico.</p>
                         </div>
                     </div>
                     <button
@@ -1876,7 +1874,7 @@ function ModalConfirmacionRegistro({
                     </button>
                 </div>
 
-                <div className="space-y-1.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900">
+                <div className="space-y-1.5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                     <div className="flex items-center gap-1.5 font-bold text-amber-950">
                         <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
                         <span>Atención: Acción Definitiva e Inmutable</span>
@@ -1888,7 +1886,7 @@ function ModalConfirmacionRegistro({
                 </div>
 
                 {errorFinalizar && (
-                    <div className="space-y-2 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-xs text-rose-800">
+                    <div className="space-y-2 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
                         <div className="flex items-start gap-2">
                             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
                             <p className="font-semibold">{errorFinalizar}</p>
@@ -1898,7 +1896,7 @@ function ModalConfirmacionRegistro({
                             <ul className="max-h-36 space-y-1 overflow-y-auto rounded-xl border border-rose-100 bg-white/80 p-2.5">
                                 {pendientesFinalizar.map((pendiente) => (
                                     <li key={pendiente.codigo} className="flex flex-col gap-0.5">
-                                        <span className="font-mono text-[11px] font-bold text-rose-900">{pendiente.codigo}</span>
+                                        <span className="font-mono text-sm font-bold text-rose-900">{pendiente.codigo}</span>
                                         <span className="text-rose-800">{pendiente.titulo}</span>
                                     </li>
                                 ))}
@@ -1907,7 +1905,7 @@ function ModalConfirmacionRegistro({
 
                         <Link
                             href={route('autoevaluacion.checklist', { uuid })}
-                            className="inline-flex items-center gap-1.5 rounded-xl border border-rose-300 bg-white px-3 py-1.5 text-[11px] font-bold text-rose-800 transition hover:bg-rose-50"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-rose-300 bg-white px-3 py-1.5 text-sm font-bold text-rose-800 transition hover:bg-rose-50"
                         >
                             <RotateCcw className="h-3.5 w-3.5" />
                             <span>Volver al checklist para responder</span>
@@ -1921,7 +1919,7 @@ function ModalConfirmacionRegistro({
                         type="button"
                         onClick={onCerrar}
                         disabled={finalizando}
-                        className="w-full cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50 sm:w-auto"
+                        className="w-full cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50 sm:w-auto"
                     >
                         Cancelar
                     </button>
@@ -1929,7 +1927,7 @@ function ModalConfirmacionRegistro({
                         type="button"
                         onClick={onConfirmar}
                         disabled={finalizando}
-                        className="bg-primary hover:bg-primary-700 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold text-white shadow-xs transition disabled:opacity-50 sm:w-auto"
+                        className="bg-primary hover:bg-primary-700 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-xs transition disabled:opacity-50 sm:w-auto"
                     >
                         {finalizando ? (
                             <>
@@ -2187,28 +2185,28 @@ export default function Resumen({
                                 <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1.5 rounded-2xl border border-slate-200 bg-slate-100/70 p-1.5">
                                     <TabsTrigger
                                         value="pendientes"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
                                     >
                                         <AlertTriangle className="text-warning-800 h-3.5 w-3.5" />
                                         <span>Por Subsanar ({resumen?.total_pendiente_atender ?? 0})</span>
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="por-revisar"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
                                     >
                                         <HelpCircle className="h-3.5 w-3.5 text-sky-600" />
                                         <span>Por Verificar ({resumen?.total_por_revisar ?? 0})</span>
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="conformes"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
                                     >
                                         <CheckCircle2 className="text-success-800 h-3.5 w-3.5" />
                                         <span>Declaradas ({resumen?.total_cumple_declarado ?? 0})</span>
                                     </TabsTrigger>
                                     <TabsTrigger
                                         value="economico"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
                                     >
                                         <Coins className="h-3.5 w-3.5 text-amber-600" />
                                         <span>Inversión vs Multas</span>
@@ -2275,7 +2273,7 @@ export default function Resumen({
                                             <h2 id="especialidades-title" className="text-base font-bold text-slate-900">
                                                 Desglose por Especialidad
                                             </h2>
-                                            <p className="text-xs text-slate-500">Condiciones evaluadas por disciplina técnica ITSE.</p>
+                                            <p className="text-sm text-slate-500">Condiciones evaluadas por disciplina técnica ITSE.</p>
                                         </div>
                                     </div>
 

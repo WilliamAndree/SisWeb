@@ -1,8 +1,12 @@
 import { GuiaModal } from '@/components/GuiaModal';
 import { ModalConfirmarReevaluacion } from '@/components/ModalConfirmarReevaluacion';
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
+import { CryptoSealBadge } from '@/components/shared/CryptoSealBadge';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RecursoEducativoData, VideoEducativoModal } from '@/components/VideoEducativoModal';
 import { CATEGORIA_LABELS, CategoriaChecklist, CHECKLIST_CATALOGO_OFICIAL, RecursoCatalogo } from '@/data/checklistCatalogo';
+import { formatearNivelRiesgo } from '@/lib/riesgo';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
     AlertTriangle,
@@ -25,10 +29,6 @@ import {
     ShieldCheck,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CryptoSealBadge } from '@/components/shared/CryptoSealBadge';
-import { formatearNivelRiesgo } from '@/lib/riesgo';
 
 interface TareaPlan {
     codigo: string;
@@ -216,10 +216,7 @@ const ESTILO_SEMAFORO_DEFECTO: Omit<ConfiguracionSemaforoResultado, 'descripcion
     icono: ShieldCheck,
 };
 
-function resolverConfigSemaforo(
-    semaforo: AutoevaluacionData['semaforo'],
-    descripcion: string,
-): ConfiguracionSemaforoResultado {
+function resolverConfigSemaforo(semaforo: AutoevaluacionData['semaforo'], descripcion: string): ConfiguracionSemaforoResultado {
     const base = ESTILOS_SEMAFORO_BASE[semaforo] || ESTILO_SEMAFORO_DEFECTO;
     return {
         ...base,
@@ -272,8 +269,8 @@ function DetalleOrientacionPendiente({ pendiente }: Readonly<DetalleOrientacionP
                     <BookOpen className="h-4 w-4" />
                 </div>
                 <div>
-                    <strong className="block text-xs font-bold text-neutral-900">¿Qué identificaste?</strong>
-                    <p className="mt-0.5 text-xs leading-relaxed text-neutral-700">{pendiente.por_que || pendiente.nombre}</p>
+                    <strong className="block text-sm font-bold text-neutral-900">¿Qué identificaste?</strong>
+                    <p className="mt-0.5 text-sm leading-relaxed text-neutral-700">{pendiente.por_que || pendiente.nombre}</p>
                 </div>
             </div>
 
@@ -283,8 +280,8 @@ function DetalleOrientacionPendiente({ pendiente }: Readonly<DetalleOrientacionP
                         <Info className="h-4 w-4" />
                     </div>
                     <div>
-                        <strong className="block text-xs font-bold text-neutral-900">¿Qué puedes revisar?</strong>
-                        <p className="mt-0.5 text-xs leading-relaxed text-neutral-700">{pendiente.que_observar}</p>
+                        <strong className="block text-sm font-bold text-neutral-900">¿Qué puedes revisar?</strong>
+                        <p className="mt-0.5 text-sm leading-relaxed text-neutral-700">{pendiente.que_observar}</p>
                     </div>
                 </div>
             )}
@@ -295,8 +292,8 @@ function DetalleOrientacionPendiente({ pendiente }: Readonly<DetalleOrientacionP
                         <CheckCircle2 className="h-4 w-4" />
                     </div>
                     <div>
-                        <strong className="block text-xs font-bold text-neutral-900">¿Qué puedes hacer?</strong>
-                        <p className="mt-0.5 text-xs leading-relaxed text-neutral-700">{pendiente.solucion}</p>
+                        <strong className="block text-sm font-bold text-neutral-900">¿Qué puedes hacer?</strong>
+                        <p className="mt-0.5 text-sm leading-relaxed text-neutral-700">{pendiente.solucion}</p>
                     </div>
                 </div>
             )}
@@ -306,26 +303,26 @@ function DetalleOrientacionPendiente({ pendiente }: Readonly<DetalleOrientacionP
                     <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div>
-                    <strong className="block text-xs font-bold text-neutral-900">¿Cuándo conviene consultar a un profesional?</strong>
-                    <p className="mt-0.5 text-xs leading-relaxed text-neutral-700">{consejoProfesional(pendiente)}</p>
+                    <strong className="block text-sm font-bold text-neutral-900">¿Cuándo conviene consultar a un profesional?</strong>
+                    <p className="mt-0.5 text-sm leading-relaxed text-neutral-700">{consejoProfesional(pendiente)}</p>
                 </div>
             </div>
 
             {pendiente.recurso?.base_legal && (
-                <div className="flex items-start gap-2.5 rounded-2xl border border-[#FF3B30]/20 bg-[#FF3B30]/5 p-3.5 text-xs text-neutral-700">
+                <div className="flex items-start gap-2.5 rounded-2xl border border-[#FF3B30]/20 bg-[#FF3B30]/5 p-3.5 text-sm text-neutral-700">
                     <FileText className="mt-0.5 h-4 w-4 shrink-0 text-[#c9251d]" />
                     <div>
-                        <strong className="block text-[10px] tracking-wider font-bold text-[#c9251d] uppercase">Base legal referencial</strong>
-                        <span className="font-mono text-xs">{pendiente.recurso.base_legal}</span>
+                        <strong className="block text-sm font-bold text-[#c9251d]">Base legal referencial</strong>
+                        <span className="font-mono text-sm">{pendiente.recurso.base_legal}</span>
                     </div>
                 </div>
             )}
 
-            <p className="flex items-start gap-2 text-[11px] leading-relaxed text-neutral-500 pt-1">
+            <p className="flex items-start gap-2 pt-1 text-sm leading-relaxed text-neutral-500">
                 <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-neutral-400" />
                 <span>
-                    Esta orientación es educativa y preventiva. Lo que registres refleja tu declaración ciudadana; no reemplaza la
-                    verificación que realiza la autoridad competente.
+                    Esta orientación es educativa y preventiva. Lo que registres refleja tu declaración ciudadana; no reemplaza la verificación que
+                    realiza la autoridad competente.
                 </span>
             </p>
         </div>
@@ -337,10 +334,7 @@ interface TarjetaPendienteItemProps {
     onAbrirRecurso: (pendiente: PendienteDetalle) => void;
 }
 
-function TarjetaPendienteItem({
-    pendiente,
-    onAbrirRecurso,
-}: Readonly<TarjetaPendienteItemProps>) {
+function TarjetaPendienteItem({ pendiente, onAbrirRecurso }: Readonly<TarjetaPendienteItemProps>) {
     const esNoCumple = pendiente.estado === 'NO_CUMPLE';
     const badgeEstado = esNoCumple ? 'Pendiente identificado' : 'Por revisar';
     const badgeClases = esNoCumple
@@ -348,10 +342,10 @@ function TarjetaPendienteItem({
         : 'border border-[#FF9500]/30 bg-[#FF9500]/10 text-[#9a5b00]';
 
     return (
-        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-7 text-left shadow-sm transition-all hover:border-neutral-300">
+        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 text-left shadow-sm transition-all hover:border-neutral-300 sm:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-3.5">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-neutral-900 text-xs font-black text-white shadow-xs">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-neutral-900 text-sm font-black text-white shadow-xs">
                         {pendiente.numero}
                     </span>
                     <div>
@@ -360,14 +354,14 @@ function TarjetaPendienteItem({
                                 {badgeEstado}
                             </span>
                             {pendiente.es_critico && esNoCumple && (
-                                <span className="rounded-full bg-[#FF3B30] px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase shadow-xs">
+                                <span className="rounded-full bg-[#FF3B30] px-2.5 py-0.5 text-sm font-bold text-white shadow-xs">
                                     Prioridad crítica
                                 </span>
                             )}
                         </div>
-                        <h4 className="mt-2 text-base font-bold text-neutral-900 leading-snug">{pendiente.nombre}</h4>
+                        <h4 className="mt-2 text-base leading-snug font-bold text-neutral-900">{pendiente.nombre}</h4>
                         {pendiente.categoria && (
-                            <p className="mt-1 text-xs text-neutral-500">
+                            <p className="mt-1 text-sm text-neutral-500">
                                 Categoría: <strong className="text-neutral-700">{CATEGORIA_LABELS[pendiente.categoria]}</strong>
                                 {pendiente.norma && <span className="ml-2 font-mono text-neutral-400">{pendiente.norma}</span>}
                             </p>
@@ -376,13 +370,13 @@ function TarjetaPendienteItem({
                 </div>
             </div>
 
-            {pendiente.por_que && <p className="mt-3 text-xs leading-relaxed text-neutral-600">{pendiente.por_que}</p>}
+            {pendiente.por_que && <p className="mt-3 text-sm leading-relaxed text-neutral-600">{pendiente.por_que}</p>}
 
-            <div className="mt-4 pt-2 border-t border-neutral-100">
+            <div className="mt-4 border-t border-neutral-100 pt-2">
                 <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value={`orientacion-${pendiente.codigo}`} className="border-0">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                            <AccordionTrigger className="py-2 px-4 rounded-xl border border-neutral-200 bg-neutral-50 hover:bg-neutral-100 hover:no-underline text-xs font-bold text-neutral-800 transition">
+                            <AccordionTrigger className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2 text-sm font-bold text-neutral-800 transition hover:bg-neutral-100 hover:no-underline">
                                 <span className="flex items-center gap-2">
                                     <HelpCircle className="h-4 w-4 text-[#FF9500]" />
                                     <span>Consultar orientación técnica</span>
@@ -393,7 +387,7 @@ function TarjetaPendienteItem({
                                 <button
                                     type="button"
                                     onClick={() => onAbrirRecurso(pendiente)}
-                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3.5 py-2 text-xs font-semibold text-neutral-700 shadow-2xs transition hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
+                                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3.5 py-2 text-sm font-semibold text-neutral-700 shadow-2xs transition hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                                 >
                                     <PlayCircle className="h-4 w-4 text-[#34C759]" />
                                     <span>Ver guía / video</span>
@@ -416,21 +410,17 @@ interface EncabezadoResultadoProps {
     readonly fecha?: string | null;
 }
 
-function EncabezadoResultado({
-    esReevaluacion,
-    hashIntegridad,
-    fecha,
-}: Readonly<EncabezadoResultadoProps>) {
+function EncabezadoResultado({ esReevaluacion, hashIntegridad, fecha }: Readonly<EncabezadoResultadoProps>) {
     return (
         <>
             {/* Encabezado Cívico de la Autoevaluación */}
             <div className="mb-6 text-left print:break-inside-avoid">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full border border-rose-100 bg-rose-50 px-2.5 py-1 text-[10px] font-bold tracking-wider text-rose-800 uppercase">
+                    <span className="rounded-full border border-rose-100 bg-rose-50 px-2.5 py-1 text-sm font-bold text-rose-800">
                         {esReevaluacion ? 'Nueva Autoevaluación Preventiva' : 'Autoevaluación Preventiva'} · Huancayo
                     </span>
                     {esReevaluacion && (
-                        <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold tracking-wider text-emerald-800 uppercase">
+                        <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-sm font-bold text-emerald-800">
                             Resultado Actualizado
                         </span>
                     )}
@@ -438,7 +428,7 @@ function EncabezadoResultado({
                 <h1 className="mt-2 text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
                     {esReevaluacion ? 'Resultado de tu nueva autoevaluación' : 'Resultado de tu autoevaluación'}
                 </h1>
-                <p className="mt-1 text-xs text-neutral-500 sm:text-sm">
+                <p className="mt-1 text-sm text-neutral-500 sm:text-sm">
                     {esReevaluacion
                         ? 'Esta evaluación se realizó nuevamente para revisar el estado actual declarado del establecimiento.'
                         : 'Diagnóstico cívico de preparación técnica de seguridad para tu establecimiento comercial.'}
@@ -447,37 +437,33 @@ function EncabezadoResultado({
                 {/* Sello Criptográfico SHA-256 e Integridad */}
                 {hashIntegridad && (
                     <div className="mt-3">
-                        <CryptoSealBadge
-                            hash={hashIntegridad}
-                            fecha={fecha}
-                            esInmutable={true}
-                        />
+                        <CryptoSealBadge hash={hashIntegridad} fecha={fecha} esInmutable={true} />
                     </div>
                 )}
             </div>
 
             {/* Referencia contextual para reevaluaciones */}
             {esReevaluacion && (
-                <div className="mb-6 flex items-start gap-3 rounded-2xl border border-emerald-200/90 bg-emerald-50/70 p-4 text-left text-xs text-emerald-950 print:break-inside-avoid">
+                <div className="mb-6 flex items-start gap-3 rounded-2xl border border-emerald-200/90 bg-emerald-50/70 p-4 text-left text-sm text-emerald-950 print:break-inside-avoid">
                     <RefreshCw className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
                     <div className="space-y-1">
                         <p className="font-bold text-emerald-900">
                             Esta es una nueva autoevaluación. La evaluación anterior se conserva sin cambios.
                         </p>
-                        <p className="text-[11px] leading-relaxed text-emerald-800/90">
-                            Esta evaluación se realizó nuevamente para revisar el estado actual declarado del establecimiento. Este resultado
-                            refleja exclusivamente lo que declaraste en esta nueva evaluación.
+                        <p className="text-sm leading-relaxed text-emerald-800/90">
+                            Esta evaluación se realizó nuevamente para revisar el estado actual declarado del establecimiento. Este resultado refleja
+                            exclusivamente lo que declaraste en esta nueva evaluación.
                         </p>
                     </div>
                 </div>
             )}
 
             {/* Aviso preventivo de no-oficialidad */}
-            <div className="mb-6 flex items-start gap-2.5 rounded-2xl border border-neutral-200/80 bg-neutral-50 p-3.5 text-left text-xs text-neutral-600 print:break-inside-avoid">
+            <div className="mb-6 flex items-start gap-2.5 rounded-2xl border border-neutral-200/80 bg-neutral-50 p-3.5 text-left text-sm text-neutral-600 print:break-inside-avoid">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
-                <p className="text-[11px] leading-relaxed">
-                    <strong>Aviso preventivo:</strong> Este resultado corresponde a una autoevaluación declarada por el ciudadano y no constituye
-                    una aprobación, certificación ni inspección oficial.
+                <p className="text-sm leading-relaxed">
+                    <strong>Aviso preventivo:</strong> Este resultado corresponde a una autoevaluación declarada por el ciudadano y no constituye una
+                    aprobación, certificación ni inspección oficial.
                 </p>
             </div>
         </>
@@ -491,19 +477,14 @@ interface TabFichaProps {
     detalleChecklist: EstadoDeclarado[];
 }
 
-function TabFicha({
-    autoevaluacion,
-    configSemaforo,
-    urlSimulacion,
-    detalleChecklist,
-}: Readonly<TabFichaProps>) {
+function TabFicha({ autoevaluacion, configSemaforo, urlSimulacion, detalleChecklist }: Readonly<TabFichaProps>) {
     const IconoSemaforo = configSemaforo.icono;
     const ubicacionTexto = [autoevaluacion.direccion, autoevaluacion.referencia].filter(Boolean).join(' · ');
 
     return (
         <div className="space-y-6">
             {/* Tarjeta del Semáforo */}
-            <div className={`rounded-3xl border p-6 sm:p-8 text-left shadow-sm ${configSemaforo.bg} ${configSemaforo.border}`}>
+            <div className={`rounded-3xl border p-6 text-left shadow-sm sm:p-8 ${configSemaforo.bg} ${configSemaforo.border}`}>
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div className="flex items-start gap-4">
                         <div className={`shrink-0 rounded-2xl p-3.5 text-white shadow-xs ${configSemaforo.badgeBg}`}>
@@ -516,23 +497,23 @@ function TabFicha({
                                 >
                                     Nivel {autoevaluacion.semaforo}
                                 </span>
-                                <span className="text-xs font-bold text-neutral-600">
+                                <span className="text-sm font-bold text-neutral-600">
                                     {autoevaluacion.porcentaje_cumplimiento}% de Preparación Declarada
                                 </span>
                             </div>
                             <h2 className={`mt-1.5 text-2xl font-black tracking-tight ${configSemaforo.text}`}>{configSemaforo.titulo}</h2>
-                            <p className="mt-1 max-w-xl text-xs leading-relaxed text-neutral-600">{configSemaforo.descripcion}</p>
+                            <p className="mt-1 max-w-xl text-sm leading-relaxed text-neutral-600">{configSemaforo.descripcion}</p>
                         </div>
                     </div>
 
                     {autoevaluacion.tipo_tramite && (
                         <div className="border-t border-neutral-200/60 pt-3 sm:border-t-0 sm:pt-0 sm:text-right">
-                            <span className="block text-[10px] font-bold text-neutral-400 uppercase">Modalidad Proyectada:</span>
+                            <span className="block text-sm font-bold text-neutral-400">Modalidad Proyectada:</span>
                             <span className="text-sm font-extrabold text-neutral-900">
                                 {autoevaluacion.tipo_tramite === 'EX_POST' ? 'ITSE Posterior (Ex-Post)' : 'ITSE Previa (Ex-Ante)'}
                             </span>
                             {autoevaluacion.nivel_riesgo && (
-                                <span className="mt-0.5 block text-[10px] text-neutral-500">
+                                <span className="mt-0.5 block text-sm text-neutral-500">
                                     Riesgo declarado: <strong>{formatearNivelRiesgo(autoevaluacion.nivel_riesgo)}</strong>
                                 </span>
                             )}
@@ -545,25 +526,21 @@ function TabFicha({
             <div className="space-y-6 rounded-3xl border border-neutral-200/80 bg-white p-6 text-left shadow-sm sm:p-8">
                 <div className="flex flex-col items-start justify-between gap-4 border-b border-neutral-100 pb-6 sm:flex-row sm:items-center">
                     <div>
-                        <span className="rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[10px] font-bold tracking-wider text-neutral-700 uppercase">
+                        <span className="rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-sm font-bold text-neutral-700">
                             Expediente Digital de Autoevaluación Preventiva · Huancayo
                         </span>
                         <h3 className="mt-2 text-xl font-extrabold text-neutral-900">{autoevaluacion.nombre_comercio}</h3>
-                        <p className="mt-0.5 text-xs text-neutral-500">
+                        <p className="mt-0.5 text-sm text-neutral-500">
                             RUC: <strong className="font-mono">{autoevaluacion.ruc}</strong> · Giro:{' '}
                             <strong>{autoevaluacion.funcion_economica}</strong>
                         </p>
-                        {ubicacionTexto && (
-                            <p className="mt-0.5 text-xs text-neutral-500">
-                                {ubicacionTexto}
-                            </p>
-                        )}
+                        {ubicacionTexto && <p className="mt-0.5 text-sm text-neutral-500">{ubicacionTexto}</p>}
                     </div>
 
                     {/* Enlace de seguimiento */}
-                    <div className="flex items-center gap-4 self-center rounded-2xl border border-neutral-100 bg-neutral-50 p-4 sm:self-auto shadow-2xs">
-                        <div className="space-y-1 text-[10px] text-neutral-500">
-                            <span className="block text-xs font-bold text-neutral-800">Seguimiento Preventivo</span>
+                    <div className="flex items-center gap-4 self-center rounded-2xl border border-neutral-100 bg-neutral-50 p-4 shadow-2xs sm:self-auto">
+                        <div className="space-y-1 text-sm text-neutral-500">
+                            <span className="block text-sm font-bold text-neutral-800">Seguimiento Preventivo</span>
                             <p className="leading-tight text-neutral-500">
                                 Abre tu simulación de revisión in situ y da seguimiento a tu plan de preparación.
                             </p>
@@ -571,7 +548,7 @@ function TabFicha({
                                 href={urlSimulacion}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-[#34C759] inline-flex items-center gap-1 pt-1 font-bold hover:underline"
+                                className="inline-flex items-center gap-1 pt-1 font-bold text-[#34C759] hover:underline"
                             >
                                 <span>Simulación de Revisión In Situ</span>
                                 <ExternalLink className="h-3 w-3" />
@@ -581,60 +558,52 @@ function TabFicha({
                 </div>
 
                 {/* Parámetros de Escala y Emplazamiento */}
-                <div className="grid grid-cols-2 gap-4 rounded-2xl border border-neutral-100 bg-neutral-50/70 p-5 text-xs sm:grid-cols-4">
+                <div className="grid grid-cols-2 gap-4 rounded-2xl border border-neutral-100 bg-neutral-50/70 p-5 text-sm sm:grid-cols-4">
                     <div>
-                        <span className="block text-[10px] font-bold text-neutral-400 uppercase">Área Techada</span>
+                        <span className="block text-sm font-bold text-neutral-400">Área Techada</span>
                         <span className="font-bold text-neutral-800">{autoevaluacion.area_m2} m²</span>
                     </div>
                     <div>
-                        <span className="block text-[10px] font-bold text-neutral-400 uppercase">Pisos / Aforo</span>
+                        <span className="block text-sm font-bold text-neutral-400">Pisos / Aforo</span>
                         <span className="font-bold text-neutral-800">
                             {autoevaluacion.pisos} piso(s) / {autoevaluacion.aforo} pers.
                         </span>
                     </div>
                     <div>
-                        <span className="block text-[10px] font-bold text-neutral-400 uppercase">Carga Térmica</span>
+                        <span className="block text-sm font-bold text-neutral-400">Carga Térmica</span>
                         <span className="font-bold text-neutral-800">
                             {autoevaluacion.usa_glp ? `${autoevaluacion.galones_glp} Galones GLP` : 'Sin GLP'}
                         </span>
                     </div>
                     <div>
-                        <span className="block text-[10px] font-bold text-neutral-400 uppercase">Sector Territorial</span>
+                        <span className="block text-sm font-bold text-neutral-400">Sector Territorial</span>
                         <span className="block truncate font-bold text-neutral-800">{autoevaluacion.sector_huancayo}</span>
                     </div>
                 </div>
 
                 {/* Trazabilidad criptográfica SHA-256 */}
-                <div className="flex flex-col items-start justify-between gap-3 rounded-2xl bg-neutral-900 p-4 font-mono text-[11px] text-neutral-300 sm:flex-row sm:items-center">
+                <div className="flex flex-col items-start justify-between gap-3 rounded-2xl bg-neutral-900 p-4 font-mono text-sm text-neutral-300 sm:flex-row sm:items-center">
                     <div className="flex max-w-full items-center gap-2 truncate">
                         <Hash className="h-4 w-4 shrink-0 text-emerald-400" />
                         <span className="text-neutral-400">UUID:</span>
                         <span className="text-white select-all">{autoevaluacion.uuid_trazabilidad}</span>
                     </div>
                     {autoevaluacion.hash_integridad && (
-                        <CryptoSealBadge
-                            hash={autoevaluacion.hash_integridad}
-                            fecha={autoevaluacion.created_at}
-                            esInmutable={true}
-                        />
+                        <CryptoSealBadge hash={autoevaluacion.hash_integridad} fecha={autoevaluacion.created_at} esInmutable={true} />
                     )}
                 </div>
 
                 {/* Detalle del Checklist Resumido */}
                 <div>
-                    <h4 className="mb-3 text-xs font-bold tracking-wider text-neutral-400 uppercase">
-                        Condiciones de Seguridad Autodeclaradas
-                    </h4>
+                    <h4 className="mb-3 text-sm font-bold text-neutral-400">Condiciones de Seguridad Autodeclaradas</h4>
                     <div className="divide-y divide-neutral-100 overflow-hidden rounded-2xl border border-neutral-100">
                         {detalleChecklist.map((item) => (
-                            <div key={item.codigo} className="flex items-center justify-between bg-white p-3.5 text-xs">
+                            <div key={item.codigo} className="flex items-center justify-between bg-white p-3.5 text-sm">
                                 <div className="pr-4">
                                     <span className="block font-medium text-neutral-800">{item.nombre}</span>
-                                    {item.norma && <span className="font-mono text-[10px] text-neutral-400">{item.norma}</span>}
+                                    {item.norma && <span className="font-mono text-sm text-neutral-400">{item.norma}</span>}
                                 </div>
-                                <span
-                                    className={`shrink-0 rounded-xl px-2.5 py-1 text-[10px] font-bold ${claseBadgeEstadoChecklist(item.estado)}`}
-                                >
+                                <span className={`shrink-0 rounded-xl px-2.5 py-1 text-[10px] font-bold ${claseBadgeEstadoChecklist(item.estado)}`}>
                                     {etiquetaEstadoChecklist(item)}
                                 </span>
                             </div>
@@ -655,45 +624,38 @@ interface TabPendientesProps {
     onAbrirRecurso: (pendiente: PendienteDetalle) => void;
 }
 
-function TabPendientes({
-    autoevaluacionUuid,
-    noCumple,
-    porRevisar,
-    cumpleCount,
-    naCount,
-    onAbrirRecurso,
-}: Readonly<TabPendientesProps>) {
+function TabPendientes({ autoevaluacionUuid, noCumple, porRevisar, cumpleCount, naCount, onAbrirRecurso }: Readonly<TabPendientesProps>) {
     const pendientesTotal = noCumple.length + porRevisar.length;
     const hayNoCumple = noCumple.length > 0;
 
     return (
         <div className="space-y-6">
             {/* Encabezado con resumen declarado */}
-            <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 text-left shadow-sm">
-                <span className="rounded-full border border-[#FF3B30]/30 bg-[#FF3B30]/10 px-3 py-1 text-[10px] font-bold tracking-wider text-[#c9251d] uppercase">
+            <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 text-left shadow-sm sm:p-8">
+                <span className="rounded-full border border-[#FF3B30]/30 bg-[#FF3B30]/10 px-3 py-1 text-sm font-bold text-[#c9251d]">
                     Identificación de pendientes
                 </span>
                 <h3 className="mt-2 text-xl font-extrabold text-neutral-900">Aspectos que requieren atención</h3>
-                <p className="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-500">
-                    Resumen de lo que declaraste, diferenciando los pendientes que identificaste de los aspectos que todavía están por
-                    revisar. El estado de cada condición refleja tu autoevaluación ciudadana.
+                <p className="mt-1 max-w-2xl text-sm leading-relaxed text-neutral-500">
+                    Resumen de lo que declaraste, diferenciando los pendientes que identificaste de los aspectos que todavía están por revisar. El
+                    estado de cada condición refleja tu autoevaluación ciudadana.
                 </p>
 
                 <div className="mt-6 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
                     <div className="rounded-2xl border border-[#FF3B30]/30 bg-[#FF3B30]/5 p-4 text-left shadow-2xs">
-                        <span className="block text-[10px] font-bold text-[#c9251d] uppercase">Pendientes identificados</span>
+                        <span className="block text-sm font-bold text-[#c9251d]">Pendientes identificados</span>
                         <span className="text-2xl font-black text-[#c9251d]">{noCumple.length}</span>
                     </div>
                     <div className="rounded-2xl border border-[#FF9500]/30 bg-[#FF9500]/5 p-4 text-left shadow-2xs">
-                        <span className="block text-[10px] font-bold text-[#9a5b00] uppercase">Por revisar</span>
+                        <span className="block text-sm font-bold text-[#9a5b00]">Por revisar</span>
                         <span className="text-2xl font-black text-[#9a5b00]">{porRevisar.length}</span>
                     </div>
                     <div className="rounded-2xl border border-[#34C759]/30 bg-[#34C759]/5 p-4 text-left shadow-2xs">
-                        <span className="block text-[10px] font-bold text-[#1b7931] uppercase">Declaras cumplir</span>
+                        <span className="block text-sm font-bold text-[#1b7931]">Declaras cumplir</span>
                         <span className="text-2xl font-black text-[#1b7931]">{cumpleCount}</span>
                     </div>
                     <div className="rounded-2xl border border-neutral-200 bg-neutral-50/80 p-4 text-left shadow-2xs">
-                        <span className="block text-[10px] font-bold text-neutral-500 uppercase">No aplica</span>
+                        <span className="block text-sm font-bold text-neutral-500">No aplica</span>
                         <span className="text-2xl font-black text-neutral-700">{naCount}</span>
                     </div>
                 </div>
@@ -705,11 +667,11 @@ function TabPendientes({
                     <h4 className="text-base font-bold text-[#1b7931]">
                         Declaraste que todos los aspectos revisados cumplen, según tu propia evaluación
                     </h4>
-                    <p className="mx-auto mt-1 max-w-xl text-xs leading-relaxed text-[#1b7931]/90">
+                    <p className="mx-auto mt-1 max-w-xl text-sm leading-relaxed text-[#1b7931]/90">
                         Declaraste que los {cumpleCount} aspectos que corresponden a tu establecimiento están atendidos
                         {naCount > 0 ? ` (y ${naCount} no aplica(n) según tus respuestas)` : ''}. Mantén tus evidencias al día.
                     </p>
-                    <p className="mx-auto mt-2 max-w-xl text-[11px] text-[#1b7931]/75">
+                    <p className="mx-auto mt-2 max-w-xl text-sm text-[#1b7931]/75">
                         El resultado refleja lo declarado en esta autoevaluación. No constituye una aprobación o certificación oficial.
                     </p>
                 </div>
@@ -718,19 +680,15 @@ function TabPendientes({
                     {hayNoCumple && (
                         <section aria-labelledby="grupo-no-cumple" className="space-y-4">
                             <div className="flex items-center gap-2">
-                                <h4 id="grupo-no-cumple" className="text-xs font-black tracking-wider text-neutral-500 uppercase">
+                                <h4 id="grupo-no-cumple" className="text-sm font-black text-neutral-500">
                                     Pendientes que identificaste (declaraste que aún no están atendidos)
                                 </h4>
-                                <span className="rounded-full bg-[#FF3B30] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                                <span className="rounded-full bg-[#FF3B30] px-2.5 py-0.5 text-sm font-bold text-white shadow-xs">
                                     {noCumple.length}
                                 </span>
                             </div>
                             {noCumple.map((pendiente) => (
-                                <TarjetaPendienteItem
-                                    key={pendiente.codigo}
-                                    pendiente={pendiente}
-                                    onAbrirRecurso={onAbrirRecurso}
-                                />
+                                <TarjetaPendienteItem key={pendiente.codigo} pendiente={pendiente} onAbrirRecurso={onAbrirRecurso} />
                             ))}
                         </section>
                     )}
@@ -738,36 +696,29 @@ function TabPendientes({
                     {porRevisar.length > 0 && (
                         <section aria-labelledby="grupo-por-revisar" className="space-y-4">
                             <div className="flex items-center gap-2">
-                                <h4 id="grupo-por-revisar" className="text-xs font-black tracking-wider text-neutral-500 uppercase">
+                                <h4 id="grupo-por-revisar" className="text-sm font-black text-neutral-500">
                                     Aspectos todavía por revisar (aún no tienes certeza)
                                 </h4>
-                                <span className="rounded-full bg-[#FF9500] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
+                                <span className="rounded-full bg-[#FF9500] px-2.5 py-0.5 text-sm font-bold text-white shadow-xs">
                                     {porRevisar.length}
                                 </span>
                             </div>
-                            <p className="-mt-1 text-xs text-neutral-500">
-                                Que un aspecto esté «por revisar» no significa que incumpla: solo declaraste que todavía no determinaste
-                                su estado. Completar estas verificaciones te permite afinar tu nivel de preparación.
+                            <p className="-mt-1 text-sm text-neutral-500">
+                                Que un aspecto esté «por revisar» no significa que incumpla: solo declaraste que todavía no determinaste su estado.
+                                Completar estas verificaciones te permite afinar tu nivel de preparación.
                             </p>
                             {porRevisar.map((pendiente) => (
-                                <TarjetaPendienteItem
-                                    key={pendiente.codigo}
-                                    pendiente={pendiente}
-                                    onAbrirRecurso={onAbrirRecurso}
-                                />
+                                <TarjetaPendienteItem key={pendiente.codigo} pendiente={pendiente} onAbrirRecurso={onAbrirRecurso} />
                             ))}
                         </section>
                     )}
 
                     {hayNoCumple && (
-                        <div className="flex items-start gap-3 rounded-3xl border border-[#FF3B30]/30 bg-[#FF3B30]/5 p-5 text-left text-xs text-neutral-700 shadow-2xs">
+                        <div className="flex items-start gap-3 rounded-3xl border border-[#FF3B30]/30 bg-[#FF3B30]/5 p-5 text-left text-sm text-neutral-700 shadow-2xs">
                             <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-[#c9251d]" />
                             <p>
                                 Cuando declares que una condición quedó atendida, podrás registrarlo en tu{' '}
-                                <Link
-                                    href={`/autoevaluacion/subsanacion/${autoevaluacionUuid}`}
-                                    className="font-bold text-[#c9251d] underline"
-                                >
+                                <Link href={`/autoevaluacion/subsanacion/${autoevaluacionUuid}`} className="font-bold text-[#c9251d] underline">
                                     Plan de Subsanación Preventiva
                                 </Link>{' '}
                                 y llevar el seguimiento de tus acciones de mejora.
@@ -790,10 +741,9 @@ function EstadoVacioPlan({ porRevisarCount }: Readonly<EstadoVacioPlanProps>) {
             <div className="rounded-3xl border border-[#FF9500]/30 bg-[#FF9500]/5 p-8 text-center shadow-sm">
                 <AlertTriangle className="mx-auto mb-2 h-9 w-9 text-[#FF9500]" />
                 <h4 className="text-sm font-bold text-[#9a5b00]">No declaraste pendientes con acciones de mejora</h4>
-                <p className="mx-auto mt-1 max-w-xl text-xs leading-relaxed text-[#9a5b00]/90">
-                    Aún tienes {porRevisarCount} aspecto(s) por revisar. La orientación aparece en la pestaña «Aspectos que
-                    requieren atención»: determina el estado real de cada condición para decidir si necesitas una acción de
-                    mejora.
+                <p className="mx-auto mt-1 max-w-xl text-sm leading-relaxed text-[#9a5b00]/90">
+                    Aún tienes {porRevisarCount} aspecto(s) por revisar. La orientación aparece en la pestaña «Aspectos que requieren atención»:
+                    determina el estado real de cada condición para decidir si necesitas una acción de mejora.
                 </p>
             </div>
         );
@@ -803,9 +753,8 @@ function EstadoVacioPlan({ porRevisarCount }: Readonly<EstadoVacioPlanProps>) {
         <div className="rounded-3xl border border-[#34C759]/30 bg-[#34C759]/5 p-8 text-center shadow-sm">
             <CheckCircle2 className="mx-auto mb-2 h-9 w-9 text-[#34C759]" />
             <h4 className="text-sm font-bold text-[#1b7931]">Sin brechas declaradas</h4>
-            <p className="mt-1 text-xs leading-relaxed text-[#1b7931]/90">
-                Declaraste cumplir todas las condiciones evaluadas. Mantén tus evidencias al día para conservar un buen nivel
-                de preparación.
+            <p className="mt-1 text-sm leading-relaxed text-[#1b7931]/90">
+                Declaraste cumplir todas las condiciones evaluadas. Mantén tus evidencias al día para conservar un buen nivel de preparación.
             </p>
         </div>
     );
@@ -818,33 +767,26 @@ interface TabPlanProps {
     onSolicitarReevaluacion: () => void;
 }
 
-function TabPlan({
-    autoevaluacionUuid,
-    plan,
-    porRevisarCount,
-    onSolicitarReevaluacion,
-}: Readonly<TabPlanProps>) {
+function TabPlan({ autoevaluacionUuid, plan, porRevisarCount, onSolicitarReevaluacion }: Readonly<TabPlanProps>) {
     return (
         <div className="space-y-6">
             {/* Encabezado del Presupuesto */}
-            <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 text-left shadow-sm">
+            <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 text-left shadow-sm sm:p-8">
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
-                        <span className="rounded-full border border-[#FF3B30]/30 bg-[#FF3B30]/10 px-3 py-1 text-[10px] font-bold tracking-wider text-[#c9251d] uppercase">
+                        <span className="rounded-full border border-[#FF3B30]/30 bg-[#FF3B30]/10 px-3 py-1 text-sm font-bold text-[#c9251d]">
                             Referencia Técnica y Económica Local
                         </span>
-                        <h3 className="mt-2 text-xl font-extrabold text-neutral-900">
-                            Plan de Preparación y Presupuesto de Adecuación
-                        </h3>
-                        <p className="mt-0.5 text-xs text-neutral-500">
+                        <h3 className="mt-2 text-xl font-extrabold text-neutral-900">Plan de Preparación y Presupuesto de Adecuación</h3>
+                        <p className="mt-0.5 text-sm text-neutral-500">
                             Ruta orientativa para cerrar las brechas que declaras antes de una eventual visita técnica municipal.
                         </p>
                     </div>
 
                     <div className="shrink-0 rounded-2xl border border-neutral-200/70 bg-neutral-50 p-4 text-right shadow-2xs">
-                        <span className="block text-[10px] font-bold text-neutral-400 uppercase">Presupuesto Estimado</span>
+                        <span className="block text-sm font-bold text-neutral-400">Presupuesto Estimado</span>
                         <span className="text-2xl font-black text-[#c9251d]">S/ {plan.costo_total.toFixed(2)}</span>
-                        <span className="block text-[10px] text-neutral-500">Mano de obra y materiales Huancayo</span>
+                        <span className="block text-sm text-neutral-500">Mano de obra y materiales Huancayo</span>
                     </div>
                 </div>
             </div>
@@ -866,22 +808,22 @@ function TabPlan({
                                     >
                                         Prioridad {tarea.prioridad} ({tarea.dias_plazo} días sugerido)
                                     </span>
-                                    <span className="font-mono text-[10px] text-neutral-400">{tarea.norma}</span>
+                                    <span className="font-mono text-sm text-neutral-400">{tarea.norma}</span>
                                 </div>
 
-                                <span className="self-end rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-bold text-neutral-900 sm:self-auto">
+                                <span className="self-end rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm font-bold text-neutral-900 sm:self-auto">
                                     Costo Est: S/ {tarea.costo_soles.toFixed(2)}
                                 </span>
                             </div>
 
                             <div>
                                 <h4 className="text-sm font-bold text-neutral-900">{tarea.tarea}</h4>
-                                <p className="mt-0.5 text-xs text-neutral-500">
+                                <p className="mt-0.5 text-sm text-neutral-500">
                                     Condición declarada pendiente: <strong className="text-neutral-700">{tarea.item}</strong>
                                 </p>
                             </div>
 
-                            <div className="flex items-center justify-between border-t border-neutral-100 pt-2 text-[11px] text-neutral-400">
+                            <div className="flex items-center justify-between border-t border-neutral-100 pt-2 text-sm text-neutral-400">
                                 <span className="flex items-center gap-1">
                                     <Clock className="h-3.5 w-3.5" />
                                     Plazo sugerido: {tarea.dias_plazo} días hábiles
@@ -894,14 +836,11 @@ function TabPlan({
             )}
 
             {/* Tarjeta de Fundamento */}
-            <div className="rounded-2xl border border-neutral-200/80 bg-neutral-50 p-4 text-left text-xs text-neutral-600">
-                <strong className="mb-1 block font-bold text-neutral-800">
-                    Referencia Metodológica:
-                </strong>
+            <div className="rounded-2xl border border-neutral-200/80 bg-neutral-50 p-4 text-left text-sm text-neutral-600">
+                <strong className="mb-1 block font-bold text-neutral-800">Referencia Metodológica:</strong>
                 <p>
-                    La estructuración secuencial de acciones con plazos y presupuesto referencial reduce las brechas que suelen detectarse en
-                    las visitas técnicas de fiscalización municipal (USM, 2026). Este plan es una orientación didáctica, no un requisito
-                    oficial.
+                    La estructuración secuencial de acciones con plazos y presupuesto referencial reduce las brechas que suelen detectarse en las
+                    visitas técnicas de fiscalización municipal (USM, 2026). Este plan es una orientación didáctica, no un requisito oficial.
                 </p>
             </div>
 
@@ -910,7 +849,7 @@ function TabPlan({
                 <button
                     type="button"
                     onClick={onSolicitarReevaluacion}
-                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-neutral-200 bg-white px-5 py-3.5 text-xs font-semibold text-neutral-700 shadow-xs transition hover:bg-neutral-50 sm:w-auto"
+                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-neutral-200 bg-white px-5 py-3.5 text-sm font-semibold text-neutral-700 shadow-xs transition hover:bg-neutral-50 sm:w-auto"
                 >
                     <RefreshCw className="h-4 w-4 text-[#34C759]" />
                     <span>Volver a evaluar establecimiento</span>
@@ -918,7 +857,7 @@ function TabPlan({
 
                 <Link
                     href={`/autoevaluacion/revision/${autoevaluacionUuid}`}
-                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-6 py-3.5 text-xs font-semibold text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 sm:w-auto"
+                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-neutral-900 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-neutral-800 active:scale-95 sm:w-auto"
                 >
                     <span>Continuar con la Simulación de Revisión In Situ</span>
                     <ArrowRight className="h-4 w-4" />
@@ -928,10 +867,7 @@ function TabPlan({
     );
 }
 
-export default function Resultado({
-    autoevaluacion,
-    catalogo = [],
-}: Readonly<Props>) {
+export default function Resultado({ autoevaluacion, catalogo = [] }: Readonly<Props>) {
     const [showGuia, setShowGuia] = useState<boolean>(false);
     const [showGuardarProgreso, setShowGuardarProgreso] = useState<boolean>(false);
     const [showModalReevaluacion, setShowModalReevaluacion] = useState<boolean>(false);
@@ -943,20 +879,11 @@ export default function Resultado({
     const urlSimulacion = construirUrlSimulacion(autoevaluacion.uuid_trazabilidad);
     const plan = autoevaluacion.plan_accion_costos || PLAN_ACCION_VACIO;
 
-    const recursosPorCodigo = useMemo(
-        () => new Map<string, RecursoCatalogo>(catalogo.map((recurso) => [recurso.codigo, recurso])),
-        [catalogo],
-    );
+    const recursosPorCodigo = useMemo(() => new Map<string, RecursoCatalogo>(catalogo.map((recurso) => [recurso.codigo, recurso])), [catalogo]);
 
-    const catalogoPorCodigo = useMemo(
-        () => new Map(CHECKLIST_CATALOGO_OFICIAL.map((item) => [item.codigo, item])),
-        [],
-    );
+    const catalogoPorCodigo = useMemo(() => new Map(CHECKLIST_CATALOGO_OFICIAL.map((item) => [item.codigo, item])), []);
 
-    const detalleChecklist = useMemo(
-        () => autoevaluacion.detalle_checklist || [],
-        [autoevaluacion.detalle_checklist],
-    );
+    const detalleChecklist = useMemo(() => autoevaluacion.detalle_checklist || [], [autoevaluacion.detalle_checklist]);
 
     const pendientes = useMemo<PendienteDetalle[]>(() => {
         return detalleChecklist.map((item: EstadoDeclarado, idx: number): PendienteDetalle => {
@@ -983,12 +910,7 @@ export default function Resultado({
     const hayFallaCritica = noCumple.some((p) => p.es_critico);
     const pendientesTotal = noCumple.length + porRevisar.length;
 
-    const descripcionSemaforo = resolverDescripcionSemaforo(
-        autoevaluacion.semaforo,
-        noCumple.length,
-        porRevisar.length,
-        hayFallaCritica,
-    );
+    const descripcionSemaforo = resolverDescripcionSemaforo(autoevaluacion.semaforo, noCumple.length, porRevisar.length, hayFallaCritica);
     const configSemaforo = resolverConfigSemaforo(autoevaluacion.semaforo, descripcionSemaforo);
 
     const abrirRecurso = (pendiente: PendienteDetalle) => {
@@ -1008,9 +930,7 @@ export default function Resultado({
         window.print();
     };
 
-    const prefijoTitulo = esReevaluacion
-        ? 'Resultado de tu nueva autoevaluación'
-        : 'Resultado de tu autoevaluación';
+    const prefijoTitulo = esReevaluacion ? 'Resultado de tu nueva autoevaluación' : 'Resultado de tu autoevaluación';
 
     return (
         <>
@@ -1039,7 +959,7 @@ export default function Resultado({
                     <div className="flex items-center gap-2">
                         <Link
                             href="/autoevaluacion"
-                            className="inline-flex items-center gap-1 rounded-2xl border border-neutral-200 bg-white px-3.5 py-2 text-xs font-semibold text-neutral-600 shadow-2xs transition hover:text-neutral-900"
+                            className="inline-flex items-center gap-1 rounded-2xl border border-neutral-200 bg-white px-3.5 py-2 text-sm font-semibold text-neutral-600 shadow-2xs transition hover:text-neutral-900"
                         >
                             <ArrowLeft className="h-3.5 w-3.5" /> Nueva Simulación
                         </Link>
@@ -1048,7 +968,7 @@ export default function Resultado({
                             <button
                                 type="button"
                                 onClick={() => setShowGuardarProgreso(true)}
-                                className="border border-[#34C759]/30 bg-[#34C759]/10 text-[#1b7931] hover:bg-[#34C759]/20 focus-visible:ring-[#34C759] inline-flex cursor-pointer items-center gap-1.5 rounded-2xl px-3.5 py-2 text-xs font-bold shadow-2xs transition focus-visible:ring-2 focus-visible:outline-none"
+                                className="inline-flex cursor-pointer items-center gap-1.5 rounded-2xl border border-[#34C759]/30 bg-[#34C759]/10 px-3.5 py-2 text-sm font-bold text-[#1b7931] shadow-2xs transition hover:bg-[#34C759]/20 focus-visible:ring-2 focus-visible:ring-[#34C759] focus-visible:outline-none"
                             >
                                 <Save className="h-3.5 w-3.5" />
                                 Guardar mi progreso para continuar después
@@ -1060,7 +980,7 @@ export default function Resultado({
                         <button
                             type="button"
                             onClick={() => setShowModalReevaluacion(true)}
-                            className="border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50 inline-flex cursor-pointer items-center gap-1.5 rounded-2xl px-3.5 py-2 text-xs font-semibold shadow-2xs transition"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-3.5 py-2 text-sm font-semibold text-neutral-700 shadow-2xs transition hover:bg-neutral-50"
                         >
                             <RefreshCw className="h-3.5 w-3.5 text-[#34C759]" />
                             <span>Volver a evaluar</span>
@@ -1069,7 +989,7 @@ export default function Resultado({
                         <button
                             type="button"
                             onClick={handlePrint}
-                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-3.5 py-2 text-xs font-semibold text-neutral-700 shadow-2xs transition hover:bg-neutral-50"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-3.5 py-2 text-sm font-semibold text-neutral-700 shadow-2xs transition hover:bg-neutral-50"
                         >
                             <Printer className="h-3.5 w-3.5" />
                             <span>Imprimir / Exportar PDF</span>
@@ -1077,7 +997,7 @@ export default function Resultado({
 
                         <Link
                             href={`/autoevaluacion/subsanacion/${autoevaluacion.uuid_trazabilidad}`}
-                            className="bg-[#FF3B30] hover:bg-[#E0342A] inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl px-4 py-2 text-xs font-bold text-white shadow-xs transition active:scale-95"
+                            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#FF3B30] px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-[#E0342A] active:scale-95"
                         >
                             <FileText className="h-3.5 w-3.5" />
                             <span>Plan de Subsanación Preventiva</span>
@@ -1097,14 +1017,14 @@ export default function Resultado({
                         <TabsList className="h-12 rounded-3xl bg-neutral-100/90 p-1.5 shadow-2xs">
                             <TabsTrigger
                                 value="ficha"
-                                className="rounded-2xl px-5 py-2 text-xs font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
+                                className="rounded-2xl px-5 py-2 text-sm font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
                             >
                                 <ShieldCheck className="mr-2 h-4 w-4 text-[#34C759]" />
                                 Ficha y Trazabilidad
                             </TabsTrigger>
                             <TabsTrigger
                                 value="pendientes"
-                                className="rounded-2xl px-5 py-2 text-xs font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
+                                className="rounded-2xl px-5 py-2 text-sm font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
                             >
                                 <AlertTriangle className="mr-2 h-4 w-4 text-[#FF9500]" />
                                 Atención ({pendientesTotal})
@@ -1112,7 +1032,7 @@ export default function Resultado({
                             {plan.tareas.length > 0 && (
                                 <TabsTrigger
                                     value="plan"
-                                    className="rounded-2xl px-5 py-2 text-xs font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
+                                    className="rounded-2xl px-5 py-2 text-sm font-bold transition-all data-[state=active]:bg-white data-[state=active]:text-neutral-900 data-[state=active]:shadow-sm"
                                 >
                                     <DollarSign className="mr-2 h-4 w-4 text-[#34C759]" />
                                     Plan de Costos ({plan.total_items})

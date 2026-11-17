@@ -31,6 +31,22 @@ Las fotos propias están en `backend/public/images/` en formato WebP (entre 50 y
 | Datos del local (`/autoevaluacion/nueva`) | Un indicador de pasos · 3 grupos de datos · campos opcionales plegados · precalificación al final |
 | Aliados (`/directorio`) | Hero · lo más buscado (por producto) · proveedores con filtros · sección para proveedores con planes |
 
+## Formularios
+
+Inspirados en la claridad de los formularios de gob.pe, con pasos, ayudas y validación amable. Kit en :
+
+| Regla | Cómo se aplica |
+| --- | --- |
+| Cada dato es una pregunta numerada | , etiqueta en negrita de 19 px y en minúsculas normales |
+| La ayuda va antes del campo | Prop , enlazada con  |
+| Campos grandes y con borde visible | : 48 px de alto, letra de 19 px y borde  |
+| Opciones fáciles de tocar |  con radio nativo en toda la tarjeta; Sí/No/Aún no lo sé en botones de 48 px |
+| Errores claros | Mensaje con icono junto al campo y  arriba, con enlaces a cada campo |
+| Formularios largos divididos | Máximo unas 5 preguntas por paso, con barra de progreso y un paso final para revisar y cambiar |
+| Nada de MAYÚSCULAS diminutas | Ningún texto de lectura queda por debajo de  (14,9 px) |
+
+Formularios que siguen estas reglas: datos del local (, 14 preguntas en 3 pasos) y afiliación de proveedores (, 9 preguntas en 3 pasos).
+
 ## Componentes compartidos
 
 | Componente | Archivo | Propósito |

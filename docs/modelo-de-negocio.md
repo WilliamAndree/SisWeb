@@ -33,7 +33,7 @@ Los proveedores con plan pagado se muestran marcados, el usuario elige librement
 
 | Paso | Estado |
 | --- | --- |
-| Página de planes y solicitud con el plan elegido | Hecho |
+| Página de planes y solicitud en 3 pasos con el plan elegido (`/directorio/anunciate`) | Hecho |
 | Campo `plan` y fecha de vencimiento en `proveedores_recursos` para ordenar a los destacados primero | Pendiente |
 | Mostrar proveedores del plan Destacado dentro del resumen de mejoras de cada local | Pendiente |
 | Cobro en línea (Culqi, Mercado Pago o Izipay) | Pendiente |

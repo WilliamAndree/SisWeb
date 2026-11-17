@@ -16,7 +16,7 @@ export function FlujoCiudadano({ actual }: Readonly<{ actual: 1 | 2 | 3 }>) {
 
     return (
         <nav aria-label="Progreso de tu autoevaluación" className="mb-6">
-            <p className="text-primary-700 mb-3 text-xs font-bold tracking-wide uppercase">
+            <p className="text-primary-700 mb-3 text-base font-bold">
                 Paso {actual} de {pasos.length}
             </p>
             <div className="relative">
@@ -40,14 +40,14 @@ export function FlujoCiudadano({ actual }: Readonly<{ actual: 1 | 2 | 3 }>) {
                                 >
                                     {hecho ? <Check className="size-4" /> : numero}
                                 </span>
-                                <span className={`mt-2 text-sm font-semibold ${enCurso ? 'text-slate-900' : 'text-slate-500'}`}>
+                                <span className={`mt-2 text-base font-semibold ${enCurso ? 'text-slate-900' : 'text-slate-500'}`}>
                                     <span className="sr-only">
                                         Paso {numero} de {pasos.length}
                                         {hecho ? ' (completado)' : ''}:{' '}
                                     </span>
                                     {paso.nombre}
                                 </span>
-                                <span className="hidden text-xs text-slate-500 sm:block">{paso.detalle}</span>
+                                <span className="hidden text-sm text-slate-500 sm:block">{paso.detalle}</span>
                             </li>
                         );
                     })}
@@ -60,7 +60,7 @@ export function FlujoCiudadano({ actual }: Readonly<{ actual: 1 | 2 | 3 }>) {
 /** Aviso legal compacto: una sola línea discreta, sin repetir bloques grandes. */
 export function AvisoPreventivo() {
     return (
-        <aside aria-label="Alcance de la herramienta" className="my-4 flex items-start gap-2 text-xs leading-relaxed text-slate-500">
+        <aside aria-label="Alcance de la herramienta" className="my-4 flex items-start gap-2 text-sm leading-relaxed text-slate-500">
             <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
             <p>Es una simulación orientativa basada en lo que declaras. No reemplaza la inspección oficial ni emite certificados ITSE.</p>
         </aside>

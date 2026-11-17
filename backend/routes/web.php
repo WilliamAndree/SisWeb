@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Portada pública y directorio
 Route::get('/', [EvaluacionController::class, 'index'])->name('autoevaluacion.index');
 Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio.index');
+Route::get('/directorio/anunciate', [DirectorioController::class, 'afiliacion'])->name('directorio.afiliacion');
 Route::post('/directorio/afiliarse', [DirectorioController::class, 'solicitarAfiliacion'])->name('directorio.afiliarse');
 
 // Flujo de Autoevaluación Ciudadana

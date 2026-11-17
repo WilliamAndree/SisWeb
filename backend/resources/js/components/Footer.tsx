@@ -58,7 +58,7 @@ export default function Footer() {
                     </div>
 
                     <nav aria-label="Enlaces institucionales" className="md:text-right">
-                        <p className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">Navegación</p>
+                        <p className="text-sm font-bold text-slate-400">Navegación</p>
                         <ul className="mt-3 space-y-2">
                             {ENLACES_NAVEGACION.map((enlace) => (
                                 <li key={enlace.href}>
@@ -76,8 +76,8 @@ export default function Footer() {
 
                 <div className="mt-8 grid grid-cols-1 gap-6 border-t border-slate-100 pt-6 md:grid-cols-2">
                     <div>
-                        <p className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">Marco normativo de referencia</p>
-                        <ul className="mt-2.5 space-y-1.5 text-xs leading-relaxed text-slate-600">
+                        <p className="text-sm font-bold text-slate-400">Marco normativo de referencia</p>
+                        <ul className="mt-2.5 space-y-1.5 text-sm leading-relaxed text-slate-600">
                             {MARCO_NORMATIVO.map((entrada) => (
                                 <li key={entrada.norma}>
                                     <span className="font-semibold text-slate-700">{entrada.norma}</span>
@@ -88,8 +88,8 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <p className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">Alcance del servicio</p>
-                        <p className="mt-2.5 text-xs leading-relaxed text-slate-600">
+                        <p className="text-sm font-bold text-slate-400">Alcance del servicio</p>
+                        <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
                             CheckITSE Huancayo no constituye inspección oficial ni reemplaza la labor del inspector técnico de seguridad. No emite
                             licencias, autorizaciones, certificaciones ni actas. Los resultados reflejan únicamente las condiciones declaradas por el
                             ciudadano.
@@ -97,9 +97,9 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <p className="mt-6 text-[11px] text-slate-500">Herramienta gratuita. Sin registros obligatorios.</p>
+                <p className="mt-6 text-sm text-slate-500">Herramienta gratuita. Sin registros obligatorios.</p>
 
-                <p className="mt-12 text-xs text-slate-400">© CheckITSE • Herramienta de autoevaluación preventiva según D.S. N° 002-2018-PCM</p>
+                <p className="mt-12 text-sm text-slate-400">© CheckITSE • Herramienta de autoevaluación preventiva según D.S. N° 002-2018-PCM</p>
             </div>
         </footer>
     );

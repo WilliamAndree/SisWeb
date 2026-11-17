@@ -778,7 +778,7 @@ interface BadgeEstadoCriterioProps {
 function BadgeEstadoCriterio({ estaGuardado, estaRespondido, estadoActual }: Readonly<BadgeEstadoCriterioProps>) {
     if (estadoActual === 'PENDIENTE_ATENDER') {
         return (
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-[11px] font-bold text-rose-700">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-sm font-bold text-rose-700">
                 <ShieldAlert className="text-warning-800 h-4 w-4" aria-hidden="true" />
                 <span>Por subsanar</span>
             </span>
@@ -787,7 +787,7 @@ function BadgeEstadoCriterio({ estaGuardado, estaRespondido, estadoActual }: Rea
 
     if (estadoActual === 'POR_REVISAR') {
         return (
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-bold text-amber-800">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-sm font-bold text-amber-800">
                 <HelpCircle className="text-warning-800 h-4 w-4" aria-hidden="true" />
                 <span>Por revisar</span>
             </span>
@@ -796,7 +796,7 @@ function BadgeEstadoCriterio({ estaGuardado, estaRespondido, estadoActual }: Rea
 
     if (estaGuardado) {
         return (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-sm font-bold text-emerald-700">
                 <Check className="text-success-800 h-3 w-3" aria-hidden="true" /> Guardado
             </span>
         );
@@ -804,14 +804,14 @@ function BadgeEstadoCriterio({ estaGuardado, estaRespondido, estadoActual }: Rea
 
     if (estaRespondido) {
         return (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-sm font-bold text-emerald-700">
                 <CheckCircle2 className="text-success-800 h-3 w-3" aria-hidden="true" /> Conforme
             </span>
         );
     }
 
     return (
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-500">
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-sm font-semibold text-slate-500">
             Sin responder
         </span>
     );
@@ -903,9 +903,9 @@ function OpcionRespuestaCriterio({
                         {esSeleccionado && <span className={`h-2 w-2 rounded-full ${conf.dotSelected}`} />}
                     </span>
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500">{conf.descripcion}</p>
+                <p className="text-sm leading-relaxed text-slate-500">{conf.descripcion}</p>
                 {bloqueadoSubsanacion && (
-                    <span className="mt-2 inline-block text-[11px] font-bold text-amber-700">Bloqueado por observación técnica</span>
+                    <span className="mt-2 inline-block text-sm font-bold text-amber-700">Bloqueado por observación técnica</span>
                 )}
             </div>
         </label>
@@ -920,7 +920,7 @@ function BloqueParametricoExtintores({ contexto }: Readonly<BloqueParametricoPro
     const { extintoresSugeridos, areaM2Num, extintoresMinimos, extintoresPorPisos, tieneEquiposFritura } = contexto;
 
     return (
-        <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/70 p-3 text-xs text-emerald-900">
+        <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/70 p-3 text-sm text-emerald-900">
             <div className="flex items-center gap-1.5 font-black">
                 <Ruler className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 <span>Contexto declarado: dotación de extintores</span>
@@ -928,7 +928,7 @@ function BloqueParametricoExtintores({ contexto }: Readonly<BloqueParametricoPro
             <p className="mt-1.5 text-sm font-black">
                 {extintoresSugeridos} {extintoresSugeridos === 1 ? 'extintor' : 'extintores'} como mínimo sugerido
             </p>
-            <p className="mt-1 text-[11px] leading-relaxed text-emerald-900/80">
+            <p className="mt-1 text-sm leading-relaxed text-emerald-900/80">
                 Cálculo orientativo: ceil({areaM2Num.toFixed(2)} m² / 60) = {extintoresMinimos}
                 {extintoresPorPisos !== null && `; por pisos = ${extintoresPorPisos}`}. Recorrido máximo ≤ 15 m horizontales y altura máxima 1.50 m al
                 soporte (RNE A.130).
@@ -936,7 +936,7 @@ function BloqueParametricoExtintores({ contexto }: Readonly<BloqueParametricoPro
             <p className={`mt-1.5 text-[11px] leading-relaxed ${tieneEquiposFritura ? 'font-semibold text-amber-800' : 'text-emerald-900/80'}`}>
                 {obtenerTextoFrituraExtintores(tieneEquiposFritura)}
             </p>
-            <p className="mt-1.5 text-[10px] leading-relaxed text-emerald-900/60">
+            <p className="mt-1.5 text-sm leading-relaxed text-emerald-900/60">
                 Orientativo: no sustituye la verificación de carga y riesgo por el especialista.
             </p>
         </div>
@@ -947,7 +947,7 @@ function BloqueParametricoAforo({ contexto }: Readonly<BloqueParametricoProps>) 
     const { aforoNum, mostrarAlertaAforo50, mostrarAlertaAforo100 } = contexto;
 
     return (
-        <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/70 p-3 text-xs text-emerald-900">
+        <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/70 p-3 text-sm text-emerald-900">
             <div className="flex items-center gap-1.5 font-black">
                 <Users className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 <span>Contexto declarado: exigencias por aforo</span>
@@ -957,18 +957,18 @@ function BloqueParametricoAforo({ contexto }: Readonly<BloqueParametricoProps>) 
             </p>
 
             {mostrarAlertaAforo50 && (
-                <p className="mt-1.5 text-[11px] leading-relaxed">
+                <p className="mt-1.5 text-sm leading-relaxed">
                     Por superar las 50 personas, la puerta de salida debe abrir obligatoriamente hacia el exterior como flujo de evacuación (RNE A.010
                     Art. 35.d / RNE A.130 Art. 8).
                 </p>
             )}
             {mostrarAlertaAforo100 && (
-                <p className="mt-1.5 text-[11px] leading-relaxed font-semibold text-rose-800">
+                <p className="mt-1.5 text-sm leading-relaxed font-semibold text-rose-800">
                     Por superar las 100 personas es obligatoria la barra antipánico (RNE A.010 / RNE A.130).
                 </p>
             )}
             {!mostrarAlertaAforo50 && (
-                <p className="mt-1.5 text-[11px] leading-relaxed text-emerald-900/80">
+                <p className="mt-1.5 text-sm leading-relaxed text-emerald-900/80">
                     Con aforo ≤ 50 personas no se activa la exigencia paramétrica señalada; igualmente debe garantizarse la salida expedita y sin
                     trabas.
                 </p>
@@ -1014,7 +1014,7 @@ function AccionesApoyoCriterio({
                             articuloReferencia: criterio.articulo_referencia,
                         })
                     }
-                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50/80 px-3.5 py-2 text-xs font-bold text-emerald-800 shadow-2xs transition hover:bg-emerald-100 hover:text-emerald-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-[0.98]"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50/80 px-3.5 py-2 text-sm font-bold text-emerald-800 shadow-2xs transition hover:bg-emerald-100 hover:text-emerald-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-[0.98]"
                 >
                     <Lightbulb className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                     <span>Ayuda visual: ¿Cómo revisar esto?</span>
@@ -1031,7 +1031,7 @@ function AccionesApoyoCriterio({
                             titulo: criterio.titulo,
                         })
                     }
-                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none active:scale-[0.98]"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none active:scale-[0.98]"
                 >
                     <BookOpen className="h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
                     <span>Material orientativo {sufijoRecursos}</span>
@@ -1166,7 +1166,7 @@ function TarjetaCriterio({
                         <IconoDisciplina className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{disciplina.nombre}</span>
                     </span>
-                    <span className="font-mono text-xs text-slate-400">#{criterio.orden ?? index + 1}</span>
+                    <span className="font-mono text-sm text-slate-400">#{criterio.orden ?? index + 1}</span>
                 </div>
 
                 <BadgeEstadoCriterio estaGuardado={estaGuardado} estaRespondido={estaRespondido} estadoActual={valorSeleccionado} />
@@ -1189,12 +1189,12 @@ function TarjetaCriterio({
                         <summary className="cursor-pointer text-sm font-medium text-slate-600">Norma y referencia del criterio</summary>
                         {/* Cabecera técnica de código + base normativa */}
                         <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
-                            <span className="rounded-lg bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold tracking-tight text-white shadow-2xs">
+                            <span className="rounded-lg bg-slate-900 px-2.5 py-1 font-mono text-sm font-bold tracking-tight text-white shadow-2xs">
                                 {criterio.codigo}
                             </span>
                             {referenciaNormativa && (
                                 <span
-                                    className="inline-flex min-w-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600"
+                                    className="inline-flex min-w-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-sm font-semibold text-slate-600"
                                     title={referenciaNormativa}
                                 >
                                     <Scale className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
@@ -1202,7 +1202,7 @@ function TarjetaCriterio({
                                 </span>
                             )}
                             {criterio.categoria && (
-                                <span className="rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-bold text-slate-600">
+                                <span className="rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-sm font-bold text-slate-600">
                                     {criterio.categoria}
                                 </span>
                             )}
@@ -1233,7 +1233,7 @@ function TarjetaCriterio({
                     {estaObservado && (
                         <div
                             role="alert"
-                            className="flex flex-col items-start justify-between gap-3 rounded-2xl border border-amber-300 bg-amber-50/90 p-4 text-xs text-amber-950 shadow-2xs sm:flex-row sm:items-center"
+                            className="flex flex-col items-start justify-between gap-3 rounded-2xl border border-amber-300 bg-amber-50/90 p-4 text-sm text-amber-950 shadow-2xs sm:flex-row sm:items-center"
                         >
                             <div className="flex items-start gap-2.5">
                                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
@@ -1315,7 +1315,7 @@ function CabeceraChecklist({ nombreComercio, areaM2Declarada, mostrarBotonGuarda
                             )}
                         </span>
                     </p>
-                    <p className="mt-2 max-w-2xl text-xs leading-relaxed text-slate-500">
+                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">
                         Declara la situación real de cada condición de tu establecimiento. El simulacro es orientativo y no reemplaza una inspección
                         técnica oficial.
                     </p>
@@ -1326,7 +1326,7 @@ function CabeceraChecklist({ nombreComercio, areaM2Declarada, mostrarBotonGuarda
                         <button
                             type="button"
                             onClick={onAbrirModalGuardar}
-                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-600 shadow-xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                         >
                             <Save className="h-3.5 w-3.5" aria-hidden="true" />
                             <span>Guardar progreso</span>
@@ -1334,7 +1334,7 @@ function CabeceraChecklist({ nombreComercio, areaM2Declarada, mostrarBotonGuarda
                     )}
                     <Link
                         href="/"
-                        className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
+                        className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                     >
                         <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                         Volver al inicio
@@ -1390,14 +1390,14 @@ function PestanasEspecialidades({ areas, progresoPorArea, especialidadActivaId, 
 
                             {avance?.completo ? (
                                 <span
-                                    className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-black text-emerald-700"
+                                    className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-sm font-black text-emerald-700"
                                     aria-label="Especialidad completada"
                                 >
                                     <Check className="h-3 w-3" aria-hidden="true" />
                                 </span>
                             ) : (
                                 <span
-                                    className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-black text-amber-800"
+                                    className="rounded-full bg-amber-100 px-2 py-0.5 text-sm font-black text-amber-800"
                                     aria-label={`${avance?.pendientes ?? 0} criterios pendientes`}
                                 >
                                     {avance?.pendientes ?? 0}
@@ -1445,7 +1445,7 @@ function SeccionCriteriosPendientes({ criteriosPendientes, mostrarPendientes, on
 
             {mostrarPendientes && (
                 <div className="mt-3 space-y-3 border-t border-amber-200 pt-3">
-                    <p className="text-xs text-amber-800">
+                    <p className="text-sm text-amber-800">
                         Los siguientes criterios requieren datos adicionales sobre las condiciones físicas del local para determinar si corresponden a
                         tu autoevaluación. No requieren respuesta en este momento.
                     </p>
@@ -1453,13 +1453,13 @@ function SeccionCriteriosPendientes({ criteriosPendientes, mostrarPendientes, on
                         {criteriosPendientes.map((cp) => (
                             <div key={cp.codigo} className="rounded-2xl border border-amber-200 bg-white p-3.5 shadow-2xs">
                                 <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-xs font-bold text-amber-900">{cp.codigo}</span>
-                                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                                    <span className="font-mono text-sm font-bold text-amber-900">{cp.codigo}</span>
+                                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700">
                                         Pendiente de dato
                                     </span>
                                 </div>
-                                <p className="mt-1.5 text-xs font-bold text-slate-800">{cp.titulo}</p>
-                                <p className="mt-1 text-xs leading-relaxed text-slate-600">{cp.mensaje || cp.motivo}</p>
+                                <p className="mt-1.5 text-sm font-bold text-slate-800">{cp.titulo}</p>
+                                <p className="mt-1 text-sm leading-relaxed text-slate-600">{cp.mensaje || cp.motivo}</p>
                             </div>
                         ))}
                     </div>
@@ -1513,7 +1513,7 @@ function CabeceraEspecialidadActiva({
                         {especialidad.nombre}
                     </h2>
                     {estilo.badgeNorma && (
-                        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-600 uppercase">
+                        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm font-bold text-slate-600">
                             <Scale className="h-3 w-3 shrink-0" aria-hidden="true" />
                             <span>Base normativa: {estilo.badgeNorma}</span>
                         </p>
@@ -1522,14 +1522,14 @@ function CabeceraEspecialidadActiva({
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
-                <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold whitespace-nowrap text-slate-700 shadow-2xs">
+                <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-sm font-bold whitespace-nowrap text-slate-700 shadow-2xs">
                     {avance?.respondidos ?? 0} de {especialidad.criterios.length}
                 </span>
                 {tienePendientes && (
                     <button
                         type="button"
                         onClick={onEnfocarPrimerPendiente}
-                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
+                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200 bg-white/90 px-3 py-1 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                     >
                         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                         Primer pendiente
@@ -1574,7 +1574,7 @@ function SeccionCriteriosNoAplican({ criteriosNoAplican, mostrarNoAplican, onTog
 
             {mostrarNoAplican && (
                 <div className="mt-3 space-y-3 border-t border-slate-200 pt-3">
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm text-slate-500">
                         El motor de aplicabilidad descartó estas condiciones a partir de lo que declaraste en el paso 1. La decisión es del sistema,
                         no tuya: no son seleccionables ni requieren acción ciudadana.
                     </p>
@@ -1582,13 +1582,13 @@ function SeccionCriteriosNoAplican({ criteriosNoAplican, mostrarNoAplican, onTog
                         {criteriosNoAplican.map((cna) => (
                             <div key={cna.codigo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
                                 <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-xs font-bold text-slate-800">{cna.codigo}</span>
-                                    <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-600">
+                                    <span className="font-mono text-sm font-bold text-slate-800">{cna.codigo}</span>
+                                    <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-sm font-bold text-slate-600">
                                         No aplica
                                     </span>
                                 </div>
                                 <p className="mt-1.5 text-sm font-bold text-slate-800">{cna.titulo}</p>
-                                <p className="mt-1.5 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-xs leading-relaxed text-slate-600">
+                                <p className="mt-1.5 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-sm leading-relaxed text-slate-600">
                                     <strong className="text-slate-700">Motivo del sistema: </strong>
                                     {cna.motivo}
                                 </p>
@@ -1618,7 +1618,7 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                         <ShieldAlert className="h-4 w-4" />
                     </span>
-                    <h2 className="text-[11px] font-black tracking-wider text-slate-800 uppercase">Resumen de hallazgos en vivo</h2>
+                    <h2 className="text-sm font-black text-slate-800">Resumen de hallazgos en vivo</h2>
                 </div>
 
                 <div>
@@ -1630,13 +1630,11 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
                             {faltasDetectadas === 1 ? 'condición por atender' : 'condiciones por atender'}
                         </span>
                     </p>
-                    <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
-                        Se actualiza con cada declaración que marques, sin guardar nada.
-                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-slate-500">Se actualiza con cada declaración que marques, sin guardar nada.</p>
                 </div>
 
                 <div>
-                    <div className="mb-1.5 flex items-center justify-between text-[11px]">
+                    <div className="mb-1.5 flex items-center justify-between text-sm">
                         <span className="font-bold tracking-wider text-slate-500 uppercase">Avance</span>
                         <span className="font-black text-slate-900">
                             {respondidosCount} de {totalCriterios}
@@ -1652,7 +1650,7 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
 
                 {faltasDetectadas === 0 ? (
                     <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3.5">
-                        <p className="flex items-start gap-2 text-xs leading-relaxed font-medium text-emerald-900">
+                        <p className="flex items-start gap-2 text-sm leading-relaxed font-medium text-emerald-900">
                             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                             <span>
                                 No has declarado condiciones por atender hasta el momento. Completa la revisión; este contador no acredita
@@ -1664,8 +1662,8 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
                     <ul className="max-h-72 space-y-1.5 overflow-y-auto pr-0.5">
                         {hallazgos.map((hallazgo) => (
                             <li key={hallazgo.codigo} className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700">
-                                <span className="font-mono text-[10px] font-bold text-rose-500">{hallazgo.codigo}</span>
-                                <span className="mt-0.5 block text-xs leading-snug font-semibold">{hallazgo.titulo}</span>
+                                <span className="font-mono text-sm font-bold text-rose-500">{hallazgo.codigo}</span>
+                                <span className="mt-0.5 block text-sm leading-snug font-semibold">{hallazgo.titulo}</span>
                             </li>
                         ))}
                     </ul>
@@ -1673,7 +1671,7 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
 
                 {/* El panel lateral es solo informativo: las acciones de
                     guardado y cierre viven una sola vez en la barra inferior. */}
-                <p className="border-t border-slate-100 pt-4 text-[11px] leading-relaxed text-slate-500">
+                <p className="border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500">
                     Cuando termines las {totalCriterios} condiciones, podrás pausar y guardar tu avance o pasar al resumen con el diagnóstico final.
                 </p>
             </div>
@@ -1711,7 +1709,7 @@ function BarraInferiorAcciones({
     return (
         <div className="sticky bottom-0 z-30 mt-6 border-t border-slate-200 bg-white/95 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-sm">
             <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-                <div className="flex items-center gap-2 text-xs text-slate-600">
+                <div className="flex items-center gap-2 text-sm text-slate-600">
                     <ClipboardList className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                     <span className="font-bold text-slate-900">
                         {respondidosCount} de {totalCriterios} respuestas en esta pantalla
@@ -1725,7 +1723,7 @@ function BarraInferiorAcciones({
                             type="button"
                             onClick={onGuardarAvance}
                             disabled={guardandoAvance || guardandoContinuar || respondidosCount === 0}
-                            className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
+                            className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
                         >
                             {guardandoAvance ? (
                                 <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
@@ -1975,8 +1973,8 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                     {/* Widget de progreso */}
                     <div className="sticky top-0 z-30 -mx-4 border-y border-slate-200 bg-white/85 px-4 py-3 shadow-xs backdrop-blur-md sm:-mx-6 sm:px-6">
                         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
-                            <p className="text-[11px] font-black tracking-wider text-slate-500 uppercase">Avance de tus respuestas</p>
-                            <p className="text-xs font-semibold text-slate-600">
+                            <p className="text-sm font-black text-slate-500">Avance de tus respuestas</p>
+                            <p className="text-sm font-semibold text-slate-600">
                                 <span className="text-slate-900">
                                     {respondidosCount} de {criteriosAplicables.length}
                                 </span>{' '}

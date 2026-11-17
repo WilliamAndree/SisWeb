@@ -1,7 +1,7 @@
-import React from 'react';
+import AuthLayout from '@/layouts/AuthLayout';
 import { Head, router, useForm } from '@inertiajs/react';
 import { Loader2, LogIn } from 'lucide-react';
-import AuthLayout from '@/layouts/AuthLayout';
+import React from 'react';
 
 /**
  * `useForm` exige un tipo con firma de índice, que TypeScript solo infiere para
@@ -47,12 +47,10 @@ export default function Login() {
 
     const claseInputConError = (hayError: boolean) =>
         `${claseInput} ${
-            hayError
-                ? 'border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-red-500/20'
-                : 'border-slate-300 focus:border-emerald-500'
+            hayError ? 'border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-300 focus:border-emerald-500'
         }`;
 
-    const claseEtiqueta = 'mb-1 block text-xs font-bold tracking-wider text-slate-500 uppercase';
+    const claseEtiqueta = 'mb-1 block text-sm font-bold text-slate-500 ';
 
     return (
         <>
@@ -72,9 +70,7 @@ export default function Login() {
                 <div className="space-y-5">
                     <div className="border-b border-slate-100 pb-4">
                         <h1 className="text-lg font-bold text-slate-900">Iniciar sesión</h1>
-                        <p className="mt-1 text-sm text-slate-500">
-                            Entra con el correo con el que registraste tu cuenta ciudadana.
-                        </p>
+                        <p className="mt-1 text-sm text-slate-500">Entra con el correo con el que registraste tu cuenta ciudadana.</p>
                     </div>
 
                     <form onSubmit={enviar} className="space-y-4">
@@ -98,7 +94,7 @@ export default function Login() {
                                 className={claseInputConError(Boolean(errors.email))}
                             />
                             {errors.email && (
-                                <p id="error-email" role="alert" className="mt-1 text-xs font-semibold text-red-700">
+                                <p id="error-email" role="alert" className="mt-1 text-sm font-semibold text-red-700">
                                     {errors.email}
                                 </p>
                             )}
@@ -122,7 +118,7 @@ export default function Login() {
                                 className={claseInputConError(Boolean(errors.password))}
                             />
                             {errors.password && (
-                                <p id="error-password" role="alert" className="mt-1 text-xs font-semibold text-red-700">
+                                <p id="error-password" role="alert" className="mt-1 text-sm font-semibold text-red-700">
                                     {errors.password}
                                 </p>
                             )}
@@ -159,8 +155,8 @@ export default function Login() {
                     </form>
 
                     <p className="border-t border-slate-100 pt-4 text-center text-sm leading-relaxed text-slate-500">
-                        ¿Prefieres continuar como invitado? Puedes autoevaluar tu local sin cuenta y registrarte
-                        más adelante para conservar tu avance.
+                        ¿Prefieres continuar como invitado? Puedes autoevaluar tu local sin cuenta y registrarte más adelante para conservar tu
+                        avance.
                     </p>
                 </div>
             </AuthLayout>
