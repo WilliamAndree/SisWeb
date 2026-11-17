@@ -14,8 +14,9 @@ beforeEach(function () {
 
 function crearEvaluacionV2Desacople(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'codigo_acceso' => 'CHK-'.strtoupper(Str::random(6)),
         'nombre_comercio' => 'Bodega V2 Decoupled',
         'funcion_economica' => 'Comercio',
@@ -30,12 +31,19 @@ function crearEvaluacionV2Desacople(array $overrides = []): Autoevaluacion
         'detalle_checklist' => [],
         'estado' => Autoevaluacion::ESTADO_INICIADA,
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 function crearEvaluacionLegacyDesacople(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'nombre_comercio' => 'Bodega V1 Legacy',
         'funcion_economica' => 'Comercio',
         'ruc' => '20987654321',
@@ -49,6 +57,12 @@ function crearEvaluacionLegacyDesacople(array $overrides = []): Autoevaluacion
         'estado' => Autoevaluacion::ESTADO_INICIADA,
         'payload_canonico' => null,
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 test('UX06-01: acceso a autoevaluacion.resultado con evaluacion V2 iniciada redirige con 302 a autoevaluacion.resumen', function () {

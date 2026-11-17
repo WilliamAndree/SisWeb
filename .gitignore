@@ -1,5 +1,6 @@
 .DS_Store
 .env
+.env.testing
 .env.backup
 .env.production
 .phpactor.json
@@ -19,6 +20,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/scratch/qa-mariadb-native/
 auth.json
 Homestead.json
 Homestead.yaml

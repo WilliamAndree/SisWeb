@@ -8,9 +8,12 @@ use App\Models\ConectorCirculacion;
 use App\Models\ElementoEspacial;
 use App\Models\NivelPiso;
 use App\Models\PlanoEstablecimiento;
+use App\Models\Subsanacion;
 use App\Models\User;
 use App\Models\VersionPlano;
+use App\Services\Evaluacion\IntegridadEvaluacionService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
 class GestionEspacialService
@@ -27,6 +30,7 @@ class GestionEspacialService
      */
     public function normalizarGeometria(array $datosPlano): array
     {
+        $this->validarEntradaGeometrica($datosPlano);
         $nivelesRaw = $datosPlano['niveles'] ?? [];
 
         if (empty($nivelesRaw) || ! is_array($nivelesRaw)) {
@@ -34,6 +38,17 @@ class GestionEspacialService
         }
 
         $nivelesNormalizados = [];
+        $codigosPorNivel = [];
+        foreach ($nivelesRaw as $nivelRaw) {
+            $piso = (int) ($nivelRaw['numero_piso'] ?? 1);
+            if (isset($codigosPorNivel[$piso])) {
+                throw new InvalidArgumentException('No se permiten números de piso duplicados en un plano.');
+            }
+            $codigosPorNivel[$piso] = [];
+            foreach ($nivelRaw['ambientes'] as $indice => $ambienteRaw) {
+                $codigosPorNivel[$piso][] = strtoupper(trim((string) ($ambienteRaw['codigo'] ?? 'AMB-'.($indice + 1))));
+            }
+        }
 
         foreach ($nivelesRaw as $nivel) {
             $numeroPiso = (int) ($nivel['numero_piso'] ?? 1);
@@ -118,7 +133,7 @@ class GestionEspacialService
                     ];
                 }
 
-                if ($areaCalculada <= 0.0) {
+                if (! is_finite($areaCalculada) || $areaCalculada <= 0.0 || $areaCalculada > 999999.99) {
                     throw new InvalidArgumentException("El área calculada para el ambiente [{$codigo}] debe ser estrictamente positiva.");
                 }
 
@@ -194,7 +209,9 @@ class GestionEspacialService
                     if ($origCod !== null && ! in_array($origCod, $codigosAmbientes, true)) {
                         throw new InvalidArgumentException("El conector hace referencia a un ambiente de origen inexistente [{$origCod}] en el nivel.");
                     }
-                    if ($destCod !== null && ! in_array($destCod, $codigosAmbientes, true)) {
+                    $esVertical = in_array($tipoCon, ['ESCALERA', 'CONEXION_NIVEL'], true);
+                    $codigosDestino = $esVertical && $nivelDest !== null ? ($codigosPorNivel[$nivelDest] ?? []) : $codigosAmbientes;
+                    if ($destCod !== null && ! in_array($destCod, $codigosDestino, true)) {
                         throw new InvalidArgumentException("El conector hace referencia a un ambiente de destino inexistente [{$destCod}] en el nivel.");
                     }
 
@@ -242,7 +259,7 @@ class GestionEspacialService
      */
     public function calcularHashGeometria(array $geometriaNormalizada): string
     {
-        $json = json_encode($geometriaNormalizada, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $json = json_encode($geometriaNormalizada, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 
         return hash('sha256', (string) $json);
     }
@@ -275,6 +292,20 @@ class GestionEspacialService
     ): VersionPlano {
         return DB::transaction(function () use ($plano, $datosPlano, $user, $sessionToken, $descripcionCambio) {
             $geometriaNormalizada = $this->normalizarGeometria($datosPlano);
+            $subsanaciones = [];
+            foreach ($geometriaNormalizada['niveles'] as $nivel) {
+                foreach ($nivel['ambientes'] as $ambiente) {
+                    foreach ($ambiente['elementos'] as $elemento) {
+                        if ($elemento['subsanacion_id'] !== null) {
+                            $subsanaciones[] = $elemento['subsanacion_id'];
+                        }
+                    }
+                }
+            }
+            $subsanaciones = array_unique($subsanaciones);
+            if ($subsanaciones && Subsanacion::whereIn('id', $subsanaciones)->where('autoevaluacion_id', $plano->autoevaluacion_id)->count() !== count($subsanaciones)) {
+                throw new InvalidArgumentException('Las evidencias vinculadas deben pertenecer a la autoevaluación del plano.');
+            }
             $hashCalculado = $this->calcularHashGeometria($geometriaNormalizada);
 
             // Bloquear el plano para actualización concurrente
@@ -284,7 +315,8 @@ class GestionEspacialService
             $versionActiva = $planoActualizado->versionActiva;
 
             // Idempotencia: si la versión activa ya tiene este hash idéntico, no duplicar versión
-            if ($versionActiva && hash_equals($versionActiva->hash_geometria_sha256, $hashCalculado)) {
+            if ($versionActiva && hash_equals($versionActiva->hash_geometria_sha256, $hashCalculado)
+                && $this->verificarIntegridadCompleta($versionActiva)['valido']) {
                 return $versionActiva;
             }
 
@@ -410,7 +442,7 @@ class GestionEspacialService
                     'notas' => $ambData['notas'],
                 ]);
 
-                $ambientesMap[$ambData['codigo']] = $ambiente->id;
+                $ambientesMap[$nivelData['numero_piso'].'|'.$ambData['codigo']] = $ambiente->id;
 
                 foreach ($ambData['elementos'] as $elemData) {
                     ElementoEspacial::create([
@@ -425,16 +457,19 @@ class GestionEspacialService
                 }
             }
 
+        }
+
+        foreach ($geometriaNormalizada['niveles'] as $nivelData) {
             foreach ($nivelData['conectores'] as $conData) {
                 ConectorCirculacion::create([
-                    'nivel_piso_id' => $nivelPiso->id,
+                    'nivel_piso_id' => $nivelesMap[$nivelData['numero_piso']],
                     'tipo' => $conData['tipo'],
                     'ancho_metros' => $conData['ancho_metros'],
                     'conduce_a_salida_publica' => $conData['conduce_a_salida_publica'],
                     'abre_hacia_afuera' => $conData['abre_hacia_afuera'],
-                    'ambiente_origen_id' => $conData['ambiente_origen_codigo'] ? ($ambientesMap[$conData['ambiente_origen_codigo']] ?? null) : null,
-                    'ambiente_destino_id' => $conData['ambiente_destino_codigo'] ? ($ambientesMap[$conData['ambiente_destino_codigo']] ?? null) : null,
-                    'nivel_destino_id' => $conData['nivel_destino_numero'] ? ($nivelesMap[$conData['nivel_destino_numero']] ?? null) : null,
+                    'ambiente_origen_id' => $conData['ambiente_origen_codigo'] ? ($ambientesMap[$nivelData['numero_piso'].'|'.$conData['ambiente_origen_codigo']] ?? null) : null,
+                    'ambiente_destino_id' => $conData['ambiente_destino_codigo'] ? ($ambientesMap[($conData['nivel_destino_numero'] ?? $nivelData['numero_piso']).'|'.$conData['ambiente_destino_codigo']] ?? null) : null,
+                    'nivel_destino_id' => $conData['nivel_destino_numero'] !== null ? ($nivelesMap[$conData['nivel_destino_numero']] ?? null) : null,
                     'posicion_x' => $conData['posicion_x'],
                     'posicion_y' => $conData['posicion_y'],
                     'origen_dato' => $conData['origen_dato'],
@@ -473,7 +508,11 @@ class GestionEspacialService
         $geometria = $version->geometria_normalizada;
 
         // 1. Verificación Criptográfica SHA-256
-        $hashCalculado = is_array($geometria) ? $this->calcularHashGeometria($geometria) : '';
+        try {
+            $hashCalculado = is_array($geometria) ? $this->calcularHashGeometria($geometria) : '';
+        } catch (\JsonException) {
+            $hashCalculado = '';
+        }
         $hashCoincide = hash_equals((string) $version->hash_geometria_sha256, $hashCalculado);
 
         if (! $hashCoincide) {
@@ -482,7 +521,14 @@ class GestionEspacialService
 
         // 2. Verificación Estructural del Esquema
         $estructuraValida = true;
-        if (! is_array($geometria) || empty($geometria['niveles']) || ! is_array($geometria['niveles'])) {
+        try {
+            if (is_array($geometria)) {
+                $this->validarEntradaGeometrica($geometria);
+            }
+        } catch (InvalidArgumentException) {
+            $estructuraValida = false;
+        }
+        if (! $estructuraValida || ! is_array($geometria) || empty($geometria['niveles']) || ! is_array($geometria['niveles'])) {
             $estructuraValida = false;
             $errores[] = 'Estructura geométrica inválida: falta el listado de niveles.';
         } else {
@@ -563,6 +609,13 @@ class GestionEspacialService
                     $errores[] = 'Divergencia detectada entre la geometría JSON canónica y los registros relacionales en base de datos.';
                 }
             }
+
+            $canonico = app(IntegridadEvaluacionService::class);
+            if (($sqlTotalNiveles > 0 || isset($version->metadata['total_niveles']))
+                && $canonico->generarJsonCanonico($this->reconstruirGeometriaRelacional($version)) !== $canonico->generarJsonCanonico($geometria)) {
+                $divergenciaRelacional = true;
+                $errores[] = 'Los valores relacionales no coinciden con el snapshot geométrico sellado.';
+            }
         }
 
         return [
@@ -590,6 +643,9 @@ class GestionEspacialService
         }
 
         $version = $plano->versionActiva;
+        if ((int) $version->plano_establecimiento_id !== (int) $plano->id || ! $this->verificarIntegridadCompleta($version)['valido']) {
+            throw new \RuntimeException('La versión activa del croquis presenta una asociación o integridad inválida.');
+        }
 
         return [
             'plano_uuid' => $plano->uuid_plano,
@@ -817,9 +873,11 @@ class GestionEspacialService
         }
 
         $area = 0.0;
+        $origen = $vertices[0];
         for ($i = 0; $i < $n; $i++) {
             $j = ($i + 1) % $n;
-            $area += ($vertices[$i]['x'] * $vertices[$j]['y']) - ($vertices[$j]['x'] * $vertices[$i]['y']);
+            $area += (($vertices[$i]['x'] - $origen['x']) * ($vertices[$j]['y'] - $origen['y']))
+                - (($vertices[$j]['x'] - $origen['x']) * ($vertices[$i]['y'] - $origen['y']));
         }
 
         return round(abs($area) / 2.0, 2);
@@ -870,7 +928,14 @@ class GestionEspacialService
     private function segmentosSeIntersecan(array $p1, array $p2, array $p3, array $p4): bool
     {
         $ccw = function (array $a, array $b, array $c): float {
-            return ($c['y'] - $a['y']) * ($b['x'] - $a['x']) - ($b['y'] - $a['y']) * ($c['x'] - $a['x']);
+            $ax = (int) round($a['x'] * 100);
+            $ay = (int) round($a['y'] * 100);
+            $bx = (int) round($b['x'] * 100);
+            $by = (int) round($b['y'] * 100);
+            $cx = (int) round($c['x'] * 100);
+            $cy = (int) round($c['y'] * 100);
+
+            return ($cy - $ay) * ($bx - $ax) - ($by - $ay) * ($cx - $ax);
         };
 
         $d1 = $ccw($p3, $p4, $p1);
@@ -883,6 +948,93 @@ class GestionEspacialService
             return true;
         }
 
-        return false;
+        $enSegmento = fn (array $p, array $a, array $b): bool => $p['x'] >= min($a['x'], $b['x'])
+            && $p['x'] <= max($a['x'], $b['x']) && $p['y'] >= min($a['y'], $b['y']) && $p['y'] <= max($a['y'], $b['y']);
+
+        return ($d1 === 0.0 && $enSegmento($p1, $p3, $p4))
+            || ($d2 === 0.0 && $enSegmento($p2, $p3, $p4))
+            || ($d3 === 0.0 && $enSegmento($p3, $p1, $p2))
+            || ($d4 === 0.0 && $enSegmento($p4, $p1, $p2));
+    }
+
+    private function validarEntradaGeometrica(array $datos): void
+    {
+        $finito = function (string $campo, mixed $valor, \Closure $fallo): void {
+            if (! is_numeric($valor) || ! is_finite((float) $valor)) {
+                $fallo("El campo {$campo} debe ser numérico y finito.");
+            }
+        };
+        $coordenada = ['sometimes', 'numeric', 'between:-9999.99,9999.99', $finito];
+        $reglas = [
+            'niveles' => ['required', 'array', 'min:1'],
+            'niveles.*' => ['required', 'array'],
+            'niveles.*.numero_piso' => ['sometimes', 'integer', 'between:-2147483648,2147483647'],
+            'niveles.*.orden' => ['sometimes', 'integer'],
+            'niveles.*.altura_metros' => ['nullable', 'numeric', 'between:0,99.99', $finito],
+            'niveles.*.ambientes' => ['required', 'array', 'min:1'],
+            'niveles.*.ambientes.*' => ['required', 'array'],
+            'niveles.*.conectores' => ['sometimes', 'array'],
+            'niveles.*.conectores.*' => ['required', 'array'],
+            'niveles.*.conectores.*.ancho_metros' => ['nullable', 'numeric', 'gt:0', 'max:99.99', $finito],
+            'niveles.*.conectores.*.conduce_a_salida_publica' => ['nullable', 'boolean'],
+            'niveles.*.conectores.*.abre_hacia_afuera' => ['nullable', 'boolean'],
+            'niveles.*.conectores.*.nivel_destino_numero' => ['nullable', 'integer'],
+            'niveles.*.ambientes.*.vertices_poligono' => ['nullable', 'array'],
+            'niveles.*.ambientes.*.vertices_poligono.*' => ['required', 'array'],
+            'niveles.*.ambientes.*.elementos' => ['sometimes', 'array'],
+            'niveles.*.ambientes.*.elementos.*' => ['required', 'array'],
+        ];
+        foreach (['ancho_metros', 'largo_metros'] as $campo) {
+            $reglas['niveles.*.ambientes.*.'.$campo] = ['nullable', 'numeric', 'between:0,9999.99', $finito];
+        }
+        foreach (['posicion_x', 'posicion_y'] as $campo) {
+            foreach (['ambientes.*', 'conectores.*', 'ambientes.*.elementos.*'] as $ruta) {
+                $reglas['niveles.*.'.$ruta.'.'.$campo] = $coordenada;
+            }
+        }
+        foreach (['x', 'y'] as $eje) {
+            $reglas['niveles.*.ambientes.*.vertices_poligono.*.'.$eje] = ['required', 'numeric', $finito];
+        }
+        $validador = Validator::make($datos, $reglas);
+        if ($validador->fails()) {
+            throw new InvalidArgumentException($validador->errors()->first());
+        }
+    }
+
+    private function reconstruirGeometriaRelacional(VersionPlano $version): array
+    {
+        $niveles = $version->niveles()->orderBy('numero_piso')->with([
+            'ambientes' => fn ($q) => $q->orderBy('codigo'),
+            'ambientes.elementos' => fn ($q) => $q->orderBy('id'),
+            'conectores' => fn ($q) => $q->orderBy('id'),
+        ])->get()->sortBy('numero_piso')->values();
+        $ambientes = $niveles->flatMap(fn ($n) => $n->ambientes)->keyBy('id');
+        $nivelesPorId = $niveles->keyBy('id');
+
+        return ['esquema_version' => $version->esquema_version, 'niveles' => $niveles->map(function ($nivel) use ($ambientes, $nivelesPorId): array {
+            $data = $nivel->only(['numero_piso', 'nombre', 'altura_metros', 'orden']);
+            $data['ambientes'] = $nivel->ambientes->map(function ($ambiente): array {
+                $data = $ambiente->only(['codigo', 'nombre', 'uso', 'ancho_metros', 'largo_metros', 'area_m2', 'posicion_x', 'posicion_y', 'vertices_poligono', 'origen_dimensiones', 'notas']);
+                $data['elementos'] = $ambiente->elementos->map(fn ($elemento) => $elemento->only(['tipo', 'posicion_x', 'posicion_y', 'origen_dato', 'subsanacion_id', 'observacion']))->all();
+
+                return $data;
+            })->all();
+            $data['conectores'] = $nivel->conectores->map(function ($conector) use ($ambientes, $nivelesPorId): array {
+                $origen = $ambientes->get($conector->ambiente_origen_id);
+                $destino = $ambientes->get($conector->ambiente_destino_id);
+                if (($origen && (int) $origen->nivel_piso_id !== (int) $conector->nivel_piso_id)
+                    || ($destino && (int) $destino->nivel_piso_id !== (int) ($conector->nivel_destino_id ?? $conector->nivel_piso_id))) {
+                    return ['referencia_relacional_invalida' => true];
+                }
+
+                return $conector->only(['tipo', 'ancho_metros', 'conduce_a_salida_publica', 'abre_hacia_afuera', 'posicion_x', 'posicion_y', 'origen_dato']) + [
+                    'ambiente_origen_codigo' => $ambientes->get($conector->ambiente_origen_id)?->codigo,
+                    'ambiente_destino_codigo' => $ambientes->get($conector->ambiente_destino_id)?->codigo,
+                    'nivel_destino_numero' => $nivelesPorId->get($conector->nivel_destino_id)?->numero_piso,
+                ];
+            })->all();
+
+            return $data;
+        })->all()];
     }
 }

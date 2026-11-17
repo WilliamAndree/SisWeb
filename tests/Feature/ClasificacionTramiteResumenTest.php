@@ -10,8 +10,9 @@ beforeEach(function () {
 
 function crearEvaluacionParaClasificacion(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'nombre_comercio' => 'Bodega Test Huancayo',
         'ruc' => '20987654321',
         'direccion' => 'Av. Ejemplo 456',
@@ -27,6 +28,12 @@ function crearEvaluacionParaClasificacion(array $overrides = []): Autoevaluacion
         'semaforo' => 'VERDE',
         'detalle_checklist' => [],
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 test('el resumen clasifica en ITSE Posterior cuando el riesgo declarado es bajo o medio', function () {

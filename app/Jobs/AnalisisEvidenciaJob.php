@@ -7,7 +7,9 @@ use App\Services\AI\AnalisisEvidenciaService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -31,7 +33,18 @@ class AnalisisEvidenciaJob implements ShouldQueue
             return;
         }
 
-        $service->procesarAnalisis($analisis);
+        try {
+            $service->procesarAnalisis($analisis);
+        } catch (Throwable $e) {
+            $transitorio = $e instanceof \RuntimeException
+                && ($e->getCode() === 429 || ($e->getCode() >= 500 && $e->getCode() <= 599)
+                    || $e->getPrevious() instanceof ConnectionException);
+            if ($transitorio && $this->job !== null && ! $this->job instanceof SyncJob && $this->attempts() < $this->tries) {
+                $analisis->update(['estado_analisis' => AnalisisEvidencia::ESTADO_PENDIENTE, 'completado_at' => null]);
+            }
+
+            throw $e;
+        }
     }
 
     public function failed(?Throwable $exception): void

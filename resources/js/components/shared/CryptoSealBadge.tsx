@@ -1,5 +1,5 @@
+import { Check, Copy, Lock, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
-import { Check, Copy, ShieldCheck, Lock } from 'lucide-react';
 
 export interface CryptoSealBadgeProps {
     readonly hash?: string | null;
@@ -9,13 +9,7 @@ export interface CryptoSealBadgeProps {
     readonly variante?: 'compacto' | 'detallado';
 }
 
-export function CryptoSealBadge({
-    hash,
-    fecha,
-    esInmutable = true,
-    className = '',
-    variante = 'compacto',
-}: Readonly<CryptoSealBadgeProps>) {
+export function CryptoSealBadge({ hash, fecha, esInmutable = true, className = '', variante = 'compacto' }: Readonly<CryptoSealBadgeProps>) {
     const [copiado, setCopiado] = useState<boolean>(false);
 
     if (!hash) {
@@ -36,12 +30,12 @@ export function CryptoSealBadge({
 
     let textoEstado = 'En Proceso';
     if (esInmutable) {
-        textoEstado = 'Sellado Criptográficamente';
+        textoEstado = 'Registro cerrado';
     }
 
     let textoBadgeInmutabilidad = 'Borrador editable';
     if (esInmutable) {
-        textoBadgeInmutabilidad = 'Registro Inmutable';
+        textoBadgeInmutabilidad = 'Huella registrada';
     }
 
     let textoHashVisible = hashCorto;
@@ -52,24 +46,17 @@ export function CryptoSealBadge({
     return (
         <div
             role="region"
-            aria-label="Sello criptográfico de integridad"
+            aria-label="Huella de integridad registrada"
             className={`inline-flex flex-wrap items-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-950/60 px-3.5 py-1.5 text-xs text-emerald-200 shadow-xs backdrop-blur-xs ${className}`}
         >
             <div className="flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-400" aria-hidden="true" />
-                <span className="font-bold text-emerald-300">
-                    {textoEstado}
-                </span>
+                <span className="font-bold text-emerald-300">{textoEstado}</span>
             </div>
 
             <div className="flex items-center gap-1.5 border-l border-emerald-500/25 pl-2.5">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-400/90 font-bold">
-                    SHA-256:
-                </span>
-                <span
-                    className="font-mono text-xs font-semibold text-white select-all break-all"
-                    title={`Hash SHA-256 completo: ${hash}`}
-                >
+                <span className="font-mono text-[10px] font-bold tracking-wider text-emerald-400/90 uppercase">SHA-256:</span>
+                <span className="font-mono text-xs font-semibold break-all text-white select-all" title={`Hash SHA-256 completo: ${hash}`}>
                     {textoHashVisible}
                 </span>
 
@@ -78,7 +65,7 @@ export function CryptoSealBadge({
                     onClick={copiarHash}
                     aria-label="Copiar hash SHA-256 de integridad al portapapeles"
                     title={copiado ? '¡Copiado!' : 'Copiar hash SHA-256'}
-                    className="ml-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-emerald-400/30 bg-emerald-900/60 text-emerald-300 transition-colors hover:bg-emerald-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 cursor-pointer"
+                    className="ml-1 inline-flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-emerald-400/30 bg-emerald-900/60 text-emerald-300 transition-colors hover:bg-emerald-800 hover:text-white focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none"
                 >
                     {copiado ? (
                         <Check className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />

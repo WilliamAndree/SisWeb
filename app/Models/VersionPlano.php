@@ -40,6 +40,7 @@ class VersionPlano extends Model
             // Si la versión ya estaba cerrada, prohibir modificaciones en su geometría o hash
             if ($model->getOriginal('cerrada_at') !== null) {
                 $camposInmutables = [
+                    'cerrada_at',
                     'hash_geometria_sha256',
                     'geometria_normalizada',
                     'numero_version',

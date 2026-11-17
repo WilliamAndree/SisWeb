@@ -148,12 +148,16 @@ class GeminiMultimodalService
         $datosRespuesta = $response->json();
         $textoGenerado = $datosRespuesta['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
-        if (! filled($textoGenerado)) {
+        if (! is_string($textoGenerado) || trim($textoGenerado) === '') {
             Log::warning('Gemini API: Respuesta sin contenido generado', [
                 'modelo' => $this->model,
                 'candidates_count' => count($datosRespuesta['candidates'] ?? []),
             ]);
             throw new RuntimeException('El modelo no devolvió un análisis procesable.');
+        }
+
+        if (strlen($textoGenerado) > 65536) {
+            throw new RuntimeException('La respuesta generada supera el límite permitido de 64 KiB.');
         }
 
         $jsonDecodificado = json_decode($textoGenerado, true);

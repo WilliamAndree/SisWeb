@@ -19,8 +19,9 @@ beforeEach(function () {
 
 function crearAutoevaluacionParaPruebas(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'estado' => Autoevaluacion::ESTADO_INICIADA,
         'nombre_comercio' => 'Librería Central',
         'funcion_economica' => 'Comercio',
@@ -38,6 +39,12 @@ function crearAutoevaluacionParaPruebas(array $overrides = []): Autoevaluacion
             'tiene_estanterias_altas' => false,
         ],
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 it('entrega recursos educativos activos en el checklist HTTP (Inertia y JSON) bajo criterio.recursos_educativos', function () {

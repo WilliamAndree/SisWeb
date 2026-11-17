@@ -8,6 +8,7 @@ use App\Models\Autoevaluacion;
 use App\Models\ResultadoAnalisisEvidencia;
 use App\Models\Subsanacion;
 use App\Models\User;
+use App\Services\Evaluacion\EvidenciaPrivadaService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -35,7 +36,7 @@ class AnalisisEvidenciaService
     public function solicitarAnalisis(Autoevaluacion $autoevaluacion, Subsanacion $subsanacion, ?User $user = null): AnalisisEvidencia
     {
         $path = $subsanacion->evidencia_url;
-        if (! filled($path) || ! Storage::disk('local')->exists($path)) {
+        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path) || ! Storage::disk('local')->exists($path)) {
             throw new RuntimeException('El archivo de evidencia física no existe en el almacenamiento privado.');
         }
 
@@ -56,6 +57,9 @@ class AnalisisEvidenciaService
         }
 
         $contenido = Storage::disk('local')->get($path);
+        if ($contenido === '' || @getimagesizefromstring($contenido) === false) {
+            throw new InvalidArgumentException('El archivo no contiene una imagen visual válida.');
+        }
         $hashCalculado = hash('sha256', $contenido);
         if (filled($subsanacion->hash_sha256) && ! hash_equals((string) $subsanacion->hash_sha256, (string) $hashCalculado)) {
             throw new RuntimeException('El hash criptográfico del archivo físico no coincide con el registrado en la subsanación.');
@@ -105,7 +109,7 @@ class AnalisisEvidenciaService
         }
 
         $path = $subsanacion->evidencia_url;
-        if (! filled($path) || ! Storage::disk('local')->exists($path)) {
+        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path) || ! Storage::disk('local')->exists($path)) {
             $analisis->update([
                 'estado_analisis' => AnalisisEvidencia::ESTADO_FALLIDO,
                 'mensaje_error' => 'El archivo de evidencia física no se encuentra en el almacenamiento.',
@@ -150,6 +154,9 @@ class AnalisisEvidenciaService
         try {
             $resultadoGemini = $this->geminiService->analizarImagen($base64, $mime, $contextoTecnico);
             $datosValidados = $this->validacionService->validarYSanear($resultadoGemini['datos']);
+            if ($datosValidados['criterion_code'] !== $contextoTecnico['codigo']) {
+                throw new InvalidArgumentException('El criterio devuelto no coincide con el análisis solicitado.');
+            }
             $datosFinales = $this->correlacionService->contextualizar($datosValidados, $criterio);
 
             ResultadoAnalisisEvidencia::updateOrCreate(
@@ -172,7 +179,9 @@ class AnalisisEvidenciaService
                 ]
             );
 
-            $estadoFinal = ($datosFinales['image_quality'] === ResultadoAnalisisEvidencia::CALIDAD_ILEGIBLE || $datosFinales['evidence_relevance'] === ResultadoAnalisisEvidencia::RELEVANCIA_NO_RELACIONADA)
+            $estadoFinal = ($datosFinales['image_quality'] === ResultadoAnalisisEvidencia::CALIDAD_ILEGIBLE
+                || in_array($datosFinales['evidence_relevance'], [ResultadoAnalisisEvidencia::RELEVANCIA_NO_RELACIONADA, 'INDETERMINADA'], true)
+                || in_array($datosFinales['uncertainty_level'], ['ALTO', 'MUY_ALTO'], true))
                 ? AnalisisEvidencia::ESTADO_REQUIERE_REVISION
                 : AnalisisEvidencia::ESTADO_COMPLETADO;
 

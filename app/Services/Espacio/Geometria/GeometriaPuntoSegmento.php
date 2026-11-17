@@ -14,8 +14,15 @@ class GeometriaPuntoSegmento
      * @param  array{x: float|int, y: float|int}  $b  Fin del segmento
      * @return float Distancia métrica euclidiana en metros
      */
-    public static function distanciaPuntoASegmento(array $p, array $a, array $b): float
+    public static function distanciaPuntoASegmento(array $p, array $a, array $b, bool $redondear = true): float
     {
+        foreach ([$p, $a, $b] as $punto) {
+            foreach (['x', 'y'] as $eje) {
+                if (! isset($punto[$eje]) || ! is_numeric($punto[$eje]) || ! is_finite((float) $punto[$eje])) {
+                    throw new \InvalidArgumentException('Las coordenadas del punto deben ser numéricas y finitas.');
+                }
+            }
+        }
         $px = (float) $p['x'];
         $py = (float) $p['y'];
         $ax = (float) $a['x'];
@@ -30,7 +37,9 @@ class GeometriaPuntoSegmento
 
         // Caso límite: Segmento de longitud cero (punto A y B coinciden)
         if ($longitudCuadrada <= 1e-9) {
-            return round(sqrt((($px - $ax) ** 2) + (($py - $ay) ** 2)), 4);
+            $distancia = hypot($px - $ax, $py - $ay);
+
+            return $redondear ? round($distancia, 4) : $distancia;
         }
 
         // Factor de proyección escalar t sobre el segmento [0, 1]
@@ -49,7 +58,7 @@ class GeometriaPuntoSegmento
 
         $distancia = sqrt((($px - $cercanoX) ** 2) + (($py - $cercanoY) ** 2));
 
-        return round($distancia, 4);
+        return $redondear ? round($distancia, 4) : $distancia;
     }
 
     /**
@@ -58,12 +67,12 @@ class GeometriaPuntoSegmento
      * @param  array{x: float|int, y: float|int}  $p
      * @param  list<array{x: float|int, y: float|int}>  $vertices
      */
-    public static function distanciaPuntoAPolígono(array $p, array $vertices): float
+    public static function distanciaPuntoAPolígono(array $p, array $vertices, bool $redondear = true): float
     {
         $n = count($vertices);
         if ($n < 2) {
             if ($n === 1) {
-                return self::distanciaPuntoASegmento($p, $vertices[0], $vertices[0]);
+                return self::distanciaPuntoASegmento($p, $vertices[0], $vertices[0], $redondear);
             }
 
             return INF;
@@ -75,7 +84,7 @@ class GeometriaPuntoSegmento
             $a = $vertices[$i];
             $b = $vertices[($i + 1) % $n];
 
-            $dist = self::distanciaPuntoASegmento($p, $a, $b);
+            $dist = self::distanciaPuntoASegmento($p, $a, $b, $redondear);
             if ($dist < $distanciaMinima) {
                 $distanciaMinima = $dist;
             }
@@ -125,8 +134,13 @@ class GeometriaPuntoSegmento
         float $tolerancia = self::TOLERANCIA_METROS_DEFAULT
     ): bool {
         $vertices = self::obtenerVerticesAmbiente($ambiente);
-        $distancia = self::distanciaPuntoAPolígono($p, $vertices);
+        $distancia = self::distanciaPuntoAPolígono($p, $vertices, false);
 
-        return $distancia <= $tolerancia;
+        $escala = max(1.0, abs((float) $p['x']), abs((float) $p['y']));
+        foreach ($vertices as $vertice) {
+            $escala = max($escala, abs($vertice['x']), abs($vertice['y']));
+        }
+
+        return $distancia <= $tolerancia || abs($distancia - $tolerancia) <= 8 * PHP_FLOAT_EPSILON * $escala;
     }
 }

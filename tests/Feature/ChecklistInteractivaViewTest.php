@@ -12,8 +12,9 @@ beforeEach(function () {
 
 function crearEvaluacionParaChecklist(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'nombre_comercio' => 'Bodega Los Rosales Huancayo',
         'sector_huancayo' => 'San Carlos',
         'direccion' => 'Jr. Puno 450',
@@ -25,6 +26,12 @@ function crearEvaluacionParaChecklist(array $overrides = []): Autoevaluacion
         'semaforo' => 'VERDE',
         'detalle_checklist' => [],
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 test('1. La pagina Checklist se renderiza correctamente como componente Inertia Evaluacion/Checklist', function () {

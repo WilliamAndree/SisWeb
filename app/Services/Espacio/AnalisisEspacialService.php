@@ -60,7 +60,8 @@ class AnalisisEspacialService
             $numPiso = (int) ($nivel['numero_piso'] ?? 1);
             foreach ($nivel['ambientes'] ?? [] as $amb) {
                 $cod = $amb['codigo'];
-                $ambientesTotales[$cod] = [
+                $nodo = $numPiso.'|'.$cod;
+                $ambientesTotales[$nodo] = [
                     'codigo' => $cod,
                     'nombre' => $amb['nombre'] ?? $cod,
                     'uso' => $amb['uso'] ?? 'ATENCION_PUBLICO',
@@ -68,17 +69,33 @@ class AnalisisEspacialService
                     'area_m2' => $amb['area_m2'] ?? null,
                     'ambiente_raw' => $amb,
                 ];
-                $grafoAdyacencia[$cod] = [];
+                $grafoAdyacencia[$nodo] = [];
             }
         }
 
         // 3. Evaluación de Conectores y Topología
         foreach ($niveles as $nivel) {
             $numPiso = (int) ($nivel['numero_piso'] ?? 1);
-            $ambientesNivel = array_filter($ambientesTotales, fn ($a) => $a['numero_piso'] === $numPiso);
+            $ambientesNivel = [];
+            foreach ($ambientesTotales as $info) {
+                if ($info['numero_piso'] === $numPiso) {
+                    $ambientesNivel[$info['codigo']] = $info;
+                }
+            }
 
             foreach ($nivel['conectores'] ?? [] as $idx => $con) {
                 $evaluacionConector = $this->evaluarConector($con, $ambientesNivel, $nivelesNumeros, $numPiso, $idx);
+                if (in_array($con['tipo'], ['ESCALERA', 'CONEXION_NIVEL'], true)
+                    && $evaluacionConector['clasificacion'] === self::ESTADO_CON_CONFIRMADA) {
+                    $destino = $ambientesTotales[($con['nivel_destino_numero'] ?? $numPiso).'|'.($con['ambiente_destino_codigo'] ?? '')] ?? null;
+                    if (! $destino || (int) $destino['numero_piso'] === $numPiso) {
+                        $evaluacionConector['clasificacion'] = self::ESTADO_CON_INDETERMINADA;
+                        $evaluacionConector['advertencia'] = 'La conexión vertical no identifica un ambiente de llegada en otro piso.';
+                    } elseif (! GeometriaPuntoSegmento::estaProximoAPerimetro(['x' => $con['posicion_x'], 'y' => $con['posicion_y']], $destino['ambiente_raw'])) {
+                        $evaluacionConector['clasificacion'] = self::ESTADO_CON_SUGERIDA;
+                        $evaluacionConector['advertencia'] = 'La conexión vertical no coincide geométricamente con el ambiente de llegada.';
+                    }
+                }
                 $conectoresEvaluados[] = $evaluacionConector;
 
                 if (! empty($evaluacionConector['advertencia'])) {
@@ -95,13 +112,13 @@ class AnalisisEspacialService
                 // Si la conexión está estrictamente confirmada, se incorpora al grafo
                 if ($evaluacionConector['clasificacion'] === self::ESTADO_CON_CONFIRMADA) {
                     if ($evaluacionConector['es_salida_publica']) {
-                        $orig = $evaluacionConector['ambiente_origen'];
+                        $orig = $evaluacionConector['ambiente_origen'] ? $numPiso.'|'.$evaluacionConector['ambiente_origen'] : null;
                         if ($orig) {
                             $ambientesConSalidaDirecta[$orig] = true;
                         }
                     } else {
-                        $orig = $evaluacionConector['ambiente_origen'];
-                        $dest = $evaluacionConector['ambiente_destino'];
+                        $orig = $evaluacionConector['ambiente_origen'] ? $numPiso.'|'.$evaluacionConector['ambiente_origen'] : null;
+                        $dest = $evaluacionConector['ambiente_destino'] ? ($evaluacionConector['nivel_destino_numero'] ?? $numPiso).'|'.$evaluacionConector['ambiente_destino'] : null;
                         if ($orig && $dest && isset($grafoAdyacencia[$orig], $grafoAdyacencia[$dest])) {
                             $grafoAdyacencia[$orig][] = $dest;
                             $grafoAdyacencia[$dest][] = $orig;
@@ -119,8 +136,8 @@ class AnalisisEspacialService
             $ambientesConectadosASalida[$ambSalida] = true;
         }
 
-        while (! empty($colaBfs)) {
-            $actual = array_shift($colaBfs);
+        for ($indiceBfs = 0; $indiceBfs < count($colaBfs); $indiceBfs++) {
+            $actual = $colaBfs[$indiceBfs];
             foreach ($grafoAdyacencia[$actual] ?? [] as $vecino) {
                 if (! isset($ambientesConectadosASalida[$vecino])) {
                     $ambientesConectadosASalida[$vecino] = true;
@@ -139,7 +156,7 @@ class AnalisisEspacialService
                 $ambientesAislados[] = $cod;
                 $advertencias[] = [
                     'tipo' => 'AMBIENTE_SIN_SALIDA_CONFIRMADA',
-                    'ambiente_codigo' => $cod,
+                    'ambiente_codigo' => $info['codigo'],
                     'numero_piso' => $info['numero_piso'],
                     'mensaje' => "No se identifica una conexión declarada hacia una salida pública desde el ambiente [{$cod} - {$info['nombre']}].",
                     'recomendacion' => 'Comprueba si este ambiente dispone de una puerta hacia la calle o hacia otro ambiente conectado.',
@@ -187,8 +204,8 @@ class AnalisisEspacialService
 
         $resumenConectividad = [
             'total_ambientes' => count($ambientesTotales),
-            'ambientes_conectados' => array_keys($ambientesConectadosASalida),
-            'ambientes_no_conectados' => $ambientesAislados,
+            'ambientes_conectados' => array_map(fn ($nodo) => $ambientesTotales[$nodo]['codigo'], array_keys($ambientesConectadosASalida)),
+            'ambientes_no_conectados' => array_map(fn ($nodo) => $ambientesTotales[$nodo]['codigo'], $ambientesAislados),
             'conectores' => $conectoresEvaluados,
             'estadisticas_conectores' => [
                 'confirmados' => $totalConfirmados,
@@ -331,7 +348,7 @@ class AnalisisEspacialService
 
         // Caso 2: Escaleras o Conexión Vertical Inter-Nivel
         if ($tipo === ConectorCirculacion::TIPO_ESCALERA || $tipo === ConectorCirculacion::TIPO_CONEXION_NIVEL) {
-            if (! $nivelDest || ! in_array($nivelDest, $nivelesNumeros, true)) {
+            if (! $destCod || $nivelDest === null || ! in_array($nivelDest, $nivelesNumeros, true)) {
                 $clasificacion = self::ESTADO_CON_INDETERMINADA;
                 $advertencia = 'La escalera no tiene un nivel de destino válido o registrado en el plano (piso destino: '.($nivelDest ?? 'no especificado').').';
                 $recomendacion = 'Indica a qué piso conduce la escalera en las propiedades del conector.';
@@ -348,7 +365,7 @@ class AnalisisEspacialService
                 'es_salida_publica' => false,
                 'ancho_metros' => $ancho,
                 'ambiente_origen' => $origCod,
-                'ambiente_destino' => null,
+                'ambiente_destino' => $destCod,
                 'nivel_destino_numero' => $nivelDest,
                 'posicion_x' => $posX,
                 'posicion_y' => $posY,

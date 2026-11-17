@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ResultadoAnalisisEvidencia extends Model
 {
+    protected $hidden = ['raw_payload_salida'];
+
     protected $table = 'resultados_analisis_evidencias';
 
     public const CALIDAD_OPTIMA = 'OPTIMA';

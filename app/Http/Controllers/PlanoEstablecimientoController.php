@@ -35,7 +35,11 @@ class PlanoEstablecimientoController extends Controller
         $this->autorizarAccesoAutoevaluacion($request, $autoevaluacion);
 
         $plano = $this->gestionEspacialService->obtenerOInicializarPlano($autoevaluacion);
-        $detalleActiva = $this->gestionEspacialService->obtenerDetalleVersionActiva($autoevaluacion);
+        try {
+            $detalleActiva = $this->gestionEspacialService->obtenerDetalleVersionActiva($autoevaluacion);
+        } catch (RuntimeException $e) {
+            abort(409, $e->getMessage());
+        }
         $plantillas = $this->gestionEspacialService->obtenerPlantillas();
         $sugerencias = $this->sugerenciaEspacialService->obtenerSugerencias($autoevaluacion);
 
@@ -64,7 +68,7 @@ class PlanoEstablecimientoController extends Controller
                 'estado' => $s->estado,
                 'motivo_rechazo' => $s->motivo_rechazo,
                 'subsanacion_id' => $s->subsanacion_id,
-                'evidencia_url' => route('evidencia', ['uuid' => $autoevaluacion->uuid_trazabilidad, 'subsanacion' => $s->subsanacion_id]),
+                'evidencia_url' => route('autoevaluacion.evidencia', ['uuid' => $autoevaluacion->uuid_trazabilidad, 'subsanacion' => $s->subsanacion_id]),
                 'hash_evidencia' => $s->hash_evidencia_analizada,
                 'elemento_espacial_id' => $s->elemento_espacial_id,
                 'generada_at' => $s->generada_at?->toIso8601String(),
@@ -135,7 +139,11 @@ class PlanoEstablecimientoController extends Controller
         $this->autorizarAccesoAutoevaluacion($request, $autoevaluacion);
 
         $plano = $this->gestionEspacialService->obtenerOInicializarPlano($autoevaluacion);
-        $detalleActiva = $this->gestionEspacialService->obtenerDetalleVersionActiva($autoevaluacion);
+        try {
+            $detalleActiva = $this->gestionEspacialService->obtenerDetalleVersionActiva($autoevaluacion);
+        } catch (RuntimeException $e) {
+            abort(409, $e->getMessage());
+        }
         $plantillas = $this->gestionEspacialService->obtenerPlantillas();
         $sugerencias = $this->sugerenciaEspacialService->obtenerSugerencias($autoevaluacion);
 
@@ -209,6 +217,10 @@ class PlanoEstablecimientoController extends Controller
         $version = VersionPlano::where('plano_establecimiento_id', $plano->id)
             ->where('id', $versionId)
             ->firstOrFail();
+
+        if (! $this->gestionEspacialService->verificarIntegridadCompleta($version)['valido']) {
+            abort(409, 'La versión histórica del croquis presenta un fallo de integridad.');
+        }
 
         return response()->json([
             'id' => $version->id,
@@ -398,6 +410,10 @@ class PlanoEstablecimientoController extends Controller
                 'success' => false,
                 'error' => 'El plano no cuenta con una versión activa para analizar. Guarda una versión primero.',
             ], 422);
+        }
+
+        if ((int) $versionActiva->plano_establecimiento_id !== (int) $plano->id) {
+            abort(409, 'La versión activa no pertenece al plano autorizado.');
         }
 
         try {

@@ -44,20 +44,21 @@ class StoreAutoevaluacionRequest extends FormRequest
         ]);
     }
 
-    private function sanitizarBooleano(string $campo): ?bool
+    private function sanitizarBooleano(string $campo): mixed
     {
         if (! $this->has($campo) || $this->input($campo) === null || $this->input($campo) === '') {
             return null;
         }
 
-        return filter_var($this->input($campo), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        return $this->normalizarBooleanoOpcional($this->input($campo));
     }
 
     private function sanitizarDatosGlp(): array
     {
         $usaGlp = $this->sanitizarBooleano('usa_glp');
-        $galonesGlp = ($usaGlp === true && filled($this->input('galones_glp')))
-            ? (float) $this->input('galones_glp')
+        $cantidad = $this->input('galones_glp');
+        $galonesGlp = ($usaGlp === true && filled($cantidad))
+            ? (is_numeric($cantidad) ? (float) $cantidad : $cantidad)
             : null;
 
         return [$usaGlp, $galonesGlp];

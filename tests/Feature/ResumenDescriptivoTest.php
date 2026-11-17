@@ -13,8 +13,9 @@ beforeEach(function () {
 
 function crearEvaluacionParaResumen(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'nombre_comercio' => 'Cafetería Real Huancayo',
         'ruc' => '20123456789',
         'direccion' => 'Calle Real 123',
@@ -26,6 +27,12 @@ function crearEvaluacionParaResumen(array $overrides = []): Autoevaluacion
         'semaforo' => 'VERDE',
         'detalle_checklist' => [],
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 test('1. La ruta GET /autoevaluacion/{uuid}/resumen responde 200 y renderiza el componente Inertia Evaluacion/Resumen', function () {

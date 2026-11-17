@@ -1,40 +1,36 @@
-import React, { useState, useMemo } from 'react';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
+import { GuiaPedagogicaModal } from '@/components/Evaluacion/GuiaPedagogicaModal';
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
 import { RecursoEducativoModal, type RecursoEducativoData } from '@/components/RecursoEducativoModal';
-import { GuiaPedagogicaModal } from '@/components/Evaluacion/GuiaPedagogicaModal';
+import type { ChecklistProps, CriterioEvaluable, CriterioInformacionPendiente, CriterioNoAplica } from '@/types/contrato';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
-    ClipboardList,
-    CheckCircle2,
-    HelpCircle,
     AlertCircle,
     AlertTriangle,
-    Info,
-    ShieldAlert,
-    Save,
-    Check,
-    Building2,
     ArrowLeft,
     ArrowRight,
+    BookOpen,
+    Building2,
+    Check,
+    CheckCircle2,
     ChevronDown,
     ChevronUp,
-    Lock,
-    BookOpen,
-    Flame,
+    ClipboardList,
     Compass,
-    Zap,
-    Shield,
+    Flame,
+    HelpCircle,
+    Info,
     Lightbulb,
-    Scale,
+    Lock,
     Ruler,
+    Save,
+    Scale,
+    Shield,
+    ShieldAlert,
     Users,
+    Zap,
 } from 'lucide-react';
-import type {
-    ChecklistProps,
-    CriterioEvaluable,
-    CriterioInformacionPendiente,
-    CriterioNoAplica,
-} from '@/types/contrato';
+import React, { useMemo, useState } from 'react';
 
 interface OpcionConfig {
     label: string;
@@ -55,34 +51,34 @@ interface OpcionConfig {
  */
 const OPCIONES_ETIQUETAS: Record<string, OpcionConfig> = {
     CUMPLE_DECLARADO: {
-        label: 'Cumple',
+        label: 'Declaro que cumple',
         descripcion: 'La condición existe en tu local según lo que declaras.',
         icono: CheckCircle2,
         borderSelected: 'border-[#34C759]',
         bgSelected: 'bg-emerald-50/30',
         textSelected: 'text-emerald-900',
-        iconSelected: 'text-[#34C759]',
-        dotSelected: 'bg-[#34C759]',
+        iconSelected: 'text-success-800',
+        dotSelected: 'bg-success-700',
     },
     PENDIENTE_ATENDER: {
-        label: 'Por subsanar',
+        label: 'Necesito atenderlo',
         descripcion: 'Falta corregir, adquirir o mantener antes de una inspección.',
         icono: AlertTriangle,
         borderSelected: 'border-[#FF3B30]',
         bgSelected: 'bg-rose-50/30',
         textSelected: 'text-rose-900',
-        iconSelected: 'text-[#FF3B30]',
-        dotSelected: 'bg-[#FF3B30]',
+        iconSelected: 'text-danger-700',
+        dotSelected: 'bg-danger-700',
     },
     POR_REVISAR: {
-        label: 'Por revisar',
+        label: 'Necesito revisarlo',
         descripcion: 'No puedes confirmarlo todavía: consulta con un técnico.',
         icono: HelpCircle,
         borderSelected: 'border-[#FF9500]',
         bgSelected: 'bg-amber-50/30',
         textSelected: 'text-amber-950',
-        iconSelected: 'text-[#FF9500]',
-        dotSelected: 'bg-[#FF9500]',
+        iconSelected: 'text-warning-800',
+        dotSelected: 'bg-warning-700',
     },
 };
 
@@ -132,8 +128,7 @@ function agruparCriteriosPorArea(criterios: CriterioEvaluable[]): AreaNormativa[
             nombreCorto: 'Evacuación',
             icono: Compass,
             match: (cat: string) =>
-                (cat.toLowerCase().includes('evacuación') || cat.toLowerCase().includes('señalización')) &&
-                !cat.toLowerCase().includes('eléctric'),
+                (cat.toLowerCase().includes('evacuación') || cat.toLowerCase().includes('señalización')) && !cat.toLowerCase().includes('eléctric'),
         },
         {
             id: 'estructuras',
@@ -497,11 +492,6 @@ function magnitudDeclarada(valor: number | null | undefined): number | null {
  * Secuencia del flujo ciudadano, alineada con el stepper de `Nueva.tsx` para que
  * los pasos 1 y 2 compartan el mismo vocabulario.
  */
-const PASOS_FLUJO = [
-    { numero: '1', titulo: 'Calcular riesgo', estado: 'completado' },
-    { numero: '2', titulo: 'Simulacro en vivo', estado: 'activo' },
-    { numero: '3', titulo: 'Veredicto', estado: 'pendiente' },
-] as const;
 
 interface RespuestaEnvioItem {
     codigo: string;
@@ -584,19 +574,12 @@ function inicializarCriteriosGuardados(criterios: CriterioEvaluable[]): Record<s
     return inicial;
 }
 
-function obtenerTieneEquiposFritura(
-    autoevaluacion?: ChecklistProps['autoevaluacion'],
-): boolean | null {
-    const caracteristicas = autoevaluacion?.caracteristicas_declaradas as
-        | { tiene_equipos_fritura?: boolean | null }
-        | null
-        | undefined;
+function obtenerTieneEquiposFritura(autoevaluacion?: ChecklistProps['autoevaluacion']): boolean | null {
+    const caracteristicas = autoevaluacion?.caracteristicas_declaradas as { tiene_equipos_fritura?: boolean | null } | null | undefined;
     return autoevaluacion?.tiene_equipos_fritura ?? caracteristicas?.tiene_equipos_fritura ?? null;
 }
 
-function calcularContextoParametrico(
-    autoevaluacion?: ChecklistProps['autoevaluacion'],
-): ContextoParametricoLocal {
+function calcularContextoParametrico(autoevaluacion?: ChecklistProps['autoevaluacion']): ContextoParametricoLocal {
     const areaM2Declarada = magnitudDeclarada(autoevaluacion?.area_m2);
     const pisosDeclarados = magnitudDeclarada(autoevaluacion?.pisos);
     const aforoDeclarado = magnitudDeclarada(autoevaluacion?.aforo);
@@ -622,20 +605,14 @@ function calcularContextoParametrico(
     };
 }
 
-function filtrarHallazgos(
-    criterios: CriterioEvaluable[],
-    respuestas: Record<string, string>,
-): CriterioEvaluable[] {
+function filtrarHallazgos(criterios: CriterioEvaluable[], respuestas: Record<string, string>): CriterioEvaluable[] {
     return criterios.filter((c) => {
         const estado = respuestas[c.codigo];
         return estado === 'PENDIENTE_ATENDER' || estado === 'POR_REVISAR';
     });
 }
 
-function calcularProgresoPorArea(
-    areas: AreaNormativa[],
-    respuestas: Record<string, string>,
-): ProgresoAreaItem[] {
+function calcularProgresoPorArea(areas: AreaNormativa[], respuestas: Record<string, string>): ProgresoAreaItem[] {
     return areas.map((area) => {
         const respondidos = area.criterios.filter((c) => Boolean(respuestas[c.codigo])).length;
         return {
@@ -652,10 +629,7 @@ function desplazarElementoAlCentro(idElemento: string): void {
     document.getElementById(idElemento)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function desplazarAPrimerPendiente(
-    especialidadVisible: AreaNormativa | null,
-    respuestas: Record<string, string>,
-): void {
+function desplazarAPrimerPendiente(especialidadVisible: AreaNormativa | null, respuestas: Record<string, string>): void {
     const primerPendiente = especialidadVisible?.criterios.find((c) => !respuestas[c.codigo]);
     if (!primerPendiente) {
         return;
@@ -663,11 +637,7 @@ function desplazarAPrimerPendiente(
     desplazarElementoAlCentro(`criterio-${primerPendiente.codigo}`);
 }
 
-function programarDesplazamientoSiguiente(
-    especialidadVisible: AreaNormativa | null,
-    codigoActual: string,
-    respuestas: Record<string, string>,
-): void {
+function programarDesplazamientoSiguiente(especialidadVisible: AreaNormativa | null, codigoActual: string, respuestas: Record<string, string>): void {
     if (!especialidadVisible) {
         return;
     }
@@ -695,10 +665,7 @@ function normalizarNotaCriterio(nota?: string): string | null {
     return limpia || null;
 }
 
-function construirRespuestasAvance(
-    respuestas: Record<string, string>,
-    notas: Record<string, string>,
-): RespuestaEnvioItem[] {
+function construirRespuestasAvance(respuestas: Record<string, string>, notas: Record<string, string>): RespuestaEnvioItem[] {
     return Object.entries(respuestas)
         .filter(([, estado]) => Boolean(estado))
         .map(([codigo, estado]) => ({
@@ -720,10 +687,7 @@ function construirRespuestasCompletas(
     }));
 }
 
-function marcarComoGuardados(
-    previos: Record<string, boolean>,
-    enviados: RespuestaEnvioItem[],
-): Record<string, boolean> {
+function marcarComoGuardados(previos: Record<string, boolean>, enviados: RespuestaEnvioItem[]): Record<string, boolean> {
     const nuevosGuardados = { ...previos };
     for (const item of enviados) {
         nuevosGuardados[item.codigo] = true;
@@ -731,10 +695,7 @@ function marcarComoGuardados(
     return nuevosGuardados;
 }
 
-function resolverMensajeErrorGuardado(
-    status: number,
-    data: { errors?: Record<string, unknown>; message?: string; mensaje?: string },
-): string {
+function resolverMensajeErrorGuardado(status: number, data: { errors?: Record<string, unknown>; message?: string; mensaje?: string }): string {
     if (status === 422) {
         if (data.errors && typeof data.errors === 'object') {
             return Object.values(data.errors).flat().join(' ');
@@ -744,12 +705,8 @@ function resolverMensajeErrorGuardado(
     return data.mensaje || 'No fue posible guardar su avance. Intente nuevamente.';
 }
 
-async function enviarRespuestasChecklist(
-    uuid: string,
-    respuestasAEnviar: RespuestaEnvioItem[],
-): Promise<Response> {
-    const csrfToken =
-        document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+async function enviarRespuestasChecklist(uuid: string, respuestasAEnviar: RespuestaEnvioItem[]): Promise<Response> {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     return fetch(`/autoevaluacion/${uuid}/checklist`, {
         method: 'POST',
         headers: {
@@ -765,17 +722,8 @@ function determinarTieneRecursos(criterio: CriterioEvaluable): boolean {
     return Boolean(criterio.recursos_educativos && criterio.recursos_educativos.length > 0);
 }
 
-function determinarTieneGuiaPedagogica(
-    criterio: CriterioEvaluable,
-    comparativa?: GuiaComparativa,
-): boolean {
-    return Boolean(
-        criterio.que_observar ||
-            criterio.accion_mejora_orientativa ||
-            criterio.norma_base ||
-            criterio.articulo_referencia ||
-            comparativa,
-    );
+function determinarTieneGuiaPedagogica(criterio: CriterioEvaluable, comparativa?: GuiaComparativa): boolean {
+    return Boolean(criterio.que_observar || criterio.accion_mejora_orientativa || criterio.norma_base || criterio.articulo_referencia || comparativa);
 }
 
 function obtenerReferenciaNormativa(criterio: CriterioEvaluable): string | null | undefined {
@@ -827,15 +775,11 @@ interface BadgeEstadoCriterioProps {
     estadoActual?: string;
 }
 
-function BadgeEstadoCriterio({
-    estaGuardado,
-    estaRespondido,
-    estadoActual,
-}: Readonly<BadgeEstadoCriterioProps>) {
+function BadgeEstadoCriterio({ estaGuardado, estaRespondido, estadoActual }: Readonly<BadgeEstadoCriterioProps>) {
     if (estadoActual === 'PENDIENTE_ATENDER') {
         return (
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-[11px] font-bold text-rose-700">
-                <ShieldAlert className="w-4 h-4 text-[#FF9500]" aria-hidden="true" />
+                <ShieldAlert className="text-warning-800 h-4 w-4" aria-hidden="true" />
                 <span>Por subsanar</span>
             </span>
         );
@@ -844,7 +788,7 @@ function BadgeEstadoCriterio({
     if (estadoActual === 'POR_REVISAR') {
         return (
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-bold text-amber-800">
-                <HelpCircle className="w-4 h-4 text-[#FF9500]" aria-hidden="true" />
+                <HelpCircle className="text-warning-800 h-4 w-4" aria-hidden="true" />
                 <span>Por revisar</span>
             </span>
         );
@@ -853,7 +797,7 @@ function BadgeEstadoCriterio({
     if (estaGuardado) {
         return (
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
-                <Check className="h-3 w-3 text-[#34C759]" aria-hidden="true" /> Guardado
+                <Check className="text-success-800 h-3 w-3" aria-hidden="true" /> Guardado
             </span>
         );
     }
@@ -861,7 +805,7 @@ function BadgeEstadoCriterio({
     if (estaRespondido) {
         return (
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
-                <CheckCircle2 className="h-3 w-3 text-[#34C759]" aria-hidden="true" /> Conforme
+                <CheckCircle2 className="text-success-800 h-3 w-3" aria-hidden="true" /> Conforme
             </span>
         );
     }
@@ -894,7 +838,7 @@ function OpcionRespuestaCriterio({
 }: Readonly<OpcionRespuestaCriterioProps>) {
     const conf = obtenerConfigOpcion(opcionKey);
     const IconoOpcion = conf.icono;
-    
+
     let claseCursor = 'cursor-pointer';
     if (deshabilitado) {
         claseCursor = 'cursor-not-allowed opacity-50';
@@ -921,7 +865,7 @@ function OpcionRespuestaCriterio({
             aria-label={`Opción ${conf.label} para criterio ${criterioCodigo}${bloqueadoSubsanacion ? ' (bloqueada por observaciones)' : ''}`}
             title={bloqueadoSubsanacion ? 'Opción bloqueada: este ítem tiene observaciones técnicas y requiere subsanación previa' : undefined}
             onClick={handleClick}
-            className={`group relative flex flex-col justify-between rounded-2xl border-2 p-4 text-left transition-all duration-150 active:scale-[0.99] select-none ${claseCursor} ${claseSeleccion}`}
+            className={`group relative flex flex-col justify-between rounded-2xl border-2 p-4 text-left transition-all duration-150 select-none focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-700 active:scale-[0.99] ${claseCursor} ${claseSeleccion}`}
         >
             <input
                 type="radio"
@@ -938,7 +882,7 @@ function OpcionRespuestaCriterio({
                 className="sr-only"
             />
             <div>
-                <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="mb-2 flex items-center justify-between gap-2">
                     <span className="flex items-center gap-2">
                         <IconoOpcion
                             className={`h-4 w-4 shrink-0 transition-colors ${
@@ -946,34 +890,22 @@ function OpcionRespuestaCriterio({
                             }`}
                             aria-hidden="true"
                         />
-                        <span
-                            className={`text-sm font-bold tracking-tight ${
-                                esSeleccionado ? conf.textSelected : 'text-slate-800'
-                            }`}
-                        >
+                        <span className={`text-sm font-bold tracking-tight ${esSeleccionado ? conf.textSelected : 'text-slate-800'}`}>
                             {conf.label}
                         </span>
                     </span>
                     <span
                         className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-all ${
-                            esSeleccionado
-                                ? `${conf.borderSelected} bg-white`
-                                : 'border-slate-300 bg-transparent group-hover:border-slate-400'
+                            esSeleccionado ? `${conf.borderSelected} bg-white` : 'border-slate-300 bg-transparent group-hover:border-slate-400'
                         }`}
                         aria-hidden="true"
                     >
-                        {esSeleccionado && (
-                            <span className={`h-2 w-2 rounded-full ${conf.dotSelected}`} />
-                        )}
+                        {esSeleccionado && <span className={`h-2 w-2 rounded-full ${conf.dotSelected}`} />}
                     </span>
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500">
-                    {conf.descripcion}
-                </p>
+                <p className="text-xs leading-relaxed text-slate-500">{conf.descripcion}</p>
                 {bloqueadoSubsanacion && (
-                    <span className="mt-2 inline-block text-[11px] font-bold text-amber-700">
-                        Bloqueado por observación técnica
-                    </span>
+                    <span className="mt-2 inline-block text-[11px] font-bold text-amber-700">Bloqueado por observación técnica</span>
                 )}
             </div>
         </label>
@@ -985,13 +917,7 @@ interface BloqueParametricoProps {
 }
 
 function BloqueParametricoExtintores({ contexto }: Readonly<BloqueParametricoProps>) {
-    const {
-        extintoresSugeridos,
-        areaM2Num,
-        extintoresMinimos,
-        extintoresPorPisos,
-        tieneEquiposFritura,
-    } = contexto;
+    const { extintoresSugeridos, areaM2Num, extintoresMinimos, extintoresPorPisos, tieneEquiposFritura } = contexto;
 
     return (
         <div className="rounded-xl border border-emerald-200/60 bg-emerald-50/70 p-3 text-xs text-emerald-900">
@@ -1000,19 +926,14 @@ function BloqueParametricoExtintores({ contexto }: Readonly<BloqueParametricoPro
                 <span>Contexto declarado: dotación de extintores</span>
             </div>
             <p className="mt-1.5 text-sm font-black">
-                {extintoresSugeridos} {extintoresSugeridos === 1 ? 'extintor' : 'extintores'} como
-                mínimo sugerido
+                {extintoresSugeridos} {extintoresSugeridos === 1 ? 'extintor' : 'extintores'} como mínimo sugerido
             </p>
             <p className="mt-1 text-[11px] leading-relaxed text-emerald-900/80">
                 Cálculo orientativo: ceil({areaM2Num.toFixed(2)} m² / 60) = {extintoresMinimos}
-                {extintoresPorPisos !== null && `; por pisos = ${extintoresPorPisos}`}. Recorrido
-                máximo ≤ 15 m horizontales y altura máxima 1.50 m al soporte (RNE A.130).
+                {extintoresPorPisos !== null && `; por pisos = ${extintoresPorPisos}`}. Recorrido máximo ≤ 15 m horizontales y altura máxima 1.50 m al
+                soporte (RNE A.130).
             </p>
-            <p
-                className={`mt-1.5 text-[11px] leading-relaxed ${
-                    tieneEquiposFritura ? 'font-semibold text-amber-800' : 'text-emerald-900/80'
-                }`}
-            >
+            <p className={`mt-1.5 text-[11px] leading-relaxed ${tieneEquiposFritura ? 'font-semibold text-amber-800' : 'text-emerald-900/80'}`}>
                 {obtenerTextoFrituraExtintores(tieneEquiposFritura)}
             </p>
             <p className="mt-1.5 text-[10px] leading-relaxed text-emerald-900/60">
@@ -1037,21 +958,19 @@ function BloqueParametricoAforo({ contexto }: Readonly<BloqueParametricoProps>) 
 
             {mostrarAlertaAforo50 && (
                 <p className="mt-1.5 text-[11px] leading-relaxed">
-                    Por superar las 50 personas, la puerta de salida debe abrir obligatoriamente
-                    hacia el exterior como flujo de evacuación (RNE A.010 Art. 35.d / RNE A.130
-                    Art. 8).
+                    Por superar las 50 personas, la puerta de salida debe abrir obligatoriamente hacia el exterior como flujo de evacuación (RNE A.010
+                    Art. 35.d / RNE A.130 Art. 8).
                 </p>
             )}
             {mostrarAlertaAforo100 && (
                 <p className="mt-1.5 text-[11px] leading-relaxed font-semibold text-rose-800">
-                    Por superar las 100 personas es obligatoria la barra antipánico (RNE A.010 /
-                    RNE A.130).
+                    Por superar las 100 personas es obligatoria la barra antipánico (RNE A.010 / RNE A.130).
                 </p>
             )}
             {!mostrarAlertaAforo50 && (
                 <p className="mt-1.5 text-[11px] leading-relaxed text-emerald-900/80">
-                    Con aforo ≤ 50 personas no se activa la exigencia paramétrica señalada;
-                    igualmente debe garantizarse la salida expedita y sin trabas.
+                    Con aforo ≤ 50 personas no se activa la exigencia paramétrica señalada; igualmente debe garantizarse la salida expedita y sin
+                    trabas.
                 </p>
             )}
         </div>
@@ -1079,7 +998,7 @@ function AccionesApoyoCriterio({
     const sufijoRecursos = recursos.length > 1 ? `(${recursos.length})` : '';
 
     return (
-        <div className="flex flex-wrap items-center gap-2.5 pt-3 border-t border-slate-100">
+        <div className="flex flex-wrap items-center gap-2.5 border-t border-slate-100 pt-3">
             {tieneGuiaPedagogica && (
                 <button
                     type="button"
@@ -1095,9 +1014,9 @@ function AccionesApoyoCriterio({
                             articuloReferencia: criterio.articulo_referencia,
                         })
                     }
-                    className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50/80 px-3.5 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-100 hover:text-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer active:scale-[0.98] shadow-2xs"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50/80 px-3.5 py-2 text-xs font-bold text-emerald-800 shadow-2xs transition hover:bg-emerald-100 hover:text-emerald-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-[0.98]"
                 >
-                    <Lightbulb className="h-4 w-4 text-emerald-600 shrink-0" aria-hidden="true" />
+                    <Lightbulb className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                     <span>Ayuda visual: ¿Cómo revisar esto?</span>
                 </button>
             )}
@@ -1112,9 +1031,9 @@ function AccionesApoyoCriterio({
                             titulo: criterio.titulo,
                         })
                     }
-                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer active:scale-[0.98]"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none active:scale-[0.98]"
                 >
-                    <BookOpen className="h-4 w-4 text-slate-500 shrink-0" aria-hidden="true" />
+                    <BookOpen className="h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
                     <span>Material orientativo {sufijoRecursos}</span>
                 </button>
             )}
@@ -1134,13 +1053,7 @@ function resolverDisciplinaCriterio(criterio: CriterioEvaluable): DisciplinaVisu
     const cat = (criterio.categoria || '').toLowerCase();
     const cod = (criterio.codigo || '').toUpperCase();
 
-    if (
-        cat.includes('eléctric') ||
-        cod === 'CRIT-05' ||
-        cod === 'CRIT-06' ||
-        cod === 'CRIT-07' ||
-        cod === 'CRIT-14A'
-    ) {
+    if (cat.includes('eléctric') || cod === 'CRIT-05' || cod === 'CRIT-06' || cod === 'CRIT-07' || cod === 'CRIT-14A') {
         return {
             nombre: 'Instalaciones Eléctricas',
             icono: Zap,
@@ -1150,13 +1063,7 @@ function resolverDisciplinaCriterio(criterio: CriterioEvaluable): DisciplinaVisu
         };
     }
 
-    if (
-        cat.includes('incendio') ||
-        cat.includes('fuego') ||
-        cod === 'CRIT-01' ||
-        cod === 'CRIT-02' ||
-        cod === 'CRIT-02A'
-    ) {
+    if (cat.includes('incendio') || cat.includes('fuego') || cod === 'CRIT-01' || cod === 'CRIT-02' || cod === 'CRIT-02A') {
         return {
             nombre: 'Seguridad y Contra Incendios',
             icono: Flame,
@@ -1255,22 +1162,14 @@ function TarjetaCriterio({
                 className={`flex items-center justify-between border-b px-5 py-2.5 transition-colors ${disciplina.gradientBg} ${disciplina.borderColor}`}
             >
                 <div className="flex items-center gap-2">
-                    <span
-                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${disciplina.chipBg}`}
-                    >
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${disciplina.chipBg}`}>
                         <IconoDisciplina className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{disciplina.nombre}</span>
                     </span>
-                    <span className="text-xs font-mono text-slate-400">
-                        #{criterio.orden ?? index + 1}
-                    </span>
+                    <span className="font-mono text-xs text-slate-400">#{criterio.orden ?? index + 1}</span>
                 </div>
 
-                <BadgeEstadoCriterio
-                    estaGuardado={estaGuardado}
-                    estaRespondido={estaRespondido}
-                    estadoActual={valorSeleccionado}
-                />
+                <BadgeEstadoCriterio estaGuardado={estaGuardado} estaRespondido={estaRespondido} estadoActual={valorSeleccionado} />
             </div>
 
             <div className="p-5 sm:p-6">
@@ -1278,45 +1177,41 @@ function TarjetaCriterio({
                     {/* El legend debe ser el primer hijo del fieldset; el título visible va aparte para conservar el orden visual */}
                     <legend className="sr-only">{criterio.titulo}</legend>
 
-                    {/* Cabecera técnica de código + base normativa */}
-                    <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
-                        <span className="rounded-lg bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold tracking-tight text-white shadow-2xs">
-                            {criterio.codigo}
-                        </span>
-                        {referenciaNormativa && (
-                            <span
-                                className="inline-flex min-w-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600"
-                                title={referenciaNormativa}
-                            >
-                                <Scale className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
-                                <span className="truncate">{referenciaNormativa}</span>
-                            </span>
-                        )}
-                        {criterio.categoria && (
-                            <span className="rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-bold text-slate-600">
-                                {criterio.categoria}
-                            </span>
-                        )}
-                    </div>
-
                     {/* Enunciado y pregunta técnica al comerciante */}
                     <div>
-                        <p className="text-base leading-snug font-extrabold text-slate-900">
-                            {criterio.titulo}
-                        </p>
-                        <p className="mt-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-3.5 text-sm leading-relaxed font-semibold text-slate-800">
+                        <p className="text-lg leading-snug font-semibold text-slate-900">{criterio.titulo}</p>
+                        <p className="mt-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-3.5 text-base leading-relaxed font-medium text-slate-800">
                             {criterio.pregunta_ciudadana}
                         </p>
                     </div>
 
+                    <details className="rounded-xl border border-slate-200 p-3">
+                        <summary className="cursor-pointer text-sm font-medium text-slate-600">Norma y referencia del criterio</summary>
+                        {/* Cabecera técnica de código + base normativa */}
+                        <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
+                            <span className="rounded-lg bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold tracking-tight text-white shadow-2xs">
+                                {criterio.codigo}
+                            </span>
+                            {referenciaNormativa && (
+                                <span
+                                    className="inline-flex min-w-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-600"
+                                    title={referenciaNormativa}
+                                >
+                                    <Scale className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
+                                    <span className="truncate">{referenciaNormativa}</span>
+                                </span>
+                            )}
+                            {criterio.categoria && (
+                                <span className="rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-bold text-slate-600">
+                                    {criterio.categoria}
+                                </span>
+                            )}
+                        </div>
+                    </details>
                     {/* Selector segmentado de las tres declaraciones ciudadanas
                         autorizadas. `NO_APLICA` se sigue filtrando aquí y en
                         el payload: es una determinación exclusiva del motor. */}
-                    <div
-                        role="radiogroup"
-                        aria-label={`Opciones de respuesta para ${criterio.codigo}`}
-                        className="grid gap-3 pt-1 sm:grid-cols-3"
-                    >
+                    <div role="radiogroup" aria-label={`Opciones de respuesta para ${criterio.codigo}`} className="grid gap-3 pt-1 sm:grid-cols-3">
                         {opciones.map((opcionKey) => {
                             const esCumpleBloqueado = estaObservado && opcionKey === 'CUMPLE_DECLARADO';
                             return (
@@ -1343,13 +1238,14 @@ function TarjetaCriterio({
                             <div className="flex items-start gap-2.5">
                                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
                                 <p className="leading-relaxed font-medium">
-                                    Este ítem tiene observaciones técnicas. Para declararlo conforme, debe registrar la acción correctiva y evidencia en la Hoja de Subsanación.
+                                    Este ítem tiene observaciones técnicas. Para declararlo conforme, debe registrar la acción correctiva y evidencia
+                                    en la Hoja de Subsanación.
                                 </p>
                             </div>
                             {autoevaluacionUuid && (
                                 <Link
                                     href={route('autoevaluacion.subsanar_items', { uuid: autoevaluacionUuid })}
-                                    className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-amber-400 bg-amber-100 px-3.5 py-2 font-bold text-amber-950 transition-colors hover:bg-amber-200/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 active:scale-95 cursor-pointer shadow-2xs"
+                                    className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border border-amber-400 bg-amber-100 px-3.5 py-2 font-bold text-amber-950 shadow-2xs transition-colors hover:bg-amber-200/90 focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none active:scale-95"
                                 >
                                     <span>Ir a Subsanar</span>
                                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -1387,45 +1283,6 @@ function TarjetaCriterio({
     );
 }
 
-interface PasoFlujoItemProps {
-    paso: (typeof PASOS_FLUJO)[number];
-    esUltimo: boolean;
-}
-
-function PasoFlujoItem({ paso, esUltimo }: Readonly<PasoFlujoItemProps>) {
-    const activo = paso.estado === 'activo';
-    const completado = paso.estado === 'completado';
-    let clasePildora = 'border border-slate-200 bg-white text-slate-400';
-    if (activo) {
-        clasePildora = 'bg-slate-900 text-white shadow-sm shadow-slate-900/20';
-    } else if (completado) {
-        clasePildora = 'border border-emerald-200 bg-emerald-50 text-emerald-800';
-    }
-
-    return (
-        <li className="flex items-center gap-2 sm:gap-3">
-            <div
-                aria-current={activo ? 'step' : undefined}
-                className={`flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-bold transition ${clasePildora}`}
-            >
-                {completado ? (
-                    <Check className="h-3 w-3" />
-                ) : (
-                    <span className={`font-mono text-[10px] ${activo ? 'text-white' : 'text-slate-300'}`}>
-                        {paso.numero}
-                    </span>
-                )}
-                <span>{paso.titulo}</span>
-            </div>
-            {!esUltimo && (
-                <span className="hidden text-slate-300 sm:block" aria-hidden="true">
-                    ›
-                </span>
-            )}
-        </li>
-    );
-}
-
 interface CabeceraChecklistProps {
     nombreComercio?: string | null;
     areaM2Declarada: number | null;
@@ -1433,38 +1290,18 @@ interface CabeceraChecklistProps {
     onAbrirModalGuardar: () => void;
 }
 
-function CabeceraChecklist({
-    nombreComercio,
-    areaM2Declarada,
-    mostrarBotonGuardar,
-    onAbrirModalGuardar,
-}: Readonly<CabeceraChecklistProps>) {
+function CabeceraChecklist({ nombreComercio, areaM2Declarada, mostrarBotonGuardar, onAbrirModalGuardar }: Readonly<CabeceraChecklistProps>) {
     return (
         <header className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
-            <ol
-                aria-label="Flujo de autoevaluación: 1. Calcular riesgo, 2. Simulacro en vivo, 3. Veredicto"
-                className="mb-5 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3"
-            >
-                {PASOS_FLUJO.map((paso, indice) => (
-                    <PasoFlujoItem
-                        key={paso.numero}
-                        paso={paso}
-                        esUltimo={indice === PASOS_FLUJO.length - 1}
-                    />
-                ))}
-            </ol>
+            <FlujoCiudadano actual={2} />
 
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="min-w-0">
-                    <h1 className="text-xl font-black tracking-tight text-slate-900 sm:text-2xl">
-                        Lista de Verificación Técnica de Seguridad (ITSE)
-                    </h1>
+                    <h1 className="text-xl font-black tracking-tight text-slate-900 sm:text-2xl">Revisa las condiciones de tu local</h1>
                     <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600">
                         <span className="inline-flex min-w-0 items-center gap-1.5">
                             <Building2 className="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
-                            <span className="truncate font-semibold text-slate-800">
-                                {nombreComercio || 'Establecimiento'}
-                            </span>
+                            <span className="truncate font-semibold text-slate-800">{nombreComercio || 'Establecimiento'}</span>
                         </span>
                         <span className="text-slate-300" aria-hidden="true">
                             ·
@@ -1479,8 +1316,8 @@ function CabeceraChecklist({
                         </span>
                     </p>
                     <p className="mt-2 max-w-2xl text-xs leading-relaxed text-slate-500">
-                        Declara la situación real de cada condición de tu establecimiento. El simulacro es
-                        orientativo y no reemplaza una inspección técnica oficial.
+                        Declara la situación real de cada condición de tu establecimiento. El simulacro es orientativo y no reemplaza una inspección
+                        técnica oficial.
                     </p>
                 </div>
 
@@ -1489,7 +1326,7 @@ function CabeceraChecklist({
                         <button
                             type="button"
                             onClick={onAbrirModalGuardar}
-                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                         >
                             <Save className="h-3.5 w-3.5" aria-hidden="true" />
                             <span>Guardar progreso</span>
@@ -1497,7 +1334,7 @@ function CabeceraChecklist({
                     )}
                     <Link
                         href="/"
-                        className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                        className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                     >
                         <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                         Volver al inicio
@@ -1515,22 +1352,14 @@ interface PestanasEspecialidadesProps {
     onSelectEspecialidad: (id: string) => void;
 }
 
-function PestanasEspecialidades({
-    areas,
-    progresoPorArea,
-    especialidadActivaId,
-    onSelectEspecialidad,
-}: Readonly<PestanasEspecialidadesProps>) {
+function PestanasEspecialidades({ areas, progresoPorArea, especialidadActivaId, onSelectEspecialidad }: Readonly<PestanasEspecialidadesProps>) {
     if (areas.length <= 1) {
         return null;
     }
 
     return (
         <div className="border-b border-slate-200">
-            <nav
-                aria-label="Especialidades normadas de la verificación"
-                className="-mb-px flex gap-2 overflow-x-auto pb-px"
-            >
+            <nav aria-label="Especialidades normadas de la verificación" className="-mb-px flex gap-2 overflow-x-auto pb-px">
                 {areas.map((area) => {
                     const avance = progresoPorArea.find((p) => p.id === area.id);
                     const IconoEspecialidad = area.icono;
@@ -1549,16 +1378,13 @@ function PestanasEspecialidades({
                             type="button"
                             onClick={() => onSelectEspecialidad(area.id)}
                             aria-current={activa ? 'true' : undefined}
-                            className={`inline-flex shrink-0 items-center gap-2 rounded-t-2xl border border-b-0 px-4 py-3 text-xs font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                            className={`inline-flex shrink-0 items-center gap-2 rounded-t-2xl border border-b-0 px-4 py-3 text-xs font-bold transition-all focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none ${
                                 activa
                                     ? 'border-slate-300 bg-white text-slate-900 shadow-xs'
                                     : 'border-transparent text-slate-500 hover:bg-white/60 hover:text-slate-800'
                             }`}
                         >
-                            <IconoEspecialidad
-                                className={`h-4 w-4 shrink-0 ${getIconClass()}`}
-                                aria-hidden="true"
-                            />
+                            <IconoEspecialidad className={`h-4 w-4 shrink-0 ${getIconClass()}`} aria-hidden="true" />
                             <span className="hidden sm:inline">{area.nombre}</span>
                             <span className="sm:hidden">{area.nombreCorto}</span>
 
@@ -1591,11 +1417,7 @@ interface SeccionCriteriosPendientesProps {
     onTogglePendientes: () => void;
 }
 
-function SeccionCriteriosPendientes({
-    criteriosPendientes,
-    mostrarPendientes,
-    onTogglePendientes,
-}: Readonly<SeccionCriteriosPendientesProps>) {
+function SeccionCriteriosPendientes({ criteriosPendientes, mostrarPendientes, onTogglePendientes }: Readonly<SeccionCriteriosPendientesProps>) {
     if (criteriosPendientes.length === 0) {
         return null;
     }
@@ -1606,46 +1428,38 @@ function SeccionCriteriosPendientes({
                 type="button"
                 onClick={onTogglePendientes}
                 aria-expanded={mostrarPendientes}
-                className="flex w-full items-center justify-between gap-3 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-xl"
+                className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl text-left focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:outline-none"
             >
                 <div className="flex items-center gap-2.5">
-                    <Info className="h-5 w-5 text-amber-600 shrink-0" />
+                    <Info className="h-5 w-5 shrink-0 text-amber-600" />
                     <h2 className="text-base font-bold text-amber-900">
                         Información pendiente para determinar aplicabilidad ({criteriosPendientes.length})
                     </h2>
                 </div>
                 {mostrarPendientes ? (
-                    <ChevronUp className="h-4 w-4 text-amber-700 shrink-0" />
+                    <ChevronUp className="h-4 w-4 shrink-0 text-amber-700" />
                 ) : (
-                    <ChevronDown className="h-4 w-4 text-amber-700 shrink-0" />
+                    <ChevronDown className="h-4 w-4 shrink-0 text-amber-700" />
                 )}
             </button>
 
             {mostrarPendientes && (
                 <div className="mt-3 space-y-3 border-t border-amber-200 pt-3">
                     <p className="text-xs text-amber-800">
-                        Los siguientes criterios requieren datos adicionales sobre las condiciones físicas del
-                        local para determinar si corresponden a tu autoevaluación. No requieren respuesta en
-                        este momento.
+                        Los siguientes criterios requieren datos adicionales sobre las condiciones físicas del local para determinar si corresponden a
+                        tu autoevaluación. No requieren respuesta en este momento.
                     </p>
                     <div className="grid gap-2 sm:grid-cols-2">
                         {criteriosPendientes.map((cp) => (
-                            <div
-                                key={cp.codigo}
-                                className="rounded-2xl border border-amber-200 bg-white p-3.5 shadow-2xs"
-                            >
+                            <div key={cp.codigo} className="rounded-2xl border border-amber-200 bg-white p-3.5 shadow-2xs">
                                 <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-xs font-bold text-amber-900">
-                                        {cp.codigo}
-                                    </span>
-                                    <span className="text-[10px] font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
+                                    <span className="font-mono text-xs font-bold text-amber-900">{cp.codigo}</span>
+                                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
                                         Pendiente de dato
                                     </span>
                                 </div>
                                 <p className="mt-1.5 text-xs font-bold text-slate-800">{cp.titulo}</p>
-                                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                                    {cp.mensaje || cp.motivo}
-                                </p>
+                                <p className="mt-1 text-xs leading-relaxed text-slate-600">{cp.mensaje || cp.motivo}</p>
                             </div>
                         ))}
                     </div>
@@ -1674,22 +1488,20 @@ function CabeceraEspecialidadActiva({
 
     const renderIconoArea = () => {
         if (especialidad.id === 'electricas') {
-            return <Zap className="w-5 h-5 text-amber-500" aria-hidden="true" />;
+            return <Zap className="h-5 w-5 text-amber-500" aria-hidden="true" />;
         }
         if (especialidad.id === 'incendios') {
-            return <Flame className="w-5 h-5 text-rose-500" aria-hidden="true" />;
+            return <Flame className="h-5 w-5 text-rose-500" aria-hidden="true" />;
         }
         if (especialidad.id === 'evacuacion') {
-            return <Compass className="w-5 h-5 text-blue-500" aria-hidden="true" />;
+            return <Compass className="h-5 w-5 text-blue-500" aria-hidden="true" />;
         }
         const IconoAreaActivo = especialidad.icono ?? ClipboardList;
-        return <IconoAreaActivo className="w-5 h-5" aria-hidden="true" />;
+        return <IconoAreaActivo className="h-5 w-5" aria-hidden="true" />;
     };
 
     return (
-        <div
-            className={`flex flex-col gap-3 rounded-3xl border p-5 sm:flex-row sm:items-center sm:justify-between ${estilo.banner}`}
-        >
+        <div className={`flex flex-col gap-3 rounded-3xl border p-5 sm:flex-row sm:items-center sm:justify-between ${estilo.banner}`}>
             <div className="flex items-center gap-3.5">
                 <span
                     className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${estilo.chipIcono} ${estilo.acento} shadow-2xs`}
@@ -1697,10 +1509,7 @@ function CabeceraEspecialidadActiva({
                     {renderIconoArea()}
                 </span>
                 <div className="min-w-0">
-                    <h2
-                        id={`area-titulo-${especialidad.id}`}
-                        className={`text-base font-black tracking-tight sm:text-lg ${estilo.acento}`}
-                    >
+                    <h2 id={`area-titulo-${especialidad.id}`} className={`text-base font-black tracking-tight sm:text-lg ${estilo.acento}`}>
                         {especialidad.nombre}
                     </h2>
                     {estilo.badgeNorma && (
@@ -1713,14 +1522,14 @@ function CabeceraEspecialidadActiva({
             </div>
 
             <div className="flex shrink-0 items-center gap-2">
-                <span className="whitespace-nowrap rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs">
+                <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold whitespace-nowrap text-slate-700 shadow-2xs">
                     {avance?.respondidos ?? 0} de {especialidad.criterios.length}
                 </span>
                 {tienePendientes && (
                     <button
                         type="button"
                         onClick={onEnfocarPrimerPendiente}
-                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold text-slate-700 transition hover:border-slate-300 hover:bg-white hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 shadow-2xs"
+                        className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200 bg-white/90 px-3 py-1 text-xs font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-white hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                     >
                         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                         Primer pendiente
@@ -1737,11 +1546,7 @@ interface SeccionCriteriosNoAplicanProps {
     onToggleNoAplican: () => void;
 }
 
-function SeccionCriteriosNoAplican({
-    criteriosNoAplican,
-    mostrarNoAplican,
-    onToggleNoAplican,
-}: Readonly<SeccionCriteriosNoAplicanProps>) {
+function SeccionCriteriosNoAplican({ criteriosNoAplican, mostrarNoAplican, onToggleNoAplican }: Readonly<SeccionCriteriosNoAplicanProps>) {
     if (criteriosNoAplican.length === 0) {
         return null;
     }
@@ -1752,47 +1557,38 @@ function SeccionCriteriosNoAplican({
                 type="button"
                 onClick={onToggleNoAplican}
                 aria-expanded={mostrarNoAplican}
-                className="flex w-full items-center justify-between gap-3 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 rounded-xl"
+                className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl text-left focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none"
             >
                 <div className="flex items-center gap-2.5">
-                    <ShieldAlert className="h-5 w-5 text-slate-400 shrink-0" />
+                    <ShieldAlert className="h-5 w-5 shrink-0 text-slate-400" />
                     <h2 className="text-base font-bold text-slate-800">
-                        Condiciones que el sistema determinó como no aplicables (
-                        {criteriosNoAplican.length})
+                        Condiciones que el sistema determinó como no aplicables ({criteriosNoAplican.length})
                     </h2>
                 </div>
                 {mostrarNoAplican ? (
-                    <ChevronUp className="h-4 w-4 text-slate-500 shrink-0" />
+                    <ChevronUp className="h-4 w-4 shrink-0 text-slate-500" />
                 ) : (
-                    <ChevronDown className="h-4 w-4 text-slate-500 shrink-0" />
+                    <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
                 )}
             </button>
 
             {mostrarNoAplican && (
                 <div className="mt-3 space-y-3 border-t border-slate-200 pt-3">
                     <p className="text-xs text-slate-500">
-                        El motor de aplicabilidad descartó estas condiciones a partir de lo que
-                        declaraste en el paso 1. La decisión es del sistema, no tuya: no son
-                        seleccionables ni requieren acción ciudadana.
+                        El motor de aplicabilidad descartó estas condiciones a partir de lo que declaraste en el paso 1. La decisión es del sistema,
+                        no tuya: no son seleccionables ni requieren acción ciudadana.
                     </p>
                     <div className="space-y-2">
                         {criteriosNoAplican.map((cna) => (
-                            <div
-                                key={cna.codigo}
-                                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs"
-                            >
+                            <div key={cna.codigo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
                                 <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-xs font-bold text-slate-800">
-                                        {cna.codigo}
-                                    </span>
-                                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-600 border border-slate-200">
+                                    <span className="font-mono text-xs font-bold text-slate-800">{cna.codigo}</span>
+                                    <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-[10px] font-bold text-slate-600">
                                         No aplica
                                     </span>
                                 </div>
-                                <p className="mt-1.5 text-sm font-bold text-slate-800">
-                                    {cna.titulo}
-                                </p>
-                                <p className="mt-1.5 text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 leading-relaxed">
+                                <p className="mt-1.5 text-sm font-bold text-slate-800">{cna.titulo}</p>
+                                <p className="mt-1.5 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-xs leading-relaxed text-slate-600">
                                     <strong className="text-slate-700">Motivo del sistema: </strong>
                                     {cna.motivo}
                                 </p>
@@ -1812,37 +1608,26 @@ interface PanelHallazgosEnVivoProps {
     porcentajeAvance: number;
 }
 
-function PanelHallazgosEnVivo({
-    hallazgos,
-    respondidosCount,
-    totalCriterios,
-    porcentajeAvance,
-}: Readonly<PanelHallazgosEnVivoProps>) {
+function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, porcentajeAvance }: Readonly<PanelHallazgosEnVivoProps>) {
     const faltasDetectadas = hallazgos.length;
 
     return (
-        <aside aria-label="Resumen de hallazgos en vivo" className="hidden lg:col-span-4 lg:block">
+        <aside aria-label="Pendientes según tus respuestas" className="hidden lg:col-span-4 lg:block">
             <div className="sticky top-24 space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs">
                 <div className="flex items-center gap-2.5">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                         <ShieldAlert className="h-4 w-4" />
                     </span>
-                    <h2 className="text-[11px] font-black uppercase tracking-wider text-slate-800">
-                        Resumen de hallazgos en vivo
-                    </h2>
+                    <h2 className="text-[11px] font-black tracking-wider text-slate-800 uppercase">Resumen de hallazgos en vivo</h2>
                 </div>
 
                 <div>
                     <p className="flex items-baseline gap-2">
-                        <span
-                            className={`text-4xl font-black tracking-tight ${
-                                faltasDetectadas > 0 ? 'text-rose-700' : 'text-emerald-700'
-                            }`}
-                        >
+                        <span className={`text-4xl font-black tracking-tight ${faltasDetectadas > 0 ? 'text-rose-700' : 'text-emerald-700'}`}>
                             {faltasDetectadas}
                         </span>
                         <span className="text-sm font-bold text-slate-700">
-                            {faltasDetectadas === 1 ? 'falta detectada' : 'faltas detectadas'}
+                            {faltasDetectadas === 1 ? 'condición por atender' : 'condiciones por atender'}
                         </span>
                     </p>
                     <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
@@ -1852,14 +1637,14 @@ function PanelHallazgosEnVivo({
 
                 <div>
                     <div className="mb-1.5 flex items-center justify-between text-[11px]">
-                        <span className="font-bold uppercase tracking-wider text-slate-500">Avance</span>
+                        <span className="font-bold tracking-wider text-slate-500 uppercase">Avance</span>
                         <span className="font-black text-slate-900">
                             {respondidosCount} de {totalCriterios}
                         </span>
                     </div>
                     <div aria-hidden="true" className="h-2 overflow-hidden rounded-full bg-slate-100">
                         <div
-                            className={`h-full rounded-full ${porcentajeAvance === 100 ? 'bg-emerald-600' : 'bg-amber-500'}`}
+                            className={`h-full rounded-full ${porcentajeAvance === 100 ? 'bg-primary' : 'bg-amber-500'}`}
                             style={{ width: `${porcentajeAvance}%` }}
                         />
                     </div>
@@ -1867,27 +1652,20 @@ function PanelHallazgosEnVivo({
 
                 {faltasDetectadas === 0 ? (
                     <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3.5">
-                        <p className="flex items-start gap-2 text-xs font-medium leading-relaxed text-emerald-900">
+                        <p className="flex items-start gap-2 text-xs leading-relaxed font-medium text-emerald-900">
                             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                             <span>
-                                Aún no hay faltas registradas. Tu local cumple lo declarado hasta el
-                                momento.
+                                No has declarado condiciones por atender hasta el momento. Completa la revisión; este contador no acredita
+                                cumplimiento.
                             </span>
                         </p>
                     </div>
                 ) : (
                     <ul className="max-h-72 space-y-1.5 overflow-y-auto pr-0.5">
                         {hallazgos.map((hallazgo) => (
-                            <li
-                                key={hallazgo.codigo}
-                                className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700"
-                            >
-                                <span className="font-mono text-[10px] font-bold text-rose-500">
-                                    {hallazgo.codigo}
-                                </span>
-                                <span className="mt-0.5 block text-xs font-semibold leading-snug">
-                                    {hallazgo.titulo}
-                                </span>
+                            <li key={hallazgo.codigo} className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700">
+                                <span className="font-mono text-[10px] font-bold text-rose-500">{hallazgo.codigo}</span>
+                                <span className="mt-0.5 block text-xs leading-snug font-semibold">{hallazgo.titulo}</span>
                             </li>
                         ))}
                     </ul>
@@ -1896,8 +1674,7 @@ function PanelHallazgosEnVivo({
                 {/* El panel lateral es solo informativo: las acciones de
                     guardado y cierre viven una sola vez en la barra inferior. */}
                 <p className="border-t border-slate-100 pt-4 text-[11px] leading-relaxed text-slate-500">
-                    Cuando termines las {totalCriterios} condiciones, podrás pausar y guardar tu
-                    avance o pasar al resumen con el diagnóstico final.
+                    Cuando termines las {totalCriterios} condiciones, podrás pausar y guardar tu avance o pasar al resumen con el diagnóstico final.
                 </p>
             </div>
         </aside>
@@ -1928,22 +1705,18 @@ function BarraInferiorAcciones({
     onContinuarAlResumen,
 }: Readonly<BarraInferiorAccionesProps>) {
     const claseBotonContinuar = todosRespondidos
-        ? 'cursor-pointer bg-emerald-600 text-white hover:bg-emerald-500'
+        ? 'cursor-pointer bg-primary text-white hover:bg-emerald-500'
         : 'cursor-not-allowed bg-slate-100 text-slate-400';
 
     return (
-        <div className="sticky bottom-0 z-30 mt-6 border-t border-slate-200 bg-white/95 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-sm">
+        <div className="sticky bottom-0 z-30 mt-6 border-t border-slate-200 bg-white/95 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-sm">
             <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                 <div className="flex items-center gap-2 text-xs text-slate-600">
                     <ClipboardList className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
                     <span className="font-bold text-slate-900">
-                        {respondidosCount} de {totalCriterios} verificaciones realizadas
+                        {respondidosCount} de {totalCriterios} respuestas en esta pantalla
                     </span>
-                    {!todosRespondidos && !esRegistrada && (
-                        <span className="text-amber-700">
-                            (faltan {totalCriterios - respondidosCount})
-                        </span>
-                    )}
+                    {!todosRespondidos && !esRegistrada && <span className="text-amber-700">(faltan {totalCriterios - respondidosCount})</span>}
                 </div>
 
                 <div className="flex flex-col-reverse gap-2.5 sm:flex-row sm:items-center">
@@ -1952,7 +1725,7 @@ function BarraInferiorAcciones({
                             type="button"
                             onClick={onGuardarAvance}
                             disabled={guardandoAvance || guardandoContinuar || respondidosCount === 0}
-                            className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
+                            className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
                         >
                             {guardandoAvance ? (
                                 <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-400 border-t-transparent" />
@@ -1966,7 +1739,7 @@ function BarraInferiorAcciones({
                     {esRegistrada ? (
                         <Link
                             href={`/autoevaluacion/${uuid}/resumen`}
-                            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                            className="bg-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                         >
                             <span>Ver Resumen y Diagnóstico Final</span>
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -1976,7 +1749,7 @@ function BarraInferiorAcciones({
                             type="button"
                             onClick={onContinuarAlResumen}
                             disabled={guardandoAvance || guardandoContinuar || !todosRespondidos}
-                            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${claseBotonContinuar}`}
+                            className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none ${claseBotonContinuar}`}
                         >
                             {guardandoContinuar ? (
                                 <>
@@ -1997,10 +1770,7 @@ function BarraInferiorAcciones({
     );
 }
 
-export default function Checklist({
-    autoevaluacion,
-    checklist,
-}: Readonly<ChecklistProps>) {
+export default function Checklist({ autoevaluacion, checklist }: Readonly<ChecklistProps>) {
     const { auth } = usePage().props as { auth?: { user?: unknown } };
     const [mostrarModalGuardar, setMostrarModalGuardar] = useState<boolean>(false);
     const [modalRecurso, setModalRecurso] = useState<{
@@ -2025,25 +1795,17 @@ export default function Checklist({
     const [especialidadActiva, setEspecialidadActiva] = useState<string>('');
 
     // Inicializar respuestas locales a partir de los estados previos que el backend entregue
-    const [respuestas, setRespuestas] = useState<Record<string, string>>(() =>
-        inicializarRespuestas(criteriosAplicables),
-    );
+    const [respuestas, setRespuestas] = useState<Record<string, string>>(() => inicializarRespuestas(criteriosAplicables));
 
     // Inicializar notas privadas del ciudadano
-    const [notas] = useState<Record<string, string>>(() =>
-        inicializarNotas(criteriosAplicables),
-    );
+    const [notas] = useState<Record<string, string>>(() => inicializarNotas(criteriosAplicables));
 
     // Estado de la Guía Visual Pedagógica interactiva (Modal / Drawer ágil)
-    const [modalGuiaPedagogica, setModalGuiaPedagogica] = useState<
-        DatosGuiaPedagogicaModal & { isOpen: boolean }
-    >({
+    const [modalGuiaPedagogica, setModalGuiaPedagogica] = useState<DatosGuiaPedagogicaModal & { isOpen: boolean }>({
         isOpen: false,
     });
 
-    const [criteriosGuardados, setCriteriosGuardados] = useState<Record<string, boolean>>(() =>
-        inicializarCriteriosGuardados(criteriosAplicables),
-    );
+    const [criteriosGuardados, setCriteriosGuardados] = useState<Record<string, boolean>>(() => inicializarCriteriosGuardados(criteriosAplicables));
 
     const [guardandoAvance, setGuardandoAvance] = useState<boolean>(false);
     const [guardandoContinuar, setGuardandoContinuar] = useState<boolean>(false);
@@ -2059,34 +1821,19 @@ export default function Checklist({
     );
 
     const esRegistrada = autoevaluacion?.estado === 'REGISTRADA';
-    const todosRespondidos =
-        respondidosCount === criteriosAplicables.length && criteriosAplicables.length > 0;
+    const todosRespondidos = respondidosCount === criteriosAplicables.length && criteriosAplicables.length > 0;
     const puedeVerResumen = todosRespondidos || esRegistrada;
-    const porcentajeAvance =
-        criteriosAplicables.length > 0
-            ? Math.round((respondidosCount / criteriosAplicables.length) * 100)
-            : 0;
+    const porcentajeAvance = criteriosAplicables.length > 0 ? Math.round((respondidosCount / criteriosAplicables.length) * 100) : 0;
 
     const contextoParametrico = calcularContextoParametrico(autoevaluacion);
 
-    const hallazgos = useMemo(
-        () => filtrarHallazgos(criteriosAplicables, respuestas),
-        [criteriosAplicables, respuestas],
-    );
+    const hallazgos = useMemo(() => filtrarHallazgos(criteriosAplicables, respuestas), [criteriosAplicables, respuestas]);
 
-    const progresoPorArea = useMemo(
-        () => calcularProgresoPorArea(areas, respuestas),
-        [areas, respuestas],
-    );
+    const progresoPorArea = useMemo(() => calcularProgresoPorArea(areas, respuestas), [areas, respuestas]);
 
-    const especialidadVisible =
-        areas.find((area) => area.id === especialidadActiva) ?? areas[0] ?? null;
-    const estiloEspecialidad = especialidadVisible
-        ? (CONFIG_AREA[especialidadVisible.id] ?? CONFIG_AREA_POR_DEFECTO)
-        : null;
-    const avanceEspecialidad = especialidadVisible
-        ? progresoPorArea.find((p) => p.id === especialidadVisible.id)
-        : undefined;
+    const especialidadVisible = areas.find((area) => area.id === especialidadActiva) ?? areas[0] ?? null;
+    const estiloEspecialidad = especialidadVisible ? (CONFIG_AREA[especialidadVisible.id] ?? CONFIG_AREA_POR_DEFECTO) : null;
+    const avanceEspecialidad = especialidadVisible ? progresoPorArea.find((p) => p.id === especialidadVisible.id) : undefined;
 
     const enfocarPrimerPendiente = () => {
         desplazarAPrimerPendiente(especialidadVisible, respuestas);
@@ -2144,10 +1891,7 @@ export default function Checklist({
         setMensajeExito(null);
 
         try {
-            const response = await enviarRespuestasChecklist(
-                autoevaluacion.uuid,
-                respuestasAEnviar,
-            );
+            const response = await enviarRespuestasChecklist(autoevaluacion.uuid, respuestasAEnviar);
             const data = await response.json();
 
             if (response.ok) {
@@ -2159,9 +1903,7 @@ export default function Checklist({
                 setMensajeError(resolverMensajeErrorGuardado(response.status, data));
             }
         } catch {
-            setMensajeError(
-                'No fue posible guardar su avance. Verifique su conexión e intente nuevamente.',
-            );
+            setMensajeError('No fue posible guardar su avance. Verifique su conexión e intente nuevamente.');
         } finally {
             setGuardandoAvance(false);
         }
@@ -2191,17 +1933,10 @@ export default function Checklist({
         setMensajeError(null);
         setMensajeExito(null);
 
-        const respuestasAEnviar = construirRespuestasCompletas(
-            criteriosAplicables,
-            respuestas,
-            notas,
-        );
+        const respuestasAEnviar = construirRespuestasCompletas(criteriosAplicables, respuestas, notas);
 
         try {
-            const response = await enviarRespuestasChecklist(
-                autoevaluacion.uuid,
-                respuestasAEnviar,
-            );
+            const response = await enviarRespuestasChecklist(autoevaluacion.uuid, respuestasAEnviar);
 
             if (response.ok) {
                 router.visit(`/autoevaluacion/${autoevaluacion.uuid}/resumen`, {
@@ -2211,10 +1946,7 @@ export default function Checklist({
                 });
             } else {
                 const data = await response.json();
-                setMensajeError(
-                    data.mensaje ||
-                        'No fue posible guardar las declaraciones para continuar. Intente nuevamente.',
-                );
+                setMensajeError(data.mensaje || 'No fue posible guardar las declaraciones para continuar. Intente nuevamente.');
                 setGuardandoContinuar(false);
             }
         } catch {
@@ -2224,20 +1956,13 @@ export default function Checklist({
     };
 
     const deshabilitarOpciones = esRegistrada || guardandoAvance || guardandoContinuar;
-    const sufijoRegistradaAt = autoevaluacion.registrada_at
-        ? ` el ${autoevaluacion.registrada_at}`
-        : '';
+    const sufijoRegistradaAt = autoevaluacion.registrada_at ? ` el ${autoevaluacion.registrada_at}` : '';
 
     return (
         <>
             <Head title="Paso 2 de 3: Checklist de Autoevaluación - CheckITSE Huancayo" />
 
-            <div className="relative mx-auto max-w-4xl lg:max-w-6xl lg:grid lg:grid-cols-12 lg:items-start lg:gap-8">
-                <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--color-slate-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-slate-200)_1px,transparent_1px)] bg-[size:28px_28px] opacity-45 [mask-image:radial-gradient(ellipse_75%_60%_at_50%_0%,#000_10%,transparent_100%)]"
-                />
-
+            <div className="relative mx-auto max-w-4xl lg:grid lg:max-w-6xl lg:grid-cols-12 lg:items-start lg:gap-8">
                 <div className="space-y-7 pb-32 lg:col-span-8">
                     <CabeceraChecklist
                         nombreComercio={autoevaluacion?.nombre_comercio}
@@ -2246,26 +1971,25 @@ export default function Checklist({
                         onAbrirModalGuardar={() => setMostrarModalGuardar(true)}
                     />
 
+                    <AvisoPreventivo />
                     {/* Widget de progreso */}
                     <div className="sticky top-0 z-30 -mx-4 border-y border-slate-200 bg-white/85 px-4 py-3 shadow-xs backdrop-blur-md sm:-mx-6 sm:px-6">
                         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
-                            <p className="text-[11px] font-black tracking-wider text-slate-500 uppercase">
-                                Progreso de la verificación
-                            </p>
+                            <p className="text-[11px] font-black tracking-wider text-slate-500 uppercase">Avance de tus respuestas</p>
                             <p className="text-xs font-semibold text-slate-600">
                                 <span className="text-slate-900">
                                     {respondidosCount} de {criteriosAplicables.length}
                                 </span>{' '}
-                                verificaciones realizadas
+                                respuestas en esta pantalla
                             </p>
                         </div>
 
                         <div className="mt-2 flex items-center gap-3">
                             <progress
                                 value={respondidosCount}
-                                max={criteriosAplicables.length}
-                                aria-label="Verificaciones realizadas"
-                                className="h-2 flex-1 w-full overflow-hidden rounded-full bg-slate-200 appearance-none border-0 [&::-webkit-progress-bar]:bg-slate-200 [&::-webkit-progress-value]:rounded-full [&::-moz-progress-bar]:rounded-full"
+                                max={Math.max(1, criteriosAplicables.length)}
+                                aria-label="Respuestas completadas; no representa un nivel de seguridad"
+                                className="h-2 w-full flex-1 appearance-none overflow-hidden rounded-full border-0 bg-slate-200 [&::-moz-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-slate-200 [&::-webkit-progress-value]:rounded-full"
                             >
                                 {/* Fallback visual interno */}
                                 <div
@@ -2275,35 +1999,26 @@ export default function Checklist({
                                     style={{ width: `${porcentajeAvance}%` }}
                                 />
                             </progress>
-                            <span className="w-12 shrink-0 text-right text-sm font-black tabular-nums text-slate-900">
-                                {porcentajeAvance}%
-                            </span>
+                            <span className="w-12 shrink-0 text-right text-sm font-black text-slate-900 tabular-nums">{porcentajeAvance}%</span>
                         </div>
                     </div>
 
                     {/* Banner de Autoevaluación Registrada */}
                     {esRegistrada && (
-                        <output
-                            className="block flex items-start gap-3 rounded-3xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-950 shadow-xs"
-                        >
-                            <Lock className="h-5 w-5 shrink-0 text-emerald-700 mt-0.5" />
+                        <output className="block flex items-start gap-3 rounded-3xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-950 shadow-xs">
+                            <Lock className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
                             <div className="text-sm leading-relaxed">
-                                <strong className="font-bold text-emerald-950">
-                                    Autoevaluación registrada:{' '}
-                                </strong>
+                                <strong className="font-bold text-emerald-950">Autoevaluación registrada: </strong>
                                 Esta autoevaluación está registrada y protegida contra modificaciones
-                                {sufijoRegistradaAt}. Sus declaraciones permanecen inalterables. Se
-                                encuentra en modo de solo lectura. Para realizar modificaciones debe
-                                iniciar una reevaluación preventiva.
+                                {sufijoRegistradaAt}. Sus declaraciones permanecen inalterables. Se encuentra en modo de solo lectura. Para realizar
+                                modificaciones debe iniciar una reevaluación preventiva.
                             </div>
                         </output>
                     )}
 
                     {/* Mensajes de estado */}
                     {mensajeExito && (
-                        <output
-                            className="block flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900"
-                        >
+                        <output className="block flex flex-col justify-between gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-900 sm:flex-row sm:items-center">
                             <div className="flex items-center gap-3">
                                 <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
                                 <div className="text-sm font-medium">{mensajeExito}</div>
@@ -2311,7 +2026,7 @@ export default function Checklist({
                             {puedeVerResumen && (
                                 <Link
                                     href={`/autoevaluacion/${autoevaluacion.uuid}/resumen`}
-                                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                    className="bg-primary hover:bg-primary-700 inline-flex shrink-0 items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-xs transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none"
                                 >
                                     <span>Ver Resumen de Autoevaluación</span>
                                     <ArrowRight className="h-4 w-4" />
@@ -2321,10 +2036,7 @@ export default function Checklist({
                     )}
 
                     {mensajeError && (
-                        <div
-                            role="alert"
-                            className="flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-900"
-                        >
+                        <div role="alert" className="flex items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-rose-900">
                             <AlertCircle className="h-5 w-5 shrink-0 text-rose-600" />
                             <div className="text-sm font-medium">{mensajeError}</div>
                         </div>

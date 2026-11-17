@@ -17,8 +17,9 @@ beforeEach(function () {
 
 function crearEvaluacionUX03(array $overrides = []): Autoevaluacion
 {
-    return Autoevaluacion::create(array_merge([
+    $evaluacion = Autoevaluacion::create(array_merge([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'estado' => Autoevaluacion::ESTADO_INICIADA,
         'nombre_comercio' => 'Bodega Central Huancayo',
         'sector_huancayo' => 'Huancayo Centro',
@@ -31,6 +32,12 @@ function crearEvaluacionUX03(array $overrides = []): Autoevaluacion
         'semaforo' => 'VERDE',
         'detalle_checklist' => [],
     ], $overrides));
+
+    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
+        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+    }
+
+    return $evaluacion;
 }
 
 test('1. Guardado parcial: permite guardar una sola respuesta y mantiene el estado INICIADA', function () {

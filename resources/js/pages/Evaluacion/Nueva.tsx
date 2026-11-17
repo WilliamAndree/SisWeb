@@ -1,3 +1,4 @@
+import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
 import { GuiaModal } from '@/components/GuiaModal';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -22,7 +23,7 @@ import {
     Store,
     UtensilsCrossed,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type ValorNumericoFlexible = string | number | null;
 
@@ -156,12 +157,7 @@ interface DatosRiesgosEspeciales {
     combustiblesM3: number | null;
 }
 
-const evaluarEscalaFisica = (
-    area: number | null,
-    pisos: number | null,
-    aforo: number | null,
-    funcionEconomica?: string | null,
-): string[] => {
+const evaluarEscalaFisica = (area: number | null, pisos: number | null, aforo: number | null, funcionEconomica?: string | null): string[] => {
     const factores: string[] = [];
 
     if (area !== null && area > AREA_MAXIMA_EX_POST) {
@@ -315,17 +311,11 @@ export function estimarNivelRiesgo(input: PrecalificacionInput): NivelRiesgoEsti
     return res ? res.nivel : 'BAJO';
 }
 
-const PASOS_FLUJO = [
-    { numero: '1', titulo: 'Calcular riesgo', estado: 'activo' },
-    { numero: '2', titulo: 'Simulacro en vivo', estado: 'pendiente' },
-    { numero: '3', titulo: 'Veredicto', estado: 'pendiente' },
-] as const;
-
 interface SelectorSiNoProps {
     etiquetaId: string;
     descripcionId: string;
     valor: boolean | null | undefined;
-    onSeleccion: (valor: boolean) => void;
+    onSeleccion: (valor: boolean | null) => void;
 }
 
 /**
@@ -338,19 +328,21 @@ interface SelectorSiNoProps {
  * anillo y un icono de confirmación, para que sea inequívoco al tacto.
  */
 function SelectorSiNo({ etiquetaId, descripcionId, valor, onSeleccion }: Readonly<SelectorSiNoProps>) {
-    const opciones: Array<{ texto: string; valor: boolean }> = [
+    const opciones: Array<{ texto: string; valor: boolean | null }> = [
         { texto: 'No', valor: false },
         { texto: 'Sí', valor: true },
+        { texto: 'Aún no lo sé', valor: null },
     ];
 
     return (
         <fieldset
+            aria-labelledby={etiquetaId}
             aria-describedby={descripcionId}
-            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1 m-0"
+            className="m-0 inline-flex shrink-0 flex-wrap items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1"
         >
-            <legend id={etiquetaId} className="sr-only">Opciones de selección</legend>
+            <legend className="sr-only">Selecciona una respuesta</legend>
             {opciones.map(({ texto, valor: opcion }) => {
-                const activo = valor === opcion;
+                const activo = (valor ?? null) === opcion;
 
                 return (
                     <button
@@ -358,9 +350,9 @@ function SelectorSiNo({ etiquetaId, descripcionId, valor, onSeleccion }: Readonl
                         type="button"
                         aria-pressed={activo}
                         onClick={() => onSeleccion(opcion)}
-                        className={`inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full px-5 text-sm font-bold transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 sm:h-10 ${
+                        className={`inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full px-5 text-sm font-bold transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 sm:h-11 ${
                             activo
-                                ? 'bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-600'
+                                ? 'bg-primary text-white shadow-sm ring-1 ring-emerald-600'
                                 : 'bg-white text-slate-600 shadow-2xs hover:bg-slate-50 hover:text-slate-900'
                         }`}
                     >
@@ -385,7 +377,7 @@ const renderIconoIndicador = (activo: boolean, descartado: boolean) => {
 
 function claseChipCriterio(activo: boolean, descartado: boolean): string {
     if (activo) {
-        return 'border-emerald-600 bg-emerald-600 text-white';
+        return 'border-emerald-600 bg-primary text-white';
     }
     if (descartado) {
         return 'border-slate-200 bg-white text-slate-400 line-through';
@@ -416,28 +408,6 @@ function construirValoresIniciales(reevaluacionDe: ReevaluacionData | null): For
         combustibles_liquidos_m3: reevaluacionDe?.combustibles_liquidos_m3 ?? '',
     };
 }
-
-const MENSAJES_DECLARACIONES_OBLIGATORIAS: ReadonlyArray<{
-    campo: (typeof CAMPOS_DECLARACION)[number];
-    mensaje: string;
-}> = [
-    {
-        campo: 'usa_glp',
-        mensaje: 'Por favor declara si tu local utiliza GLP (Sí o No).',
-    },
-    {
-        campo: 'tiene_equipos_fritura',
-        mensaje: 'Por favor declara si cuentas con equipos de fritura o cocción con aceites (Sí o No).',
-    },
-    {
-        campo: 'tiene_escaleras',
-        mensaje: 'Por favor declara si tu local cuenta con escaleras de circulación (Sí o No).',
-    },
-    {
-        campo: 'tiene_estanterias_altas',
-        mensaje: 'Por favor declara si cuentas con estanterías altas o mobiliario alto (Sí o No).',
-    },
-];
 
 function esNumeroMenorQue(valor: string | number | null | undefined, minimo: number): boolean {
     if (valor === '' || valor === null || valor === undefined) {
@@ -486,13 +456,6 @@ function validarFormularioNueva(data: FormEvaluacionData): Record<string, string
         errs.aforo = 'El aforo estimado debe ser al menos 1 persona.';
     }
 
-    // 4. Variables obligatorias de aplicabilidad (no pueden quedar nulas)
-    for (const { campo, mensaje } of MENSAJES_DECLARACIONES_OBLIGATORIAS) {
-        if (data[campo] == null) {
-            errs[campo] = mensaje;
-        }
-    }
-
     return errs;
 }
 
@@ -500,15 +463,13 @@ function enfocarPrimerError(errs: Record<string, string>): void {
     const primerError = Object.keys(errs)[0];
     const elem = document.getElementById(`campo-${primerError}`) || document.getElementById(`est-${primerError}`);
     if (elem) {
-        elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const control = elem.matches('input, select, button') ? elem : elem.querySelector<HTMLElement>('input, select, button');
+        control?.focus();
+        elem.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
     }
 }
 
-function obtenerErrorCampo(
-    campo: string,
-    erroresFormulario: Record<string, string>,
-    errors: Partial<Record<string, string>>,
-): string | undefined {
+function obtenerErrorCampo(campo: string, erroresFormulario: Record<string, string>, errors: Partial<Record<string, string>>): string | undefined {
     return erroresFormulario[campo] || errors[campo];
 }
 
@@ -519,52 +480,13 @@ function parsearEnteroOpcional(valor: string): number | '' {
 
 type ActualizarCampoFormulario = <K extends keyof FormEvaluacionData>(campo: K, valor: FormEvaluacionData[K]) => void;
 
-function BarraProgresoPasos() {
-    return (
-        <ol
-            aria-label="Flujo de autoevaluación: 1. Calcular riesgo, 2. Simulacro en vivo, 3. Veredicto"
-            className="mb-7 flex flex-col justify-center gap-2 sm:flex-row sm:items-center sm:gap-3"
-        >
-            {PASOS_FLUJO.map((paso, indice) => {
-                const activo = paso.estado === 'activo';
-                return (
-                    <li key={paso.numero} className="flex items-center gap-2 sm:gap-3">
-                        <div
-                            aria-current={activo ? 'step' : undefined}
-                            className={`flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-bold transition ${
-                                activo
-                                    ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-900/20'
-                                    : 'border border-slate-200 bg-white text-slate-400'
-                            }`}
-                        >
-                            <span className={`font-mono text-[10px] ${activo ? 'text-emerald-100' : 'text-slate-300'}`}>
-                                {paso.numero}
-                            </span>
-                            <span>{paso.titulo}</span>
-                        </div>
-                        {indice < PASOS_FLUJO.length - 1 && (
-                            <span className="hidden text-slate-300 sm:block" aria-hidden="true">
-                                ›
-                            </span>
-                        )}
-                    </li>
-                );
-            })}
-        </ol>
-    );
-}
-
 interface PanelPrecalificacionOrientativaProps {
     precalificacion: PrecalificacionOrientativa | null;
     data: FormEvaluacionData;
     declaracionesPendientes: number;
 }
 
-function PanelPrecalificacionOrientativa({
-    precalificacion,
-    data,
-    declaracionesPendientes,
-}: Readonly<PanelPrecalificacionOrientativaProps>) {
+function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesPendientes }: Readonly<PanelPrecalificacionOrientativaProps>) {
     return (
         <section
             aria-label="Precalificación orientativa"
@@ -572,7 +494,7 @@ function PanelPrecalificacionOrientativa({
             className="mb-7 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50/80 to-white p-5 shadow-xs sm:p-6"
         >
             <div className="flex items-start gap-4">
-                <div className="shrink-0 rounded-2xl bg-emerald-600 p-2.5 text-white">
+                <div className="bg-primary shrink-0 rounded-2xl p-2.5 text-white">
                     <Building2 className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -610,8 +532,8 @@ function PanelPrecalificacionOrientativa({
                         </ul>
                     ) : (
                         <p className="mt-2 text-xs leading-relaxed text-slate-600 sm:text-sm">
-                            Completa el área, los pisos o el aforo para ver una orientación preliminar. Puedes dejarlos en blanco si no
-                            los conoces con exactitud.
+                            Completa el área, los pisos o el aforo para ver una orientación preliminar. Puedes dejarlos en blanco si no los conoces
+                            con exactitud.
                         </p>
                     )}
                 </div>
@@ -640,16 +562,16 @@ function PanelPrecalificacionOrientativa({
 
                 {declaracionesPendientes > 0 && (
                     <p className="mt-2.5 text-[11px] leading-relaxed text-amber-800">
-                        Faltan {declaracionesPendientes} de 4 declaraciones obligatorias. Sin ellas el motor no puede filtrar los
-                        criterios que te corresponden.
+                        Faltan {declaracionesPendientes} de 4 declaraciones obligatorias. Sin ellas el motor no puede filtrar los criterios que te
+                        corresponden.
                     </p>
                 )}
 
                 <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
                     Orientación calculada en tu navegador a partir de lo que declaras, conforme a los umbrales del{' '}
                     <strong className="font-semibold text-slate-700">Manual CENEPRED (R.J. 016-2018-CENEPRED/J)</strong> y el{' '}
-                    <strong className="font-semibold text-slate-700">D.S. 002-2018-PCM</strong>. No se envía ni se registra como
-                    clasificación: la determinación formal y los plazos de emisión dependen de cada municipalidad distrital.
+                    <strong className="font-semibold text-slate-700">D.S. 002-2018-PCM</strong>. No se envía ni se registra como clasificación: la
+                    determinación formal y los plazos de emisión dependen de cada municipalidad distrital.
                 </p>
             </div>
         </section>
@@ -668,20 +590,18 @@ function BannerReevaluacionPreventiva({ reevaluacionDe }: Readonly<BannerReevalu
             className="mb-6 flex flex-col items-start justify-between gap-4 rounded-3xl border border-emerald-200 bg-emerald-50/70 p-5 text-left text-xs text-slate-900 shadow-xs sm:flex-row sm:items-center sm:text-sm"
         >
             <div className="flex items-start gap-3">
-                <div className="mt-0.5 shrink-0 rounded-2xl bg-emerald-600 p-2.5 text-white">
+                <div className="bg-primary mt-0.5 shrink-0 rounded-2xl p-2.5 text-white">
                     <RefreshCw className="h-4 w-4" />
                 </div>
                 <div>
                     <span className="rounded-full border border-emerald-200 bg-white/90 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-700 uppercase">
                         Nueva Reevaluación Preventiva
                     </span>
-                    <h2 className="mt-1 text-sm font-extrabold text-slate-900 sm:text-base">
-                        Reevaluando: {reevaluacionDe.nombre_comercio}
-                    </h2>
+                    <h2 className="mt-1 text-sm font-extrabold text-slate-900 sm:text-base">Reevaluando: {reevaluacionDe.nombre_comercio}</h2>
                     <p className="mt-0.5 max-w-2xl text-xs leading-relaxed text-slate-600">
                         Los datos del establecimiento han sido precargados desde tu evaluación anterior
-                        {reevaluacionDe.fecha_anterior ? ` del ${reevaluacionDe.fecha_anterior}` : ''}. Tu evaluación previa se
-                        conservará sin cambios en tu historial.
+                        {reevaluacionDe.fecha_anterior ? ` del ${reevaluacionDe.fecha_anterior}` : ''}. Tu evaluación previa se conservará sin cambios
+                        en tu historial.
                     </p>
                 </div>
             </div>
@@ -700,13 +620,7 @@ interface SeccionIdentificacionGiroProps {
     limpiarErrorDe: (campo: string) => void;
 }
 
-function SeccionIdentificacionGiro({
-    data,
-    setData,
-    erroresFormulario,
-    errors,
-    limpiarErrorDe,
-}: Readonly<SeccionIdentificacionGiroProps>) {
+function SeccionIdentificacionGiro({ data, setData, erroresFormulario, errors, limpiarErrorDe }: Readonly<SeccionIdentificacionGiroProps>) {
     const errorNombre = obtenerErrorCampo('nombre_comercio', erroresFormulario, errors);
     const errorRuc = obtenerErrorCampo('ruc', erroresFormulario, errors);
 
@@ -813,13 +727,7 @@ interface SeccionEscalaFisicaProps {
     limpiarErrorDe: (campo: string) => void;
 }
 
-function SeccionEscalaFisica({
-    data,
-    setData,
-    erroresFormulario,
-    errors,
-    limpiarErrorDe,
-}: Readonly<SeccionEscalaFisicaProps>) {
+function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiarErrorDe }: Readonly<SeccionEscalaFisicaProps>) {
     const errorArea = obtenerErrorCampo('area_m2', erroresFormulario, errors);
     const errorPisos = obtenerErrorCampo('pisos', erroresFormulario, errors);
     const errorAforo = obtenerErrorCampo('aforo', erroresFormulario, errors);
@@ -852,9 +760,7 @@ function SeccionEscalaFisica({
                             errorArea ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
                         }`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">
-                        Orientación: hasta 750 m² suele calificar a ITSE posterior.
-                    </span>
+                    <span className="mt-1 block text-xs text-slate-500">Orientación: hasta 750 m² suele calificar a ITSE posterior.</span>
                     {errorArea && (
                         <span id="error-area" className="text-danger-600 mt-1 block text-xs">
                             {errorArea}
@@ -883,9 +789,7 @@ function SeccionEscalaFisica({
                             errorPisos ? 'border-danger-400 bg-danger-50/20 border' : 'border border-slate-300'
                         }`}
                     />
-                    <span className="mt-1 block text-xs text-slate-500">
-                        Orientación: hasta 2 pisos suele calificar a ITSE posterior.
-                    </span>
+                    <span className="mt-1 block text-xs text-slate-500">Orientación: hasta 2 pisos suele calificar a ITSE posterior.</span>
                     {errorPisos && (
                         <span id="error-pisos" className="text-danger-600 mt-1 block text-xs">
                             {errorPisos}
@@ -938,9 +842,7 @@ function TarjetaCondicionGlp({ data, setData, errorGlp, limpiarErrorDe }: Readon
     return (
         <div
             id="campo-usa_glp"
-            className={`rounded-2xl p-4 transition ${
-                errorGlp ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
-            }`}
+            className={`rounded-2xl p-4 transition ${errorGlp ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'}`}
         >
             <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div>
@@ -999,12 +901,7 @@ interface SeccionInstalacionesCondicionesProps {
     limpiarErrorDe: (campo: string) => void;
 }
 
-function SeccionInstalacionesCondiciones({
-    data,
-    setData,
-    erroresFormulario,
-    limpiarErrorDe,
-}: Readonly<SeccionInstalacionesCondicionesProps>) {
+function SeccionInstalacionesCondiciones({ data, setData, erroresFormulario, limpiarErrorDe }: Readonly<SeccionInstalacionesCondicionesProps>) {
     return (
         <div className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
             <div>
@@ -1017,27 +914,20 @@ function SeccionInstalacionesCondiciones({
                     </span>
                 </div>
                 <p className="mt-1 mb-4 text-xs leading-relaxed text-slate-500">
-                    Declara con precisión las características de tu local. El motor de aplicabilidad las utilizará para determinar qué
-                    criterios normativos aplican y cuáles se excluyen de tu evaluación.
+                    Declara con precisión las características de tu local. El motor de aplicabilidad las utilizará para determinar qué criterios
+                    normativos aplican y cuáles se excluyen de tu evaluación.
                 </p>
             </div>
 
             <div className="space-y-4">
                 {/* 1. GLP (CRIT-10) */}
-                <TarjetaCondicionGlp
-                    data={data}
-                    setData={setData}
-                    errorGlp={erroresFormulario.usa_glp}
-                    limpiarErrorDe={limpiarErrorDe}
-                />
+                <TarjetaCondicionGlp data={data} setData={setData} errorGlp={erroresFormulario.usa_glp} limpiarErrorDe={limpiarErrorDe} />
 
                 {/* 2. Equipos de fritura / cocción con aceites (CRIT-02A) */}
                 <div
                     id="campo-tiene_equipos_fritura"
                     className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_equipos_fritura
-                            ? 'bg-danger-50/40 border-danger-300 border'
-                            : 'border border-slate-100 bg-slate-50'
+                        erroresFormulario.tiene_equipos_fritura ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
                     }`}
                 >
                     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -1064,9 +954,7 @@ function SeccionInstalacionesCondiciones({
                     </div>
 
                     {erroresFormulario.tiene_equipos_fritura && (
-                        <span className="text-danger-600 mt-2 block text-xs font-medium">
-                            {erroresFormulario.tiene_equipos_fritura}
-                        </span>
+                        <span className="text-danger-600 mt-2 block text-xs font-medium">{erroresFormulario.tiene_equipos_fritura}</span>
                     )}
                 </div>
 
@@ -1074,9 +962,7 @@ function SeccionInstalacionesCondiciones({
                 <div
                     id="campo-tiene_escaleras"
                     className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_escaleras
-                            ? 'bg-danger-50/40 border-danger-300 border'
-                            : 'border border-slate-100 bg-slate-50'
+                        erroresFormulario.tiene_escaleras ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
                     }`}
                 >
                     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -1111,9 +997,7 @@ function SeccionInstalacionesCondiciones({
                 <div
                     id="campo-tiene_estanterias_altas"
                     className={`rounded-2xl p-4 transition ${
-                        erroresFormulario.tiene_estanterias_altas
-                            ? 'bg-danger-50/40 border-danger-300 border'
-                            : 'border border-slate-100 bg-slate-50'
+                        erroresFormulario.tiene_estanterias_altas ? 'bg-danger-50/40 border-danger-300 border' : 'border border-slate-100 bg-slate-50'
                     }`}
                 >
                     <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -1121,8 +1005,7 @@ function SeccionInstalacionesCondiciones({
                             <Package className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                             <div>
                                 <span id="label-tiene_estanterias_altas" className="block text-xs font-bold text-slate-800">
-                                    ¿Cuenta con estanterías altas o mobiliario con riesgo de volteo?{' '}
-                                    <span className="text-danger-500">*</span>
+                                    ¿Cuenta con estanterías altas o mobiliario con riesgo de volteo? <span className="text-danger-500">*</span>
                                 </span>
                                 <span id="desc-tiene_estanterias_altas" className="text-xs text-slate-500">
                                     Determina la exigencia de arriostramiento antisísmico a pared o piso (CRIT-13).
@@ -1141,9 +1024,7 @@ function SeccionInstalacionesCondiciones({
                     </div>
 
                     {erroresFormulario.tiene_estanterias_altas && (
-                        <span className="text-danger-600 mt-2 block text-xs font-medium">
-                            {erroresFormulario.tiene_estanterias_altas}
-                        </span>
+                        <span className="text-danger-600 mt-2 block text-xs font-medium">{erroresFormulario.tiene_estanterias_altas}</span>
                     )}
                 </div>
 
@@ -1230,13 +1111,15 @@ function SeccionInstalacionesCondiciones({
 }
 
 export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
+    const [grupo, setGrupo] = useState(0);
     const [showGuia, setShowGuia] = useState<boolean>(false);
     const [erroresFormulario, setErroresFormulario] = useState<Record<string, string>>({});
 
-    const { data, setData, post, processing, errors } = useForm<FormEvaluacionData>(
-        construirValoresIniciales(reevaluacionDe),
-    );
+    const { data, setData, post, processing, errors } = useForm<FormEvaluacionData>(construirValoresIniciales(reevaluacionDe));
 
+    useEffect(() => {
+        document.getElementById('grupo-datos')?.focus();
+    }, [grupo]);
     const precalificacion = precalificarLocalmente({
         area_techada: data.area_m2,
         aforo: data.aforo,
@@ -1274,14 +1157,20 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
         setErroresFormulario(errs);
 
         if (Object.keys(errs).length > 0) {
-            enfocarPrimerError(errs);
+            const campo = Object.keys(errs)[0];
+            setGrupo(['nombre_comercio', 'ruc'].includes(campo) ? 0 : 1);
+            setTimeout(() => enfocarPrimerError(errs), 0);
             return;
         }
 
+        if (grupo < 2) {
+            setGrupo(grupo + 1);
+            return;
+        }
         if (reevaluacionDe?.uuid) {
-            post(`/autoevaluacion/reevaluar/${reevaluacionDe.uuid}`);
+            post(`/autoevaluacion/reevaluar/${reevaluacionDe.uuid}`, { onError: () => setGrupo(0) });
         } else {
-            post('/autoevaluacion');
+            post('/autoevaluacion', { onError: () => setGrupo(0) });
         }
     };
 
@@ -1292,10 +1181,6 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
 
             <div className="relative">
                 {/* Capa de patrón grid sutil, acotada a la columna de contenido */}
-                <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--color-slate-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-slate-200)_1px,transparent_1px)] bg-[size:28px_28px] opacity-45 [mask-image:radial-gradient(ellipse_75%_60%_at_50%_0%,#000_10%,transparent_100%)]"
-                />
 
                 <div className="relative mx-auto max-w-3xl pb-16 text-left">
                     {/* ============================================== */}
@@ -1304,9 +1189,9 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                     <div className="mb-7 text-center">
                         <span className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold tracking-wider text-emerald-700 uppercase">
                             <Gauge className="h-3.5 w-3.5" />
-                            Paso 1 de 3 · Pre-screening
+                            Paso 1 de 3 · Datos del local
                         </span>
-                        <h1 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Calcula el riesgo de tu local</h1>
+                        <h1 className="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Cuéntanos sobre tu local</h1>
                         <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-slate-600 sm:text-base">
                             Registra la información de tu establecimiento. El motor de aplicabilidad determinará qué criterios normativos aplican
                             realmente a tu caso.
@@ -1316,55 +1201,84 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                     {/* ============================================== */}
                     {/* Barra de progreso del flujo                    */}
                     {/* ============================================== */}
-                    <BarraProgresoPasos />
+                    <FlujoCiudadano actual={1} />
+                    <AvisoPreventivo />
 
                     {/* ============================================== */}
                     {/* Caja reactiva de precalificación             */}
                     {/* ============================================== */}
-                    <PanelPrecalificacionOrientativa
-                        precalificacion={precalificacion}
-                        data={data}
-                        declaracionesPendientes={declaracionesPendientes}
-                    />
+                    <details className="mb-6 rounded-2xl border border-slate-200 bg-white p-4">
+                        <summary className="cursor-pointer text-base font-semibold">Ver estimación orientativa (opcional)</summary>
+                        <PanelPrecalificacionOrientativa
+                            precalificacion={precalificacion}
+                            data={data}
+                            declaracionesPendientes={declaracionesPendientes}
+                        />
+                    </details>
 
                     {/* ============================================== */}
                     {/* Tarjeta Contextual de Sustento Cívico          */}
                     {/* ============================================== */}
-                    <div className="mb-7 flex flex-col items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-xs sm:flex-row sm:items-center sm:p-5">
-                        <div className="flex items-start gap-3.5">
-                            <div className="bg-info-50 text-info-700 border-info-100 mt-0.5 shrink-0 rounded-2xl border p-2.5">
-                                <Info className="h-4 w-4" />
-                            </div>
-                            <div>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <h2 className="text-sm font-bold text-slate-900">Herramienta de Autoevaluación y Preparación Técnica</h2>
-                                    <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-xs font-semibold text-slate-600">
-                                        R.J. 016-2018-CENEPRED / D.S. 002-2018-PCM
-                                    </span>
+                    <details className="mb-5 rounded-2xl border border-slate-200 bg-white p-4">
+                        <summary className="cursor-pointer text-sm font-semibold">Ayuda y base legal</summary>{' '}
+                        <div className="mb-7 flex flex-col items-start justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-xs sm:flex-row sm:items-center sm:p-5">
+                            <div className="flex items-start gap-3.5">
+                                <div className="bg-info-50 text-info-700 border-info-100 mt-0.5 shrink-0 rounded-2xl border p-2.5">
+                                    <Info className="h-4 w-4" />
                                 </div>
-                                <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600">
-                                    Plataforma de acceso libre para comerciantes y vecinos de Huancayo. Los resultados corresponden únicamente a lo
-                                    que tú declaras y no constituyen una inspección oficial.
-                                </p>
+                                <div>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <h2 className="text-sm font-bold text-slate-900">Herramienta de Autoevaluación y Preparación Técnica</h2>
+                                        <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-xs font-semibold text-slate-600">
+                                            R.J. 016-2018-CENEPRED / D.S. 002-2018-PCM
+                                        </span>
+                                    </div>
+                                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600">
+                                        Plataforma de acceso libre para comerciantes y vecinos de Huancayo. Los resultados corresponden únicamente a
+                                        lo que tú declaras y no constituyen una inspección oficial.
+                                    </p>
+                                </div>
                             </div>
+
+                            <button
+                                type="button"
+                                onClick={() => setShowGuia(true)}
+                                className="text-info-800 hover:text-info-900 bg-info-50/60 hover:bg-info-50 border-info-100 focus-visible:ring-info-500 inline-flex shrink-0 cursor-pointer items-center gap-1.5 self-end rounded-xl border px-3.5 py-2 text-sm font-bold transition focus-visible:ring-2 focus-visible:outline-none active:scale-95 sm:self-center"
+                            >
+                                <BookOpen className="h-3.5 w-3.5" />
+                                <span>Ver Base Legal</span>
+                            </button>
                         </div>
-
-                        <button
-                            type="button"
-                            onClick={() => setShowGuia(true)}
-                            className="text-info-800 hover:text-info-900 bg-info-50/60 hover:bg-info-50 border-info-100 focus-visible:ring-info-500 inline-flex shrink-0 cursor-pointer items-center gap-1.5 self-end rounded-xl border px-3.5 py-2 text-sm font-bold transition focus-visible:ring-2 focus-visible:outline-none active:scale-95 sm:self-center"
-                        >
-                            <BookOpen className="h-3.5 w-3.5" />
-                            <span>Ver Base Legal</span>
-                        </button>
-                    </div>
-
+                    </details>
                     {/* ============================================== */}
                     {/* Banner de Reevaluación Preventiva              */}
                     {/* ============================================== */}
                     {reevaluacionDe && <BannerReevaluacionPreventiva reevaluacionDe={reevaluacionDe} />}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                        <nav aria-label="Grupos de datos">
+                            <ol className="grid grid-cols-3 gap-2">
+                                {['Tu local', 'Características', 'Revisar datos'].map((nombre, index) => (
+                                    <li key={nombre}>
+                                        <button
+                                            type="button"
+                                            disabled={processing}
+                                            aria-current={grupo === index ? 'step' : undefined}
+                                            onClick={() => setGrupo(index)}
+                                            className={`min-h-11 w-full rounded-xl border px-2 py-3 text-sm font-semibold ${grupo === index ? 'border-primary bg-primary-50 text-primary-900' : 'border-slate-200 bg-white text-slate-600'}`}
+                                        >
+                                            {index + 1}. {nombre}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ol>
+                        </nav>
+                        <h2 id="grupo-datos" tabIndex={-1} className="text-xl font-semibold">
+                            {['Tu local', 'Características del establecimiento', 'Revisa antes de continuar'][grupo]}
+                        </h2>
+                        <p className="text-sm text-slate-600">
+                            Los datos permanecen en esta pantalla mientras cambias de grupo. Aún no hay guardado en el servidor.
+                        </p>
                         {/* Alerta de errores de validación backend */}
                         {Object.keys(errors).length > 0 && (
                             <div className="bg-danger-50 border-danger-300 text-danger-950 rounded-2xl border p-4 text-left text-sm" role="alert">
@@ -1383,39 +1297,42 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                         {/* ========================================== */}
                         {/* Tarjeta 1: Datos Generales                */}
                         {/* ========================================== */}
-                        <SeccionIdentificacionGiro
-                            data={data}
-                            setData={setData}
-                            erroresFormulario={erroresFormulario}
-                            errors={errors}
-                            limpiarErrorDe={limpiarErrorDe}
-                        />
+                        <div hidden={grupo !== 0}>
+                            <SeccionIdentificacionGiro
+                                data={data}
+                                setData={setData}
+                                erroresFormulario={erroresFormulario}
+                                errors={errors}
+                                limpiarErrorDe={limpiarErrorDe}
+                            />
+                        </div>
 
                         {/* ========================================== */}
                         {/* Tarjeta 2: Escala Física                  */}
                         {/* ========================================== */}
-                        <SeccionEscalaFisica
-                            data={data}
-                            setData={setData}
-                            erroresFormulario={erroresFormulario}
-                            errors={errors}
-                            limpiarErrorDe={limpiarErrorDe}
-                        />
+                        <div hidden={grupo !== 1}>
+                            <SeccionEscalaFisica
+                                data={data}
+                                setData={setData}
+                                erroresFormulario={erroresFormulario}
+                                errors={errors}
+                                limpiarErrorDe={limpiarErrorDe}
+                            />
 
-                        {/* ========================================== */}
-                        {/* Tarjeta 3: Instalaciones y Condiciones    */}
-                        {/* ========================================== */}
-                        <SeccionInstalacionesCondiciones
-                            data={data}
-                            setData={setData}
-                            erroresFormulario={erroresFormulario}
-                            limpiarErrorDe={limpiarErrorDe}
-                        />
-
+                            {/* ========================================== */}
+                            {/* Tarjeta 3: Instalaciones y Condiciones    */}
+                            {/* ========================================== */}
+                            <SeccionInstalacionesCondiciones
+                                data={data}
+                                setData={setData}
+                                erroresFormulario={erroresFormulario}
+                                limpiarErrorDe={limpiarErrorDe}
+                            />
+                        </div>
                         {/* ========================================== */}
                         {/* Tarjeta 4: Ubicación del Establecimiento   */}
                         {/* ========================================== */}
-                        <div className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
+                        <div hidden={grupo !== 0} className="rounded-3xl border border-slate-200 bg-white p-6 text-left shadow-xs">
                             <h3 className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-900">
                                 <MapPin className="h-4 w-4 text-emerald-600" /> Ubicación del Establecimiento
                             </h3>
@@ -1456,6 +1373,44 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             </div>
                         </div>
 
+                        <section hidden={grupo !== 2} className="rounded-2xl border border-slate-200 bg-white p-5">
+                            <h3 className="text-lg font-semibold">Lo que vas a declarar</h3>
+                            <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+                                {[
+                                    ['Local', data.nombre_comercio || 'Sin nombre'],
+                                    ['Actividad', data.funcion_economica],
+                                    ['Área', data.area_m2 ? data.area_m2 + ' m²' : 'No declarada'],
+                                    ['Aforo', data.aforo || 'No declarado'],
+                                    ...CAMPOS_DECLARACION.map((campo) => [
+                                        {
+                                            usa_glp: 'Uso de GLP',
+                                            tiene_equipos_fritura: 'Equipos de fritura',
+                                            tiene_escaleras: 'Escaleras',
+                                            tiene_estanterias_altas: 'Estanterías altas',
+                                        }[campo],
+                                        data[campo] == null ? 'Aún no lo sé' : data[campo] ? 'Sí' : 'No',
+                                    ]),
+                                ].map(([label, value]) => (
+                                    <div key={label}>
+                                        <dt className="text-sm text-slate-600">{label}</dt>
+                                        <dd className="mt-1 text-base font-semibold break-words">{value}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                            <p className="mt-5 text-sm text-slate-600">
+                                Puedes volver para corregir datos. Los valores desconocidos se mantienen como no declarados.
+                            </p>
+                        </section>
+                        {grupo > 0 && (
+                            <button
+                                type="button"
+                                disabled={processing}
+                                className="min-h-11 rounded-xl border border-slate-400 bg-white px-5 py-3 font-semibold"
+                                onClick={() => setGrupo(grupo - 1)}
+                            >
+                                Volver al grupo anterior
+                            </button>
+                        )}
                         {/* Botones de Navegación y Envío */}
                         <div className="flex flex-col-reverse items-center justify-between gap-4 pt-4 sm:flex-row">
                             <Link
@@ -1469,9 +1424,11 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 px-8 py-4 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
+                                className="bg-primary hover:bg-primary-700 flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-sm font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
                             >
-                                <span>{processing ? 'Iniciando autoevaluación...' : 'Continuar al Simulacro en vivo'}</span>
+                                <span>
+                                    {processing ? 'Iniciando autoevaluación...' : grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones'}
+                                </span>
                                 <ArrowRight className="h-4 w-4" />
                             </button>
                         </div>

@@ -16,6 +16,7 @@ use App\Services\AI\AnalisisEvidenciaService;
 use App\Services\ApplicabilityEngineService;
 use App\Services\DirectorioAliadosService;
 use App\Services\Evaluacion\EvaluacionSyncService;
+use App\Services\Evaluacion\EvidenciaPrivadaService;
 use App\Services\Evaluacion\IntegridadEvaluacionService;
 use App\Services\GeoLocationService;
 use App\Services\ItseRiskService;
@@ -23,6 +24,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -267,11 +269,15 @@ class EvaluacionController extends Controller
         $revision = $autoevaluacion->simulaciones()->latest()->first();
 
         $validated = $request->validate([
-            'codigo_item' => 'required|string',
+            'codigo_item' => ['required', 'string', 'max:64', 'regex:/\A[A-Za-z0-9_-]+\z/'],
             'descripcion_subsanacion' => 'required|string|min:5|max:1000',
             'estado' => 'nullable|in:PENDIENTE,EN_PROCESO,SUBSANADO_DECLARADO',
             'observacion' => 'nullable|string|max:1000',
-            'evidencia' => ['nullable', 'file', 'mimes:jpeg,png,webp,pdf', 'max:5120'],
+            'evidencia' => ['nullable', 'file', 'mimes:jpeg,png,webp,pdf', 'max:5120', function (string $attribute, mixed $value, \Closure $fail): void {
+                if ($value instanceof UploadedFile && $value->getSize() === 0) {
+                    $fail('El archivo de evidencia no puede estar vacío.');
+                }
+            }],
         ], [
             'evidencia.file' => 'El archivo de evidencia no es válido.',
             'evidencia.mimes' => 'Este formato de archivo no está permitido. Solo se admiten imágenes JPG, PNG, WEBP o documentos PDF.',
@@ -347,7 +353,8 @@ class EvaluacionController extends Controller
                 $subsanacion->save();
 
                 // Trazabilidad histórica append-only
-                if ($estadoAnterior !== $estadoSubsanacion || $evidenciaUrl !== null) {
+                if ($estadoAnterior !== $estadoSubsanacion || $evidenciaUrl !== null
+                    || (! $subsanacion->wasRecentlyCreated && $subsanacion->wasChanged(['descripcion', 'observacion']))) {
                     HistorialSubsanacion::create([
                         'subsanacion_id' => $subsanacion->id,
                         'user_id' => Auth::id(),
@@ -355,7 +362,8 @@ class EvaluacionController extends Controller
                         'estado_nuevo' => $estadoSubsanacion,
                         'evidencia_url' => $evidenciaUrl ?? $subsanacion->evidencia_url,
                         'hash_sha256' => $hashSha256 ?? $subsanacion->hash_sha256,
-                        'comentario' => $validated['descripcion_subsanacion'],
+                        'comentario' => $validated['descripcion_subsanacion']
+                            .(filled($validated['observacion'] ?? null) ? "\nObservación: ".$validated['observacion'] : ''),
                         'ip_address' => $request->ip(),
                     ]);
                 }
@@ -570,16 +578,16 @@ class EvaluacionController extends Controller
                     $item['ultimo_analisis'] = [
                         'id' => $ultimoAnalisis->id,
                         'uuid' => $ultimoAnalisis->uuid_analisis,
-                        'estado' => $ultimoAnalisis->estado,
+                        'estado' => $ultimoAnalisis->estado_analisis,
                         'mensaje_error' => $ultimoAnalisis->mensaje_error,
                         'created_at' => $ultimoAnalisis->created_at?->toIso8601String(),
                         'resultado' => $ultimoAnalisis->resultado ? [
                             'calidad_imagen' => $ultimoAnalisis->resultado->calidad_imagen,
                             'nivel_incertidumbre' => $ultimoAnalisis->resultado->nivel_incertidumbre,
                             'elementos_detectados' => $ultimoAnalisis->resultado->elementos_detectados,
-                            'visual_observations' => $ultimoAnalisis->resultado->visual_observations,
-                            'not_observable' => $ultimoAnalisis->resultado->not_observable,
-                            'photo_improvement_recommendations' => $ultimoAnalisis->resultado->photo_improvement_recommendations,
+                            'visual_observations' => $ultimoAnalisis->resultado->observaciones_visuales,
+                            'not_observable' => $ultimoAnalisis->resultado->no_observable,
+                            'photo_improvement_recommendations' => $ultimoAnalisis->resultado->recomendaciones_captura,
                             'resumen_pedagogico' => $ultimoAnalisis->resultado->resumen_pedagogico,
                             'advertencia_legal' => $ultimoAnalisis->resultado->advertencia_legal,
                             'version_motor' => $ultimoAnalisis->resultado->version_motor,
@@ -814,7 +822,7 @@ class EvaluacionController extends Controller
 
         $path = $subsanacion->evidencia_url;
 
-        if (! filled($path)) {
+        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path)) {
             abort(404);
         }
 
@@ -823,6 +831,11 @@ class EvaluacionController extends Controller
 
         if (! $disco->exists($path)) {
             abort(404);
+        }
+
+        if (filled($subsanacion->hash_sha256)
+            && ! hash_equals($subsanacion->hash_sha256, hash('sha256', $disco->get($path)))) {
+            abort(409, 'La integridad del archivo de evidencia no coincide con el registro.');
         }
 
         return $disco->response($path);
@@ -1672,8 +1685,7 @@ class EvaluacionController extends Controller
         // 3. Generar snapshot canónico normalizado y hash determinístico SHA-256
         $payloadCanonico = $this->applicabilityEngine->generarPayloadCanonico($autoevaluacion);
         $this->applicabilityEngine->normalizarArrayDeterminista($payloadCanonico);
-        $jsonCanonico = (string) json_encode($payloadCanonico, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $hashIntegridad = hash('sha256', $jsonCanonico);
+        $hashIntegridad = $this->integridadService->calcularHashIntegridad($payloadCanonico);
 
         $resumenData = $this->applicabilityEngine->generarResumenDescriptivo($autoevaluacion);
         $conteos = $resumenData['conteos'];

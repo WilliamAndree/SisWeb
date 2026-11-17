@@ -54,41 +54,16 @@ class ValidacionResultadoIAService
             }
         }
 
-        $calidad = (string) $rawResponse['image_quality'];
-        if (! in_array($calidad, ResultadoAnalisisEvidencia::CALIDADES_VALIDAS, true)) {
-            $calidad = ResultadoAnalisisEvidencia::CALIDAD_ACEPTABLE;
-        }
-
-        $relevancia = (string) $rawResponse['evidence_relevance'];
-        if (! in_array($relevancia, ResultadoAnalisisEvidencia::RELEVANCIAS_VALIDAS, true)) {
-            $relevancia = ResultadoAnalisisEvidencia::RELEVANCIA_PARCIAL;
-        }
-
-        $incertidumbre = (string) $rawResponse['uncertainty_level'];
-        if (! in_array($incertidumbre, ResultadoAnalisisEvidencia::INCERTIDUMBRES_VALIDAS, true)) {
-            $incertidumbre = ResultadoAnalisisEvidencia::INCERTIDUMBRE_MEDIO;
-        }
+        $this->validarEstructura($rawResponse);
 
         // Sanitización y normalización de elementos detectados
         $elementosValidados = [];
         if (is_array($rawResponse['detected_elements'])) {
             foreach ($rawResponse['detected_elements'] as $elem) {
-                if (! is_array($elem)) {
-                    continue;
-                }
-
-                $nombre = (string) ($elem['element_name'] ?? 'Elemento sin nombre');
-                $status = (string) ($elem['visual_status'] ?? ResultadoAnalisisEvidencia::VISUAL_NO_OBSERVABLE);
-                if (! in_array($status, ResultadoAnalisisEvidencia::VISUALES_VALIDOS, true)) {
-                    $status = ResultadoAnalisisEvidencia::VISUAL_NO_OBSERVABLE;
-                }
-
-                $confianza = strtoupper((string) ($elem['confidence_level'] ?? 'MEDIO'));
-                if (! in_array($confianza, ['ALTO', 'MEDIO', 'BAJO'], true)) {
-                    $confianza = 'MEDIO';
-                }
-
-                $descripcion = (string) ($elem['description'] ?? '');
+                $nombre = $elem['element_name'];
+                $status = $elem['visual_status'];
+                $confianza = $elem['confidence_level'];
+                $descripcion = $elem['description'];
                 $descripcion = $this->sanearTexto($descripcion);
 
                 $elementosValidados[] = [
@@ -102,9 +77,9 @@ class ValidacionResultadoIAService
 
         return [
             'criterion_code' => (string) $rawResponse['criterion_code'],
-            'image_quality' => $calidad,
-            'evidence_relevance' => $relevancia,
-            'uncertainty_level' => $incertidumbre,
+            'image_quality' => $rawResponse['image_quality'],
+            'evidence_relevance' => $rawResponse['evidence_relevance'],
+            'uncertainty_level' => $rawResponse['uncertainty_level'],
             'detected_elements' => $elementosValidados,
             'visual_observations' => $this->sanearArrayTextos((array) $rawResponse['visual_observations']),
             'visible_conditions' => $this->sanearArrayTextos((array) $rawResponse['visible_conditions']),
@@ -143,5 +118,59 @@ class ValidacionResultadoIAService
         }
 
         return $limpio;
+    }
+
+    private function validarEstructura(array $datos): void
+    {
+        foreach (['criterion_code', 'pedagogical_summary'] as $campo) {
+            $this->validarTexto($datos[$campo], $campo);
+            if (trim($datos[$campo]) === '') {
+                throw new InvalidArgumentException("El campo {$campo} no puede estar vacío.");
+            }
+        }
+
+        foreach (['image_quality' => ResultadoAnalisisEvidencia::CALIDADES_VALIDAS,
+            'evidence_relevance' => ResultadoAnalisisEvidencia::RELEVANCIAS_VALIDAS,
+            'uncertainty_level' => ResultadoAnalisisEvidencia::INCERTIDUMBRES_VALIDAS] as $campo => $permitidos) {
+            $this->validarEnum($datos[$campo], $permitidos, $campo);
+        }
+
+        foreach (['detected_elements', 'visual_observations', 'visible_conditions', 'not_observable', 'photo_improvement_recommendations'] as $campo) {
+            if (! is_array($datos[$campo]) || ! array_is_list($datos[$campo]) || count($datos[$campo]) > 100) {
+                throw new InvalidArgumentException("El campo {$campo} debe ser una lista de hasta 100 elementos.");
+            }
+            foreach ($datos[$campo] as $item) {
+                if ($campo !== 'detected_elements') {
+                    $this->validarTexto($item, $campo);
+
+                    continue;
+                }
+                if (! is_array($item)) {
+                    throw new InvalidArgumentException('Elemento detectado inválido.');
+                }
+                foreach (['element_name', 'description'] as $texto) {
+                    $this->validarTexto($item[$texto] ?? null, $texto);
+                }
+                $this->validarEnum($item['visual_status'] ?? null, ResultadoAnalisisEvidencia::VISUALES_VALIDOS, 'visual_status');
+                $this->validarEnum($item['confidence_level'] ?? null, ['ALTO', 'MEDIO', 'BAJO'], 'confidence_level');
+            }
+        }
+    }
+
+    private function validarEnum(mixed $valor, array $permitidos, string $campo): void
+    {
+        if (! is_string($valor) || ! in_array($valor, $permitidos, true)) {
+            throw new InvalidArgumentException("Valor desconocido o inválido para {$campo}.");
+        }
+    }
+
+    private function validarTexto(mixed $texto, string $campo): void
+    {
+        if (! is_string($texto) || strlen($texto) > 10000) {
+            throw new InvalidArgumentException("El campo {$campo} debe ser texto de hasta 10000 bytes.");
+        }
+        if (preg_match('/\b(?:certifico|certificamos|aprobado oficialmente|(?:cuenta con|tiene|otorga) (?:una )?certificaci[oó]n oficial)\b/iu', $texto)) {
+            throw new InvalidArgumentException('El análisis visual no puede emitir certificaciones oficiales.');
+        }
     }
 }

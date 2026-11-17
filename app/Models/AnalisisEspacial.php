@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Espacio\GestionEspacialService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use LogicException;
@@ -93,6 +94,19 @@ class AnalisisEspacial extends Model
     {
         $plano = $this->plano;
         if (! $plano || ! $plano->version_activa_id) {
+            return false;
+        }
+
+        $version = $plano->versionActiva;
+        if (! $version || (int) $version->plano_establecimiento_id !== (int) $plano->id || ! is_array($version->geometria_normalizada)) {
+            return false;
+        }
+
+        try {
+            if (! app(GestionEspacialService::class)->verificarIntegridadVersion($version)) {
+                return false;
+            }
+        } catch (\JsonException) {
             return false;
         }
 

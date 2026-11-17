@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Tests\Support\GeminiFixture;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\getJson;
@@ -73,7 +74,9 @@ function helperCrearSubsanacionConArchivo(Autoevaluacion $autoevaluacion, string
 {
     $criterio = CriterioNormativo::where('codigo_criterio', 'CRIT-01')->firstOrFail();
 
-    $archivo = UploadedFile::fake()->create("evidencia_test.{$extension}", $tamanoKb);
+    $archivo = in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)
+        ? UploadedFile::fake()->createWithContent("evidencia_test.{$extension}", GeminiFixture::imagen())
+        : UploadedFile::fake()->create("evidencia_test.{$extension}", $tamanoKb);
     $ruta = "evidencias/subsanaciones/{$autoevaluacion->uuid_trazabilidad}/CRIT-01_test.{$extension}";
     Storage::disk('local')->putFileAs("evidencias/subsanaciones/{$autoevaluacion->uuid_trazabilidad}", $archivo, "CRIT-01_test.{$extension}");
 

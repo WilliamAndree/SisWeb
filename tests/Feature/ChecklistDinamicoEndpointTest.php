@@ -15,8 +15,9 @@ beforeEach(function () {
  */
 function crearAutoevaluacionTest(array $params = []): Autoevaluacion
 {
-    return Autoevaluacion::create([
+    $evaluacion = Autoevaluacion::create([
         'uuid_trazabilidad' => (string) Str::uuid(),
+        'session_token' => Str::random(40),
         'nombre_comercio' => $params['nombre'] ?? 'Local de Prueba Huancayo',
         'sector_huancayo' => 'Huancayo Centro',
         'usa_glp' => array_key_exists('usa_glp', $params) ? $params['usa_glp'] : true,
@@ -27,6 +28,10 @@ function crearAutoevaluacionTest(array $params = []): Autoevaluacion
         'semaforo' => 'VERDE',
         'detalle_checklist' => [],
     ]);
+
+    test()->withSession(['guest_session_token' => $evaluacion->session_token]);
+
+    return $evaluacion;
 }
 
 /**

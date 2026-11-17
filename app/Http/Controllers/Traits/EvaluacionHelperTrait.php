@@ -242,15 +242,6 @@ trait EvaluacionHelperTrait
             }
         }
 
-        // Compatibilidad de pruebas automatizadas: en entorno testing, cuando la autoevaluación está en estado
-        // borrador (INICIADA) y session_token no fue sembrado (fixtures directos de pruebas unitarias/funcionales),
-        // se permite el acceso al runner de tests.
-        if (app()->environment('testing')
-            && $autoevaluacion->estado === Autoevaluacion::ESTADO_INICIADA
-            && empty($autoevaluacion->session_token)) {
-            return;
-        }
-
         // Si session_token es nulo, vacío o no coincide, y no existe sesión inmediata válida, denegar.
         abort(403, $mensajeDenegado);
     }

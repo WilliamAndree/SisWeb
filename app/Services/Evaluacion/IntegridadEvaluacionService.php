@@ -3,6 +3,7 @@
 namespace App\Services\Evaluacion;
 
 use App\Models\Autoevaluacion;
+use JsonException;
 
 class IntegridadEvaluacionService
 {
@@ -49,7 +50,7 @@ class IntegridadEvaluacionService
         $copia = $payload;
         $this->normalizarArrayDeterminista($copia);
 
-        return (string) json_encode($copia, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        return json_encode($copia, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -60,11 +61,8 @@ class IntegridadEvaluacionService
     public function calcularHashIntegridad(array|Autoevaluacion $target): string
     {
         if ($target instanceof Autoevaluacion) {
-            $payload = $target->payload_canonico;
-            if (is_string($payload)) {
-                $payload = (array) json_decode($payload, true);
-            }
-            if (! is_array($payload)) {
+            $payload = $this->resolverPayload($target->payload_canonico);
+            if ($payload === null) {
                 return '';
             }
         } else {
@@ -92,18 +90,17 @@ class IntegridadEvaluacionService
     {
         $hashAlmacenado = $autoevaluacion->hash_integridad;
         $payloadRaw = $autoevaluacion->payload_canonico;
+        $payload = $this->resolverPayload($payloadRaw);
 
-        if (empty($hashAlmacenado) || empty($payloadRaw)) {
+        if (empty($hashAlmacenado) || empty($payloadRaw) || $payload === null) {
             return [
                 'estado' => self::ESTADO_NO_VERIFICABLE,
                 'metodo' => self::METODO_SIN_SNAPSHOT,
-                'mensaje' => 'La autoevaluación no cuenta con hash o snapshot canónico registrado.',
+                'mensaje' => 'La autoevaluación no cuenta con hash o snapshot canónico válido registrado.',
                 'hash_almacenado' => $hashAlmacenado,
                 'hash_calculado' => null,
             ];
         }
-
-        $payload = is_array($payloadRaw) ? $payloadRaw : (array) json_decode((string) $payloadRaw, true);
 
         // 1. Verificación canónica estricta
         $hashCalculado = $this->calcularHashIntegridad($payload);
@@ -142,5 +139,19 @@ class IntegridadEvaluacionService
             'hash_almacenado' => $hashAlmacenado,
             'hash_calculado' => $hashCalculado,
         ];
+    }
+
+    /** @return array<string|int, mixed>|null */
+    private function resolverPayload(mixed $payload): ?array
+    {
+        if (is_string($payload)) {
+            try {
+                $payload = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException) {
+                return null;
+            }
+        }
+
+        return is_array($payload) ? $payload : null;
     }
 }

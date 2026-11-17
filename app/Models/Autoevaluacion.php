@@ -114,6 +114,7 @@ class Autoevaluacion extends Model
         static::updating(function (Autoevaluacion $model) {
             if ($model->getOriginal('estado') === self::ESTADO_REGISTRADA) {
                 $atributosSellados = [
+                    'estado',
                     'uuid_trazabilidad',
                     'caracteristicas_declaradas',
                     'payload_canonico',
