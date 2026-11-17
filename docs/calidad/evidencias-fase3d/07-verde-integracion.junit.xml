@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="4" assertions="9" errors="0" failures="0" skipped="0" time="14.075595">
+    <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="3" assertions="5" errors="0" failures="0" skipped="0" time="13.931528">
+      <testcase name="PLAN-3D-06 editor con sugerencia valida genera enlace privado de evidencia" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-06 editor con sugerencia valida genera enlace privado de evidencia" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="13.712492"/>
+      <testcase name="PLAN-3D-07 un reenvio no devuelve una version activa corrupta como guardado exitoso" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-07 un reenvio no devuelve una version activa corrupta como guardado exitoso" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="2" time="0.136782"/>
+      <testcase name="PLAN-3D-08 no permite vincular evidencia ajena mediante un elemento del croquis" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-08 no permite vincular evidencia ajena mediante un elemento del croquis" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="2" time="0.082253"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\ConectividadGrafosTddTest" file="tests\Feature\ConectividadGrafosTddTest.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="0.144068">
+      <testcase name="GRAFO-3D-03 una conexion vertical explicita alcanza salida de otro piso" file="tests\Feature\ConectividadGrafosTddTest.php::GRAFO-3D-03 una conexion vertical explicita alcanza salida de otro piso" class="Tests\Feature\ConectividadGrafosTddTest" classname="Tests.Feature.ConectividadGrafosTddTest" assertions="4" time="0.144068"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

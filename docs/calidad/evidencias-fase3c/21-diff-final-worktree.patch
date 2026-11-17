@@ -1,0 +1,845 @@
+diff --git a/.github/workflows/tests.yml b/.github/workflows/tests.yml
+index 8564ad3..d30db82 100644
+--- a/.github/workflows/tests.yml
++++ b/.github/workflows/tests.yml
+@@ -19,7 +19,9 @@ jobs:
+         image: mariadb:10.11
+         env:
+           MARIADB_ROOT_PASSWORD: root
+-          MARIADB_DATABASE: test
++          MARIADB_DATABASE: sisweb_testing
++          MARIADB_USER: sisweb_testing
++          MARIADB_PASSWORD: sisweb-ci-only
+         ports:
+           - 3306:3306
+         options: >-
+@@ -32,9 +34,10 @@ jobs:
+       DB_CONNECTION: mysql
+       DB_HOST: 127.0.0.1
+       DB_PORT: 3306
+-      DB_DATABASE: test
+-      DB_USERNAME: root
+-      DB_PASSWORD: root
++      APP_ENV: testing
++      DB_DATABASE: sisweb_testing
++      DB_USERNAME: sisweb_testing
++      DB_PASSWORD: sisweb-ci-only
+ 
+     steps:
+       - name: Checkout
+@@ -64,10 +67,19 @@ jobs:
+         run: composer install --no-interaction --prefer-dist --optimize-autoloader
+ 
+       - name: Copy Environment File
+-        run: cp .env.example .env
++        run: cp .env.testing.example .env.testing
+ 
+-      - name: Generate Application Key
+-        run: php artisan key:generate
++      - name: Restrict Testing Account to Exact Database
++        env:
++          MYSQL_PWD: root
++        run: |
++          docker exec --interactive --env MYSQL_PWD "${{ job.services.mariadb.id }}" mariadb --user=root <<'SQL'
++          REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'sisweb_testing'@'%';
++          GRANT ALL PRIVILEGES ON `sisweb\_testing`.* TO 'sisweb_testing'@'%';
++          SQL
++
++      - name: Verify Testing Isolation
++        run: php tests/preflight.php
+ 
+       - name: Tests
+-        run: ./vendor/bin/pest
++        run: ./vendor/bin/pest --fail-on-risky
+diff --git a/.gitignore b/.gitignore
+index d79996b..28c857a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,5 +1,6 @@
+ .DS_Store
+ .env
++.env.testing
+ .env.backup
+ .env.production
+ .phpactor.json
+@@ -19,6 +20,7 @@
+ /storage/*.key
+ /storage/pail
+ /vendor
++/scratch/qa-mariadb-native/
+ auth.json
+ Homestead.json
+ Homestead.yaml
+diff --git a/app/Http/Controllers/EvaluacionController.php b/app/Http/Controllers/EvaluacionController.php
+index dd65b5d..e2079b9 100644
+--- a/app/Http/Controllers/EvaluacionController.php
++++ b/app/Http/Controllers/EvaluacionController.php
+@@ -16,6 +16,7 @@
+ use App\Services\ApplicabilityEngineService;
+ use App\Services\DirectorioAliadosService;
+ use App\Services\Evaluacion\EvaluacionSyncService;
++use App\Services\Evaluacion\EvidenciaPrivadaService;
+ use App\Services\Evaluacion\IntegridadEvaluacionService;
+ use App\Services\GeoLocationService;
+ use App\Services\ItseRiskService;
+@@ -23,6 +24,7 @@
+ use Illuminate\Http\JsonResponse;
+ use Illuminate\Http\RedirectResponse;
+ use Illuminate\Http\Request;
++use Illuminate\Http\UploadedFile;
+ use Illuminate\Support\Carbon;
+ use Illuminate\Support\Collection;
+ use Illuminate\Support\Facades\Auth;
+@@ -267,11 +269,15 @@ public function guardarSubsanacion(Request $request, string $uuid): RedirectResp
+         $revision = $autoevaluacion->simulaciones()->latest()->first();
+ 
+         $validated = $request->validate([
+-            'codigo_item' => 'required|string',
++            'codigo_item' => ['required', 'string', 'max:64', 'regex:/\A[A-Za-z0-9_-]+\z/'],
+             'descripcion_subsanacion' => 'required|string|min:5|max:1000',
+             'estado' => 'nullable|in:PENDIENTE,EN_PROCESO,SUBSANADO_DECLARADO',
+             'observacion' => 'nullable|string|max:1000',
+-            'evidencia' => ['nullable', 'file', 'mimes:jpeg,png,webp,pdf', 'max:5120'],
++            'evidencia' => ['nullable', 'file', 'mimes:jpeg,png,webp,pdf', 'max:5120', function (string $attribute, mixed $value, \Closure $fail): void {
++                if ($value instanceof UploadedFile && $value->getSize() === 0) {
++                    $fail('El archivo de evidencia no puede estar vacío.');
++                }
++            }],
+         ], [
+             'evidencia.file' => 'El archivo de evidencia no es válido.',
+             'evidencia.mimes' => 'Este formato de archivo no está permitido. Solo se admiten imágenes JPG, PNG, WEBP o documentos PDF.',
+@@ -347,7 +353,8 @@ public function guardarSubsanacion(Request $request, string $uuid): RedirectResp
+                 $subsanacion->save();
+ 
+                 // Trazabilidad histórica append-only
+-                if ($estadoAnterior !== $estadoSubsanacion || $evidenciaUrl !== null) {
++                if ($estadoAnterior !== $estadoSubsanacion || $evidenciaUrl !== null
++                    || (! $subsanacion->wasRecentlyCreated && $subsanacion->wasChanged(['descripcion', 'observacion']))) {
+                     HistorialSubsanacion::create([
+                         'subsanacion_id' => $subsanacion->id,
+                         'user_id' => Auth::id(),
+@@ -355,7 +362,8 @@ public function guardarSubsanacion(Request $request, string $uuid): RedirectResp
+                         'estado_nuevo' => $estadoSubsanacion,
+                         'evidencia_url' => $evidenciaUrl ?? $subsanacion->evidencia_url,
+                         'hash_sha256' => $hashSha256 ?? $subsanacion->hash_sha256,
+-                        'comentario' => $validated['descripcion_subsanacion'],
++                        'comentario' => $validated['descripcion_subsanacion']
++                            .(filled($validated['observacion'] ?? null) ? "\nObservación: ".$validated['observacion'] : ''),
+                         'ip_address' => $request->ip(),
+                     ]);
+                 }
+@@ -814,7 +822,7 @@ public function descargarEvidencia(Request $request, string $uuid, Subsanacion $
+ 
+         $path = $subsanacion->evidencia_url;
+ 
+-        if (! filled($path)) {
++        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path)) {
+             abort(404);
+         }
+ 
+@@ -825,6 +833,11 @@ public function descargarEvidencia(Request $request, string $uuid, Subsanacion $
+             abort(404);
+         }
+ 
++        if (filled($subsanacion->hash_sha256)
++            && ! hash_equals($subsanacion->hash_sha256, hash('sha256', $disco->get($path)))) {
++            abort(409, 'La integridad del archivo de evidencia no coincide con el registro.');
++        }
++
+         return $disco->response($path);
+     }
+ 
+@@ -1672,8 +1685,7 @@ public function finalizar(Request $request, string $uuid): JsonResponse|Redirect
+         // 3. Generar snapshot canónico normalizado y hash determinístico SHA-256
+         $payloadCanonico = $this->applicabilityEngine->generarPayloadCanonico($autoevaluacion);
+         $this->applicabilityEngine->normalizarArrayDeterminista($payloadCanonico);
+-        $jsonCanonico = (string) json_encode($payloadCanonico, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+-        $hashIntegridad = hash('sha256', $jsonCanonico);
++        $hashIntegridad = $this->integridadService->calcularHashIntegridad($payloadCanonico);
+ 
+         $resumenData = $this->applicabilityEngine->generarResumenDescriptivo($autoevaluacion);
+         $conteos = $resumenData['conteos'];
+diff --git a/app/Http/Controllers/Traits/EvaluacionHelperTrait.php b/app/Http/Controllers/Traits/EvaluacionHelperTrait.php
+index 4401d05..d5cfd63 100644
+--- a/app/Http/Controllers/Traits/EvaluacionHelperTrait.php
++++ b/app/Http/Controllers/Traits/EvaluacionHelperTrait.php
+@@ -242,15 +242,6 @@ protected function autorizarAccesoAutoevaluacion(Request $request, Autoevaluacio
+             }
+         }
+ 
+-        // Compatibilidad de pruebas automatizadas: en entorno testing, cuando la autoevaluación está en estado
+-        // borrador (INICIADA) y session_token no fue sembrado (fixtures directos de pruebas unitarias/funcionales),
+-        // se permite el acceso al runner de tests.
+-        if (app()->environment('testing')
+-            && $autoevaluacion->estado === Autoevaluacion::ESTADO_INICIADA
+-            && empty($autoevaluacion->session_token)) {
+-            return;
+-        }
+-
+         // Si session_token es nulo, vacío o no coincide, y no existe sesión inmediata válida, denegar.
+         abort(403, $mensajeDenegado);
+     }
+diff --git a/app/Http/Requests/StoreAutoevaluacionRequest.php b/app/Http/Requests/StoreAutoevaluacionRequest.php
+index 9f6a3a2..d7eb453 100644
+--- a/app/Http/Requests/StoreAutoevaluacionRequest.php
++++ b/app/Http/Requests/StoreAutoevaluacionRequest.php
+@@ -44,20 +44,21 @@ protected function prepareForValidation(): void
+         ]);
+     }
+ 
+-    private function sanitizarBooleano(string $campo): ?bool
++    private function sanitizarBooleano(string $campo): mixed
+     {
+         if (! $this->has($campo) || $this->input($campo) === null || $this->input($campo) === '') {
+             return null;
+         }
+ 
+-        return filter_var($this->input($campo), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
++        return $this->normalizarBooleanoOpcional($this->input($campo));
+     }
+ 
+     private function sanitizarDatosGlp(): array
+     {
+         $usaGlp = $this->sanitizarBooleano('usa_glp');
+-        $galonesGlp = ($usaGlp === true && filled($this->input('galones_glp')))
+-            ? (float) $this->input('galones_glp')
++        $cantidad = $this->input('galones_glp');
++        $galonesGlp = ($usaGlp === true && filled($cantidad))
++            ? (is_numeric($cantidad) ? (float) $cantidad : $cantidad)
+             : null;
+ 
+         return [$usaGlp, $galonesGlp];
+diff --git a/app/Jobs/AnalisisEvidenciaJob.php b/app/Jobs/AnalisisEvidenciaJob.php
+index ade3268..12c6d58 100644
+--- a/app/Jobs/AnalisisEvidenciaJob.php
++++ b/app/Jobs/AnalisisEvidenciaJob.php
+@@ -7,7 +7,9 @@
+ use Illuminate\Bus\Queueable;
+ use Illuminate\Contracts\Queue\ShouldQueue;
+ use Illuminate\Foundation\Bus\Dispatchable;
++use Illuminate\Http\Client\ConnectionException;
+ use Illuminate\Queue\InteractsWithQueue;
++use Illuminate\Queue\Jobs\SyncJob;
+ use Illuminate\Queue\SerializesModels;
+ use Illuminate\Support\Facades\Log;
+ use Throwable;
+@@ -31,7 +33,18 @@ public function handle(AnalisisEvidenciaService $service): void
+             return;
+         }
+ 
+-        $service->procesarAnalisis($analisis);
++        try {
++            $service->procesarAnalisis($analisis);
++        } catch (Throwable $e) {
++            $transitorio = $e instanceof \RuntimeException
++                && ($e->getCode() === 429 || ($e->getCode() >= 500 && $e->getCode() <= 599)
++                    || $e->getPrevious() instanceof ConnectionException);
++            if ($transitorio && $this->job !== null && ! $this->job instanceof SyncJob && $this->attempts() < $this->tries) {
++                $analisis->update(['estado_analisis' => AnalisisEvidencia::ESTADO_PENDIENTE, 'completado_at' => null]);
++            }
++
++            throw $e;
++        }
+     }
+ 
+     public function failed(?Throwable $exception): void
+diff --git a/app/Models/Autoevaluacion.php b/app/Models/Autoevaluacion.php
+index 3d37cf0..3efd92c 100644
+--- a/app/Models/Autoevaluacion.php
++++ b/app/Models/Autoevaluacion.php
+@@ -114,6 +114,7 @@ protected static function booted(): void
+         static::updating(function (Autoevaluacion $model) {
+             if ($model->getOriginal('estado') === self::ESTADO_REGISTRADA) {
+                 $atributosSellados = [
++                    'estado',
+                     'uuid_trazabilidad',
+                     'caracteristicas_declaradas',
+                     'payload_canonico',
+diff --git a/app/Models/ResultadoAnalisisEvidencia.php b/app/Models/ResultadoAnalisisEvidencia.php
+index c86902e..79e48b2 100644
+--- a/app/Models/ResultadoAnalisisEvidencia.php
++++ b/app/Models/ResultadoAnalisisEvidencia.php
+@@ -7,6 +7,8 @@
+ 
+ class ResultadoAnalisisEvidencia extends Model
+ {
++    protected $hidden = ['raw_payload_salida'];
++
+     protected $table = 'resultados_analisis_evidencias';
+ 
+     public const CALIDAD_OPTIMA = 'OPTIMA';
+diff --git a/app/Services/AI/AnalisisEvidenciaService.php b/app/Services/AI/AnalisisEvidenciaService.php
+index 792f518..206e0c7 100644
+--- a/app/Services/AI/AnalisisEvidenciaService.php
++++ b/app/Services/AI/AnalisisEvidenciaService.php
+@@ -8,6 +8,7 @@
+ use App\Models\ResultadoAnalisisEvidencia;
+ use App\Models\Subsanacion;
+ use App\Models\User;
++use App\Services\Evaluacion\EvidenciaPrivadaService;
+ use Illuminate\Database\Eloquent\Collection;
+ use Illuminate\Support\Facades\Storage;
+ use Illuminate\Support\Str;
+@@ -35,7 +36,7 @@ public function __construct(
+     public function solicitarAnalisis(Autoevaluacion $autoevaluacion, Subsanacion $subsanacion, ?User $user = null): AnalisisEvidencia
+     {
+         $path = $subsanacion->evidencia_url;
+-        if (! filled($path) || ! Storage::disk('local')->exists($path)) {
++        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path) || ! Storage::disk('local')->exists($path)) {
+             throw new RuntimeException('El archivo de evidencia física no existe en el almacenamiento privado.');
+         }
+ 
+@@ -56,6 +57,9 @@ public function solicitarAnalisis(Autoevaluacion $autoevaluacion, Subsanacion $s
+         }
+ 
+         $contenido = Storage::disk('local')->get($path);
++        if ($contenido === '' || @getimagesizefromstring($contenido) === false) {
++            throw new InvalidArgumentException('El archivo no contiene una imagen visual válida.');
++        }
+         $hashCalculado = hash('sha256', $contenido);
+         if (filled($subsanacion->hash_sha256) && ! hash_equals((string) $subsanacion->hash_sha256, (string) $hashCalculado)) {
+             throw new RuntimeException('El hash criptográfico del archivo físico no coincide con el registrado en la subsanación.');
+@@ -105,7 +109,7 @@ public function procesarAnalisis(AnalisisEvidencia $analisis): AnalisisEvidencia
+         }
+ 
+         $path = $subsanacion->evidencia_url;
+-        if (! filled($path) || ! Storage::disk('local')->exists($path)) {
++        if (! filled($path) || ! app(EvidenciaPrivadaService::class)->rutaPermitida($path) || ! Storage::disk('local')->exists($path)) {
+             $analisis->update([
+                 'estado_analisis' => AnalisisEvidencia::ESTADO_FALLIDO,
+                 'mensaje_error' => 'El archivo de evidencia física no se encuentra en el almacenamiento.',
+@@ -150,6 +154,9 @@ public function procesarAnalisis(AnalisisEvidencia $analisis): AnalisisEvidencia
+         try {
+             $resultadoGemini = $this->geminiService->analizarImagen($base64, $mime, $contextoTecnico);
+             $datosValidados = $this->validacionService->validarYSanear($resultadoGemini['datos']);
++            if ($datosValidados['criterion_code'] !== $contextoTecnico['codigo']) {
++                throw new InvalidArgumentException('El criterio devuelto no coincide con el análisis solicitado.');
++            }
+             $datosFinales = $this->correlacionService->contextualizar($datosValidados, $criterio);
+ 
+             ResultadoAnalisisEvidencia::updateOrCreate(
+@@ -172,7 +179,9 @@ public function procesarAnalisis(AnalisisEvidencia $analisis): AnalisisEvidencia
+                 ]
+             );
+ 
+-            $estadoFinal = ($datosFinales['image_quality'] === ResultadoAnalisisEvidencia::CALIDAD_ILEGIBLE || $datosFinales['evidence_relevance'] === ResultadoAnalisisEvidencia::RELEVANCIA_NO_RELACIONADA)
++            $estadoFinal = ($datosFinales['image_quality'] === ResultadoAnalisisEvidencia::CALIDAD_ILEGIBLE
++                || in_array($datosFinales['evidence_relevance'], [ResultadoAnalisisEvidencia::RELEVANCIA_NO_RELACIONADA, 'INDETERMINADA'], true)
++                || in_array($datosFinales['uncertainty_level'], ['ALTO', 'MUY_ALTO'], true))
+                 ? AnalisisEvidencia::ESTADO_REQUIERE_REVISION
+                 : AnalisisEvidencia::ESTADO_COMPLETADO;
+ 
+diff --git a/app/Services/AI/GeminiMultimodalService.php b/app/Services/AI/GeminiMultimodalService.php
+index 95f93bd..e8db012 100644
+--- a/app/Services/AI/GeminiMultimodalService.php
++++ b/app/Services/AI/GeminiMultimodalService.php
+@@ -148,7 +148,7 @@ public function analizarImagen(string $imagenBase64, string $mimeType, array $co
+         $datosRespuesta = $response->json();
+         $textoGenerado = $datosRespuesta['candidates'][0]['content']['parts'][0]['text'] ?? null;
+ 
+-        if (! filled($textoGenerado)) {
++        if (! is_string($textoGenerado) || trim($textoGenerado) === '') {
+             Log::warning('Gemini API: Respuesta sin contenido generado', [
+                 'modelo' => $this->model,
+                 'candidates_count' => count($datosRespuesta['candidates'] ?? []),
+@@ -156,6 +156,10 @@ public function analizarImagen(string $imagenBase64, string $mimeType, array $co
+             throw new RuntimeException('El modelo no devolvió un análisis procesable.');
+         }
+ 
++        if (strlen($textoGenerado) > 65536) {
++            throw new RuntimeException('La respuesta generada supera el límite permitido de 64 KiB.');
++        }
++
+         $jsonDecodificado = json_decode($textoGenerado, true);
+ 
+         if (! is_array($jsonDecodificado)) {
+diff --git a/app/Services/AI/ValidacionResultadoIAService.php b/app/Services/AI/ValidacionResultadoIAService.php
+index 6bc169a..3bb0be5 100644
+--- a/app/Services/AI/ValidacionResultadoIAService.php
++++ b/app/Services/AI/ValidacionResultadoIAService.php
+@@ -54,41 +54,16 @@ public function validarYSanear(array $rawResponse): array
+             }
+         }
+ 
+-        $calidad = (string) $rawResponse['image_quality'];
+-        if (! in_array($calidad, ResultadoAnalisisEvidencia::CALIDADES_VALIDAS, true)) {
+-            $calidad = ResultadoAnalisisEvidencia::CALIDAD_ACEPTABLE;
+-        }
+-
+-        $relevancia = (string) $rawResponse['evidence_relevance'];
+-        if (! in_array($relevancia, ResultadoAnalisisEvidencia::RELEVANCIAS_VALIDAS, true)) {
+-            $relevancia = ResultadoAnalisisEvidencia::RELEVANCIA_PARCIAL;
+-        }
+-
+-        $incertidumbre = (string) $rawResponse['uncertainty_level'];
+-        if (! in_array($incertidumbre, ResultadoAnalisisEvidencia::INCERTIDUMBRES_VALIDAS, true)) {
+-            $incertidumbre = ResultadoAnalisisEvidencia::INCERTIDUMBRE_MEDIO;
+-        }
++        $this->validarEstructura($rawResponse);
+ 
+         // Sanitización y normalización de elementos detectados
+         $elementosValidados = [];
+         if (is_array($rawResponse['detected_elements'])) {
+             foreach ($rawResponse['detected_elements'] as $elem) {
+-                if (! is_array($elem)) {
+-                    continue;
+-                }
+-
+-                $nombre = (string) ($elem['element_name'] ?? 'Elemento sin nombre');
+-                $status = (string) ($elem['visual_status'] ?? ResultadoAnalisisEvidencia::VISUAL_NO_OBSERVABLE);
+-                if (! in_array($status, ResultadoAnalisisEvidencia::VISUALES_VALIDOS, true)) {
+-                    $status = ResultadoAnalisisEvidencia::VISUAL_NO_OBSERVABLE;
+-                }
+-
+-                $confianza = strtoupper((string) ($elem['confidence_level'] ?? 'MEDIO'));
+-                if (! in_array($confianza, ['ALTO', 'MEDIO', 'BAJO'], true)) {
+-                    $confianza = 'MEDIO';
+-                }
+-
+-                $descripcion = (string) ($elem['description'] ?? '');
++                $nombre = $elem['element_name'];
++                $status = $elem['visual_status'];
++                $confianza = $elem['confidence_level'];
++                $descripcion = $elem['description'];
+                 $descripcion = $this->sanearTexto($descripcion);
+ 
+                 $elementosValidados[] = [
+@@ -102,9 +77,9 @@ public function validarYSanear(array $rawResponse): array
+ 
+         return [
+             'criterion_code' => (string) $rawResponse['criterion_code'],
+-            'image_quality' => $calidad,
+-            'evidence_relevance' => $relevancia,
+-            'uncertainty_level' => $incertidumbre,
++            'image_quality' => $rawResponse['image_quality'],
++            'evidence_relevance' => $rawResponse['evidence_relevance'],
++            'uncertainty_level' => $rawResponse['uncertainty_level'],
+             'detected_elements' => $elementosValidados,
+             'visual_observations' => $this->sanearArrayTextos((array) $rawResponse['visual_observations']),
+             'visible_conditions' => $this->sanearArrayTextos((array) $rawResponse['visible_conditions']),
+@@ -144,4 +119,58 @@ protected function sanearTexto(string $texto): string
+ 
+         return $limpio;
+     }
++
++    private function validarEstructura(array $datos): void
++    {
++        foreach (['criterion_code', 'pedagogical_summary'] as $campo) {
++            $this->validarTexto($datos[$campo], $campo);
++            if (trim($datos[$campo]) === '') {
++                throw new InvalidArgumentException("El campo {$campo} no puede estar vacío.");
++            }
++        }
++
++        foreach (['image_quality' => ResultadoAnalisisEvidencia::CALIDADES_VALIDAS,
++            'evidence_relevance' => ResultadoAnalisisEvidencia::RELEVANCIAS_VALIDAS,
++            'uncertainty_level' => ResultadoAnalisisEvidencia::INCERTIDUMBRES_VALIDAS] as $campo => $permitidos) {
++            $this->validarEnum($datos[$campo], $permitidos, $campo);
++        }
++
++        foreach (['detected_elements', 'visual_observations', 'visible_conditions', 'not_observable', 'photo_improvement_recommendations'] as $campo) {
++            if (! is_array($datos[$campo]) || ! array_is_list($datos[$campo]) || count($datos[$campo]) > 100) {
++                throw new InvalidArgumentException("El campo {$campo} debe ser una lista de hasta 100 elementos.");
++            }
++            foreach ($datos[$campo] as $item) {
++                if ($campo !== 'detected_elements') {
++                    $this->validarTexto($item, $campo);
++
++                    continue;
++                }
++                if (! is_array($item)) {
++                    throw new InvalidArgumentException('Elemento detectado inválido.');
++                }
++                foreach (['element_name', 'description'] as $texto) {
++                    $this->validarTexto($item[$texto] ?? null, $texto);
++                }
++                $this->validarEnum($item['visual_status'] ?? null, ResultadoAnalisisEvidencia::VISUALES_VALIDOS, 'visual_status');
++                $this->validarEnum($item['confidence_level'] ?? null, ['ALTO', 'MEDIO', 'BAJO'], 'confidence_level');
++            }
++        }
++    }
++
++    private function validarEnum(mixed $valor, array $permitidos, string $campo): void
++    {
++        if (! is_string($valor) || ! in_array($valor, $permitidos, true)) {
++            throw new InvalidArgumentException("Valor desconocido o inválido para {$campo}.");
++        }
++    }
++
++    private function validarTexto(mixed $texto, string $campo): void
++    {
++        if (! is_string($texto) || strlen($texto) > 10000) {
++            throw new InvalidArgumentException("El campo {$campo} debe ser texto de hasta 10000 bytes.");
++        }
++        if (preg_match('/\b(?:certifico|certificamos|aprobado oficialmente|(?:cuenta con|tiene|otorga) (?:una )?certificaci[oó]n oficial)\b/iu', $texto)) {
++            throw new InvalidArgumentException('El análisis visual no puede emitir certificaciones oficiales.');
++        }
++    }
+ }
+diff --git a/app/Services/Evaluacion/IntegridadEvaluacionService.php b/app/Services/Evaluacion/IntegridadEvaluacionService.php
+index aafc5b9..383570a 100644
+--- a/app/Services/Evaluacion/IntegridadEvaluacionService.php
++++ b/app/Services/Evaluacion/IntegridadEvaluacionService.php
+@@ -3,6 +3,7 @@
+ namespace App\Services\Evaluacion;
+ 
+ use App\Models\Autoevaluacion;
++use JsonException;
+ 
+ class IntegridadEvaluacionService
+ {
+@@ -49,7 +50,7 @@ public function generarJsonCanonico(array $payload): string
+         $copia = $payload;
+         $this->normalizarArrayDeterminista($copia);
+ 
+-        return (string) json_encode($copia, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
++        return json_encode($copia, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+     }
+ 
+     /**
+@@ -60,11 +61,8 @@ public function generarJsonCanonico(array $payload): string
+     public function calcularHashIntegridad(array|Autoevaluacion $target): string
+     {
+         if ($target instanceof Autoevaluacion) {
+-            $payload = $target->payload_canonico;
+-            if (is_string($payload)) {
+-                $payload = (array) json_decode($payload, true);
+-            }
+-            if (! is_array($payload)) {
++            $payload = $this->resolverPayload($target->payload_canonico);
++            if ($payload === null) {
+                 return '';
+             }
+         } else {
+@@ -92,19 +90,18 @@ public function verificarIntegridadHash(Autoevaluacion $autoevaluacion): array
+     {
+         $hashAlmacenado = $autoevaluacion->hash_integridad;
+         $payloadRaw = $autoevaluacion->payload_canonico;
++        $payload = $this->resolverPayload($payloadRaw);
+ 
+-        if (empty($hashAlmacenado) || empty($payloadRaw)) {
++        if (empty($hashAlmacenado) || empty($payloadRaw) || $payload === null) {
+             return [
+                 'estado' => self::ESTADO_NO_VERIFICABLE,
+                 'metodo' => self::METODO_SIN_SNAPSHOT,
+-                'mensaje' => 'La autoevaluación no cuenta con hash o snapshot canónico registrado.',
++                'mensaje' => 'La autoevaluación no cuenta con hash o snapshot canónico válido registrado.',
+                 'hash_almacenado' => $hashAlmacenado,
+                 'hash_calculado' => null,
+             ];
+         }
+ 
+-        $payload = is_array($payloadRaw) ? $payloadRaw : (array) json_decode((string) $payloadRaw, true);
+-
+         // 1. Verificación canónica estricta
+         $hashCalculado = $this->calcularHashIntegridad($payload);
+ 
+@@ -143,4 +140,18 @@ public function verificarIntegridadHash(Autoevaluacion $autoevaluacion): array
+             'hash_calculado' => $hashCalculado,
+         ];
+     }
++
++    /** @return array<string|int, mixed>|null */
++    private function resolverPayload(mixed $payload): ?array
++    {
++        if (is_string($payload)) {
++            try {
++                $payload = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
++            } catch (JsonException) {
++                return null;
++            }
++        }
++
++        return is_array($payload) ? $payload : null;
++    }
+ }
+diff --git a/phpunit.xml b/phpunit.xml
+index baa7b52..74a9479 100644
+--- a/phpunit.xml
++++ b/phpunit.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+-         bootstrap="vendor/autoload.php"
++         bootstrap="tests/bootstrap.php"
+          colors="true"
+ >
+     <testsuites>
+@@ -18,12 +18,11 @@
+         </include>
+     </source>
+     <php>
+-        <env name="APP_ENV" value="testing"/>
++        <env name="APP_ENV" value="testing" force="true"/>
+         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+         <env name="BCRYPT_ROUNDS" value="4"/>
+         <env name="CACHE_STORE" value="array"/>
+-        <env name="DB_CONNECTION" value="mysql"/>
+-        <env name="DB_DATABASE" value="sisweb_test"/>
++        <env name="DB_CONNECTION" value="mysql" force="true"/>
+         <env name="MAIL_MAILER" value="array"/>
+         <env name="PULSE_ENABLED" value="false"/>
+         <env name="QUEUE_CONNECTION" value="sync"/>
+diff --git a/tests/Feature/AnalisisMultimodalGeminiTest.php b/tests/Feature/AnalisisMultimodalGeminiTest.php
+index 100b3f8..5b98b5f 100644
+--- a/tests/Feature/AnalisisMultimodalGeminiTest.php
++++ b/tests/Feature/AnalisisMultimodalGeminiTest.php
+@@ -17,6 +17,7 @@
+ use Illuminate\Support\Facades\Queue;
+ use Illuminate\Support\Facades\Storage;
+ use Illuminate\Support\Str;
++use Tests\Support\GeminiFixture;
+ 
+ use function Pest\Laravel\actingAs;
+ use function Pest\Laravel\getJson;
+@@ -73,7 +74,9 @@ function helperCrearSubsanacionConArchivo(Autoevaluacion $autoevaluacion, string
+ {
+     $criterio = CriterioNormativo::where('codigo_criterio', 'CRIT-01')->firstOrFail();
+ 
+-    $archivo = UploadedFile::fake()->create("evidencia_test.{$extension}", $tamanoKb);
++    $archivo = in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)
++        ? UploadedFile::fake()->createWithContent("evidencia_test.{$extension}", GeminiFixture::imagen())
++        : UploadedFile::fake()->create("evidencia_test.{$extension}", $tamanoKb);
+     $ruta = "evidencias/subsanaciones/{$autoevaluacion->uuid_trazabilidad}/CRIT-01_test.{$extension}";
+     Storage::disk('local')->putFileAs("evidencias/subsanaciones/{$autoevaluacion->uuid_trazabilidad}", $archivo, "CRIT-01_test.{$extension}");
+ 
+diff --git a/tests/Feature/ChecklistDinamicoEndpointTest.php b/tests/Feature/ChecklistDinamicoEndpointTest.php
+index f2d180b..761c2a4 100644
+--- a/tests/Feature/ChecklistDinamicoEndpointTest.php
++++ b/tests/Feature/ChecklistDinamicoEndpointTest.php
+@@ -15,8 +15,9 @@
+  */
+ function crearAutoevaluacionTest(array $params = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create([
++    $evaluacion = Autoevaluacion::create([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'nombre_comercio' => $params['nombre'] ?? 'Local de Prueba Huancayo',
+         'sector_huancayo' => 'Huancayo Centro',
+         'usa_glp' => array_key_exists('usa_glp', $params) ? $params['usa_glp'] : true,
+@@ -27,6 +28,10 @@ function crearAutoevaluacionTest(array $params = []): Autoevaluacion
+         'semaforo' => 'VERDE',
+         'detalle_checklist' => [],
+     ]);
++
++    test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++
++    return $evaluacion;
+ }
+ 
+ /**
+diff --git a/tests/Feature/ChecklistInteractivaViewTest.php b/tests/Feature/ChecklistInteractivaViewTest.php
+index 9140531..36f212a 100644
+--- a/tests/Feature/ChecklistInteractivaViewTest.php
++++ b/tests/Feature/ChecklistInteractivaViewTest.php
+@@ -12,8 +12,9 @@
+ 
+ function crearEvaluacionParaChecklist(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'nombre_comercio' => 'Bodega Los Rosales Huancayo',
+         'sector_huancayo' => 'San Carlos',
+         'direccion' => 'Jr. Puno 450',
+@@ -25,6 +26,12 @@ function crearEvaluacionParaChecklist(array $overrides = []): Autoevaluacion
+         'semaforo' => 'VERDE',
+         'detalle_checklist' => [],
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ test('1. La pagina Checklist se renderiza correctamente como componente Inertia Evaluacion/Checklist', function () {
+diff --git a/tests/Feature/ChecklistUX032Test.php b/tests/Feature/ChecklistUX032Test.php
+index dd20df5..7881a03 100644
+--- a/tests/Feature/ChecklistUX032Test.php
++++ b/tests/Feature/ChecklistUX032Test.php
+@@ -17,8 +17,9 @@
+ 
+ function crearEvaluacionUX03(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'estado' => Autoevaluacion::ESTADO_INICIADA,
+         'nombre_comercio' => 'Bodega Central Huancayo',
+         'sector_huancayo' => 'Huancayo Centro',
+@@ -31,6 +32,12 @@ function crearEvaluacionUX03(array $overrides = []): Autoevaluacion
+         'semaforo' => 'VERDE',
+         'detalle_checklist' => [],
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ test('1. Guardado parcial: permite guardar una sola respuesta y mantiene el estado INICIADA', function () {
+diff --git a/tests/Feature/ClasificacionTramiteResumenTest.php b/tests/Feature/ClasificacionTramiteResumenTest.php
+index d9527d1..b26d4ae 100644
+--- a/tests/Feature/ClasificacionTramiteResumenTest.php
++++ b/tests/Feature/ClasificacionTramiteResumenTest.php
+@@ -10,8 +10,9 @@
+ 
+ function crearEvaluacionParaClasificacion(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'nombre_comercio' => 'Bodega Test Huancayo',
+         'ruc' => '20987654321',
+         'direccion' => 'Av. Ejemplo 456',
+@@ -27,6 +28,12 @@ function crearEvaluacionParaClasificacion(array $overrides = []): Autoevaluacion
+         'semaforo' => 'VERDE',
+         'detalle_checklist' => [],
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ test('el resumen clasifica en ITSE Posterior cuando el riesgo declarado es bajo o medio', function () {
+diff --git a/tests/Feature/DesacoplamientoFlujoLegadoTest.php b/tests/Feature/DesacoplamientoFlujoLegadoTest.php
+index 675741f..b789b52 100644
+--- a/tests/Feature/DesacoplamientoFlujoLegadoTest.php
++++ b/tests/Feature/DesacoplamientoFlujoLegadoTest.php
+@@ -14,8 +14,9 @@
+ 
+ function crearEvaluacionV2Desacople(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'codigo_acceso' => 'CHK-'.strtoupper(Str::random(6)),
+         'nombre_comercio' => 'Bodega V2 Decoupled',
+         'funcion_economica' => 'Comercio',
+@@ -30,12 +31,19 @@ function crearEvaluacionV2Desacople(array $overrides = []): Autoevaluacion
+         'detalle_checklist' => [],
+         'estado' => Autoevaluacion::ESTADO_INICIADA,
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ function crearEvaluacionLegacyDesacople(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'nombre_comercio' => 'Bodega V1 Legacy',
+         'funcion_economica' => 'Comercio',
+         'ruc' => '20987654321',
+@@ -49,6 +57,12 @@ function crearEvaluacionLegacyDesacople(array $overrides = []): Autoevaluacion
+         'estado' => Autoevaluacion::ESTADO_INICIADA,
+         'payload_canonico' => null,
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ test('UX06-01: acceso a autoevaluacion.resultado con evaluacion V2 iniciada redirige con 302 a autoevaluacion.resumen', function () {
+diff --git a/tests/Feature/RecursosEducativosIntegrationTest.php b/tests/Feature/RecursosEducativosIntegrationTest.php
+index e7c3ddd..70b575b 100644
+--- a/tests/Feature/RecursosEducativosIntegrationTest.php
++++ b/tests/Feature/RecursosEducativosIntegrationTest.php
+@@ -19,8 +19,9 @@
+ 
+ function crearAutoevaluacionParaPruebas(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'estado' => Autoevaluacion::ESTADO_INICIADA,
+         'nombre_comercio' => 'Librería Central',
+         'funcion_economica' => 'Comercio',
+@@ -38,6 +39,12 @@ function crearAutoevaluacionParaPruebas(array $overrides = []): Autoevaluacion
+             'tiene_estanterias_altas' => false,
+         ],
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ it('entrega recursos educativos activos en el checklist HTTP (Inertia y JSON) bajo criterio.recursos_educativos', function () {
+diff --git a/tests/Feature/ResumenDescriptivoTest.php b/tests/Feature/ResumenDescriptivoTest.php
+index 334e4e2..2d47c40 100644
+--- a/tests/Feature/ResumenDescriptivoTest.php
++++ b/tests/Feature/ResumenDescriptivoTest.php
+@@ -13,8 +13,9 @@
+ 
+ function crearEvaluacionParaResumen(array $overrides = []): Autoevaluacion
+ {
+-    return Autoevaluacion::create(array_merge([
++    $evaluacion = Autoevaluacion::create(array_merge([
+         'uuid_trazabilidad' => (string) Str::uuid(),
++        'session_token' => Str::random(40),
+         'nombre_comercio' => 'Cafetería Real Huancayo',
+         'ruc' => '20123456789',
+         'direccion' => 'Calle Real 123',
+@@ -26,6 +27,12 @@ function crearEvaluacionParaResumen(array $overrides = []): Autoevaluacion
+         'semaforo' => 'VERDE',
+         'detalle_checklist' => [],
+     ], $overrides));
++
++    if ($evaluacion->user_id === null && ! array_key_exists('session_token', $overrides)) {
++        test()->withSession(['guest_session_token' => $evaluacion->session_token]);
++    }
++
++    return $evaluacion;
+ }
+ 
+ test('1. La ruta GET /autoevaluacion/{uuid}/resumen responde 200 y renderiza el componente Inertia Evaluacion/Resumen', function () {
+diff --git a/tests/TestCase.php b/tests/TestCase.php
+index fe1ffc2..13106f4 100644
+--- a/tests/TestCase.php
++++ b/tests/TestCase.php
+@@ -2,9 +2,18 @@
+ 
+ namespace Tests;
+ 
++use Illuminate\Foundation\Application;
+ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
++use Tests\Support\TestEnvironment;
+ 
+ abstract class TestCase extends BaseTestCase
+ {
+-    //
++    public function createApplication(): Application
++    {
++        $this->traitsUsedByTest = array_flip(class_uses_recursive(static::class));
++        $app = TestEnvironment::createApplication();
++        TestEnvironment::verify($app);
++
++        return $app;
++    }
+ }

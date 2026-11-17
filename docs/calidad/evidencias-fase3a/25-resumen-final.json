@@ -1,0 +1,9 @@
+﻿{
+    "tests":  525,
+    "assertions":  4014,
+    "failures":  0,
+    "errors":  0,
+    "skipped":  0,
+    "exit_code":  0,
+    "source":  "24-regresion-final.junit.xml"
+}

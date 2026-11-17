@@ -1,0 +1,42 @@
+﻿[
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Http\\Controllers\\EvaluacionController.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Jobs\\AnalisisEvidenciaJob.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Models\\ResultadoAnalisisEvidencia.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Services\\AI\\AnalisisEvidenciaService.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Services\\AI\\GeminiMultimodalService.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\app\\Services\\AI\\ValidacionResultadoIAService.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\tests\\Feature\\AnalisisMultimodalGeminiTest.php",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\docs\\calidad\\03-matriz-hallazgos.csv",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\docs\\calidad\\08-casos-prueba-tdd.csv",
+        "status":  "changed"
+    },
+    {
+        "path":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb\\docs\\calidad\\11-matriz-trazabilidad-actualizada.csv",
+        "status":  "changed"
+    }
+]

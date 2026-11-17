@@ -1,0 +1,9 @@
+﻿Diagnóstico posterior a los cambios de arranque de XAMPP.
+Proceso mysqld observado: PID 23964.
+Puerto local observado: 3306, escucha ::.
+Configuración leída en C:/xampp/mysql/bin/my.ini: innodb_force_recovery = 2.
+Conexión de solo lectura con la cuenta exclusiva: QueryException/PDOException, código 1045.
+No se modificaron credenciales ni configuración del servidor.
+Docker respondió OSType=linux. Imagen MariaDB no presente entre las imágenes locales listadas.
+No se descargaron imágenes ni se crearon contenedores.
+No se ejecutaron pruebas o migraciones en este intento.

@@ -1,0 +1,173 @@
+{
+  "browser": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+  "synthetic": true,
+  "real_backend": false,
+  "observations": [
+    {
+      "pantalla": "Inicio",
+      "h1": 1,
+      "width": 320,
+      "content": 311,
+      "title": "Identifica qué revisar en tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Inicio",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Identifica qué revisar en tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Inicio",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Identifica qué revisar en tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Inicio",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Identifica qué revisar en tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Datos",
+      "h1": 1,
+      "width": 320,
+      "content": 311,
+      "title": "Cuéntanos sobre tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Datos",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Cuéntanos sobre tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Datos",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Cuéntanos sobre tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Datos",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Cuéntanos sobre tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Condiciones",
+      "h1": 1,
+      "width": 320,
+      "content": 311,
+      "title": "Revisa las condiciones de tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Condiciones",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Revisa las condiciones de tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Condiciones",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Revisa las condiciones de tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Condiciones",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Revisa las condiciones de tu local",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Resumen",
+      "h1": 1,
+      "width": 320,
+      "content": 311,
+      "title": "Tu resumen de autoevaluación",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Resumen",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Tu resumen de autoevaluación",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Resumen",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Tu resumen de autoevaluación",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Resumen",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Tu resumen de autoevaluación",
+      "missingLabels": 0
+    }
+  ],
+  "payload": {
+    "url": "/autoevaluacion",
+    "body": {
+      "evaluacion_origen_uuid": "",
+      "nombre_comercio": "Local sintético UX",
+      "funcion_economica": "Comercio",
+      "ruc": "",
+      "direccion": "",
+      "referencia": "",
+      "area_m2": "",
+      "pisos": "",
+      "aforo": "",
+      "usa_glp": false,
+      "galones_glp": "",
+      "usa_caldero": null,
+      "usa_liquidos_inflamables": null,
+      "tiene_equipos_fritura": null,
+      "tiene_escaleras": null,
+      "tiene_estanterias_altas": null,
+      "en_sotano": null,
+      "galeria_sin_itse": null,
+      "combustibles_liquidos_m3": ""
+    }
+  },
+  "checklist_request": {
+    "url": "/autoevaluacion/demo/checklist",
+    "body": {
+      "respuestas": [
+        {
+          "codigo": "CRIT-01",
+          "estado": "CUMPLE_DECLARADO",
+          "notas": null
+        }
+      ]
+    }
+  },
+  "runtime_errors": [],
+  "external_http_blocked": true
+}

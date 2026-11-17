@@ -1,0 +1,110 @@
+﻿[
+    {
+        "file":  "02-baseline.junit.xml",
+        "tests":  569,
+        "assertions":  4201,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "84.717238"
+    },
+    {
+        "file":  "03-rojo.junit.xml",
+        "tests":  27,
+        "assertions":  20,
+        "failures":  18,
+        "errors":  9,
+        "skipped":  0,
+        "time":  "13.373919"
+    },
+    {
+        "file":  "04-rojo-confirmado.junit.xml",
+        "tests":  27,
+        "assertions":  36,
+        "failures":  27,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "13.502618"
+    },
+    {
+        "file":  "04b-rojo-limites.junit.xml",
+        "tests":  4,
+        "assertions":  4,
+        "failures":  4,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "11.210163"
+    },
+    {
+        "file":  "05-verde.junit.xml",
+        "tests":  31,
+        "assertions":  71,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "18.560373"
+    },
+    {
+        "file":  "06-regresion-modulos.junit.xml",
+        "tests":  56,
+        "assertions":  208,
+        "failures":  12,
+        "errors":  5,
+        "skipped":  0,
+        "time":  "23.977522"
+    },
+    {
+        "file":  "07-refactor.junit.xml",
+        "tests":  64,
+        "assertions":  239,
+        "failures":  2,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "23.220683"
+    },
+    {
+        "file":  "08-casos-ampliados.junit.xml",
+        "tests":  89,
+        "assertions":  318,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "24.227184"
+    },
+    {
+        "file":  "09-trazabilidad-rojo.junit.xml",
+        "tests":  2,
+        "assertions":  7,
+        "failures":  2,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "11.910298"
+    },
+    {
+        "file":  "10-trazabilidad-verde.junit.xml",
+        "tests":  2,
+        "assertions":  10,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "11.412150"
+    },
+    {
+        "file":  "12-modulos-aislamiento.junit.xml",
+        "tests":  178,
+        "assertions":  655,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "33.206338"
+    },
+    {
+        "file":  "14-regresion-final.junit.xml",
+        "tests":  631,
+        "assertions":  4381,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "71.184231"
+    }
+]

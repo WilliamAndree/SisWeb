@@ -1,0 +1,11 @@
+.git
+**/node_modules
+**/vendor
+**/scratch
+**/storage/logs/*
+**/public/build
+**/public/hot
+**/.env*
+!**/.env.example
+!**/.env.testing.example
+docs

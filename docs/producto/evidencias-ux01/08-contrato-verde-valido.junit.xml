@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\ContratosFrontendUxTest" file="tests\Feature\ContratosFrontendUxTest.php" tests="3" assertions="69" errors="0" failures="0" skipped="0" time="11.953593">
+    <testsuite name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido" tests="3" assertions="69" errors="0" failures="0" skipped="0" time="11.953593">
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('COMPLETADO')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('COMPLETADO')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="23" time="11.690490"/>
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('REQUIERE_REVISION')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('REQUIERE_REVISION')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="23" time="0.116376"/>
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('EN_PROCESO')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('EN_PROCESO')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="23" time="0.146727"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

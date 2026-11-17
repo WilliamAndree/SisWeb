@@ -1,0 +1,5342 @@
+﻿[
+    {
+        "path":  ".env",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".env.testing",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Console/Commands/GenerarReadmeAutomatico.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Exceptions/CodigoAccesoGenerationException.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/Controller.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/DirectorioController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/EvaluacionController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/PlanoEstablecimientoController.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Http/Controllers/Auth/AuthController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/Traits/EvaluacionHelperTrait.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Middleware/HandleGuestSession.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Middleware/HandleInertiaRequests.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/SolicitudAfiliacionRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/StoreAutoevaluacionRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/StoreChecklistDeclaracionesRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/Settings/ProfileUpdateRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Jobs/AnalisisEvidenciaJob.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ActividadComercial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/AmbienteZona.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/AnalisisEspacial.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Models/AnalisisEvidencia.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/Autoevaluacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/CategoriaSubsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ConectorCirculacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/CriterioNormativo.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ElementoEspacial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/HistorialSubsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/NivelPiso.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/PlanoEstablecimiento.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ProveedorRecurso.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/RecursoEducativo.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ReglaAplicabilidad.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/RespuestaAutoevaluacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ResultadoAnalisisEvidencia.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SimulacionRevision.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SolicitudAfiliacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/Subsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SugerenciaEspacial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/User.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/VersionPlano.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Providers/AppServiceProvider.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/ApplicabilityEngineService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/DirectorioAliadosService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/GeoLocationService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/ItseRiskService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/AnalisisEvidenciaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/GeminiMultimodalService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/MotorCorrelacionNormativaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/ValidacionResultadoIAService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/AnalisisEspacialService.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Services/Espacio/GestionEspacialService.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Services/Espacio/SugerenciaEspacialService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/Geometria/GeometriaPuntoSegmento.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Services/Evaluacion/EvaluacionSyncService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Evaluacion/EvidenciaPrivadaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Evaluacion/IntegridadEvaluacionService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Traits/ApplicabilityEvaluationHelpersTrait.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/bootstrap.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Pest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/preflight.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/start-native-mariadb.ps1",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/TestCase.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/coverage/clover.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/coverage/phpunit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AfiliacionAliadosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AnalisisEspacialPreventivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AnalisisMultimodalGeminiTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutoevaluacionIntegridadCicloVidaTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutoevaluacionReglasTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutorizacionRutasUuidTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutorizacionUniformeTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CheckItseIntegrationTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CheckItseModulosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistConsistenciaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistDinamicoEndpointTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistInteractivaViewTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistUX032Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CierreAutoevaluacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ClasificacionTramiteResumenTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ContratoYSeguridadFase0Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ConversionInvitadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DashboardYPerfilCiudadanoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DemoWalkthroughSeederTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DesacoplamientoFlujoLegadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/EvidenciasSeguridadTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/FlujosCriticosTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/GeminiResilienciaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/HistorialAutoevaluacionesTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/HybridIdentityTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/InformePreventivoFase16Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/InformePreventivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/JornadaCompletaComercianteTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ModeloEspacialVersionadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/Paso1DatosEstablecimientoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/Paso9HistorialVinculacionAccesoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/PortadaYCapturaInicialTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/QARevisionFinalFase18Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RecursosCercanosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RecursosEducativosIntegrationTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ReevaluacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RegistroInicialChecklistTransitionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ResultadoActualizadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ResumenDescriptivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SubsanacionDirectaTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SubsanacionEvidenciasTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SugerenciasEspacialesMultimodalTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/TrazabilidadForenseSubsanacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Support/GeminiFixture.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Support/TestEnvironment.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ApplicabilityEngineServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/GeoLocationServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/GeometriaPuntoSegmentoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/IntegridadCanonicaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/IntegridadEvaluacionServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ItseRiskServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/NormativaArchitectureModelsTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/RecursoEducativoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/StoreAutoevaluacionRequestTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/TestEnvironmentTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ValidacionResultadoIAServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ValidacionResultadoIATddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/css/app.css",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/app.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/ssr.jsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/EvidenciaUploadModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Footer.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/GuiaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ModalConfirmarReevaluacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ModalGuardarProgreso.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Navbar.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ProveedoresCercanosModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/RecursoEducativoModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/RegistrarLocalButton.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/VideoEducativoModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Directorio/ModalAfiliacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Directorio/ModalContactoProveedor.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Espacio/PlanoEditor2D.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/CajaNotasSubsanacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/DesgloseEspecialidades.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/DiagnosticoMultidimensional.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/GuiaPedagogicaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/HojaModeloAnexo.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/NubeAsistenciaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/PanelResultadoAnalisisIA.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo01.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo02.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo03.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo04.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/index.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/types.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/shared/AuditoriaLogs.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/shared/CryptoSealBadge.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/accordion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/button.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/card.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/dialog.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/progress.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/tabs.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/data/checklistCatalogo.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/data/estados.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-appearance.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-initials.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-mobile-navigation.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-mobile.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/layouts/AppLayout.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/layouts/AuthLayout.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/lib/riesgo.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/lib/utils.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Auth/Login.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Auth/Register.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Dashboard/Dashboard.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Directorio/Index.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/AnexoOficial.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Checklist.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/CroquisEditor.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/ExpedienteLocal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Home.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/InformePreventivo.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/MisAutoevaluaciones.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Nueva.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Resultado.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Resumen.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/SimulacionRevision.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Subsanacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/SubsanacionDirecta.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeDatosGenerales.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeMatrizCondiciones.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeTrazabilidadLegal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/ResumenHeader.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Perfil/PerfilUsuario.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/contrato.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/global.d.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/index.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/vite-env.d.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/utils/normativaFormatters.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/views/app.blade.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/00lo1bPZyH2KsZBqV82FQmWigJZsEMmXWLTjudGq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/02ayf6ulk5osI31zSFoirQRKSeVwQzHdxeJ1GOhj.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/06evMKQPMLr3eMmizi8KTlOSFpozcbIUrJFFU7Re.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/0JjiP4ttj6kTT3mOUaaIn1Pzu18hQmqFPKl7y4sF.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/0oGDlO4ghZl9sdlAftpziLMOO32DWslk9xhwC5V7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/11g9sku99VR8g4uo3X0UBx1CtjgUHzbzVSCCvEIJ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/14Q06ynDhQE7Sr8qVFhSEV9tQPv1N2PTy6uWvbm4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/16jhLyQSXoUnKV9JRgPJqoa8NK2jjAhY8emuo1ic.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/19alLgSZIt7OL8JagGEmid9xJC0Znq8DzjeF1Ldg.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/1DhhETzt6rbpETHLsC3KJjb8kpTf7CdM5nhva2WG.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/1QIOWrxpCVT4kMi7keSBr0H7cacOXzsf98C2ND0E.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/1uVaWwIMCHZcL84zxXmB7cZeb7s1V1Yc8dUb7aF1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/23MxXcvGlzturffp2t2YH5LxiMzTQ2wH45Jpp4Fr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2AMXUPWf9XbIl1IWCUzSnEc06qYZ0WKBerl3cLwO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2AzVX5Tk86hmRIfqoPx5eG86iPr1DPHdbUZD78Yc.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2DdNsMrptTGz1nevdxObqK96aU3esUklVVjuDexU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2gASLE7uF8P8WDRyFEZ2reFBFBbck7hg657lZdxR.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2mZUFTEbp06XLKMAi2VMeW9mrJapg4PffpnvLzc3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2oRMOVgsGv4LjBa0LnRRjekzbrV8ERfaCK0IiDHm.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2sOTF436Zet1gE8Go9WjTvTb0YWH3fiuZ1fSUwfa.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/31ugJN7LUfqtrgXyaV78HIQQOM6SsS9wEBIShVUm.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/38dXVEVyHUzsrWt49NLfLlsP43DrIGcypkWVoQzN.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/3iUuBVeXRSymB5ArajR5zJ7o1FAs5eA8KqLWNhOb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/3M2Acx6sXRcUa0qyIXQZF0VsjzkABtYJ60cRcQeg.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/3mtqDtTIvwJaOXUEhK27QjkPSSu3zZuNFgI08vgw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/3uVVfUO5yItYwSpRFNXI7Y1mX3ojtlPyiA0CBr1M.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/45qG0dvG0newxBvsgc6kuQFVCTP8uroaVSWo93Ve.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/466XH3KNZ7KMEMjl9hEmTahI43UnFJ8G5kidjsrV.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4aqfGCoSmrzprFCxk5KNrXTIz2CCLVeXcAvaPZ70.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4FfUGpWZUwE23Pra6jerqCbQ0FZc0tFJbxmjVufw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4kMfOmavjfFdWxagBvRqOJkQSBvL4qoiJyB66wuf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4nMTJVTLhxsuxlC9JbM59Yr0wXTS8Km5YWa6xvPP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4omQy21gnZsQOxhUAc9oyVoi4ofaWKt0hJBALVAr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4QuM4z7jRaXfWFURQL0ihb4GosBfMDcG10eeYJI3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4sedg4ZiwuvNDYphjfjgR6M342myrAwp00O3NDNZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4T5xucGdw3N7pKW3Po0fqNHnMypaNzOGy2oNK5xo.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/4TNB4nYblA7x38dNq6URl6SFijUNmRE3Ho3102hI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/561kKecLZFe5iPjNn4VpWUs2n21WnngA58oZawpG.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5I4KIHh5i0B1g8UyKr3m6y2mdraLT2L4ZjzrR7JK.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5mfwZlg9ipcfaAFWuPYNJry0TlKgkNpCPhKx49Tm.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5U68ewLPXJ5yQbzqtnpfErLP1oyrwz0paINjt3Ez.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5VPX5VfBT0O8CgWJ15AyVfSGj6qPKE85lDltrIcW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5YgVKm60DRMlniB3ZsmshnBGPJvS7KwtL0mh4bq1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6Fg0niibOGURooEmMEzZHlPmgbSSv16sNgMOiYT3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6fWjPnkftt9A8f7o5LM3K3WhqxemGd3tTUYrWdZP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6NqL3LYJIvqLm2LegpmLGAwpaHp8B3MzXXuGB2GF.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6u16u8gQihmr20GC1ttE7wauqu3k6zNUeC73xNii.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6WHHnljIZOpZK5vl3tYRYnTtI7OIN2BBFbbUxLqf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6yfdeRgKPhGOiXZCEGM8HWmEpJmztsppMY0Mp4x4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6YkaR0rGhadBzro4rgYkkr1ZFhVkTFyohA9n5xen.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/72q4AQ6HQq4xCFRgXDge5mc6Bhf5E9NLYhxYcslY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/7axhMWxjYDT54tjqv74iQ5LwygMGnRLRG7eQh7yd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/7iyEsWGkmQeaTVp5bSTzPVY9GCI9beELqEXKWsMr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/7kDqE3rJ851sKmDeiZc3FuetY6XcBt6PjZ3A4GXf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/7ZCESkaTzswe2JWmCelzucvrnIlCqxSJPVAmKhv6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8Bki8QHdn18CaxBKLHtxAubRgVQjQEnxOvKYsrQ7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8iFMEBncF04oAY3SaOXHJKtOhQeFdhemO7ehxU0J.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8IhNroZUV7BhNLJeIwAef7W1ZOc1OmJxXKvKSy7X.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8LTooowphAkatsRgKAyutOWN0qGllEbaDgWDda9L.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8twzWHrQBWmaRADdrC3pMWQSrk4FgUQNJAe9cSaK.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8xOjnMGJVvJAekr55o8I80D6wSxR1MRXRqQ31Kvg.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/8YCWlUkEdWTrwNf0MU5F4r6yZynx1MJFHnrBm9he.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/99wArjfzxCH5moTePiLALLxWRQngMLQEYAgylmg9.jpg",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9cXkE5dBupKhMFbM6vMqSbUk7MMICLrJ0tk9dQBh.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9D3wrohr56ex2mdraPqjD2ctx4tdBJFekddIMnIv.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9FFnMn7DHQRIzky62SN9yL50ncikoTvnfMkKtGFn.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9rF04CXHbXG8t8ArSm9NPI2lyA4ExbKtpjx3SV10.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9rnXiXmsAt41yKwAiKsIoevAoZB40UF30gl8wE2J.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9SkBAUY6jwNpBWlCnM0rhLw5Zays20rnQstnQRXy.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9XMCeXOXiwBE2ivC1NCMldkkysp6zSsMUgRhh5Cw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9XWyEWP1Z5TSACHU4O8M6GKKXgxMwxkquslMSzo4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/9yru9G6FH8DUVkcvBoRMypr5mLh7DWrtxU70PFEC.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/A0R5nSdtSrtXBM9s824WfstARfcTtWC0uZ8reEsK.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/A1ATVXYDVAEThLIn61lxnazZopoqfAR0i45zagij.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/A1STF003yBqb8WsQ6WBmJ8RVoBCWj3LAzr7ktHyS.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/aoO9DLFWTAwEpZh6OtefnzIgvjx43b71NjXiuIuj.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/apDDy4eCYodpg1SZTNBFKxMigZj6HMDP9AGRxFPf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/AT0jQGbFHurdVOxvKxsShHdUyOz6T5v2B1K0BAd4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/AV1QPepMFm0o2OxCZYLkh2j4qUAsM87gDLmG8oGk.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/AwAmSNgsiJNxBUMd9HYHwaITwMdymV75gWQnRUSd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Azy7F1jedJPj6SNtdI9qRJ4mgAAqj36q2cdGLs18.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/B88uBSHDTBncyVVBkKnJzlrp48XTuL3j1nJO4biQ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/BaWhg7Iic2nvjYBX5jcFhEuRsuDbGpirhYLSf6vd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bbpOHplSwe0PbsS7tyq5TfiTSogAFAA8EY1apXoK.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bE3vyxOuRYI19lX1S6OxByFswHHNW74tPihCVFIS.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Bed15TSEVsC6iRAm8387PIFVcnwsevPhK5AS0QTt.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/BfUC4GMARGcggQL4tY5GHAeXSddDplP8fvNjaF8V.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bJVgQfcjLMZpxJeX3T3ONslSTG0BCA9sjel1Tg1w.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bKthAdSzuODYCwRMHIIrirgMXSSx04HFhz5caxoP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bL4EPCPm8vUoopxuHw55nmqCIDG27oniCMVaB5Jc.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bO5HeaXQRxgRUjad4SrG72Ykrmhy1Zt1Xs1rhvYd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/BonsgrAvOnH23dvfaPsAArSEskvbhl3B1Iaf9lCk.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bV3ptR8TWyQW8ABhAlK3J0VQiSGjgNbnKMcgDrQP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/bZxmbwbcRs1HMzLBi66uowNfdDjb44Z12JKIjeEH.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/C1cQpJvQQShXOEFhdeiusP1yTePTgtre8IYUtYqt.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/C5cqtGIzMeTM6fLmI7CefJwpowNy0AZwG8yTu3cL.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/c5MWjwJ3bTKraUW6SOe9l9DLsozG4csgjcmOCsBd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/cGMhbOILmP453CP5Q99VRNgzNj25ts4v4WD2IKPB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/cktzsZZ8IjQ23eSnytdkxgwIR3mHwwLfV62n3z0q.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/CqmR5yYVxykuNKS6rDnzo1RCRsYRroi5mh4ZkbdY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/CTj7EItSjW7tWAgGqTFqYq7wYsjERg8kPMeHaRxM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/cWqBJpQ1RQMSr64OmLeOP32i8oVu8oMQUtJsG7Xb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/CXNqUzXlug5eXoj05lRTeH0lklKEU7osO0bi1ihs.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/cXUuhB2zcXjLiQyFz44nr4gkfVeusTcahN0czBwY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/d8iErILsRZ7QmOPHI5rcok7IIQzFf8wtBdGM9i5Z.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/DBxszQzR4KvUyeh06Vw4bZULCfr01Wh6Cz9X3uqd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dgAdMHFZnj0camIBqtTYP6rUKY1mygJr6Y6hEeAO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dgsFK76z4b8Ebh9P56WliuqgiP3zJZOJyRrX1LZb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/DhkJRlBbzsM3oKnmzLy00SygAL2sMd7dZ1OMX83Z.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/DKrEyOOAedeGOgrcgmFQiXkEmWu7y3J7cHvP8JP7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dkVy7AwL0m6JMNXfkONQiNYFKkj2GoIkzqdfLR4t.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dl55jEkfFrDNd4TCcXe0cpJ52ikQWo27J7MXf5pH.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dNxd9HrgTH1h7newQT9t2ckyQvy7VO7KziQUQ438.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/DRgSHfMU7eYP7M6SpYBBNb5c35mU5jPhFKXuIoTB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dxViB9app8Th9M1N9JljcBjovEaRzHscdkyHYEGD.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/dYAFowcQcABgXx2eTje78LnsVj8tCsAdp6c06OkU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/EAOfNQsajZHe0d2Txjk2hsvEoY3dYCQZnKsi2aRQ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ecTiUBVFAtQlZjbVcF6kpmMvaXD7pCWbo7faCrKu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/eEbPdbcxySp4f46RubQoJ9xR04ymgsafJ69OQaaC.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/EeqrVk7Ig9rNvdtobNnw85zpcOSnhtcPKhQsKuhx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ERfSD2pmWZ7QGBznVIgZoWWqXGiYguEG0xaSP23Y.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/et4Os5XnOFFIKPb08twEoSwplhxs81Yi7AR8I6td.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/EVibGY1UIDj1JuSV3A2iiQ3As2xS6kIPttVJiZqu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/evj7ZgbV2oG35pE7U5MVU1kg0TjOlq1zMkgwWSNa.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/F3jkbiXpvwrgLc2fpChmuvrWxeKyMvXniqB2VJ6D.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/F9X9IdUra9UEpbaMhLShCa9nCdDJptfBhUeHbj5M.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/FCg0XhtbL53NVzPlxU27xi9CytySx1UBDDJvdx6c.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/fgquE5rlf39mB94EF2XiiJtps6a2ikHRdYDlppSl.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/FIjF0pCMEqyNledYYzH5eAPY8sXAgZo85TDFXwIi.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/flhT8IbKUwDaWAqxiDvCRzqBFRGVMHm4EyfpJCIs.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/flrKCYoEhHPHtYNq95V0U0zXSXnRicbO5rYGmzZw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/fo3v6M1KuGjHCHHmJ9Q7O0tEUVTXIlkwGa0mYzu0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/FRKpnfIV2XyDkrTrLI2nNIS99WrkLczd1NjTNtM9.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/fvePjT4TNp9Lxn7OxpyOXxFERocxms1QpiczDdIA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/fXK1MGnbNi3517Wyz2BqFXneRaau7zN40ZONioyf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/g0Hs4aAbZbgvy4R4QQOC1zyTUWFiB7wUOxqY2b46.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/g1bSmhvyZtmAEyTA2b4PteexNemYUyGZR2tNbquC.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/g1JrTjZOKBAXdk0eYpa24sxV74rbPLriEEI9rWcU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/G4ZrOi7uZBETE4OV8d1rn9vugw9LnrAjJbTYY26o.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/g5tmyT3HKQnTkRMMM66v8B2Rgmv2jyPfR6PcFWKC.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GakGPPmQH1hdevclzKyifIZ5Pc6NJKTxz5r0TPOH.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GAv5UIz7g7KdilnWCfYBcRR6D246sUKpG5F2arEI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GbUdVOgWbsw2Hb2rFEAlvXU1a9EcCXqNiDkS0uHZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gbvvWtdYyQOdyLbvr8cTj7nebwRSzxwDTtbbYepH.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gDMqKoUB7iQ1PoF5Q5FBV7Rlp6uPcwLBKpcDAIH1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GEPg0wHRnNjSKjGj35B1b6lznmn3NBhAumdC0mrJ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GeqCMwmAyPWHO9xnnEjFegBNza6aF38mopbDE2rZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gEuaTPN7SlwfSRiAbrILATKDes3q0qRiuKhKqYu2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ggPDUlxGjIAT1OKZCYOztz6aXATSgnyq1PJfGDb8.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gih458AKV71DZlYTH4aYN1eW1Sm5rUs4HFhCGxKI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gLtAiNTBqksWbFEOWWbC467Ls2zjYeje7B2ZIjq3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GLWUdCNrdaonPvrhkp3IRLVDbZxFmdABmM84FTRx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gOoi7tcF9XD27wEDU82rDfrQqIUKVqhTFJJeERr6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gPMBaokMs6QAKshJCwzV73qHZEKsMz1bN9mkkORB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/gS0Yh04gkuGHECO1e3r0gdpZ2dSwrOlsr9rjbnlX.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GW61XU0DtWA7sIw3WGu2q6C0NS6PL8dr55zCii5w.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/GZuXS7Y2vzNgXhrOJxU5kczb9uoBU3ERkvZtoqB4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/h3F9qjdZQu4eP8LLZj5lL9yYzBYZ5R9dzjhyXDE5.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/H7rBLfejzft22BigGBEC1ddOKhAG2BsOWCpFlsWu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/h9taAYdgPSDpROri6ZXvUQj64tzLA4P9XLd0O1Bs.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/hCaRrKuIDWZzCFVS4ZFW9cISmaaB0csVV3SA9B1W.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/hczxFPG633Al3zcbDTHoQKmK6iawouUGiK7gVcHu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/HeU0nM0n31YRzDlIwQhilgyUiSaCz72ZjbkYkewo.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/hj8952mqT4qQkiguv1RUhKOzRGzHwOrixG68P9AO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/hKKgSwveQpeEaL5S3dj27fgntvMvCp53o6Y9Xge2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/hpfoFREwOQSK7OYNfx7QN3glAQyLh23XWA1ce5Jv.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/HpUHKlEaLaMSq4jeQHU3OEBuACw6kz2Gpd8ipWFL.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/HTnBJaJLPMhyauCMPQhSuoGXG5EyQv7ItDbzfUvZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/HXKODAMNNOZwZCM9LiQVJMUvZteYguCnZ3czVem4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Hye0Q1n4VjgRppfuZDXym8eM58t0HVavt8WNColM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/i4iJp7OsOpeZbhY2rPnnMweVVLD8l3HZ5VFGJzpo.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/i5gLIklovpBhSpezvWReF7ZUNKmnDBA6AOFvadW2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/IBGXKBbgHBc9qLRJDeHc4g8lyT9CFLmSEhXTC2xq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/iLgdP7RVQOS28ggQKMAgxmOVPHFUp5haSFFP6Afr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/infv2W45uAeIYs2GK2nYP50wfOeTb74Sm23qwooc.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ioFBetwc5jtg7xvY9NYhcU2fOkl969ohabhJ7VsG.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/is2GI3PwImx25o8AAEv2usD8hnN41L4MxFt5gyfY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/iUmef3mJlnhOC1M8WHMxyzJ2HDMLRKRszW6N8sWk.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ixcT0hKIvFonLnSduAZ0Z8Vn3aMjn0JDKnBwoJGU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/IYDdS8KLLv0DzeaFCYLRl9PUYt8TSj6WZWooNgRl.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/J0lCxoIP2L1ECJgqb7cv9jWxmdfdr7zJHGstcnyd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/jBRwfv5F5mDgadc4HUOo0IFXypCjz7u6yJi27dBH.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/jk0uUegEnr9Nkx7QC9d9jApLC2AShz21nwaDrrHu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/JKhoHUDhoSlwT30rWtJGXKy89eoD0dkmJ7R5PoAz.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/JPudR5W6KB23UoLjk5wFBi98ezlmp6GPzbBR7gP3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/JriGxpz2lpQOJV7TMFpRVfd1YdTj7ryz0uTNFCnO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/JsRuUDe8WbXsEdoIBcHEj9uEXoW1my78lDbLqZvN.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/jYMyd3H0CjGYHKxHQZ3hAxxgfHEn14m747QjGv89.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/k0LefhgqpQKBcH7e0O6vj441MiLNcpq9m95doLLf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/K4av9V0bP3IMCKZe4rtmAVdUbG5DFQFgVk1n8IxP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/K50OdesG1BgZYklTqi8BjzBM0kH4zIKnogomQcpD.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/kbuLtGrGjRQQVO4FAykN4qRL58w1nQLxLC1WceYY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/kdKenliz7WSJMBqg1VZd5VxzmFQ1W3cUJ0d6Xn72.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KeCxmpGjIgpfq6u3OmxIBg2AveXzydKd5Gh0qvN6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/keNrMMr92XgaSZgC6TE2P4QZ5cEg4bGlj9wrktdh.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KFUk084ehJQvi1OzUxaqcvE1epQuJRftdME8xwgA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/kHiKXuDR9F8wDelVPpSS7YrAJF9EwjLO7w5vCFDw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/khVBBx5cjBMetOViNGCI4kAwSF3HjwQ1ImBHszWn.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KKEpS3XcvCr4ItLNj8gpWWMAQVdxH8dxgmoItFNS.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KOAAOrgo4SOlyHGDeZidud01G6lUZbQ8kuLu6Ehx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/kqMlsU1HMEhjqCR3yqooMMzHr6JoOfUUvC8VRovO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/kqNgwjjUboErd8zEF1A3hZVkJa53G71c1F3QylfL.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KruhI1EqqAyzXRnu1NWEmsS36izJrZllfwPxju4w.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ksRlqrtakRjuOJOgviX4Dlf2kuqvTNZef451JxA1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ktbTgJMTJJ0L00NEUGjegxRQPtLF1a9FjhCUwUHx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KvDgNJOTpsY4nu8vPAiiXS1kuqA1fMLAXPF4z8YO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/KzEE1GzX5fXvwVETvSr8eai3rMqgN5NSG2tNFQa5.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LAExHkYvO8tXvln1GdfX4kEy0QNVLAOz3vRRE8cY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LbDfgmJXHkA0axJZTuGluSi8htb01YEfDHGJIK8H.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LbwVyGxGNaQVtaLC3gStnCaUIdpTB4fljJiC8ylO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LCBwc3fMYBUvjYvmlwnRZ43Y0a4CB0gKQMfQp4mm.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/lelgO9WwMzmupgR0gCg7Wo8jFuNaXcN4lJCb0iil.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/leYTMmmvPI1E6fRO9erjUoDSX4n6YxHZLbm7nBvb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/leZmv5UgKH5mkoxNDiNh60kmB9LcwNpuBzEffh5J.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LFYaP2uyUsPyFqfisIkpJt2ScPp6Ry4MVvvmwBHm.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/lgLDwEC6wWTAJZE4QqDe324HRXfUgTr2S0eSdt8k.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/lR1Q6IBF2ierNa4jdfOpK2a3ivkCbhnyLDIw17n7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/LYg1dn2B1BFoL6q7iORCT1SgfraSXrUGipLVF4MM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/MB18YGKmzRCzoY8sb9UarR0jBCzy01cvxgIweQ23.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/mcaGTZofgYYrwKT4eWuJDDK7h38ishsobfm1xOyc.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/McBdAbOYik7nxvRGuBBw2VOPvX87NDAtWUeYtXKp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/mEdr0QFU8fTTfyXwlZ8F2fLxWhA1KHhoWnb0kUGI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/mgjNMKil1bzkU2bvSEICOghfKuAkzQuR1cOCebG7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/mikPQHgjKYTQrDJm7gzaA8WOSj3fTdG3E6Xbrj40.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/mIp9pkwYN8mcqLIR6FZsx49VgRaQcSH4vJ5apZH6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/MlctQqC9zrrgmjpDvmymDxFoZeZkCwldr3SQvuaF.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/MSzSkpheKpN7Kzekhja4DTByNpHH9dwo1HpUquQ2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/MwkQg7XA0Qz6OxToAFt9kcTFGaeDBqazwtZ4h4PT.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/n06kPlp5mP47IaadcJ0hKmR74Mn4BENpM5LjVCoZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/n1BYZhWcAgbn33t0lt3SZ90DrhNiTxVWPx7yhXnB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/N3m9ubhctExk1T0WlfbNUpnf1ZTNgS3u2POZ3tkD.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/nbqXpdPVlYIMq3Y8u17AnMjJdsyidb3KEpFnuBAb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/NfTPEjbyrDijZFxe385xquRwN1gqzqViTqLBxXBf.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/nMOrrMpgn6wlFQefWkWju5GOwZuAGST1cTKMldnt.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Nn7cxzeHxBnvNCocIJHVPxc12kd7Ety217fu6Lq0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/NQJzF2TSFWMABh0e7jBbNuZYQbffadmfJLpPi6Zr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/NSysRnaPqbZMdru5CAMPA5DRi2tkUaZniHZLqdCQ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/o9F2prrLmKKdEeLU9Q3vDREvWOEbBdYCbA2skAaI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OAeo78YYBQ36jsdTuHHOdCTEvcP7uaOgiulK6FO1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/oeHe4OKJUqTApUnv8RqHIDmBL5qFGp0aD5HuKQ93.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/oJfyGWnzGj7KjG3F440EyULYNQ3IjZhDpVpNpXwr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OmvwCCxO26SrEBiQlTMjXpFNObejk5RxvLIgcTpE.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/oP1XD8gVp1RWwVf1GATuqACDP1z7t7gemdya7G8J.jpg",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/oqh5k7A2lk3QgskJ1m0I78JcOxLa8jdzoG40VhNR.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OQZErzrtoMEPSMfyE5sgYDJwAAu2kCy5sTEwlesL.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OrgnH3ws8Vf7h7cxpkCmuLosGvigOaYmPUYz3E2f.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OU72lnDkXzKwUMfq8TcT0NaMXsh8mGrhp130FBP4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OuZbWeiBHEvDZIkhxkrD2YqeRLtEIyUWb1GBKKFA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ovgcn6RRzZPqyoABYqKKPLaklM9WqJ3U7y42V7uq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/OVHlKmOduRE4u36zJTkcCBesdBBVXx3IK3oklux9.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/oZimLshrjILZ1YOL0Pxboarqbh5tFjI2eGJ51fxM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/pAqYDUbn8OlBRzLmqIikT8AgkfNPzQBYCzFu2rPX.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/pBzee8V1vwZOQ6kL6IVTLTvKvxVGJCu4N2SexGfe.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/PCFWDzWm4HQJBEKGHNsKkw7pVMyqBtyolKyB0xZ2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/PKvPWwgu0y7srZRCuoJ9TxdsOmtwjQwvwRNbyqGB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/plS4rUroPAh0dsW7m3cB7mTjNC8osUeRtvXOPzHP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/pmI9hIDz2GQLFkJuMWVSSy2jQijdUQlcdXVHrIJz.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Prncac7c9ASv5HKRixGZEWi19Ik2ppzHG1EGBOg3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/PsDXDTO61soKMm17J4q7W16XOMgHTmn1OFf1grnj.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Pu55rRzo5dodrPRbCnsV0h4ihNVhauwRtllEDyM7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/pvpKXTqhu2CQK3vJoBlHHBIFD1RP4P35Q2kEzHCQ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/pWqXzsSXhFElxNEHGhmhnNBa4rBsXWtFchzeaIgr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/PyvJ0NoRsSXIbFsi3TDoH50yQ5pkDaBGnVTaK56U.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/PZYThKUWhrEulREZKOyam21rWKLwmVE7OYCMIKrA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/q1AwDoJ273fltV2ywBjdS8xRHigImXKmFFHoAH21.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/q1RxK28MrCV1IdUGynLkG5CQs8X2zseQW5dk3VwO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Q8cPBL4xCxb1IWVhiK18OooXOpoz9QQTgN77g7em.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QaByEZsSG7EyJNE1SmX1W3Xe06XsqXZfA8E8Sk9w.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QB77E0b1iANGCqr4kgNuwvxNgQavNp4dDLF8jU5E.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qbtDigoTFuVKKgNtBWnA0EpZDNSGq8JxOEzSuxXy.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qeHF0MnUN3heCv13Qm6qVmPTPTJtYIHDaPxg9Xx1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qG62z2uSUq7nq9f9heNGjcAHo2YPTHC8q8aECoHM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qgCHbbDUr4yTs65m3snNk92pz1Jwc1jVgOBHS0yd.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QHf65e8HGhMW9gOTWWAS8EwguOG0hdLzNlP2oMxN.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qK1U1v89k8ZoJKInqPzYuNJHg6Wu2xVezOWrLUgs.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Qk74W6wre1hl7HfyNIMirxBZgkJ2WOLC7UhBCvfp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qklvPfSChNHaxC8FId1t8LN0M0Am8fGKhUVmOt9a.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qMJ2gs8TMDHXSPfQIiW7vVruhE1j5cOp5G3HNuMp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QMOAwOpzzodwv59PeE9QATG7nLWep1Uo876smeJe.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qNZaxzOVYFgvWTp9LNmKzQlXlec9QSXlz9kyPcre.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QUfIEOFdpp0BCOytM7WvjoaHzJQrHsE9EtP1E631.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/qVM9jFdKfgqSnNlv90ZgrAn3sBuv3Ol04hiQqdRS.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Qwpl4GcQ80878gHaNpyq9F65fLnqeRkJ5iYzrhT4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QXnVVDtDOfSZUvE5WIeQUfN885AUGncImMlt7Kx4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/QzVCWrRmgDBBDqzkGiF3JbGsHWXQP4YHEDu5xsfy.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/R61yWLQruoM4PWnbw57Ry8qg6iuKzpRC3tNfoh2E.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/R8tBhozUu0kWLheA4FD4XJ7sMCWicK4Ehog6zDZ5.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/r96SXE9zOAu8IALeqNj7NDftwxmjanHBM5eCUMJB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rBpFNj6nrgC9x6ibDH6gyZdNLDWjTSFTmkHISVkx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RBYPgIwvARstgZE6GauqkYmhxNhlCawTSd2ZLPSW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RHfM0Dk4lmyH7iy5YutIntIetlyTzWicY0VkrPdT.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rjA7o9KBSlSLlDWByFjd73ZT4hLv1AXRvnik0dOM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RlEVuQrvn19cQ4RnvH8ExdvNvPiMHpMa2EJnKmle.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RLuPfoijI9NjKONyVxTVtWnZnLyLToACp27qg7QP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rNDlbuPJaCqPVWRLI6F0HIwbGPnhtUCEDmDzNU5R.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/roGdzWfJCt9eLlr9tRBTi3e7ScCW77XNK0iXXe1n.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rRSN5USTfAsYBhRkFoZs6R0CXdR2sSOXKIG6Hqij.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RskpDDRc7tM373v1ViRmevM0nYM8RyDCrqX7Wovx.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rT69kEWzsMcZONKe700zL9tOWDhl5fH2LN5j8Vxp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/RVAKWEVOnT1rR1qbEduCleHRMD8OzAfauo8IUGW3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/rzjKAPjTNTPyPj9fI42dvh1zj6z9M5Woh9z9urPY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/S25XrW3BaMxSwKORuYoOOEecnLli3eua9eqCBZ89.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/S2GQUxrl9x3U6mfaxrj5n2KSARmkLoWUM9U1Hunu.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/S3q9vrhZstixWzE3qzgFpSmGmmYO2lgtUAvkXT6u.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ScQGbfFnbArUYVysqrLUjfevN35kzTnPer7zIVHt.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/sdtYlIb4m1HSsXyqN8CddPqWQTyy07BJ8gRZAssz.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/SgsAUT99zUMZD9Ifyxt7t3jF2wwCqaJGzJ5aPbQW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Siy8oP9L4nNc1NEKjQJ6UCAtnBiub50MiTB8HfUB.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/sj8MjgoKQTd2mTyta9Zoc3iD9NH1zEUuJieCYhdp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/SLQejNKXgRhxbAvNU7RJ3IaPSOgHsIdrjzhc3WBq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/so5YZgrzmODm164qfNLNUMwfsGsljltomajuKYy1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/sT8msaxbrfyjNl8R7wMgRi5XZWeObICvAT0yAVXV.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/sU5tdaBQiuJTqQ9k24ElpQlOPmFV1XdYJaPI16G9.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/sz8UBq0xKyhIM3srPrAuu8o2oHwPaFFau8jJeTvD.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/T9WnLxZZgY6DIadOFqyYE9WeIHdRSVO9QkmHnAKv.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/tc2Snj3vL064yzP8L0syNqbQkKSzcVGF0MlC2jM4.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/TexekHZUvN5Bsb5fDlSH59jhFeoOloxjE2DSRfZW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ThDAygJL8YehhDK6urQj4qN0dC8DVnU52LZk3mSZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/tP8Fm2lRx4IPe3uWMMXTb3q0dhkYpgUxUTCasm6q.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/TTbZ7n1k4ezbPqno6kweecYKkpPYn9Vwfw8oUd3f.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/TuRoA8v00PwMUO6iICq00gEa8pIebuj89UFdZLwy.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/UchGl7ScbhWVxu3OdwH4SvEJ08ouvTdCm5krcqhI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/UI4NOhUFqNSBk4ky21wBhBubusLTQgxQRq4ZLUwF.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/uIKLjwE2NwuYyGyoJTXR73kHEo2KJUakmCr58BxI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/upOyYNH23fRi9ZdNlTqbRiBF61dmbzkBet0Uoy3N.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/uR11Kd3kJKclToBjxNX4kyAYrXUBAtwxnula8AK0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/uuIEt48vw6YphZvL7M7miGsYx6WyA35isXMjIhSE.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/UWEYXaGk34jxyziqvg3lH5QMTMhirtI7d5ddS4ya.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/uzWEiBI7WtRqFRuOaQYcW4MWK2ayMkQ6Uvy7BPVO.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/v3SSfSGmXFFrW3XlDrJgQ2LjWwT25XsToa9fXhSl.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/V5zNOqwhbRtKqT0UWmoqzo6ChHIyejyfD9mNdB2z.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/v6Ls6Z9xLG2y1auhMr51E270rJ8j4zL1Ay8ppPuR.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/v6tjWkr25K1hAeHLkS2WjtVSciNWcOfMsCswN7kK.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vaombYIbb1jK9ROONkHjxBB3HR71sM1dCZd2sTof.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vb4LI7IRNyRioZTiHm1kzN0tPdhOD0sYAReTZg0M.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/VCE2ctEXX5H68oys4VidbE5wLDs29J9x1GR9Ttj7.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vGdg9XCAixug3h55URBSltzzWIuChqEvoPuIvvWy.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vh5vaPhcxA0sPv6jojFIhmIkRRmzEjqMSlNkCjSU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vKkBqxRtaRkg07u37rWzwtTiV9XlaaANJdJ9PWLz.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vTo3XPUwofmaWouR4uFGScPjcGPPGmD5t89s6tOp.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/VuANZGIqLjMM11mnHtjmBkxlg4hCcaWRxS8oyg1z.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vUjnf1UGXvvE3FN0DXYVbagwwdg6WLk76TmvvqvZ.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/VVjGi0qqrrAgsdjgv91KaWd4rvwsd8wzqQIjTqt3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/vyj6V5UVeKwlbolKwA1jGgBilmnXtKf28uAeBAPA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/W04S6rnVFarOA6a4BJmdfXJkgJGEpFsUTBrI3Rut.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/W0n38D4i3UubRJaQSEjLdS3QQFHQEqaDscwQUPBr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/W1QMnzqIeOw2DtvDI1TjMfOnNZ0UjpcZtobkIaVe.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/w1t0RwYpjXs5nBQfqb4tNKMQRNBSMZt5mR0aTAus.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/w57mXFcy3KWS70Tdk8ReQY694UYB3yDVyhhATubN.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wCYYFhqRFRIR2WVRcDpc5lMNqkngt7Fg8sg1hNr0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/WEASEX496FoQf3y5AMTle2K30BHNVeDDbX7eXNmU.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wHMYH2WkSvbeuIFtuCcs4xWx8MaqHDH9Mqf3S6K5.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wjLEGz1h1wL4xvkuuMpOOaPtJ6IO9ukSO1HrtKNq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Wp2jhkxwjIgxsf2GOIns8gF4FBdih1MtqkuUeKSP.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wqYdeVO5q2slb2NsUCcGnYxt6Q70dlxAgrmGqDV8.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wTbNierRNJICjsQy19t3M3hX90gKn4Isq4MBSbmb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/WTyii9WpAJ6c8y0zx4bB2xzqrt6pP7OjXww7FfnR.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/wUAHslq1vBHmqF8uD1c4cK5XnwWBZHvhjO0RGJmT.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/xjOee37tRMqJ5dN04saEKtN7UVq3gDKLgoyUFIbG.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/xpHgCK5Aa77uAM9lPHmbKCi8JwrPPNIttGWDNaTs.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/xV5ulkowncw7k0ED13rix8W2IPgGWrJ1u9rHEkOI.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/XyyrcE3CrJH9gIRoTr3Zbd3D6AkWnrseQouu6zu6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/y1A92t2mIkNPY5LidvG0iQ7BlhS8xHvZzFnbtmNX.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Y2CjiiST7v7iKLveG8l8I91NHdGWuYDyB1ZXEAwh.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YbFnBz8BvJjiavw0FWglwPWfW9oTXKRT3runBQce.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YdhNp8m2UhJyZMhGEgCdX1dmGUaQpiNlLVCeKhDM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ygesDcoyEiZJbgadtNNN4dV5Mfvz4I4jUHdnyas5.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YKQrnWXPBEtMfoss7sF5ZcnPfSf28Pik8uIEhnlR.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YLSUNyJjyRN9LTG9hpAXyOC8c5dNMyLtSvprCe0g.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YNqaqo9KIhXNClFbiq0idykRMPwG72MVUmvvbyhb.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/yPkk0YubvhGWJqYKJLQIZD2iMgfIqvtDMM2ysVS3.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/YqfGeASQwxf0lNDJmyZqsrO2BWY967PhKqHtluHw.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/z1JRcsEwTI19zRC8TIIVWePMFpMkbYLBZ43jjcG6.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Z8KepVC1Zfys167sK1xw8wau46UIr4xGrAIetvWW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zEePD9CultAT7RMrdR7di2ROiOajL3oJBRPtsqx1.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZIzdKGKI1ICHYTWp0yZGJO9Iuuw6tW60jFNbiPAA.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zk3a3nDCaSdqPWgSBogU0EC1apYqa7KcsVanuehF.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/Znkwi8SUiaiRVwFUd6ytas4B6vqTXr18ul5f73Su.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZNMmk690pWvmdhSTLrIMAPtVWp8aouX4DWmiCovq.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zoXr0nYetH5R7A8kDv5s5wZdsnh0bygdIrY6QvtY.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZPz7mYSbnPSHHX0dXicU3SpewjdfQtWtC7vpxJc2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZRHX79tLdszuT6AtahxhZ2OXmO4D07CMnVgyKowS.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zRIENAUE1dGmvaFGU6wSWuKy8kDTdlC7R6VCmaDi.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZSEzLipEjTUO9ILoiD0IHwE0hYar31m2iIV5oVZW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ZueRjeyTYNMgYqgN6chPOxuK4mLMsQggMLixjyzW.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zUgmpnqUkLpYlBu1a01Yf6hJTLj1KxiPsTECsLLr.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zWtRDpxB5AqdWDANbNtsR9EzAicaPkqEQBU8xPuE.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/zYb0zRgVvEi9Eh9WUrxSfTsfSJSumapSD6uQwNGM.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/04f82d2d-2ca8-46ae-bc9c-484399c832af/LUCES_EMERG_431ced6916a2_1793594018_6b7650f2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/1d231cc1-e170-4c14-8acf-ee03294a0750/LUCES_EMERG_431ced6916a2_1793588235_e0b40c97.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/1de743f8-da85-46c8-bc85-29e9fe8ad177/LUCES_EMERG_431ced6916a2_1793641612_520adcd9.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/2d0c1c90-1768-45e5-a84c-20d097afaecd/LUCES_EMERG_431ced6916a2_1793634168_0db89fd0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5b20733a-1df0-415a-8caa-1c8827d1fa4a/CRIT-06_bfffe4034433_1793637301_e989ba4c.webp",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/5fba064e-bf71-45e2-bfef-6166562109d3/LUCES_EMERG_431ced6916a2_1793584053_5bdc1f26.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/6de9403c-9356-4f5f-bf7a-4bc377375d14/LUCES_EMERG_431ced6916a2_1793594843_bc543ef8.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/87741141-6751-47ea-aeef-1d4d4a28f792/LUCES_EMERG_431ced6916a2_1793590911_3f598b6a.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/b984c218-0b66-431f-93aa-3f4d111423e2/LUCES_EMERG_431ced6916a2_1793644803_83bb59b2.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ba5378e2-9f07-444d-9114-33a880c6c034/LUCES_EMERG_431ced6916a2_1793581608_efa6b5a8.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/cbc7bc5f-f4b5-45d5-a75c-f56330157862/LUCES_EMERG_431ced6916a2_1793587239_3a366449.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/d330c9e7-d3db-4c0b-b3d9-3b5c7b24c2e2/LUCES_EMERG_431ced6916a2_1793582049_575923a0.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/evidencias/subsanaciones/ff993b04-06e4-4a3d-8c92-85cf78b9a2bb/LUCES_EMERG_431ced6916a2_1793595997_aa45b0d9.png",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/public/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/cache/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/cache/data/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/sessions/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/testing/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/testing/disks/local/evidencias/subsanaciones/45aa0e9b-2c98-40af-bc27-fc71ae48c2db/CRIT-01_evidencia.jpg",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/076a28c19da4e3c13cef0f1233abd259.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/090c6202603b2d9637a15d27a0bcb538.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/0aa8624e4f1a055b16a61dd660bd380d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/0ab3960d73aa459d8ae931dd80fdcf2d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/0feb68fcbadef5272195164d7e355930.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/10c39fc9d2623e801eaa545a06b70de5.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/11ef07aa475a3d7a94bf069a3b661cce.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/15b142ff82814f5a577e6a4f45fa9881.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/15cca939f8b16a9cdc243b6f42bf912d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/1634a26b72438c1790ca315373d90dbe.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/164c6e05810f0fbda13cbadc846d3456.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/177e58576d8968257029f8b5c42779de.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/1810db245d3bbd6e0ab0c4ae2373d32f.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/1d975645bf5b847a76934cafd7429eef.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/1f207cffcfed098d16da2906958617bc.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/1f5a9e57607d72e9c3e6a5386c57c7ef.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/24e85d96c654e2b31d47cbc6d269e280.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/25004d0c693326e08a42782315dd5262.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/28fb7445086612ba885f5b102aeefc93.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/2d123bf5a118bbfad0316bfb97c25d7c.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/2e1e51f9d49df1e4382880b9200aa164.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/303c4084f3fe8c170c62aab36780ded7.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/3494a7fad9ab1da5115d6455a41d8e69.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/35793ed4134920068ebbf347db79d265.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/38ad7a1a10f4747694678ff2320e5c5b.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/395bdcaf6b7e97599334bcaec01dd3cd.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/3e294bc422333f04a5c954b1a772e287.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/429b6f6836127e93487381923cb700a1.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/43d6c3bd97177ddfdb9551059d513952.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/475284797315fd248062ff2068809993.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/4878582084b3f63277e43dfe3acb8cf2.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/4c746518662648e00c88df9c455ae620.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/5073208eb78c7b48b39f66451619088e.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/54e4ea5f576a2e6a136349c3d25b485a.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/5bfb2de2c922e94abd7af4f3c0a05c19.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/60eddebac5761e93661b68fb5f24c8e7.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/63317d4dff24ba9cf17b3e4e031a0710.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/63efffbf8a6f48168efe80f30b4a95a8.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/698340ffba77dd7463d22a7a11d3f0a0.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/6b9f8d3467ec21617918e1f978305477.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/795a8fdfe7373002b24154cff8e29db9.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/7a24bce03f5440dbdee932ec939ff069.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/7cb6dd77ab45f13dfbc71997d69090fb.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/836dd2bc7341584ecb1d1446bba9e50d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/864f8200d3cb2137659502ba86400949.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/879c6feedd332167e3d9a5baceaefb00.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/90adb6887b549aeda489a19069a44009.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/92527624d6fda771c19bf53f23b32a9f.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/92a9b408081bee225fc611b4e0aede6c.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/93a5b5bd61bbed1b3eaffe7ec8a249d6.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/9b6db907acd1b9dee7b06e146f1dfd26.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/9c65829a9e8a16383000baad1997ac41.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/a3615af74fafb3ad39689cbe3f14e3ea.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/a9f763f5728a8ce5ef9f7742449b4c92.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/ac30bcf4f65dbbf9c365d196f45fd611.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/afa97a07460bcaa55e0f447269c9000f.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/b276c92e3009620755de56eebe902863.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/b560eea078c1361f38ff6781fce1b173.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/bf7230d74e8490fe75e407705aa65459.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/c0ad4267c5496f9773d7041e4d972088.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/c187a4f44b5e8fa07a9cbad3d823649e.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/c68399756926902ca541fef4e9493197.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/c7daa09819be5ab5fb571849310b95e7.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/cccf6895a04ecadb7ec487b77d1de0a8.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/d0136873456dc80cd7ddc5dcdcd5fec9.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/d1e9581b5f1561b1f788d0d874943e2c.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/d921b1f35a2838c268a0574fa6c39e8d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/dbb6d545eada4640652ef64a60db5dae.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/dbdba2080969acf48f4f7e02a4f3df46.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/dd3292939a570caa0b4b7ed1edcf23f8.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/e2f9c84b09d8cb9feb442306b8306c64.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/e66b4a7ee772a7c1bb1b92fdb766651a.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/e6fde40f89c52fb67fd0643089b75d50.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/e7456457e2433bff43e5d99770af1475.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/eb8e1fb5d09d13f6b00d6a6cdbc14116.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/f6ded235fa04a7e13f09abd7f43d5954.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/f88102e0dc9c18b39bf779f5b50ac87d.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/f8c3b3e997b4b7c5cea25dc667cd1c86.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/f99c32faa0fb3232da3601d255b52b89.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/fa1f7ae470f51dd166388337f4aaf830.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/fb29fc9e8d164cbe0eff28011f0f506a.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/fb70e6f02845920ef56a2b36e2668b54.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/fd71a85a76c0ee5aedf4167eae51427b.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/fee69b0740eb8d8446005339ec4034ab.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/logs/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/logs/browser.log",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/logs/laravel.log",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/cache/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/cache/packages.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/cache/services.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/00-diagnostico-inicial.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/01-arquitectura-actual.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/02-inventario-pruebas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/03-matriz-hallazgos.csv",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "docs/calidad/04-plan-mejoras.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/05-aislamiento-pruebas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/06-resultados-validacion-entorno.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/07-plan-tdd.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/08-casos-prueba-tdd.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/09-registro-rojo-verde-refactor.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/10-resultados-regresion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/11-matriz-trazabilidad-actualizada.csv",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "docs/calidad/12-incidente-perdida-aislamiento.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/13-recuperacion-fase2.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/14-tdd-autorizacion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/15-resultados-autorizacion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/16-tdd-autoevaluaciones-checklist.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/17-integridad-criptografica.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/18-resultados-fase3b.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/19-tdd-subsanaciones.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/20-seguridad-evidencias.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/21-validacion-gemini.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/22-resultados-fase3c.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/02-guardas.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/02-guardas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/03-diagnostico-risky.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/04-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/06-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/07-guardas.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/07-guardas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/08-archivos-protegidos-antes.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/09-seleccion.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/09-seleccion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/10-preflight-suite.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/11-suite-completa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/11-suite-completa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/12-destino-rechazado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/13-archivos-protegidos-despues.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-archivos-protegidos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-diff-inicial.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-git-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/02-baseline.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/02-baseline.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/03-auth-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/03-auth-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04-auth-rojo-valido.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04-auth-rojo-valido.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04b-auth-rojo-valido.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04b-auth-rojo-valido.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/05-git-tras-cambio-externo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-autorizacion-test-original.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-cambios-previos.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-git.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-matriz-original.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-protegidos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/02-cinco-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/02-cinco-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03-invitado-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03-invitado-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03b-invitado-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03b-invitado-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03c-cookies-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03c-cookies-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/04-cookies-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/04-cookies-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/05-originales-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/05-originales-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/06-autorizacion-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/06-autorizacion-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/07-preflight-bloqueado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/10-preflight-reanudacion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/11-autorizacion-paridad.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/11-autorizacion-paridad.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/14-mysql-error-extracto.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/15-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/16-diagnostico-xampp.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/17-preflight-nativo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/18-aislamiento-nativo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/18-aislamiento-nativo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/19-autorizacion-nativa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/19-autorizacion-nativa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/20-regresion-nativa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/20-regresion-nativa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/21-fixtures-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/21-fixtures-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/22-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/23-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/24-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/24-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/25-resumen-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/26-preservacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistDinamicoEndpointTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistInteractivaViewTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistUX032Test.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ClasificacionTramiteResumenTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/DesacoplamientoFlujoLegadoTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/RecursosEducativosIntegrationTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ResumenDescriptivoTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-cambios-previos.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-huellas.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-status.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/02-aislamiento-inicial.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/02-aislamiento-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/03-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/03-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/04-rojo-confirmado.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/04-rojo-confirmado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/05-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/05-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/06-checklist.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/06-checklist.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/07-refactor.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/07-refactor.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/08-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/08b-pint-nuevos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/09-modulos-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/09-modulos-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/10-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/11-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/11-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/12-lineas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/13-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/14-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/15-status-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/16-verificacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-diff-previo.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-huellas.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-procesos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-status.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/02-baseline.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/02-baseline.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/03-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/03-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04-rojo-confirmado.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04b-rojo-limites.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04b-rojo-limites.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/05-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/05-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/06-regresion-modulos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/07-refactor.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/07-refactor.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/08-casos-ampliados.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/08-casos-ampliados.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/11-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/11b-pint-nuevos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/13-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/14-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/15-lineas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/16-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/17-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/18-comandos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/19-verificacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/20-status-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/21-diff-final-worktree.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/00-manifiesto-inicial.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/01-git-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/02-reflog.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/03-stash-reflog.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/04-comparacion-stash.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/05-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/06-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/06-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/07-funcionales.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/07-funcionales.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/08-manifiesto-suite-fase2.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/09-suite-fase2.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/09-suite-fase2.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/10-suite-actual-completa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/10-suite-actual-completa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/11-git-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/12-fallos-suite-actual.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/13-preservacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/14-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/01-auditoria-ux-ui.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/02-perfiles-usuarios.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/03-sistema-diseno.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/04-rediseño-pantallas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/05-roadmap-producto.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/06-criterios-aceptacion-ux.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    }
+]

@@ -1,0 +1,29 @@
+ M .github/workflows/tests.yml
+ M .gitignore
+ M app/Http/Controllers/EvaluacionController.php
+ M app/Http/Controllers/Traits/EvaluacionHelperTrait.php
+ M app/Http/Requests/StoreAutoevaluacionRequest.php
+ M app/Models/Autoevaluacion.php
+ M app/Services/Evaluacion/IntegridadEvaluacionService.php
+ M phpunit.xml
+ M tests/Feature/ChecklistDinamicoEndpointTest.php
+ M tests/Feature/ChecklistInteractivaViewTest.php
+ M tests/Feature/ChecklistUX032Test.php
+ M tests/Feature/ClasificacionTramiteResumenTest.php
+ M tests/Feature/DesacoplamientoFlujoLegadoTest.php
+ M tests/Feature/RecursosEducativosIntegrationTest.php
+ M tests/Feature/ResumenDescriptivoTest.php
+ M tests/TestCase.php
+?? .env.testing.example
+?? tests/Feature/AutoevaluacionReglasTddTest.php
+?? tests/Feature/AutorizacionUniformeTddTest.php
+?? tests/Feature/ChecklistConsistenciaTddTest.php
+?? tests/Feature/FlujosCriticosTddTest.php
+?? tests/Support/
+?? tests/Unit/IntegridadCanonicaTddTest.php
+?? tests/Unit/IntegridadEvaluacionServiceTest.php
+?? tests/Unit/TestEnvironmentTest.php
+?? tests/Unit/ValidacionResultadoIATddTest.php
+?? tests/bootstrap.php
+?? tests/preflight.php
+?? tests/start-native-mariadb.ps1

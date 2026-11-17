@@ -1,0 +1,2 @@
+[SisWeb preflight BLOQUEADO] Conexión rechazada: se exige mysql en 127.0.0.1:3306, base y usuario sisweb_testing, sin URL/socket/réplicas.
+EXIT_CODE=1

@@ -1,0 +1,30 @@
+﻿[
+    {
+        "report":  "06-aislamiento",
+        "tests":  24,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0
+    },
+    {
+        "report":  "07-funcionales",
+        "tests":  38,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0
+    },
+    {
+        "report":  "09-suite-fase2",
+        "tests":  505,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0
+    },
+    {
+        "report":  "10-suite-actual-completa",
+        "tests":  520,
+        "failures":  5,
+        "errors":  0,
+        "skipped":  0
+    }
+]

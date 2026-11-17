@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="56" assertions="208" errors="5" failures="12" skipped="0" time="23.977522">
+    <testsuite name="Tests\Feature\AnalisisMultimodalGeminiTest" file="tests\Feature\AnalisisMultimodalGeminiTest.php" tests="17" assertions="23" errors="5" failures="3" skipped="0" time="14.005086">
+      <testcase name="1. Propietario autenticado solicita análisis y recibe 202 con job encolado" file="tests\Feature\AnalisisMultimodalGeminiTest.php::1. Propietario autenticado solicita análisis y recibe 202 con job encolado" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="1" time="11.745029">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">1. Propietario autenticado solicita análisis y recibe 202 con job encoladoExpected response status code [202] but received 422.
+Failed asserting that 422 is identical to 202.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at tests\Feature\AnalisisMultimodalGeminiTest.php:172</failure>
+      </testcase>
+      <testcase name="2. Usuario no autorizado (intruso) recibe 403 Forbidden al solicitar análisis" file="tests\Feature\AnalisisMultimodalGeminiTest.php::2. Usuario no autorizado (intruso) recibe 403 Forbidden al solicitar análisis" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="2" time="0.152080"/>
+      <testcase name="3. Invitado titular con su cookie legítima puede solicitar análisis con 202" file="tests\Feature\AnalisisMultimodalGeminiTest.php::3. Invitado titular con su cookie legítima puede solicitar análisis con 202" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="1" time="0.167462">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">3. Invitado titular con su cookie legítima puede solicitar análisis con 202Expected response status code [202] but received 422.
+Failed asserting that 422 is identical to 202.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at tests\Feature\AnalisisMultimodalGeminiTest.php:215</failure>
+      </testcase>
+      <testcase name="4. Invitado sin cookie o con cookie ajena recibe 403 Forbidden" file="tests\Feature\AnalisisMultimodalGeminiTest.php::4. Invitado sin cookie o con cookie ajena recibe 403 Forbidden" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="3" time="0.130348"/>
+      <testcase name="5. Acceso a subsanación que pertenece a otra evaluación retorna 404" file="tests\Feature\AnalisisMultimodalGeminiTest.php::5. Acceso a subsanación que pertenece a otra evaluación retorna 404" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="1" time="0.162079"/>
+      <testcase name="6. Idempotencia: solicitudes repetidas devuelven el análisis activo existente sin duplicar Jobs" file="tests\Feature\AnalisisMultimodalGeminiTest.php::6. Idempotencia: solicitudes repetidas devuelven el análisis activo existente sin duplicar Jobs" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="1" time="0.119459">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">6. Idempotencia: solicitudes repetidas devuelven el análisis activo existente sin duplicar JobsExpected response status code [202] but received 422.
+Failed asserting that 422 is identical to 202.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at tests\Feature\AnalisisMultimodalGeminiTest.php:278</failure>
+      </testcase>
+      <testcase name="7. Documento PDF es rechazado amigablemente con 422 para análisis visual" file="tests\Feature\AnalisisMultimodalGeminiTest.php::7. Documento PDF es rechazado amigablemente con 422 para análisis visual" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="3" time="0.119782"/>
+      <testcase name="8. Archivo inexistente en almacenamiento retorna 400" file="tests\Feature\AnalisisMultimodalGeminiTest.php::8. Archivo inexistente en almacenamiento retorna 400" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="2" time="0.191859"/>
+      <testcase name="9. Procesamiento exitoso del Job persiste resultado y marca COMPLETADO" file="tests\Feature\AnalisisMultimodalGeminiTest.php::9. Procesamiento exitoso del Job persiste resultado y marca COMPLETADO" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="0" time="0.157327">
+        <error type="InvalidArgumentException">9. Procesamiento exitoso del Job persiste resultado y marca COMPLETADOInvalidArgumentException: El archivo no contiene una imagen visual válida.&#13;
+at app\Services\AI\AnalisisEvidenciaService.php:61
+at tests\Feature\AnalisisMultimodalGeminiTest.php:350</error>
+      </testcase>
+      <testcase name="10. Detección de discrepancia de hash al procesar el Job marca REQUIERE_REVISION sin enviar foto" file="tests\Feature\AnalisisMultimodalGeminiTest.php::10. Detección de discrepancia de hash al procesar el Job marca REQUIERE_REVISION sin enviar foto" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="0" time="0.126428">
+        <error type="InvalidArgumentException">10. Detección de discrepancia de hash al procesar el Job marca REQUIERE_REVISION sin enviar fotoInvalidArgumentException: El archivo no contiene una imagen visual válida.&#13;
+at app\Services\AI\AnalisisEvidenciaService.php:61
+at tests\Feature\AnalisisMultimodalGeminiTest.php:375</error>
+      </testcase>
+      <testcase name="11. Error HTTP 429 de cuota en Gemini es manejado limpiamente" file="tests\Feature\AnalisisMultimodalGeminiTest.php::11. Error HTTP 429 de cuota en Gemini es manejado limpiamente" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="0" time="0.139691">
+        <error type="InvalidArgumentException">11. Error HTTP 429 de cuota en Gemini es manejado limpiamenteInvalidArgumentException: El archivo no contiene una imagen visual válida.&#13;
+at app\Services\AI\AnalisisEvidenciaService.php:61
+at tests\Feature\AnalisisMultimodalGeminiTest.php:401</error>
+      </testcase>
+      <testcase name="12. Respuesta con imagen ILEGIBLE marca estado REQUIERE_REVISION" file="tests\Feature\AnalisisMultimodalGeminiTest.php::12. Respuesta con imagen ILEGIBLE marca estado REQUIERE_REVISION" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="0" time="0.166460">
+        <error type="InvalidArgumentException">12. Respuesta con imagen ILEGIBLE marca estado REQUIERE_REVISIONInvalidArgumentException: El archivo no contiene una imagen visual válida.&#13;
+at app\Services\AI\AnalisisEvidenciaService.php:61
+at tests\Feature\AnalisisMultimodalGeminiTest.php:432</error>
+      </testcase>
+      <testcase name="13. El análisis de IA NO altera el payload_canonico ni el hash_integridad sellados" file="tests\Feature\AnalisisMultimodalGeminiTest.php::13. El análisis de IA NO altera el payload_canonico ni el hash_integridad sellados" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="0" time="0.157597">
+        <error type="InvalidArgumentException">13. El análisis de IA NO altera el payload_canonico ni el hash_integridad selladosInvalidArgumentException: El archivo no contiene una imagen visual válida.&#13;
+at app\Services\AI\AnalisisEvidenciaService.php:61
+at tests\Feature\AnalisisMultimodalGeminiTest.php:462</error>
+      </testcase>
+      <testcase name="14. Consulta de estado GET /analisis/{uuid}/estado retorna resultado completo al titular" file="tests\Feature\AnalisisMultimodalGeminiTest.php::14. Consulta de estado GET /analisis/{uuid}/estado retorna resultado completo al titular" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="2" time="0.151972"/>
+      <testcase name="15. Historial de análisis GET /evidencias/{subsanacion}/analisis lista análisis vinculados" file="tests\Feature\AnalisisMultimodalGeminiTest.php::15. Historial de análisis GET /evidencias/{subsanacion}/analisis lista análisis vinculados" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="2" time="0.123062"/>
+      <testcase name="16. ValidacionResultadoIAService sanea términos categóricos prohibidos" file="tests\Feature\AnalisisMultimodalGeminiTest.php::16. ValidacionResultadoIAService sanea términos categóricos prohibidos" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="4" time="0.100743"/>
+      <testcase name="17. ValidacionResultadoIAService rechaza payloads con campos faltantes arrojando InvalidArgumentException" file="tests\Feature\AnalisisMultimodalGeminiTest.php::17. ValidacionResultadoIAService rechaza payloads con campos faltantes arrojando InvalidArgumentException" class="Tests\Feature\AnalisisMultimodalGeminiTest" classname="Tests.Feature.AnalisisMultimodalGeminiTest" assertions="1" time="0.093708"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\SubsanacionDirectaTest" file="tests\Feature\SubsanacionDirectaTest.php" tests="6" assertions="74" errors="0" failures="0" skipped="0" time="0.785032">
+      <testcase name="propietario autenticado accede a subsanar-items y solo recibe criterios observados" file="tests\Feature\SubsanacionDirectaTest.php::propietario autenticado accede a subsanar-items y solo recibe criterios observados" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="22" time="0.129098"/>
+      <testcase name="usuario no autorizado recibe 403 al acceder a subsanar-items" file="tests\Feature\SubsanacionDirectaTest.php::usuario no autorizado recibe 403 al acceder a subsanar-items" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="1" time="0.088028"/>
+      <testcase name="invitado sin autorización recibe 403 en subsanar-items" file="tests\Feature\SubsanacionDirectaTest.php::invitado sin autorización recibe 403 en subsanar-items" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="1" time="0.127322"/>
+      <testcase name="invitado con cookie válida accede a subsanar-items" file="tests\Feature\SubsanacionDirectaTest.php::invitado con cookie válida accede a subsanar-items" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="12" time="0.167042"/>
+      <testcase name="declarar-subsanado actualiza respuesta a CUMPLE_DECLARADO con notas" file="tests\Feature\SubsanacionDirectaTest.php::declarar-subsanado actualiza respuesta a CUMPLE_DECLARADO con notas" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="3" time="0.130788"/>
+      <testcase name="al subsanar todas las observaciones, la autoevaluacion queda al 100% y en estado CONFORME en el Dashboard" file="tests\Feature\SubsanacionDirectaTest.php::al subsanar todas las observaciones, la autoevaluacion queda al 100% y en estado CONFORME en el Dashboard" class="Tests\Feature\SubsanacionDirectaTest" classname="Tests.Feature.SubsanacionDirectaTest" assertions="35" time="0.142756"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\SubsanacionEvidenciasTest" file="tests\Feature\SubsanacionEvidenciasTest.php" tests="12" assertions="49" errors="0" failures="9" skipped="0" time="0.865842">
+      <testcase name="it persiste una evidencia de imagen válida en storage privado y actualiza evidencia_url" file="tests\Feature\SubsanacionEvidenciasTest.php::it persiste una evidencia de imagen válida en storage privado y actualiza evidencia_url" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.059248">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it persiste una evidencia de imagen válida en storage privado y actualiza evidencia_urlSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:106</failure>
+      </testcase>
+      <testcase name="it acepta una imagen WEBP como evidencia declarada" file="tests\Feature\SubsanacionEvidenciasTest.php::it acepta una imagen WEBP como evidencia declarada" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.068214">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it acepta una imagen WEBP como evidencia declaradaSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:135</failure>
+      </testcase>
+      <testsuite name="it rechaza archivos de evidencia no permitidos sin persistir subsanació" tests="2" assertions="12" errors="0" failures="0" skipped="0" time="0.157220">
+        <testcase name="it rechaza archivos de evidencia no permitidos sin persistir subsanación with data set &quot;dataset &quot;ejecutable&quot;&quot;" file="tests\Feature\SubsanacionEvidenciasTest.php::it rechaza archivos de evidencia no permitidos sin persistir subsanación with data set &quot;dataset &quot;ejecutable&quot;&quot;" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="6" time="0.077986"/>
+        <testcase name="it rechaza archivos de evidencia no permitidos sin persistir subsanación with data set &quot;dataset &quot;imagen mayor a 5 MB&quot;&quot;" file="tests\Feature\SubsanacionEvidenciasTest.php::it rechaza archivos de evidencia no permitidos sin persistir subsanación with data set &quot;dataset &quot;imagen mayor a 5 MB&quot;&quot;" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="6" time="0.079233"/>
+      </testsuite>
+      <testcase name="it registra la trazabilidad histórica al cambiar el estado de una subsanación" file="tests\Feature\SubsanacionEvidenciasTest.php::it registra la trazabilidad histórica al cambiar el estado de una subsanación" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="4" time="0.056069">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it registra la trazabilidad histórica al cambiar el estado de una subsanaciónFailed asserting that 1 is identical to 0.&#13;
+at tests\Feature\SubsanacionEvidenciasTest.php:189</failure>
+      </testcase>
+      <testcase name="it pasa a semáforo VERDE cuando todas las observaciones están declaradas como subsanadas" file="tests\Feature\SubsanacionEvidenciasTest.php::it pasa a semáforo VERDE cuando todas las observaciones están declaradas como subsanadas" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="9" time="0.113531"/>
+      <testcase name="it solo el titular registrado puede descargar su evidencia declarada" file="tests\Feature\SubsanacionEvidenciasTest.php::it solo el titular registrado puede descargar su evidencia declarada" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.073391">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it solo el titular registrado puede descargar su evidencia declaradaSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:264</failure>
+      </testcase>
+      <testcase name="it exige el guest_session_token original para descargar evidencias de invitados" file="tests\Feature\SubsanacionEvidenciasTest.php::it exige el guest_session_token original para descargar evidencias de invitados" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.078550">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it exige el guest_session_token original para descargar evidencias de invitadosSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:284</failure>
+      </testcase>
+      <testcase name="it rechaza aplicar una evidencia desconocida sobre una autoevaluación ajena" file="tests\Feature\SubsanacionEvidenciasTest.php::it rechaza aplicar una evidencia desconocida sobre una autoevaluación ajena" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.067280">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it rechaza aplicar una evidencia desconocida sobre una autoevaluación ajenaSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:301</failure>
+      </testcase>
+      <testcase name="it conserva la evidencia declarada ante recargas y consultas posteriores" file="tests\Feature\SubsanacionEvidenciasTest.php::it conserva la evidencia declarada ante recargas y consultas posteriores" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.062841">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it conserva la evidencia declarada ante recargas y consultas posterioresSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:320</failure>
+      </testcase>
+      <testcase name="it mantiene separadas las evidencias entre revisiones de una reevaluación" file="tests\Feature\SubsanacionEvidenciasTest.php::it mantiene separadas las evidencias entre revisiones de una reevaluación" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.052137">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it mantiene separadas las evidencias entre revisiones de una reevaluaciónSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:344</failure>
+      </testcase>
+      <testcase name="it conserva en almacenamiento privado la evidencia anterior al reemplazarla para custodia histórica" file="tests\Feature\SubsanacionEvidenciasTest.php::it conserva en almacenamiento privado la evidencia anterior al reemplazarla para custodia histórica" class="Tests\Feature\SubsanacionEvidenciasTest" classname="Tests.Feature.SubsanacionEvidenciasTest" assertions="3" time="0.077361">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">it conserva en almacenamiento privado la evidencia anterior al reemplazarla para custodia históricaSession has unexpected errors: &#13;
+&#13;
+{
+    "default": [
+        "The evidencia field must be at least 1 kilobytes."
+    ]
+}
+Failed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1695
+at tests\Feature\SubsanacionEvidenciasTest.php:80
+at tests\Feature\SubsanacionEvidenciasTest.php:374</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\Feature\TrazabilidadForenseSubsanacionTest" file="tests\Feature\TrazabilidadForenseSubsanacionTest.php" tests="4" assertions="10" errors="0" failures="0" skipped="0" time="0.232390">
+      <testcase name="registra user_id e ip_address en historial_subsanaciones para trazabilidad forense" file="tests\Feature\TrazabilidadForenseSubsanacionTest.php::registra user_id e ip_address en historial_subsanaciones para trazabilidad forense" class="Tests\Feature\TrazabilidadForenseSubsanacionTest" classname="Tests.Feature.TrazabilidadForenseSubsanacionTest" assertions="7" time="0.085127"/>
+      <testcase name="rechaza con 403 a un usuario ajeno que intenta acceder al panel de subsanación (SEC-05 IDOR)" file="tests\Feature\TrazabilidadForenseSubsanacionTest.php::rechaza con 403 a un usuario ajeno que intenta acceder al panel de subsanación (SEC-05 IDOR)" class="Tests\Feature\TrazabilidadForenseSubsanacionTest" classname="Tests.Feature.TrazabilidadForenseSubsanacionTest" assertions="1" time="0.061485"/>
+      <testcase name="rechaza con 403 a un usuario ajeno que intenta guardar una subsanación (SEC-05 IDOR)" file="tests\Feature\TrazabilidadForenseSubsanacionTest.php::rechaza con 403 a un usuario ajeno que intenta guardar una subsanación (SEC-05 IDOR)" class="Tests\Feature\TrazabilidadForenseSubsanacionTest" classname="Tests.Feature.TrazabilidadForenseSubsanacionTest" assertions="1" time="0.049717"/>
+      <testcase name="rechaza con 403 a un usuario ajeno que intenta consultar el anexo oficial CENEPRED (SEC-05 IDOR)" file="tests\Feature\TrazabilidadForenseSubsanacionTest.php::rechaza con 403 a un usuario ajeno que intenta consultar el anexo oficial CENEPRED (SEC-05 IDOR)" class="Tests\Feature\TrazabilidadForenseSubsanacionTest" classname="Tests.Feature.TrazabilidadForenseSubsanacionTest" assertions="1" time="0.036061"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php" tests="17" assertions="52" errors="0" failures="0" skipped="0" time="8.089172">
+      <testcase name="1. declararSubsanado no muta el payload_canonico inmutable de la autoevaluacion registrada" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::1. declararSubsanado no muta el payload_canonico inmutable de la autoevaluacion registrada" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="3" time="0.127690"/>
+      <testcase name="2. declararSubsanado no muta el hash_integridad criptografico original" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::2. declararSubsanado no muta el hash_integridad criptografico original" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="2" time="0.113526"/>
+      <testcase name="3. declararSubsanado genera registro en subsanaciones vinculado directamente con autoevaluacion_id y criterio_id" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::3. declararSubsanado genera registro en subsanaciones vinculado directamente con autoevaluacion_id y criterio_id" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="5" time="0.111767"/>
+      <testcase name="4. declararSubsanado genera registro en historial_subsanaciones con user_id y estados" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::4. declararSubsanado genera registro en historial_subsanaciones con user_id y estados" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="4" time="0.137390"/>
+      <testcase name="5. declararSubsanado actualiza reactivamente contadores operacionales y semaforo" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::5. declararSubsanado actualiza reactivamente contadores operacionales y semaforo" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="4" time="0.166764"/>
+      <testcase name="6. verificarIntegridadHash retorna VALIDO y CANONICO_ESTRICTO para autoevaluaciones no adulteradas" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::6. verificarIntegridadHash retorna VALIDO y CANONICO_ESTRICTO para autoevaluaciones no adulteradas" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="4" time="0.144799"/>
+      <testcase name="7. verificarIntegridadHash detecta discrepancia NO_COINCIDE ante alteracion deliberada de payload_canonico" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::7. verificarIntegridadHash detecta discrepancia NO_COINCIDE ante alteracion deliberada de payload_canonico" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="2" time="0.116284"/>
+      <testcase name="8. verificarIntegridadHash ejecuta fallback para registros contaminados con metricas retornando COMPATIBILIDAD_HISTORICA_METRICAS" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::8. verificarIntegridadHash ejecuta fallback para registros contaminados con metricas retornando COMPATIBILIDAD_HISTORICA_METRICAS" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="2" time="0.133185"/>
+      <testcase name="9. Autoevaluacion en estado REGISTRADA arroja LogicException al intentar modificar campos sellados" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::9. Autoevaluacion en estado REGISTRADA arroja LogicException al intentar modificar campos sellados" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="3" time="0.148129"/>
+      <testcase name="10. Autoevaluacion en estado REGISTRADA permite actualizar campos operacionales y dinamicos" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::10. Autoevaluacion en estado REGISTRADA permite actualizar campos operacionales y dinamicos" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="3" time="0.105508"/>
+      <testcase name="11. HistorialSubsanacion arroja LogicException ante intento de update (append-only)" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::11. HistorialSubsanacion arroja LogicException ante intento de update (append-only)" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="1" time="0.136954"/>
+      <testcase name="12. HistorialSubsanacion arroja LogicException ante intento de delete (append-only)" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::12. HistorialSubsanacion arroja LogicException ante intento de delete (append-only)" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="1" time="0.097806"/>
+      <testcase name="13. guardarSubsanacion conserva archivo anterior en disco privado para custodia historica" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::13. guardarSubsanacion conserva archivo anterior en disco privado para custodia historica" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="6" time="0.156774"/>
+      <testcase name="14. guardarSubsanacion genera nombre no colisionante y almacena hash_sha256 de 64 caracteres" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::14. guardarSubsanacion genera nombre no colisionante y almacena hash_sha256 de 64 caracteres" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="5" time="0.115531"/>
+      <testcase name="15. guardarSubsanacion ejecuta eliminacion compensatoria del archivo fisico si falla la base de datos" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::15. guardarSubsanacion ejecuta eliminacion compensatoria del archivo fisico si falla la base de datos" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="1" time="5.918397"/>
+      <testcase name="16. descargarEvidencia permite descarga al titular para subsanacion directa con autoevaluacion_id sin simulacion previa" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::16. descargarEvidencia permite descarga al titular para subsanacion directa con autoevaluacion_id sin simulacion previa" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="1" time="0.174953"/>
+      <testcase name="17. descargarEvidencia deniega con 403 a usuarios no autorizados o invitados sin cookie legitima" file="tests\Feature\AutoevaluacionIntegridadCicloVidaTest.php::17. descargarEvidencia deniega con 403 a usuarios no autorizados o invitados sin cookie legitima" class="Tests\Feature\AutoevaluacionIntegridadCicloVidaTest" classname="Tests.Feature.AutoevaluacionIntegridadCicloVidaTest" assertions="5" time="0.183715"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

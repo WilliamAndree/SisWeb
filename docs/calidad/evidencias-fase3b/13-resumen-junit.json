@@ -1,0 +1,74 @@
+﻿[
+    {
+        "file":  "02-aislamiento-inicial.junit.xml",
+        "tests":  27,
+        "assertions":  44,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "0.813726"
+    },
+    {
+        "file":  "03-rojo.junit.xml",
+        "tests":  17,
+        "assertions":  23,
+        "failures":  13,
+        "errors":  1,
+        "skipped":  0,
+        "time":  "11.295995"
+    },
+    {
+        "file":  "04-rojo-confirmado.junit.xml",
+        "tests":  17,
+        "assertions":  24,
+        "failures":  14,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "11.135817"
+    },
+    {
+        "file":  "05-verde.junit.xml",
+        "tests":  17,
+        "assertions":  46,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "18.899136"
+    },
+    {
+        "file":  "06-checklist.junit.xml",
+        "tests":  19,
+        "assertions":  115,
+        "failures":  6,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "28.376937"
+    },
+    {
+        "file":  "07-refactor.junit.xml",
+        "tests":  44,
+        "assertions":  187,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "16.399506"
+    },
+    {
+        "file":  "09-modulos-aislamiento.junit.xml",
+        "tests":  200,
+        "assertions":  1501,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "42.124600"
+    },
+    {
+        "file":  "11-regresion-final.junit.xml",
+        "tests":  569,
+        "assertions":  4201,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "68.745223"
+    }
+]

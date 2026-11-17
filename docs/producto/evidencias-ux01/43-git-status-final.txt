@@ -1,0 +1,66 @@
+﻿ M .github/workflows/tests.yml
+ M .gitignore
+ M app/Http/Controllers/EvaluacionController.php
+ M app/Http/Controllers/PlanoEstablecimientoController.php
+ M app/Http/Controllers/Traits/EvaluacionHelperTrait.php
+ M app/Http/Requests/StoreAutoevaluacionRequest.php
+ M app/Jobs/AnalisisEvidenciaJob.php
+ M app/Models/AnalisisEspacial.php
+ M app/Models/Autoevaluacion.php
+ M app/Models/ResultadoAnalisisEvidencia.php
+ M app/Models/VersionPlano.php
+ M app/Services/AI/AnalisisEvidenciaService.php
+ M app/Services/AI/GeminiMultimodalService.php
+ M app/Services/AI/ValidacionResultadoIAService.php
+ M app/Services/Espacio/AnalisisEspacialService.php
+ M app/Services/Espacio/Geometria/GeometriaPuntoSegmento.php
+ M app/Services/Espacio/GestionEspacialService.php
+ M app/Services/Evaluacion/IntegridadEvaluacionService.php
+ M phpunit.xml
+ M resources/css/app.css
+ M resources/js/components/Espacio/PlanoEditor2D.tsx
+ M resources/js/components/Evaluacion/DiagnosticoMultidimensional.tsx
+ M resources/js/components/Evaluacion/PanelResultadoAnalisisIA.tsx
+ M resources/js/components/RegistrarLocalButton.tsx
+ M resources/js/components/shared/CryptoSealBadge.tsx
+ M resources/js/components/ui/button.tsx
+ M resources/js/layouts/AppLayout.tsx
+ M resources/js/pages/Evaluacion/Checklist.tsx
+ M resources/js/pages/Evaluacion/Home.tsx
+ M resources/js/pages/Evaluacion/Nueva.tsx
+ M resources/js/pages/Evaluacion/Resumen.tsx
+ M resources/js/pages/Evaluacion/SubsanacionDirecta.tsx
+ M resources/js/pages/Evaluacion/components/ResumenHeader.tsx
+ M tests/Feature/AnalisisMultimodalGeminiTest.php
+ M tests/Feature/ChecklistDinamicoEndpointTest.php
+ M tests/Feature/ChecklistInteractivaViewTest.php
+ M tests/Feature/ChecklistUX032Test.php
+ M tests/Feature/ClasificacionTramiteResumenTest.php
+ M tests/Feature/DesacoplamientoFlujoLegadoTest.php
+ M tests/Feature/RecursosEducativosIntegrationTest.php
+ M tests/Feature/ResumenDescriptivoTest.php
+ M tests/TestCase.php
+?? .env.testing.example
+?? app/Services/Evaluacion/EvidenciaPrivadaService.php
+?? resources/js/components/Evaluacion/FlujoCiudadano.tsx
+?? resources/js/lib/analisis-ia.ts
+?? tests/Feature/AutoevaluacionReglasTddTest.php
+?? tests/Feature/AutorizacionUniformeTddTest.php
+?? tests/Feature/ChecklistConsistenciaTddTest.php
+?? tests/Feature/ConectividadGrafosTddTest.php
+?? tests/Feature/ContratosFrontendUxTest.php
+?? tests/Feature/CroquisIntegridadTddTest.php
+?? tests/Feature/EvidenciasSeguridadTddTest.php
+?? tests/Feature/FlujosCriticosTddTest.php
+?? tests/Feature/GeminiResilienciaTddTest.php
+?? tests/Frontend/
+?? tests/Support/
+?? tests/Unit/GeometriaRobustezTddTest.php
+?? tests/Unit/IntegridadCanonicaTddTest.php
+?? tests/Unit/IntegridadEvaluacionServiceTest.php
+?? tests/Unit/TestEnvironmentTest.php
+?? tests/Unit/ValidacionResultadoIAServiceTest.php
+?? tests/Unit/ValidacionResultadoIATddTest.php
+?? tests/bootstrap.php
+?? tests/preflight.php
+?? tests/start-native-mariadb.ps1

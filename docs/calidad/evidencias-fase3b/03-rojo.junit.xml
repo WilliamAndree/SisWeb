@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="17" assertions="23" errors="1" failures="13" skipped="0" time="11.295995">
+    <testsuite name="Tests\Unit\IntegridadEvaluacionServiceTest" file="tests\Unit\IntegridadEvaluacionServiceTest.php" tests="10" assertions="14" errors="0" failures="8" skipped="0" time="0.042903">
+      <testcase name="HASH-01 ordena objetos recursivamente y conserva listas unicode y barras" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-01 ordena objetos recursivamente y conserva listas unicode y barras" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="4" time="0.012324"/>
+      <testsuite name="HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.017066">
+        <testcase name="HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;utf8 invalido&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;utf8 invalido&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.015464">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set "dataset "utf8 invalido""Exception "JsonException" not thrown.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:21</failure>
+        </testcase>
+        <testcase name="HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;infinito&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;infinito&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.000848">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set "dataset "infinito""Exception "JsonException" not thrown.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:21</failure>
+        </testcase>
+        <testcase name="HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;nan&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set &quot;dataset &quot;nan&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.000754">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-02 rechaza datos no serializables sin generar la huella de una cadena vacia with data set "dataset "nan""Exception "JsonException" not thrown.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:21</failure>
+        </testcase>
+      </testsuite>
+      <testsuite name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio" tests="5" assertions="5" errors="0" failures="5" skipped="0" time="0.013304">
+        <testcase name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;json roto&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;json roto&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.009754">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set "dataset "json roto""Failed asserting that two strings are identical.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:37</failure>
+        </testcase>
+        <testcase name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;null serializado&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;null serializado&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.001002">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set "dataset "null serializado""Failed asserting that two strings are identical.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:37</failure>
+        </testcase>
+        <testcase name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;numero&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;numero&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.000883">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set "dataset "numero""Failed asserting that two strings are identical.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:37</failure>
+        </testcase>
+        <testcase name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;booleano&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;booleano&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.000837">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set "dataset "booleano""Failed asserting that two strings are identical.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:37</failure>
+        </testcase>
+        <testcase name="HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;texto&quot;&quot;" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set &quot;dataset &quot;texto&quot;&quot;" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="1" time="0.000828">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">HASH-03 no acredita snapshots malformados aunque coincida una huella de array vacio with data set "dataset "texto""Failed asserting that two strings are identical.&#13;
+at tests\Unit\IntegridadEvaluacionServiceTest.php:37</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="HASH-04 conserva la lectura de snapshots JSON historicos validos" file="tests\Unit\IntegridadEvaluacionServiceTest.php::HASH-04 conserva la lectura de snapshots JSON historicos validos" class="Tests\Unit\IntegridadEvaluacionServiceTest" classname="Tests.Unit.IntegridadEvaluacionServiceTest" assertions="2" time="0.000209"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\AutoevaluacionReglasTddTest" file="tests\Feature\AutoevaluacionReglasTddTest.php" tests="7" assertions="9" errors="1" failures="5" skipped="0" time="11.253092">
+      <testsuite name="AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion" tests="4" assertions="7" errors="0" failures="3" skipped="0" time="11.181252">
+        <testcase name="AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;GLP texto&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;GLP texto&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="1" time="11.058394">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set "dataset "GLP texto""Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\AutoevaluacionReglasTddTest.php:11</failure>
+        </testcase>
+        <testcase name="AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;caldero numero&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;caldero numero&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="1" time="0.025950">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set "dataset "caldero numero""Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\AutoevaluacionReglasTddTest.php:11</failure>
+        </testcase>
+        <testcase name="AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;inflamables array&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;inflamables array&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="1" time="0.046329">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set "dataset "inflamables array""Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\AutoevaluacionReglasTddTest.php:11</failure>
+        </testcase>
+        <testcase name="AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;fritura texto&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-01 devuelve 422 para booleanos invalidos sin crear una evaluacion with data set &quot;dataset &quot;fritura texto&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="4" time="0.050579"/>
+      </testsuite>
+      <testsuite name="AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.052406">
+        <testcase name="AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set &quot;dataset &quot;texto&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set &quot;dataset &quot;texto&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="1" time="0.024682">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set "dataset "texto""Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\AutoevaluacionReglasTddTest.php:27</failure>
+        </testcase>
+        <testcase name="AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set &quot;dataset &quot;array&quot;&quot;" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set &quot;dataset &quot;array&quot;&quot;" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="1" time="0.027724">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">AUTO-02 devuelve 422 para cantidad GLP no numerica sin convertirla en cero with data set "dataset "array""Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\AutoevaluacionReglasTddTest.php:27</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="AUTO-03 impide reabrir una evaluacion registrada para eludir el sello" file="tests\Feature\AutoevaluacionReglasTddTest.php::AUTO-03 impide reabrir una evaluacion registrada para eludir el sello" class="Tests\Feature\AutoevaluacionReglasTddTest" classname="Tests.Feature.AutoevaluacionReglasTddTest" assertions="0" time="0.019433">
+        <error type="Illuminate\Database\QueryException">AUTO-03 impide reabrir una evaluacion registrada para eludir el selloIlluminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'porcentaje_cumplimiento' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3307, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`uuid_trazabilidad`, `nombre_comercio`, `estado`, `payload_canonico`, `hash_integridad`, `updated_at`, `created_at`) values (00cb281e-3a5c-44ae-8f66-99756ca5faa4, Local sellado, REGISTRADA, {"nombre":"Local sellado"}, 25630f0d25e84ddcbe60532e09337706a3b34a0808a1efdfd13ba89f1fe77687, 2026-11-16 22:03:31, 2026-11-16 22:03:31))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutoevaluacionReglasTddTest.php:33
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'porcentaje_cumplimiento' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutoevaluacionReglasTddTest.php:33</error>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

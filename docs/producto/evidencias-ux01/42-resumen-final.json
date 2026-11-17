@@ -1,0 +1,22 @@
+﻿{
+    "backend_tests":  706,
+    "backend_assertions":  4593,
+    "backend_failures":  0,
+    "backend_errors":  0,
+    "backend_skipped":  0,
+    "frontend_tests":  12,
+    "frontend_failures":  0,
+    "typescript_exit":  0,
+    "eslint_intervened_exit":  0,
+    "eslint_global_exit":  1,
+    "eslint_global_remaining_errors":  27,
+    "vite_build_exit":  0,
+    "pint_exit":  0,
+    "git_diff_check_exit":  0,
+    "backup":  "C:\\Users\\USUARIO\\Downloads\\SisWeb\\respaldo-ux01-20261116-220833",
+    "compared_files":  619,
+    "unexpected_changes":  0,
+    "preflight":  "36-preflight-final.txt",
+    "backend_source":  "37-regresion-final.junit.xml",
+    "frontend_source":  "40-frontend-final.txt"
+}

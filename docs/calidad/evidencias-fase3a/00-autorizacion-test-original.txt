@@ -1,0 +1,89 @@
+<?php
+
+use App\Models\Autoevaluacion;
+use App\Models\Subsanacion;
+use App\Models\AnalisisEvidencia;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+
+function borradorAutorizacionTdd(?User $owner = null, ?string $token = null): Autoevaluacion
+{
+    return Autoevaluacion::create([
+        'uuid_trazabilidad' => (string) \Illuminate\Support\Str::uuid(),
+        'user_id' => $owner?->id,
+        'session_token' => $token,
+        'nombre_comercio' => 'Local sintético TDD',
+        'funcion_economica' => 'Comercio',
+        'estado' => Autoevaluacion::ESTADO_INICIADA,
+        'semaforo' => 'VERDE',
+        'porcentaje_cumplimiento' => 0,
+        'detalle_checklist' => [],
+    ]);
+}
+
+test('AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing', function (?string $token, string $action) {
+    $evaluation = borradorAutorizacionTdd(token: $token);
+    $uuid = $evaluation->uuid_trazabilidad;
+
+    $response = $action === 'revision'
+        ? $this->getJson("/autoevaluacion/revision/{$uuid}")
+        : $this->postJson("/autoevaluacion/{$uuid}/croquis/guardar", ['geometria' => ['niveles' => []]]);
+
+    $response->assertForbidden();
+    $this->assertDatabaseCount('planos_establecimientos', 0);
+})->with([null, ''])->with(['revision', 'croquis']);
+
+test('AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido', function (bool $owner) {
+    $user = User::factory()->create();
+    $evaluation = borradorAutorizacionTdd($user);
+    $this->actingAs($owner ? $user : User::factory()->create());
+
+    $response = $this->getJson('/autoevaluacion/revision/'.$evaluation->uuid_trazabilidad);
+
+    $owner ? $response->assertOk() : $response->assertForbidden();
+})->with([true, false]);
+
+test('AUTH-03 invitado conserva acceso solo con token valido', function (bool $valid) {
+    $evaluation = borradorAutorizacionTdd(token: 'token-legitimo-tdd');
+    $this->withCookie('guest_session_token', $valid ? 'token-legitimo-tdd' : 'token-ajeno-tdd');
+
+    $response = $this->getJson('/autoevaluacion/revision/'.$evaluation->uuid_trazabilidad);
+
+    $valid ? $response->assertOk() : $response->assertForbidden();
+})->with([true, false]);
+
+test('AUTH-04 sesion inmediata legitima sigue accediendo a su borrador', function () {
+    $evaluation = borradorAutorizacionTdd();
+
+    $this->withSession(['guest_authorized_uuid' => $evaluation->uuid_trazabilidad])
+        ->getJson('/autoevaluacion/revision/'.$evaluation->uuid_trazabilidad)->assertOk();
+});
+
+test('AUTH-05 croquis ajeno no puede modificarse ni crear versiones', function () {
+    $evaluation = borradorAutorizacionTdd(User::factory()->create());
+    $this->actingAs(User::factory()->create());
+
+    $this->postJson('/autoevaluacion/'.$evaluation->uuid_trazabilidad.'/croquis/guardar', ['geometria' => ['niveles' => []]])->assertForbidden();
+
+    $this->assertDatabaseCount('planos_establecimientos', 0);
+    $this->assertDatabaseCount('versiones_planos', 0);
+});
+
+test('AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs', function (string $resource) {
+    Storage::fake('local');
+    $owner = User::factory()->create();
+    $mine = borradorAutorizacionTdd($owner);
+    $other = borradorAutorizacionTdd(User::factory()->create());
+    Storage::disk('local')->put('evidencias/tdd.txt', 'privado');
+    $evidence = Subsanacion::create(['autoevaluacion_id' => $other->id, 'codigo_item' => 'CRIT-01', 'descripcion' => 'Evidencia ajena', 'evidencia_url' => 'evidencias/tdd.txt', 'estado' => 'PENDIENTE']);
+    $analysis = AnalisisEvidencia::create(['uuid_analisis' => (string) \Illuminate\Support\Str::uuid(), 'autoevaluacion_id' => $other->id, 'subsanacion_id' => $evidence->id, 'hash_evidencia_analizada' => hash('sha256', 'privado')]);
+    $this->actingAs($owner);
+    $uuid = $mine->uuid_trazabilidad;
+
+    $url = $resource === 'evidencia'
+        ? "/autoevaluacion/subsanacion/{$uuid}/evidencia/{$evidence->id}"
+        : "/autoevaluacion/{$uuid}/analisis/{$analysis->uuid_analisis}/estado";
+
+    $this->getJson($url)->assertNotFound();
+    Storage::disk('local')->assertExists('evidencias/tdd.txt');
+})->with(['evidencia', 'analisis']);

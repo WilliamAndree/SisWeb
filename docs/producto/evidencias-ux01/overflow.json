@@ -1,0 +1,20 @@
+[
+  {
+    "tag": "LI",
+    "classes": "flex items-center gap-1.5",
+    "text": "3Resumen",
+    "right": 326.75
+  },
+  {
+    "tag": "DIV",
+    "classes": "flex items-center gap-1.5 rounded-full px-3 py-1 transition bg-primary text-white shadow-2xs",
+    "text": "3Resumen",
+    "right": 326.75
+  },
+  {
+    "tag": "SPAN",
+    "classes": "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shrink-0 bg-emerald-50 text-emerald-800 border-emerald-200",
+    "text": "Conforme",
+    "right": 321.109375
+  }
+]

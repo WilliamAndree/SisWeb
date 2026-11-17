@@ -1,113 +1,97 @@
-# 🛡️ CheckITSE Huancayo (SisWeb)
+# CheckITSE Huancayo (SisWeb)
 
-Sistema técnico y preventivo para la gestión de inspecciones de seguridad en edificaciones (ITSE), autoevaluaciones normativas, flujos de subsanación y generación de informes criptográficos.
+Sistema web preventivo para la gestión de Inspecciones Técnicas de Seguridad en Edificaciones (ITSE) en Huancayo: autoevaluaciones normativas, checklist dinámico, flujos de subsanación, croquis y análisis espacial del local, análisis de evidencias con IA (Gemini) e informes con sello de integridad SHA-256.
 
-## 📐 1. Mapeo Global de Arquitectura (Modelo C4 & Modelo 4+1)
-- **Modelo C4 (Niveles de Zoom):**
-  - *Nivel 1 - Contexto Externo:* Propietarios y comerciantes de Huancayo interactúan con la plataforma web para autoevaluaciones preventivas e informes de seguridad.
-  - *Nivel 2 - Contenedores:* Aplicación Monolítica Modular (Backend Laravel 11 + Frontend React 19 / Inertia.js), Base de datos relacional y almacenamiento privado en disco.
-  - *Nivel 3 - Componentes:* Separación interna entre motores de negocio (`Services`), controladores de ruta (`Controllers`), modelos Eloquent (`Models`) y vistas interactivas (`Pages`).
-  - *Nivel 4 - Código:* Servicios de dominio puro orientados a contratos tipados bajo estándares estrictos de SonarQube (Quality Gate A).
-- **Modelo 4+1 (Vistas):** Aborda la vista lógica (modelos y servicios), de procesos (ciclo de vida de autoevaluación y hashes SHA-256), de desarrollo (estructura modular de código) y física (despliegue local/servidor con aislamiento de pruebas `sisweb_test`).
+## Arquitectura y stack
 
-## 🌐 2. Arquitectura Externa (Integración y Entorno)
-- **Diagrama de Contexto:** Fronteras del software orientadas a usuarios ciudadanos y autoridades locales, sin dependencias complejas con pasarelas de pago externas.
-- **Topología de Infraestructura:** Servidor local / Web Server (Apache/Nginx con PHP 8.2+) bajo protocolos seguros.
-- **Protocolos de Comunicación:** Tráfico cifrado mediante HTTPS y comunicación asíncrona de SPA vía Inertia.js (sin necesidad de WebSockets ni gRPC).
+React + TypeScript + Tailwind → Inertia.js → Laravel/PHP → MariaDB/MySQL. Es un **monolito modular**: el frontend React vive dentro de Laravel (`backend/resources/js`) y recibe sus datos como props de Inertia, sin una API REST separada.
 
-## 🔗 3. Conexión entre Componentes (El "Pegamento")
-- **Punto de Entrada (Router/Controller):** Las peticiones del usuario son gestionadas de forma centralizada por las rutas web de Laravel y dirigidas a los controladores correspondientes.
-- **Estilos de API:** Uso de arquitectura RESTful combinada con el puente nativo de Inertia.js para renderizado de vistas por props.
-- **Modelo de Ejecución:** Procesamiento sincrónico transaccional respaldado por transacciones atómicas en base de datos para asegurar el sellado criptográfico.
+| Capa | Tecnología |
+| --- | --- |
+| Backend | PHP 8.2+, Laravel 12, Sanctum 4, Inertia Laravel 2 |
+| Frontend | React 19, TypeScript 5, Tailwind CSS 4, Radix UI / shadcn/ui, Vite 6 |
+| Base de datos | MariaDB 10.4+ (XAMPP) o MySQL 8 |
+| Pruebas | Pest 3 / PHPUnit 11, pruebas de frontend con `node --test` |
+| Calidad | Laravel Pint, ESLint, Prettier, SonarQube |
+| IA | Google Gemini (análisis multimodal de evidencias) |
 
-## 🧠 4. Arquitectura Interna del Backend
-- **Patrón General:** Monolito Modular altamente estructurado.
-- **Lógica de Negocio (Servicios):** Desacoplada de los controladores mediante clases de servicio especializadas (`ItseRiskService`, `ApplicabilityEngineService`, etc.).
-- **Capa de Persistencia:** Base de datos relacional (MySQL/MariaDB) gestionada mediante Eloquent ORM con migraciones versionadas y aislamiento estricto para pruebas (`sisweb_test`).
+Detalle en [docs/arquitectura.md](docs/arquitectura.md).
 
-## 🎨 5. Arquitectura Interna del Frontend
-- **Arquitectura de Componentes:** Organización modular basada en React 19, TypeScript, Tailwind CSS v4 y componentes primitivos de Radix UI / shadcn/ui.
-- **Gestión de Estado:** Manejo de estado local mediante React Hooks y props tipadas proveídas directamente por Inertia.js desde el backend.
-- **Estrategia de Renderizado:** SPA (Single Page Application) orientada al cliente con hidratación rápida y navegación fluida sin recargas de página.
+## Estructura
 
-## 🔍 Reporte de Auditoría e Integridad del Sistema
-- **Archivos Backend Analizados:** 21 clases/traits PHP.
-- **Errores de Sintaxis Detectados:** 🟢 **0 (Sistema 100\% íntegro)**
-- **Componentes UI (shadcn/ui):** 6 componentes.
-- **Páginas Frontend (React/Inertia):** 15 archivos.
-- **Estado SonarQube Quality Gate:** 🟢 **PASSED** (0 New Issues, 0.09% Duplications).
+```text
+SisWeb/
+├── backend/            Laravel + Inertia (incluye el frontend React)
+│   ├── app/            Controllers, Models, Services (AI, Espacio, Evaluacion), Jobs
+│   ├── database/       Migraciones y seeders
+│   ├── resources/js/   pages/, components/, layouts/, hooks/, lib/, types/
+│   ├── routes/         web.php, api.php
+│   └── tests/          Feature, Unit, Frontend, Support
+├── docker/             Dockerfile del backend y configuración de Nginx
+├── docs/               Arquitectura, desarrollo local, pruebas, calidad y auditorías
+├── scripts/            Utilidades de desarrollo (instancia QA de MariaDB)
+├── .github/workflows/  CI: lint y pruebas
+├── docker-compose.yml
+├── README.md
+└── CONTRIBUTING.md
+```
 
-## ⚠️ Reglas Defensivas Obligatorias para Evitar Romper el Sistema
-Para mantener el estado de **Quality Gate: Passed** y garantizar cero regresiones, toda modificación futura debe atenerse estrictamente a estas reglas:
-1. **Inmutabilidad de Registros:** Jamás alteres registros con estado `REGISTRADA` directamente en la base de datos. Toda corrección debe transicionar por los flujos seguros de reevaluación o subsanación.
-2. **Trazabilidad Absoluta por UUID:** Utiliza estrictamente `uuid_trazabilidad` en las rutas de acceso público del ciudadano; evita exponer IDs primarios autoincrementales.
-3. **Cero Infracciones en SonarQube:** Todo código nuevo en TypeScript y PHP debe cumplir con las reglas de mantenibilidad (evitar funciones con más de 3 sentencias `return` en PHP, usar `React.ComponentRef` en lugar de `ElementRef` deprecado en React 19, y asegurar props tipadas con `Readonly<...>` en componentes UI).
-4. **Aseguramiento Obligatorio con Pruebas:** Antes de dar por finalizado cualquier cambio, ejecuta la suite de pruebas unitarias/integración con aislamiento (`php artisan test`) para certificar que todos los tests estén en verde.
+## Inicio rápido (XAMPP en Windows)
 
-## 🏗️ Inventario de Componentes del Sistema
-### Servicios de Negocio (`app/Services/`)
-- `ApplicabilityEngineService.php`
-- `DirectorioAliadosService.php`
-- `GeoLocationService.php`
-- `ItseRiskService.php`
+Requisitos: XAMPP con PHP 8.2+ y MariaDB, Composer y Node 22+.
 
-### Controladores y Traits
-- `C:/xampp/htdocs/SisWeb/app/Http/Controllers/Auth/AuthController.php`
-- `C:/xampp/htdocs/SisWeb/app/Http/Controllers/Controller.php`
-- `C:/xampp/htdocs/SisWeb/app/Http/Controllers/DirectorioController.php`
-- `C:/xampp/htdocs/SisWeb/app/Http/Controllers/EvaluacionController.php`
-- `C:/xampp/htdocs/SisWeb/app/Http/Controllers/Traits/EvaluacionHelperTrait.php`
+```powershell
+cd backend
+composer install
+npm ci
+copy .env.example .env          # solo si no existe
+php artisan key:generate        # solo si APP_KEY está vacío
+```
 
-### Modelos Eloquent
-- `ActividadComercial.php`
-- `Autoevaluacion.php`
-- `CategoriaSubsanacion.php`
-- `CriterioNormativo.php`
-- `HistorialSubsanacion.php`
-- `ProveedorRecurso.php`
-- `RecursoEducativo.php`
-- `ReglaAplicabilidad.php`
-- `RespuestaAutoevaluacion.php`
-- `SimulacionRevision.php`
-- `Subsanacion.php`
-- `User.php`
+1. Inicia **MySQL** desde el panel de XAMPP (un solo clic en *Start*).
+2. Crea la base de datos y cárgala:
 
-### Páginas Frontend (`resources/js/Pages/`)
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Auth/Login.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Auth/Register.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Directorio/Index.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/AnexoOficial.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Checklist.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/ExpedienteLocal.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Home.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/InformePreventivo.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/MisAutoevaluaciones.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Nueva.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Resultado.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Resumen.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/SimulacionRevision.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/Subsanacion.tsx`
-- `C:/xampp/htdocs/SisWeb/resources/js/pages/Evaluacion/components/ResumenHeader.tsx`
+   ```powershell
+   C:\xampp\mysql\bin\mysql.exe -uroot -e "CREATE DATABASE IF NOT EXISTS sisweb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+   php artisan migrate --seed
+   ```
 
-## 🔌 Endpoints y Rutas Principales
-- `GET /`
-- `GET /directorio`
-- `GET /nueva`
-- `GET /resultado/{uuid}`
-- `GET /{uuid}/checklist`
-- `GET /{uuid}/resumen`
-- `GET /reevaluar/{uuid}`
-- `GET /informe/{uuid}`
-- `GET /anexo/{uuid}`
-- `GET /revision/{uuid}`
-- `GET /subsanacion/{uuid}`
-- `GET /subsanacion/{uuid}/evidencia/{subsanacion}`
-- `GET /recursos-cercanos/{codigo}`
-- `GET /mis-autoevaluaciones`
-- `GET /api/autoevaluaciones/mis-evaluaciones`
-- `GET /mis-autoevaluaciones/{uuid}/expediente`
-- `GET /login`
-- `GET /registro`
-- `GET /usuario`
+3. Arranca la aplicación (servidor, cola, logs y Vite a la vez):
 
----*Documentación enterprise, control de calidad y reglas defensivas generadas automáticamente mediante `php artisan readme:generar`.*
+   ```powershell
+   composer run dev
+   ```
+
+4. Abre <http://localhost:8000>.
+
+Guía completa y solución de problemas en [docs/desarrollo-local.md](docs/desarrollo-local.md).
+
+## Inicio con Docker
+
+```powershell
+copy .env.example .env                 # completa DB_ROOT_PASSWORD y DB_PASSWORD
+copy backend\.env.example backend\.env # si no existe
+docker compose --profile assets run --rm assets
+docker compose up -d --build
+docker compose exec backend php artisan key:generate
+docker compose exec backend php artisan migrate --seed
+```
+
+La aplicación queda en <http://localhost:8000>.
+
+## Pruebas
+
+Las pruebas usan una base aislada (`sisweb_testing`) y se bloquean si el entorno no es seguro. Resumen:
+
+```powershell
+.\scripts\start-qa-mariadb.ps1   # instancia QA en 127.0.0.1:3307
+cd backend
+php tests/preflight.php
+php vendor/bin/pest --compact
+```
+
+Más información en [docs/pruebas.md](docs/pruebas.md).
+
+## Documentación
+
+Índice completo en [docs/README.md](docs/README.md). Para colaborar, lee [CONTRIBUTING.md](CONTRIBUTING.md).

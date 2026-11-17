@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\AutorizacionUniformeTddTest" file="tests\Feature\AutorizacionUniformeTddTest.php" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="11.941045">
+    <testsuite name="AUTH-03 invitado conserva acceso solo con token valido" tests="2" assertions="2" errors="0" failures="0" skipped="0" time="11.941045">
+      <testcase name="AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(true)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(true)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="1" time="11.905247"/>
+      <testcase name="AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(false)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(false)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="1" time="0.035798"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="21" assertions="21" errors="0" failures="21" skipped="0" time="23.178396">
+    <testsuite name="Tests\Unit\GeometriaRobustezTddTest" file="tests\Unit\GeometriaRobustezTddTest.php" tests="4" assertions="4" errors="0" failures="4" skipped="0" time="1.297750">
+      <testcase name="GEO-3D-01 no redondea un punto exterior para incluirlo dentro de la tolerancia" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-01 no redondea un punto exterior para incluirlo dentro de la tolerancia" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="1.199630">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-01 no redondea un punto exterior para incluirlo dentro de la toleranciaFailed asserting that true is false.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:8</failure>
+      </testcase>
+      <testsuite name="GEO-3D-02 rechaza puntos sin coordenadas numericas finitas" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.098119">
+        <testcase name="GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;texto&quot;&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;texto&quot;&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.002336">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set "dataset "texto""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;ausente&quot;&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;ausente&quot;&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.090397">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set "dataset "ausente""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;infinito&quot;&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set &quot;dataset &quot;infinito&quot;&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.005386">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-02 rechaza puntos sin coordenadas numericas finitas with data set "dataset "infinito""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:14</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="15" assertions="15" errors="0" failures="15" skipped="0" time="21.628071">
+      <testsuite name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones" tests="9" assertions="9" errors="0" failures="9" skipped="0" time="21.070405">
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;posicion textual&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;posicion textual&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="19.768580">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "posicion textual""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;posicion fuera del decimal SQL&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;posicion fuera del decimal SQL&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.170384">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "posicion fuera del decimal SQL""Expected response status code [422] but received 500.
+Failed asserting that 500 is identical to 422.&#13;
+&#13;
+The following exception occurred during the last request:
+
+PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'posicion_x' at row 1 in C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+Stack trace:
+#0 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(53): PDOStatement-&gt;execute()
+#1 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(827): Illuminate\Database\MySqlConnection-&gt;Illuminate\Database\{closure}('insert into `am...', Array)
+#2 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(794): Illuminate\Database\Connection-&gt;runQueryCallback('insert into `am...', Array, Object(Closure))
+#3 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(42): Illuminate\Database\Connection-&gt;run('insert into `am...', Array, Object(Closure))
+#4 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php(35): Illuminate\Database\MySqlConnection-&gt;insert('insert into `am...', Array, 'id')
+#5 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(4170): Illuminate\Database\Query\Processors\MySqlProcessor-&gt;processInsertGetId(Object(Illuminate\Database\Query\Builder), 'insert into `am...', Array, 'id')
+#6 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(2237): Illuminate\Database\Query\Builder-&gt;insertGetId(Array, 'id')
+#7 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1436): Illuminate\Database\Eloquent\Builder-&gt;__call('insertGetId', Array)
+#8 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1401): Illuminate\Database\Eloquent\Model-&gt;insertAndSetId(Object(Illuminate\Database\Eloquent\Builder), Array)
+#9 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1240): Illuminate\Database\Eloquent\Model-&gt;performInsert(Object(Illuminate\Database\Eloquent\Builder))
+#10 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1219): Illuminate\Database\Eloquent\Model-&gt;save()
+#11 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\helpers.php(393): Illuminate\Database\Eloquent\Builder-&gt;Illuminate\Database\Eloquent\{closure}(Object(App\Models\AmbienteZona))
+#12 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1218): tap(Object(App\Models\AmbienteZona), Object(Closure))
+#13 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php(23): Illuminate\Database\Eloquent\Builder-&gt;create(Array)
+#14 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2544): Illuminate\Database\Eloquent\Model-&gt;forwardCallTo(Object(Illuminate\Database\Eloquent\Builder), 'create', Array)
+#15 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2560): Illuminate\Database\Eloquent\Model-&gt;__call('create', Array)
+#16 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(398): Illuminate\Database\Eloquent\Model::__callStatic('create', Array)
+#17 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(316): App\Services\Espacio\GestionEspacialService-&gt;persistirEstructuraRelacional(Object(App\Models\VersionPlano), Array)
+#18 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php(35): App\Services\Espacio\GestionEspacialService-&gt;App\Services\Espacio\{closure}(Object(Illuminate\Database\MySqlConnection))
+#19 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(491): Illuminate\Database\Connection-&gt;transaction(Object(Closure))
+#20 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(363): Illuminate\Database\DatabaseManager-&gt;__call('transaction', Array)
+#21 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(276): Illuminate\Support\Facades\Facade::__callStatic('transaction', Array)
+#22 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Controllers\PlanoEstablecimientoController.php(172): App\Services\Espacio\GestionEspacialService-&gt;crearOActualizarVersion(Object(App\Models\PlanoEstablecimiento), Array, Object(App\Models\User), '', NULL)
+#23 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\PlanoEstablecimientoController-&gt;guardar('da653fae-b56a-4...', Object(Illuminate\Http\Request))
+#24 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(265): Illuminate\Routing\ControllerDispatcher-&gt;dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\PlanoEstablecimientoController), 'guardar')
+#25 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(211): Illuminate\Routing\Route-&gt;runController()
+#26 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(822): Illuminate\Routing\Route-&gt;run()
+#27 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router-&gt;Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#28 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleGuestSession.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleGuestSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#30 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets.php(32): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#31 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\inertiajs\inertia-laravel\src\Middleware.php(122): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#33 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleInertiaRequests.php(27): Inertia\Middleware-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#34 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleInertiaRequests-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#35 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(50): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#36 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken.php(87): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#41 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#42 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession-&gt;handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#43 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(821): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#50 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(800): Illuminate\Routing\Router-&gt;runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#51 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(764): Illuminate\Routing\Router-&gt;runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#52 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\Router-&gt;dispatchToRoute(Object(Illuminate\Http\Request))
+#53 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router-&gt;dispatch(Object(Illuminate\Http\Request))
+#54 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel-&gt;Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#55 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\mcp\src\Server\Middleware\AddWwwAuthenticateHeader.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#56 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Laravel\Mcp\Server\Middleware\AddWwwAuthenticateHeader-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#57 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#58 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#59 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#60 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#61 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#62 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#63 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#64 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#65 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(109): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#66 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#67 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#68 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#69 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#70 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#71 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#72 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#73 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(26): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#74 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#75 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#76 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#77 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel-&gt;sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#78 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel-&gt;handle(Object(Illuminate\Http\Request))
+#79 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase-&gt;call('POST', '/autoevaluacion...', Array, Array, Array, Array, '{"geometria":{"...')
+#80 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(411): Illuminate\Foundation\Testing\TestCase-&gt;json('POST', '/autoevaluacion...', Array, Array, 0)
+#81 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\tests\Feature\CroquisIntegridadTddTest.php(13): Illuminate\Foundation\Testing\TestCase-&gt;postJson('/autoevaluacion...', Array)
+#82 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseMethodFactory.php(171): P\Tests\Feature\CroquisIntegridadTddTest-&gt;{closure}('niveles.0.ambie...', 1.0E+100)
+#83 [internal function]: P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Factories\{closure}('niveles.0.ambie...', 1.0E+100)
+#84 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): call_user_func_array(Object(Closure), Array)
+#85 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Support\ExceptionTrace.php(26): P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Concerns\{closure}()
+#86 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): Pest\Support\ExceptionTrace::ensure(Object(Closure))
+#87 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(321): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__callClosure(Object(Closure), Array)
+#88 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseFactory.php(173) : eval()'d code(18): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__runTest(Object(Closure), 'niveles.0.ambie...', 1.0E+100)
+#89 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(1667): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__pest_evaluable_GEO_3D_03_rechaza_entrada_geometrica_invalida_con_422_sin_crear_versiones('niveles.0.ambie...', 1.0E+100)
+#90 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(519): PHPUnit\Framework\TestCase-&gt;runTest()
+#91 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(87): PHPUnit\Framework\TestCase-&gt;runBare()
+#92 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(365): PHPUnit\Framework\TestRunner-&gt;run(Object(P\Tests\Feature\CroquisIntegridadTddTest))
+#93 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestCase-&gt;run()
+#94 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#95 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#96 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite-&gt;run()
+#97 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\Application.php(211): PHPUnit\TextUI\TestRunner-&gt;run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#98 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Kernel.php(103): PHPUnit\TextUI\Application-&gt;run(Array)
+#99 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(184): Pest\Kernel-&gt;handle(Array, Array)
+#100 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(192): {closure}()
+#101 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\bin\pest(119): include('C:\\Users\\USUARI...')
+#102 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'posicion_x' at row 1 (Connection: mysql, Host: 127.0.0.1, Port: 3307, Database: sisweb_testing, SQL: insert into `ambientes_zonas` (`nivel_piso_id`, `codigo`, `nombre`, `uso`, `ancho_metros`, `largo_metros`, `area_m2`, `posicion_x`, `posicion_y`, `vertices_poligono`, `origen_dimensiones`, `notas`, `updated_at`, `created_at`) values (2, A, Local, ATENCION_PUBLICO, 4, 4, 16, 1.0E+100, 0, [{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":4},{"x":1.0e+100,"y":4}], DECLARADO_MANUAL, ?, 2026-11-17 02:22:10, 2026-11-17 02:22:10)) in C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+Stack trace:
+#0 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(794): Illuminate\Database\Connection-&gt;runQueryCallback('insert into `am...', Array, Object(Closure))
+#1 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(42): Illuminate\Database\Connection-&gt;run('insert into `am...', Array, Object(Closure))
+#2 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php(35): Illuminate\Database\MySqlConnection-&gt;insert('insert into `am...', Array, 'id')
+#3 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(4170): Illuminate\Database\Query\Processors\MySqlProcessor-&gt;processInsertGetId(Object(Illuminate\Database\Query\Builder), 'insert into `am...', Array, 'id')
+#4 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(2237): Illuminate\Database\Query\Builder-&gt;insertGetId(Array, 'id')
+#5 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1436): Illuminate\Database\Eloquent\Builder-&gt;__call('insertGetId', Array)
+#6 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1401): Illuminate\Database\Eloquent\Model-&gt;insertAndSetId(Object(Illuminate\Database\Eloquent\Builder), Array)
+#7 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1240): Illuminate\Database\Eloquent\Model-&gt;performInsert(Object(Illuminate\Database\Eloquent\Builder))
+#8 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1219): Illuminate\Database\Eloquent\Model-&gt;save()
+#9 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\helpers.php(393): Illuminate\Database\Eloquent\Builder-&gt;Illuminate\Database\Eloquent\{closure}(Object(App\Models\AmbienteZona))
+#10 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1218): tap(Object(App\Models\AmbienteZona), Object(Closure))
+#11 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php(23): Illuminate\Database\Eloquent\Builder-&gt;create(Array)
+#12 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2544): Illuminate\Database\Eloquent\Model-&gt;forwardCallTo(Object(Illuminate\Database\Eloquent\Builder), 'create', Array)
+#13 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2560): Illuminate\Database\Eloquent\Model-&gt;__call('create', Array)
+#14 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(398): Illuminate\Database\Eloquent\Model::__callStatic('create', Array)
+#15 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(316): App\Services\Espacio\GestionEspacialService-&gt;persistirEstructuraRelacional(Object(App\Models\VersionPlano), Array)
+#16 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php(35): App\Services\Espacio\GestionEspacialService-&gt;App\Services\Espacio\{closure}(Object(Illuminate\Database\MySqlConnection))
+#17 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(491): Illuminate\Database\Connection-&gt;transaction(Object(Closure))
+#18 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(363): Illuminate\Database\DatabaseManager-&gt;__call('transaction', Array)
+#19 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(276): Illuminate\Support\Facades\Facade::__callStatic('transaction', Array)
+#20 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Controllers\PlanoEstablecimientoController.php(172): App\Services\Espacio\GestionEspacialService-&gt;crearOActualizarVersion(Object(App\Models\PlanoEstablecimiento), Array, Object(App\Models\User), '', NULL)
+#21 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\PlanoEstablecimientoController-&gt;guardar('da653fae-b56a-4...', Object(Illuminate\Http\Request))
+#22 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(265): Illuminate\Routing\ControllerDispatcher-&gt;dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\PlanoEstablecimientoController), 'guardar')
+#23 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(211): Illuminate\Routing\Route-&gt;runController()
+#24 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(822): Illuminate\Routing\Route-&gt;run()
+#25 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router-&gt;Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleGuestSession.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#27 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleGuestSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#28 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets.php(32): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#30 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\inertiajs\inertia-laravel\src\Middleware.php(122): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#31 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleInertiaRequests.php(27): Inertia\Middleware-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleInertiaRequests-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#33 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(50): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#34 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#35 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken.php(87): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#36 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession-&gt;handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#41 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#43 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(821): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#48 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(800): Illuminate\Routing\Router-&gt;runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#49 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(764): Illuminate\Routing\Router-&gt;runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#50 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\Router-&gt;dispatchToRoute(Object(Illuminate\Http\Request))
+#51 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router-&gt;dispatch(Object(Illuminate\Http\Request))
+#52 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel-&gt;Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#53 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\mcp\src\Server\Middleware\AddWwwAuthenticateHeader.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#54 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Laravel\Mcp\Server\Middleware\AddWwwAuthenticateHeader-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#55 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#56 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#57 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#58 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#59 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#60 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#61 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#62 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#63 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(109): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#64 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#65 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#66 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#67 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#68 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#69 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#70 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#71 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(26): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#72 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#73 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#74 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#75 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel-&gt;sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#76 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel-&gt;handle(Object(Illuminate\Http\Request))
+#77 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase-&gt;call('POST', '/autoevaluacion...', Array, Array, Array, Array, '{"geometria":{"...')
+#78 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(411): Illuminate\Foundation\Testing\TestCase-&gt;json('POST', '/autoevaluacion...', Array, Array, 0)
+#79 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\tests\Feature\CroquisIntegridadTddTest.php(13): Illuminate\Foundation\Testing\TestCase-&gt;postJson('/autoevaluacion...', Array)
+#80 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseMethodFactory.php(171): P\Tests\Feature\CroquisIntegridadTddTest-&gt;{closure}('niveles.0.ambie...', 1.0E+100)
+#81 [internal function]: P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Factories\{closure}('niveles.0.ambie...', 1.0E+100)
+#82 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): call_user_func_array(Object(Closure), Array)
+#83 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Support\ExceptionTrace.php(26): P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Concerns\{closure}()
+#84 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): Pest\Support\ExceptionTrace::ensure(Object(Closure))
+#85 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(321): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__callClosure(Object(Closure), Array)
+#86 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseFactory.php(173) : eval()'d code(18): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__runTest(Object(Closure), 'niveles.0.ambie...', 1.0E+100)
+#87 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(1667): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__pest_evaluable_GEO_3D_03_rechaza_entrada_geometrica_invalida_con_422_sin_crear_versiones('niveles.0.ambie...', 1.0E+100)
+#88 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(519): PHPUnit\Framework\TestCase-&gt;runTest()
+#89 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(87): PHPUnit\Framework\TestCase-&gt;runBare()
+#90 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(365): PHPUnit\Framework\TestRunner-&gt;run(Object(P\Tests\Feature\CroquisIntegridadTddTest))
+#91 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestCase-&gt;run()
+#92 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#93 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#94 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite-&gt;run()
+#95 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\Application.php(211): PHPUnit\TextUI\TestRunner-&gt;run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#96 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Kernel.php(103): PHPUnit\TextUI\Application-&gt;run(Array)
+#97 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(184): Pest\Kernel-&gt;handle(Array, Array)
+#98 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(192): {closure}()
+#99 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\bin\pest(119): include('C:\\Users\\USUARI...')
+#100 {main}
+
+----------------------------------------------------------------------------------
+
+SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'posicion_x' at row 1 (Connection: mysql, Host: 127.0.0.1, Port: 3307, Database: sisweb_testing, SQL: insert into `ambientes_zonas` (`nivel_piso_id`, `codigo`, `nombre`, `uso`, `ancho_metros`, `largo_metros`, `area_m2`, `posicion_x`, `posicion_y`, `vertices_poligono`, `origen_dimensiones`, `notas`, `updated_at`, `created_at`) values (2, A, Local, ATENCION_PUBLICO, 4, 4, 16, 1.0E+100, 0, [{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":4},{"x":1.0e+100,"y":4}], DECLARADO_MANUAL, ?, 2026-11-17 02:22:10, 2026-11-17 02:22:10))&#13;
+&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;piso no entero&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;piso no entero&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.146471">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "piso no entero""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;altura textual&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;altura textual&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.124969">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "altura textual""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;altura negativa subcentimetro&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;altura negativa subcentimetro&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.123329">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "altura negativa subcentimetro""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;lista de conectores corrupta&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;lista de conectores corrupta&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.187200">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "lista de conectores corrupta""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;lista de vertices corrupta&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;lista de vertices corrupta&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.287361">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "lista de vertices corrupta""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;ancho enorme&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;ancho enorme&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.138028">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "ancho enorme""Expected response status code [422] but received 500.
+Failed asserting that 500 is identical to 422.&#13;
+&#13;
+The following exception occurred during the last request:
+
+PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'ancho_metros' at row 1 in C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+Stack trace:
+#0 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(53): PDOStatement-&gt;execute()
+#1 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(827): Illuminate\Database\MySqlConnection-&gt;Illuminate\Database\{closure}('insert into `am...', Array)
+#2 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(794): Illuminate\Database\Connection-&gt;runQueryCallback('insert into `am...', Array, Object(Closure))
+#3 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(42): Illuminate\Database\Connection-&gt;run('insert into `am...', Array, Object(Closure))
+#4 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php(35): Illuminate\Database\MySqlConnection-&gt;insert('insert into `am...', Array, 'id')
+#5 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(4170): Illuminate\Database\Query\Processors\MySqlProcessor-&gt;processInsertGetId(Object(Illuminate\Database\Query\Builder), 'insert into `am...', Array, 'id')
+#6 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(2237): Illuminate\Database\Query\Builder-&gt;insertGetId(Array, 'id')
+#7 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1436): Illuminate\Database\Eloquent\Builder-&gt;__call('insertGetId', Array)
+#8 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1401): Illuminate\Database\Eloquent\Model-&gt;insertAndSetId(Object(Illuminate\Database\Eloquent\Builder), Array)
+#9 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1240): Illuminate\Database\Eloquent\Model-&gt;performInsert(Object(Illuminate\Database\Eloquent\Builder))
+#10 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1219): Illuminate\Database\Eloquent\Model-&gt;save()
+#11 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\helpers.php(393): Illuminate\Database\Eloquent\Builder-&gt;Illuminate\Database\Eloquent\{closure}(Object(App\Models\AmbienteZona))
+#12 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1218): tap(Object(App\Models\AmbienteZona), Object(Closure))
+#13 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php(23): Illuminate\Database\Eloquent\Builder-&gt;create(Array)
+#14 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2544): Illuminate\Database\Eloquent\Model-&gt;forwardCallTo(Object(Illuminate\Database\Eloquent\Builder), 'create', Array)
+#15 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2560): Illuminate\Database\Eloquent\Model-&gt;__call('create', Array)
+#16 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(398): Illuminate\Database\Eloquent\Model::__callStatic('create', Array)
+#17 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(316): App\Services\Espacio\GestionEspacialService-&gt;persistirEstructuraRelacional(Object(App\Models\VersionPlano), Array)
+#18 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php(35): App\Services\Espacio\GestionEspacialService-&gt;App\Services\Espacio\{closure}(Object(Illuminate\Database\MySqlConnection))
+#19 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(491): Illuminate\Database\Connection-&gt;transaction(Object(Closure))
+#20 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(363): Illuminate\Database\DatabaseManager-&gt;__call('transaction', Array)
+#21 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(276): Illuminate\Support\Facades\Facade::__callStatic('transaction', Array)
+#22 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Controllers\PlanoEstablecimientoController.php(172): App\Services\Espacio\GestionEspacialService-&gt;crearOActualizarVersion(Object(App\Models\PlanoEstablecimiento), Array, Object(App\Models\User), '', NULL)
+#23 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\PlanoEstablecimientoController-&gt;guardar('7123245b-fe56-4...', Object(Illuminate\Http\Request))
+#24 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(265): Illuminate\Routing\ControllerDispatcher-&gt;dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\PlanoEstablecimientoController), 'guardar')
+#25 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(211): Illuminate\Routing\Route-&gt;runController()
+#26 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(822): Illuminate\Routing\Route-&gt;run()
+#27 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router-&gt;Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#28 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleGuestSession.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleGuestSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#30 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets.php(32): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#31 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\inertiajs\inertia-laravel\src\Middleware.php(122): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#33 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleInertiaRequests.php(27): Inertia\Middleware-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#34 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleInertiaRequests-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#35 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(50): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#36 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken.php(87): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#41 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#42 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession-&gt;handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#43 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#49 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(821): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#50 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(800): Illuminate\Routing\Router-&gt;runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#51 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(764): Illuminate\Routing\Router-&gt;runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#52 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\Router-&gt;dispatchToRoute(Object(Illuminate\Http\Request))
+#53 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router-&gt;dispatch(Object(Illuminate\Http\Request))
+#54 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel-&gt;Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#55 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\mcp\src\Server\Middleware\AddWwwAuthenticateHeader.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#56 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Laravel\Mcp\Server\Middleware\AddWwwAuthenticateHeader-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#57 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#58 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#59 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#60 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#61 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#62 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#63 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#64 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#65 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(109): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#66 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#67 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#68 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#69 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#70 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#71 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#72 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#73 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(26): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#74 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#75 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#76 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#77 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel-&gt;sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#78 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel-&gt;handle(Object(Illuminate\Http\Request))
+#79 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase-&gt;call('POST', '/autoevaluacion...', Array, Array, Array, Array, '{"geometria":{"...')
+#80 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(411): Illuminate\Foundation\Testing\TestCase-&gt;json('POST', '/autoevaluacion...', Array, Array, 0)
+#81 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\tests\Feature\CroquisIntegridadTddTest.php(13): Illuminate\Foundation\Testing\TestCase-&gt;postJson('/autoevaluacion...', Array)
+#82 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseMethodFactory.php(171): P\Tests\Feature\CroquisIntegridadTddTest-&gt;{closure}('niveles.0.ambie...', 1.0E+100)
+#83 [internal function]: P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Factories\{closure}('niveles.0.ambie...', 1.0E+100)
+#84 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): call_user_func_array(Object(Closure), Array)
+#85 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Support\ExceptionTrace.php(26): P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Concerns\{closure}()
+#86 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): Pest\Support\ExceptionTrace::ensure(Object(Closure))
+#87 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(321): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__callClosure(Object(Closure), Array)
+#88 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseFactory.php(173) : eval()'d code(18): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__runTest(Object(Closure), 'niveles.0.ambie...', 1.0E+100)
+#89 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(1667): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__pest_evaluable_GEO_3D_03_rechaza_entrada_geometrica_invalida_con_422_sin_crear_versiones('niveles.0.ambie...', 1.0E+100)
+#90 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(519): PHPUnit\Framework\TestCase-&gt;runTest()
+#91 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(87): PHPUnit\Framework\TestCase-&gt;runBare()
+#92 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(365): PHPUnit\Framework\TestRunner-&gt;run(Object(P\Tests\Feature\CroquisIntegridadTddTest))
+#93 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestCase-&gt;run()
+#94 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#95 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#96 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite-&gt;run()
+#97 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\Application.php(211): PHPUnit\TextUI\TestRunner-&gt;run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#98 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Kernel.php(103): PHPUnit\TextUI\Application-&gt;run(Array)
+#99 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(184): Pest\Kernel-&gt;handle(Array, Array)
+#100 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(192): {closure}()
+#101 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\bin\pest(119): include('C:\\Users\\USUARI...')
+#102 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'ancho_metros' at row 1 (Connection: mysql, Host: 127.0.0.1, Port: 3307, Database: sisweb_testing, SQL: insert into `ambientes_zonas` (`nivel_piso_id`, `codigo`, `nombre`, `uso`, `ancho_metros`, `largo_metros`, `area_m2`, `posicion_x`, `posicion_y`, `vertices_poligono`, `origen_dimensiones`, `notas`, `updated_at`, `created_at`) values (8, A, Local, ATENCION_PUBLICO, 1.0E+100, 4, 4.0E+100, 0, 0, [{"x":0,"y":0},{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":4},{"x":0,"y":4}], DECLARADO_MANUAL, ?, 2026-11-17 02:22:11, 2026-11-17 02:22:11)) in C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+Stack trace:
+#0 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Connection.php(794): Illuminate\Database\Connection-&gt;runQueryCallback('insert into `am...', Array, Object(Closure))
+#1 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php(42): Illuminate\Database\Connection-&gt;run('insert into `am...', Array, Object(Closure))
+#2 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php(35): Illuminate\Database\MySqlConnection-&gt;insert('insert into `am...', Array, 'id')
+#3 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(4170): Illuminate\Database\Query\Processors\MySqlProcessor-&gt;processInsertGetId(Object(Illuminate\Database\Query\Builder), 'insert into `am...', Array, 'id')
+#4 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(2237): Illuminate\Database\Query\Builder-&gt;insertGetId(Array, 'id')
+#5 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1436): Illuminate\Database\Eloquent\Builder-&gt;__call('insertGetId', Array)
+#6 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1401): Illuminate\Database\Eloquent\Model-&gt;insertAndSetId(Object(Illuminate\Database\Eloquent\Builder), Array)
+#7 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(1240): Illuminate\Database\Eloquent\Model-&gt;performInsert(Object(Illuminate\Database\Eloquent\Builder))
+#8 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1219): Illuminate\Database\Eloquent\Model-&gt;save()
+#9 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\helpers.php(393): Illuminate\Database\Eloquent\Builder-&gt;Illuminate\Database\Eloquent\{closure}(Object(App\Models\AmbienteZona))
+#10 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(1218): tap(Object(App\Models\AmbienteZona), Object(Closure))
+#11 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php(23): Illuminate\Database\Eloquent\Builder-&gt;create(Array)
+#12 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2544): Illuminate\Database\Eloquent\Model-&gt;forwardCallTo(Object(Illuminate\Database\Eloquent\Builder), 'create', Array)
+#13 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php(2560): Illuminate\Database\Eloquent\Model-&gt;__call('create', Array)
+#14 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(398): Illuminate\Database\Eloquent\Model::__callStatic('create', Array)
+#15 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(316): App\Services\Espacio\GestionEspacialService-&gt;persistirEstructuraRelacional(Object(App\Models\VersionPlano), Array)
+#16 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\Concerns\ManagesTransactions.php(35): App\Services\Espacio\GestionEspacialService-&gt;App\Services\Espacio\{closure}(Object(Illuminate\Database\MySqlConnection))
+#17 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Database\DatabaseManager.php(491): Illuminate\Database\Connection-&gt;transaction(Object(Closure))
+#18 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php(363): Illuminate\Database\DatabaseManager-&gt;__call('transaction', Array)
+#19 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Services\Espacio\GestionEspacialService.php(276): Illuminate\Support\Facades\Facade::__callStatic('transaction', Array)
+#20 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Controllers\PlanoEstablecimientoController.php(172): App\Services\Espacio\GestionEspacialService-&gt;crearOActualizarVersion(Object(App\Models\PlanoEstablecimiento), Array, Object(App\Models\User), '', NULL)
+#21 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\PlanoEstablecimientoController-&gt;guardar('7123245b-fe56-4...', Object(Illuminate\Http\Request))
+#22 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(265): Illuminate\Routing\ControllerDispatcher-&gt;dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\PlanoEstablecimientoController), 'guardar')
+#23 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Route.php(211): Illuminate\Routing\Route-&gt;runController()
+#24 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(822): Illuminate\Routing\Route-&gt;run()
+#25 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router-&gt;Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleGuestSession.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#27 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleGuestSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#28 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets.php(32): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#29 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#30 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\inertiajs\inertia-laravel\src\Middleware.php(122): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#31 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\app\Http\Middleware\HandleInertiaRequests.php(27): Inertia\Middleware-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#32 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\HandleInertiaRequests-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#33 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(50): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#34 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#35 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken.php(87): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#36 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\VerifyCsrfToken-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#37 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#38 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#39 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#40 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession-&gt;handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#41 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#43 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#45 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#47 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(821): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#48 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(800): Illuminate\Routing\Router-&gt;runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#49 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(764): Illuminate\Routing\Router-&gt;runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#50 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Routing\Router.php(753): Illuminate\Routing\Router-&gt;dispatchToRoute(Object(Illuminate\Http\Request))
+#51 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router-&gt;dispatch(Object(Illuminate\Http\Request))
+#52 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel-&gt;Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#53 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\mcp\src\Server\Middleware\AddWwwAuthenticateHeader.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#54 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Laravel\Mcp\Server\Middleware\AddWwwAuthenticateHeader-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#55 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#56 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#57 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#58 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(21): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#59 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#60 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#61 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#62 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#63 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(109): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#64 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#65 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#66 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#67 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#68 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#69 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#70 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#71 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(26): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#72 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding-&gt;handle(Object(Illuminate\Http\Request), Object(Closure))
+#73 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline-&gt;Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#74 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline-&gt;then(Object(Closure))
+#75 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel-&gt;sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#76 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(607): Illuminate\Foundation\Http\Kernel-&gt;handle(Object(Illuminate\Http\Request))
+#77 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(573): Illuminate\Foundation\Testing\TestCase-&gt;call('POST', '/autoevaluacion...', Array, Array, Array, Array, '{"geometria":{"...')
+#78 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(411): Illuminate\Foundation\Testing\TestCase-&gt;json('POST', '/autoevaluacion...', Array, Array, 0)
+#79 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\tests\Feature\CroquisIntegridadTddTest.php(13): Illuminate\Foundation\Testing\TestCase-&gt;postJson('/autoevaluacion...', Array)
+#80 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseMethodFactory.php(171): P\Tests\Feature\CroquisIntegridadTddTest-&gt;{closure}('niveles.0.ambie...', 1.0E+100)
+#81 [internal function]: P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Factories\{closure}('niveles.0.ambie...', 1.0E+100)
+#82 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): call_user_func_array(Object(Closure), Array)
+#83 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Support\ExceptionTrace.php(26): P\Tests\Feature\CroquisIntegridadTddTest-&gt;Pest\Concerns\{closure}()
+#84 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(419): Pest\Support\ExceptionTrace::ensure(Object(Closure))
+#85 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Concerns\Testable.php(321): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__callClosure(Object(Closure), Array)
+#86 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Factories\TestCaseFactory.php(173) : eval()'d code(18): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__runTest(Object(Closure), 'niveles.0.ambie...', 1.0E+100)
+#87 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(1667): P\Tests\Feature\CroquisIntegridadTddTest-&gt;__pest_evaluable_GEO_3D_03_rechaza_entrada_geometrica_invalida_con_422_sin_crear_versiones('niveles.0.ambie...', 1.0E+100)
+#88 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(519): PHPUnit\Framework\TestCase-&gt;runTest()
+#89 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(87): PHPUnit\Framework\TestCase-&gt;runBare()
+#90 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestCase.php(365): PHPUnit\Framework\TestRunner-&gt;run(Object(P\Tests\Feature\CroquisIntegridadTddTest))
+#91 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestCase-&gt;run()
+#92 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#93 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\Framework\TestSuite.php(369): PHPUnit\Framework\TestSuite-&gt;run()
+#94 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite-&gt;run()
+#95 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\phpunit\phpunit\src\TextUI\Application.php(211): PHPUnit\TextUI\TestRunner-&gt;run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#96 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\src\Kernel.php(103): PHPUnit\TextUI\Application-&gt;run(Array)
+#97 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(184): Pest\Kernel-&gt;handle(Array, Array)
+#98 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\pestphp\pest\bin\pest(192): {closure}()
+#99 C:\Users\USUARIO\Downloads\SisWeb\SisWeb\vendor\bin\pest(119): include('C:\\Users\\USUARI...')
+#100 {main}
+
+----------------------------------------------------------------------------------
+
+SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'ancho_metros' at row 1 (Connection: mysql, Host: 127.0.0.1, Port: 3307, Database: sisweb_testing, SQL: insert into `ambientes_zonas` (`nivel_piso_id`, `codigo`, `nombre`, `uso`, `ancho_metros`, `largo_metros`, `area_m2`, `posicion_x`, `posicion_y`, `vertices_poligono`, `origen_dimensiones`, `notas`, `updated_at`, `created_at`) values (8, A, Local, ATENCION_PUBLICO, 1.0E+100, 4, 4.0E+100, 0, 0, [{"x":0,"y":0},{"x":1.0e+100,"y":0},{"x":1.0e+100,"y":4},{"x":0,"y":4}], DECLARADO_MANUAL, ?, 2026-11-17 02:22:11, 2026-11-17 02:22:11))&#13;
+&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+        <testcase name="GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;booleano falso textual&quot;&quot;" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set &quot;dataset &quot;booleano falso textual&quot;&quot;" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.124083">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-03 rechaza entrada geometrica invalida con 422 sin crear versiones with data set "dataset "booleano falso textual""Expected response status code [422] but received 200.
+Failed asserting that 200 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\CroquisIntegridadTddTest.php:14</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="GEO-3D-04 rechaza poligono que toca una arista no adyacente" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-04 rechaza poligono que toca una arista no adyacente" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.056792">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-04 rechaza poligono que toca una arista no adyacenteException "InvalidArgumentException" not thrown.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:36</failure>
+      </testcase>
+      <testcase name="PLAN-3D-01 nunca produce hash de JSON no serializable" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-01 nunca produce hash de JSON no serializable" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.050589">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-01 nunca produce hash de JSON no serializableException "JsonException" not thrown.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:40</failure>
+      </testcase>
+      <testcase name="PLAN-3D-02 no permite reabrir una version historica cerrada" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-02 no permite reabrir una version historica cerrada" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.113799">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-02 no permite reabrir una version historica cerradaException "LogicException" not thrown.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:50</failure>
+      </testcase>
+      <testcase name="PLAN-3D-03 detecta divergencia relacional aunque la cantidad de filas no cambie" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-03 detecta divergencia relacional aunque la cantidad de filas no cambie" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.090093">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-03 detecta divergencia relacional aunque la cantidad de filas no cambieFailed asserting that true is false.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:60</failure>
+      </testcase>
+      <testcase name="PLAN-3D-04 rechaza descarga de geometria historica adulterada con 409" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-04 rechaza descarga de geometria historica adulterada con 409" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.116019">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-04 rechaza descarga de geometria historica adulterada con 409Expected response status code [409] but received 200.
+Failed asserting that 200 is identical to 409.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:191
+at tests\Feature\CroquisIntegridadTddTest.php:70</failure>
+      </testcase>
+      <testcase name="PLAN-3D-05 no divulga una version activa perteneciente a otro plano" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-05 no divulga una version activa perteneciente a otro plano" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.130375">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-05 no divulga una version activa perteneciente a otro planoExpected response status code [409] but received 200.
+Failed asserting that 200 is identical to 409.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:191
+at tests\Feature\CroquisIntegridadTddTest.php:78</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\Feature\ConectividadGrafosTddTest" file="tests\Feature\ConectividadGrafosTddTest.php" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.252576">
+      <testcase name="GRAFO-3D-01 habitaciones con el mismo codigo en pisos diferentes no se sobrescriben" file="tests\Feature\ConectividadGrafosTddTest.php::GRAFO-3D-01 habitaciones con el mismo codigo en pisos diferentes no se sobrescriben" class="Tests\Feature\ConectividadGrafosTddTest" classname="Tests.Feature.ConectividadGrafosTddTest" assertions="1" time="0.123862">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">GRAFO-3D-01 habitaciones con el mismo codigo en pisos diferentes no se sobrescribenFailed asserting that 1 is identical to 2.&#13;
+at tests\Feature\ConectividadGrafosTddTest.php:17</failure>
+      </testcase>
+      <testcase name="GRAFO-3D-02 escalera sin ambiente de llegada no confirma una conexion" file="tests\Feature\ConectividadGrafosTddTest.php::GRAFO-3D-02 escalera sin ambiente de llegada no confirma una conexion" class="Tests\Feature\ConectividadGrafosTddTest" classname="Tests.Feature.ConectividadGrafosTddTest" assertions="1" time="0.128713">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">GRAFO-3D-02 escalera sin ambiente de llegada no confirma una conexionFailed asserting that 1 is identical to 0.&#13;
+at tests\Feature\ConectividadGrafosTddTest.php:37</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

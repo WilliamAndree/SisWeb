@@ -1,0 +1,15 @@
+﻿{
+    "tests":  703,
+    "assertions":  4524,
+    "failures":  0,
+    "errors":  0,
+    "skipped":  0,
+    "baseline_tests":  631,
+    "new_tests":  72,
+    "compared_files":  890,
+    "authorized_changed_files":  8,
+    "unexpected_changes":  0,
+    "git_diff_check_exit":  0,
+    "source":  "17-regresion-final.junit.xml",
+    "preservation":  "21-preservacion.json"
+}

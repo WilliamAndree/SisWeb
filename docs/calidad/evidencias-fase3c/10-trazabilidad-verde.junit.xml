@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="2" assertions="10" errors="0" failures="0" skipped="0" time="11.412150">
+    <testsuite name="Tests\Feature\EvidenciasSeguridadTddTest" file="tests\Feature\EvidenciasSeguridadTddTest.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="11.127511">
+      <testcase name="SUB-3C-03 historial conserva el texto de la observacion editada" file="tests\Feature\EvidenciasSeguridadTddTest.php::SUB-3C-03 historial conserva el texto de la observacion editada" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="4" time="11.127511"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\GeminiResilienciaTddTest" file="tests\Feature\GeminiResilienciaTddTest.php" tests="1" assertions="6" errors="0" failures="0" skipped="0" time="0.284640">
+      <testcase name="IA-3C-15 estado publico omite payload crudo sin perder la trazabilidad privada" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-15 estado publico omite payload crudo sin perder la trazabilidad privada" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="6" time="0.284640"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

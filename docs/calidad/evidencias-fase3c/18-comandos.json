@@ -1,0 +1,208 @@
+{
+  "directorio": "C:/Users/USUARIO/Downloads/SisWeb/SisWeb",
+  "shell": "PowerShell",
+  "nota": "Comandos realmente invocados, incluidos intentos fallidos. Las salidas de Pest/Pint, códigos y JUnit están en los artefactos referidos. Las ediciones se realizaron con apply_patch; no hubo commits ni push.",
+  "comandos": [
+    {
+      "orden": 1,
+      "comando": "Get-Content -LiteralPath 'C:\\Users\\USUARIO\\.codex\\attachments\\a86c17d6-619d-4bdf-853f-fc172189d27e\\Texto pegado.txt' -Encoding UTF8; Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; git status --short; Get-Content AGENTS.md -TotalCount 12",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 2,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Get-Content .agents/skills/testing-best-practices/SKILL.md; Get-Content .agents/skills/laravel-best-practices/SKILL.md; Get-Content docs/calidad/18-resultados-fase3b.md -Encoding UTF8; Get-Content app/Services/AI/ValidacionResultadoIAService.php -Encoding UTF8; Get-Content app/Services/AI/AnalisisEvidenciaService.php -Encoding UTF8",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 3,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; New-Item -ItemType Directory docs/calidad/evidencias-fase3c -ErrorAction Stop | Out-Null; git status --porcelain | Set-Content docs/calidad/evidencias-fase3c/00-status.txt; git diff --binary | Set-Content docs/calidad/evidencias-fase3c/00-diff-previo.patch; $items=@(Get-Item .env,.env.testing; Get-ChildItem app,tests,storage,bootstrap/cache,docs/calidad -Recurse -File | Where-Object FullName -NotMatch 'evidencias-fase3c'); $items | ForEach-Object { [pscustomobject]@{path=$_.FullName;hash=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} } | ConvertTo-Json | Set-Content docs/calidad/evidencias-fase3c/00-huellas.json; Get-CimInstance Win32_Process | Where-Object Name -Match '^(codex|php|mysqld)\\.exe$' | Select-Object ProcessId,ParentProcessId,Name | Out-File docs/calidad/evidencias-fase3c/00-procesos.txt; php tests/preflight.php 2>&1 | Tee-Object docs/calidad/evidencias-fase3c/01-preflight.txt; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; php vendor/bin/pest --compact --colors=never --fail-on-risky --log-junit=docs/calidad/evidencias-fase3c/02-baseline.junit.xml *> docs/calidad/evidencias-fase3c/02-baseline.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/02-baseline.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/02-baseline.txt -Tail 15; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/00-status.txt",
+        "docs/calidad/evidencias-fase3c/00-diff-previo.patch",
+        "docs/calidad/evidencias-fase3c/00-huellas.json",
+        "docs/calidad/evidencias-fase3c/00-procesos.txt",
+        "docs/calidad/evidencias-fase3c/01-preflight.txt",
+        "docs/calidad/evidencias-fase3c/02-baseline.junit.xml",
+        "docs/calidad/evidencias-fase3c/02-baseline.txt"
+      ]
+    },
+    {
+      "orden": 4,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Get-Content app/Services/AI/GeminiMultimodalService.php -Encoding UTF8; Get-Content app/Jobs/AnalisisEvidenciaJob.php -Encoding UTF8; Get-Content app/Services/AI/MotorCorrelacionNormativaService.php -Encoding UTF8; rg -n 'test\\(|function|fake\\(|response\\(' tests/Feature/AnalisisMultimodalGeminiTest.php; Get-Content app/Http/Controllers/EvaluacionController.php -Encoding UTF8 | Select-Object -Skip 260 -First 140; rg -n 'function descargarEvidencia|function declararSubsanado|evidencia_url|codigo_item' app/Http/Controllers/EvaluacionController.php | Select-Object -First 35",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 5,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Get-Content app/Http/Controllers/EvaluacionController.php -Encoding UTF8 | Select-Object -Skip 780 -First 60; Get-Content tests/Feature/AnalisisMultimodalGeminiTest.php -Encoding UTF8 | Select-Object -First 156; Get-Content tests/Feature/AnalisisMultimodalGeminiTest.php -Encoding UTF8 | Select-Object -Skip 565 -First 70; Get-Content app/Models/AnalisisEvidencia.php -Encoding UTF8; Get-Content app/Models/ResultadoAnalisisEvidencia.php -Encoding UTF8 -TotalCount 115; Get-Content app/Http/Controllers/AnalisisEvidenciaController.php -Encoding UTF8 -TotalCount 160; @('assertions','isolation','endpoint-tests','security','test-data','review') | ForEach-Object { Get-Content ('.agents/skills/testing-best-practices/rules/'+$_+'.md') | Select-Object -First 22 }; @('security','validation','http-client','queue-jobs','error-handling') | ForEach-Object { Get-Content ('.agents/skills/laravel-best-practices/rules/'+$_+'.md') | Select-Object -First 20 }",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 6,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Get-Content AGENTS.md -Encoding UTF8 | Select-Object -Skip 180 -First 130; Get-Content docs/calidad/15-resultados-autorizacion.md -Encoding UTF8 -TotalCount 25; Get-Content docs/calidad/17-integridad-criptografica.md -Encoding UTF8 -Tail 15; Get-Content app/Models/ResultadoAnalisisEvidencia.php -Encoding UTF8 | Select-Object -Skip 5 -First 65; Get-Content app/Http/Controllers/EvaluacionController.php -Encoding UTF8 | Select-Object -Skip 836 -First 57; Get-Content vendor/laravel/framework/src/Illuminate/Queue/InteractsWithQueue.php -TotalCount 48; rg -n 'function failedConnection|function fakeSequence|function assertSentCount|function attempts|function fake' vendor/laravel/framework/src/Illuminate/Http/Client/Factory.php vendor/laravel/framework/src/Illuminate/Support/Sleep.php; Test-Path .ai/rules; Get-Content docs/calidad/evidencias-fase3c/00-procesos.txt",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/00-procesos.txt"
+      ]
+    },
+    {
+      "orden": 7,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php artisan make:test --pest ValidacionResultadoIAServiceTest --unit --env=testing --no-interaction; php artisan make:test --pest EvidenciasSeguridadTddTest --env=testing --no-interaction; php artisan make:test --pest GeminiResilienciaTddTest --env=testing --no-interaction; Get-Content vendor/laravel/framework/src/Illuminate/Http/Testing/FileFactory.php -TotalCount 110; Get-Content app/Models/HistorialSubsanacion.php -TotalCount 65; Get-Content app/Models/Subsanacion.php -TotalCount 70",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 8,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n 'protected \\$table' app/Models/ResultadoAnalisisEvidencia.php; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/03-rojo.junit.xml *> docs/calidad/evidencias-fase3c/03-rojo.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/03-rojo.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/03-rojo.txt -Tail 28; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/03-rojo.junit.xml",
+        "docs/calidad/evidencias-fase3c/03-rojo.txt"
+      ]
+    },
+    {
+      "orden": 9,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n \"evidencia_url.*=>|put\\('\" tests/Feature/AutorizacionRutasUuidTest.php tests/Feature/AutoevaluacionIntegridadCicloVidaTest.php tests/Feature/SubsanacionDirectaTest.php; rg --files tests/Feature | Select-String 'Subsan|Eviden'; Get-Content app/Http/Controllers/EvaluacionController.php -Encoding UTF8 | Select-Object -Skip 620 -First 50; Get-Content docs/calidad/03-matriz-hallazgos.csv -Encoding UTF8 | Select-Object -First 8; Get-Content tests/Support/TestEnvironment.php | Select-Object -Skip 212 -First 16",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 10,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/04-rojo-confirmado.junit.xml *> docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt -Tail 27; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/04-rojo-confirmado.junit.xml",
+        "docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt"
+      ]
+    },
+    {
+      "orden": 11,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/GeminiResilienciaTddTest.php --filter='IA-3C-06|IA-3C-07' --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/04b-rojo-limites.junit.xml *> docs/calidad/evidencias-fase3c/04b-rojo-limites.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/04b-rojo-limites.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/04b-rojo-limites.txt -Tail 7; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/04b-rojo-limites.junit.xml",
+        "docs/calidad/evidencias-fase3c/04b-rojo-limites.txt"
+      ]
+    },
+    {
+      "orden": 12,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php artisan make:class Services/Evaluacion/EvidenciaPrivadaService --env=testing --no-interaction; Get-Content app/Services/Evaluacion/EvidenciaPrivadaService.php",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 13,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/05-verde.junit.xml *> docs/calidad/evidencias-fase3c/05-verde.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/05-verde.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/05-verde.txt -Tail 20; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/05-verde.junit.xml",
+        "docs/calidad/evidencias-fase3c/05-verde.txt"
+      ]
+    },
+    {
+      "orden": 14,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n 'comentario|observacion' tests/Feature/TrazabilidadForenseSubsanacionTest.php tests/Feature/SubsanacionEvidenciasTest.php | Select-Object -First 22; rg -n 'Sleep::|callback.*options|stub.*callback' vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php; php vendor/bin/pest tests/Feature/AnalisisMultimodalGeminiTest.php tests/Feature/SubsanacionDirectaTest.php tests/Feature/SubsanacionEvidenciasTest.php tests/Feature/TrazabilidadForenseSubsanacionTest.php tests/Feature/AutoevaluacionIntegridadCicloVidaTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml *> docs/calidad/evidencias-fase3c/06-regresion-modulos.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/06-regresion-modulos.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/06-regresion-modulos.txt -Tail 18; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml",
+        "docs/calidad/evidencias-fase3c/06-regresion-modulos.txt"
+      ]
+    },
+    {
+      "orden": 15,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; [xml]$x=Get-Content docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml -Raw; Select-Xml -Xml $x -XPath '//testcase[failure or error]' | ForEach-Object { $t=$_.Node; $e=@($t.failure,$t.error) | Where-Object {$_}; [pscustomobject]@{test=$t.name;reason=($e[0].InnerText -split \"`n\")[0]} } | Format-Table -Wrap; rg -n 'private function|calidad|in_array|foreach|return' app/Services/AI/ValidacionResultadoIAService.php",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml"
+      ]
+    },
+    {
+      "orden": 16,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php tests/Feature/AnalisisMultimodalGeminiTest.php tests/Feature/SubsanacionEvidenciasTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/07-refactor.junit.xml *> docs/calidad/evidencias-fase3c/07-refactor.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/07-refactor.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/07-refactor.txt -Tail 22; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/07-refactor.junit.xml",
+        "docs/calidad/evidencias-fase3c/07-refactor.txt"
+      ]
+    },
+    {
+      "orden": 17,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n 'WEBP|UklG|/9j/' tests/Feature/SubsanacionEvidenciasTest.php tests; Get-Content tests/Feature/SubsanacionEvidenciasTest.php -Encoding UTF8 | Select-Object -Skip 145 -First 30; Get-Content vendor/laravel/framework/src/Illuminate/Http/Client/PendingRequest.php | Select-Object -Skip 1558 -First 30; Get-Content app/Services/AI/ValidacionResultadoIAService.php -Encoding UTF8 | Select-Object -Skip 53 -First 45",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 18,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Select-String -Path docs/calidad/evidencias-fase3c/07-refactor.txt -Pattern 'FAILED' -Context 0,7; Get-Content tests/Feature/SubsanacionEvidenciasTest.php -Encoding UTF8 | Select-Object -Skip 170 -First 39",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/07-refactor.txt"
+      ]
+    },
+    {
+      "orden": 19,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php tests/Feature/AnalisisMultimodalGeminiTest.php tests/Feature/SubsanacionEvidenciasTest.php --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/08-casos-ampliados.junit.xml *> docs/calidad/evidencias-fase3c/08-casos-ampliados.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/08-casos-ampliados.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/08-casos-ampliados.txt -Tail 24; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/08-casos-ampliados.junit.xml",
+        "docs/calidad/evidencias-fase3c/08-casos-ampliados.txt"
+      ]
+    },
+    {
+      "orden": 20,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; Get-Content tests/Feature/AnalisisMultimodalGeminiTest.php -Encoding UTF8 | Select-Object -Skip 478 -First 48; rg -n 'raw_payload|comentario' tests/Feature/*.php app/Models/ResultadoAnalisisEvidencia.php; rg -n 'function esTerminal|ESTADO' app/Models/AnalisisEvidencia.php | Select-Object -Last 7; git diff --check",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 21,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n 'raw_payload_salida' resources app; php vendor/bin/pest tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php --filter='SUB-3C-03|IA-3C-15' --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.junit.xml *> docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt -Tail 8; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.junit.xml",
+        "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt"
+      ]
+    },
+    {
+      "orden": 22,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pest tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php --filter='SUB-3C-03|IA-3C-15' --compact --colors=never --log-junit=docs/calidad/evidencias-fase3c/10-trazabilidad-verde.junit.xml *> docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt -Tail 9; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.junit.xml",
+        "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt"
+      ]
+    },
+    {
+      "orden": 23,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php vendor/bin/pint --dirty --format agent 2>&1 | Tee-Object docs/calidad/evidencias-fase3c/11-pint.txt; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; php vendor/bin/pint tests/Support/GeminiFixture.php tests/Unit/ValidacionResultadoIAServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php app/Services/Evaluacion/EvidenciaPrivadaService.php --format agent 2>&1 | Tee-Object docs/calidad/evidencias-fase3c/11b-pint-nuevos.txt; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; php vendor/bin/pest tests/Unit/TestEnvironmentTest.php tests/Unit/ValidacionResultadoIAServiceTest.php tests/Unit/IntegridadEvaluacionServiceTest.php tests/Feature/EvidenciasSeguridadTddTest.php tests/Feature/GeminiResilienciaTddTest.php tests/Feature/AnalisisMultimodalGeminiTest.php tests/Feature/SubsanacionDirectaTest.php tests/Feature/SubsanacionEvidenciasTest.php tests/Feature/TrazabilidadForenseSubsanacionTest.php tests/Feature/AutoevaluacionIntegridadCicloVidaTest.php tests/Feature/ReevaluacionTest.php --compact --colors=never --fail-on-risky --log-junit=docs/calidad/evidencias-fase3c/12-modulos-aislamiento.junit.xml *> docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt -Tail 20; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/11-pint.txt",
+        "docs/calidad/evidencias-fase3c/11b-pint-nuevos.txt",
+        "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.junit.xml",
+        "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt"
+      ]
+    },
+    {
+      "orden": 24,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; php tests/preflight.php 2>&1 | Tee-Object docs/calidad/evidencias-fase3c/13-preflight-final.txt; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; php vendor/bin/pest --compact --colors=never --fail-on-risky --log-junit=docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml *> docs/calidad/evidencias-fase3c/14-regresion-final.txt; $qaExit=$LASTEXITCODE; Add-Content docs/calidad/evidencias-fase3c/14-regresion-final.txt \"EXIT_CODE=$qaExit\"; Get-Content docs/calidad/evidencias-fase3c/14-regresion-final.txt -Tail 19; exit $qaExit",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/13-preflight-final.txt",
+        "docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml",
+        "docs/calidad/evidencias-fase3c/14-regresion-final.txt"
+      ]
+    },
+    {
+      "orden": 25,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; rg -n 'codigo_item.*required|archivo de evidencia no puede|wasRecentlyCreated|Observación:|rutaPermitida|hash_equals\\(\\$subsanacion|protected \\$hidden|validarEstructura|validarTexto|65536|transitorio|criterion_code.*contexto|estadoFinal|getimagesizefromstring' app/Http/Controllers/EvaluacionController.php app/Models/ResultadoAnalisisEvidencia.php app/Services/AI app/Services/Evaluacion/EvidenciaPrivadaService.php app/Jobs/AnalisisEvidenciaJob.php | Tee-Object docs/calidad/evidencias-fase3c/15-lineas.txt; Get-Content docs/calidad/08-casos-prueba-tdd.csv -Encoding UTF8 -TotalCount 3; git diff --check",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/15-lineas.txt"
+      ]
+    },
+    {
+      "orden": 26,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; $results=@(Get-ChildItem docs/calidad/evidencias-fase3c/*.junit.xml | ForEach-Object { [xml]$x=Get-Content -LiteralPath $_.FullName -Raw; $s=$x.testsuites.testsuite; [pscustomobject]@{file=$_.Name;tests=[int]$s.tests;assertions=[int]$s.assertions;failures=[int]$s.failures;errors=[int]$s.errors;skipped=[int]$s.skipped;time=$s.time} }); $results | ConvertTo-Json | Set-Content docs/calidad/evidencias-fase3c/16-resumen-junit.json -Encoding UTF8; $results | Format-Table -AutoSize; git diff -- tests/Feature/AnalisisMultimodalGeminiTest.php; Get-Content app/Services/Evaluacion/EvidenciaPrivadaService.php",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/16-resumen-junit.json"
+      ]
+    },
+    {
+      "orden": 27,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; $definitions=@(@('D-3C-01','Subsanaciones','app/Http/Controllers/EvaluacionController.php','356','Ediciones sin transición ni archivo carecen de evento histórico','SUB-3C-01','Registrar cambios reales de descripción/observación'),@('D-3C-02','Evidencias','app/Http/Controllers/EvaluacionController.php','272','Código permite separadores en nombre físico de evidencia','EVID-3C-01','Validar código seguro antes de escribir'),@('D-3C-03','Evidencias','app/Services/Evaluacion/EvidenciaPrivadaService.php','9','Ruta almacenada permite leer otros archivos privados','EVID-3C-03','Prefijo evidencias y ruta canónica confinada'),@('D-3C-04','Evidencias','app/Http/Controllers/EvaluacionController.php','836','Descarga no detecta evidencia adulterada','EVID-3C-02','Comparar SHA256 y devolver 409 ante discrepancia'),@('D-3C-05','Evidencias','app/Http/Controllers/EvaluacionController.php','276','Archivo vacío puede almacenarse','EVID-3C-04','Rechazar cero bytes sin impedir imágenes pequeñas'),@('D-3C-06','Gemini','app/Services/AI/ValidacionResultadoIAService.php','123','Enums y estructuras inválidas reciben defaults/coerciones favorables','IA-3C-01','Validación estricta previa al saneamiento'),@('D-3C-07','Gemini','app/Services/AI/AnalisisEvidenciaService.php','157','Resultado de un criterio distinto se asocia a la solicitud','IA-3C-02','Comparar criterion_code solicitado y recibido'),@('D-3C-08','Gemini','app/Services/AI/AnalisisEvidenciaService.php','182','Incertidumbre alta/indeterminación terminan COMPLETADO','IA-3C-03','REQUIERE_REVISION para incertidumbre alta y relevancia indeterminada'),@('D-3C-09','Gemini','app/Services/AI/AnalisisEvidenciaService.php','60','Imagen vacía/cabecera incompleta se encola por fallback MIME','IA-3C-04','Verificar contenido visual reconocible'),@('D-3C-10','Jobs','app/Jobs/AnalisisEvidenciaJob.php','39','Fallo transitorio terminal anula reintentos del worker','IA-3C-05','PENDIENTE solo para reintento asíncrono transitorio con intentos disponibles'),@('D-3C-11','Gemini','app/Services/AI/ValidacionResultadoIAService.php','167','Afirmaciones explícitas de certificación escapan saneamiento','IA-3C-06','Rechazar patrones oficiales; no equivale a inmunidad semántica'),@('D-3C-12','Gemini','app/Services/AI/GeminiMultimodalService.php','159','Texto JSON generado sin límite defensivo','IA-3C-07','Límite local de 64 KiB para texto generado'),@('D-3C-13','Subsanaciones','app/Http/Controllers/EvaluacionController.php','365','Evento histórico omite texto de observación','SUB-3C-03','Conservar observación junto a descripción en comentario'),@('D-3C-14','Gemini','app/Models/ResultadoAnalisisEvidencia.php','10','JSON público expone payload crudo no saneado','IA-3C-15','Ocultar atributo al serializar conservando dato privado')); $path=Join-Path $PWD 'docs/calidad/03-matriz-hallazgos.csv'; $rows=@(Import-Csv -LiteralPath $path); foreach($r in $rows){if($r.ID -eq 'H04'){$r.'estado de verificación'='Reproducido y corregido Fase 3C; validación estricta, 631 aprobadas';$r.evidencia='D-3C-06; evidencias-fase3c/04-rojo-confirmado.junit.xml; evidencias-fase3c/14-regresion-final.junit.xml'}; if($r.ID -eq 'H05'){$r.'estado de verificación'='Pendiente concurrencia: idempotencia activa serial aprobada, sin acreditar unicidad concurrente'}}; foreach($d in $definitions){if($rows.ID -contains $d[0]){throw 'ID duplicado'}; $red=if($d[0] -in @('D-3C-13','D-3C-14')){'09-trazabilidad-rojo'}elseif($d[0] -in @('D-3C-11','D-3C-12')){'04b-rojo-limites'}else{'04-rojo-confirmado'}; $rows += [pscustomobject][ordered]@{ID=$d[0];'módulo'=$d[1];archivo=$d[2];'línea'=$d[3];'descripción'=$d[4];evidencia=($d[5]+'; evidencias-fase3c/'+$red+'.junit.xml; evidencias-fase3c/14-regresion-final.junit.xml');severidad='Media';'categoría ISO/IEC 25010'='Seguridad; Fiabilidad; Adecuación funcional';'recomendación'=$d[6];'estado de verificación'='Reproducido y corregido; regresión serial 631 aprobadas, 4381 aserciones'}}; $rows | Export-Csv -LiteralPath $path -NoTypeInformation -Encoding UTF8; $path=Join-Path $PWD 'docs/calidad/08-casos-prueba-tdd.csv'; $rows=@(Import-Csv -LiteralPath $path); foreach($r in $rows){if($r.ID -in @('EVID-01','IA-01')){$r.resultado='Fase 3C aprobada; detalle en casos específicos y documento 22';$r.evidencia='evidencias-fase3c/12-modulos-aislamiento.junit.xml; 22-resultados-fase3c.md';$r.'defecto asociado'=if($r.ID -eq 'IA-01'){'H04 corregido; D-3C-06 a D-3C-12 y D-3C-14'}else{'D-3C-02 a D-3C-05'}}}; foreach($d in $definitions){if($rows.ID -contains $d[5]){continue};$rows += [pscustomobject][ordered]@{ID=$d[5];'módulo'=$d[1];caso=$d[4];tipo=if($d[5] -in @('IA-3C-01','IA-3C-06')){'Unitaria'}else{'Feature con BD/Storage aislados'};resultado='Aprobado Fase 3C';'defecto asociado'=$d[0];evidencia='evidencias-fase3c/14-regresion-final.junit.xml; 19-tdd-subsanaciones.md; 20-seguridad-evidencias.md; 21-validacion-gemini.md'}}; $rows | Export-Csv -LiteralPath $path -NoTypeInformation -Encoding UTF8; $path=Join-Path $PWD 'docs/calidad/11-matriz-trazabilidad-actualizada.csv'; $rows=@(Import-Csv -LiteralPath $path); foreach($r in $rows){switch($r.'ID de requisito'){'R00'{$r.resultado='Aprobado: guardas preservadas y 27 pruebas de aislamiento en selección 12';$r.evidencia='evidencias-fase3c/13-preflight-final.txt; evidencias-fase3c/12-modulos-aislamiento.junit.xml'}'R07'{$r.'caso de prueba'='SUB-3C-01 a SUB-3C-03; EVID-3C-01 a EVID-3C-06';$r.'archivo de prueba'='tests/Feature/EvidenciasSeguridadTddTest.php; tests/Feature/SubsanacionEvidenciasTest.php';$r.resultado='Aprobado: custodia, trazabilidad, integridad de descarga y acceso legítimo';$r.'defecto asociado'='D-3C-01 a D-3C-05; D-3C-13';$r.evidencia='evidencias-fase3c/12-modulos-aislamiento.junit.xml; 19-tdd-subsanaciones.md; 20-seguridad-evidencias.md'}'R08'{$r.'caso de prueba'='IA-3C-01 a IA-3C-15';$r.'archivo de prueba'='tests/Unit/ValidacionResultadoIAServiceTest.php; tests/Feature/GeminiResilienciaTddTest.php';$r.resultado='Aprobado con proveedor simulado; sin certificar precisión visual';$r.'defecto asociado'='H04 corregido; D-3C-06 a D-3C-12; D-3C-14; H05 concurrente pendiente';$r.evidencia='evidencias-fase3c/14-regresion-final.junit.xml; 21-validacion-gemini.md'}'R11'{$r.resultado='631 aprobadas; 0 fallos; 0 errores; 0 omitidas; 4381 aserciones';$r.evidencia='evidencias-fase3c/14-regresion-final.junit.xml; 22-resultados-fase3c.md'}}}; $rows | Export-Csv -LiteralPath $path -NoTypeInformation -Encoding UTF8",
+      "artefactos_referidos": []
+    },
+    {
+      "orden": 28,
+      "comando": "Set-Location -LiteralPath 'C:\\Users\\USUARIO\\Downloads\\SisWeb\\SisWeb' -ErrorAction Stop; $original=Get-Content docs/calidad/evidencias-fase3c/00-huellas.json -Raw | ConvertFrom-Json; $differences=@(foreach($entry in $original){if(-not(Test-Path -LiteralPath $entry.path)){[pscustomobject]@{path=$entry.path;status='missing'}}elseif((Get-FileHash -LiteralPath $entry.path -Algorithm SHA256).Hash -ne $entry.hash){[pscustomobject]@{path=$entry.path;status='changed'}}}); $differences | ConvertTo-Json | Set-Content docs/calidad/evidencias-fase3c/17-preservacion.json -Encoding UTF8; $allowed=@('app\\Http\\Controllers\\EvaluacionController.php','app\\Jobs\\AnalisisEvidenciaJob.php','app\\Models\\ResultadoAnalisisEvidencia.php','app\\Services\\AI\\AnalisisEvidenciaService.php','app\\Services\\AI\\GeminiMultimodalService.php','app\\Services\\AI\\ValidacionResultadoIAService.php','tests\\Feature\\AnalisisMultimodalGeminiTest.php','docs\\calidad\\03-matriz-hallazgos.csv','docs\\calidad\\08-casos-prueba-tdd.csv','docs\\calidad\\11-matriz-trazabilidad-actualizada.csv'); foreach($entry in $differences){$relative=$entry.path.Substring($PWD.Path.Length+1); if($entry.status -eq 'missing' -or $relative -notin $allowed){throw ('Cambio inesperado: '+$relative)}}; [xml]$x=Get-Content docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml -Raw; $s=$x.testsuites.testsuite; if([int]$s.tests -ne 631 -or [int]$s.assertions -ne 4381 -or [int]$s.failures -ne 0 -or [int]$s.errors -ne 0 -or [int]$s.skipped -ne 0){throw 'JUnit no coincide'}; git diff --check; if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}; git status --short | Set-Content docs/calidad/evidencias-fase3c/20-status-final.txt; git diff --binary | Set-Content docs/calidad/evidencias-fase3c/21-diff-final-worktree.patch; git check-ignore .env .env.testing docs/calidad/22-resultados-fase3c.md; $report=[ordered]@{tests=[int]$s.tests;assertions=[int]$s.assertions;failures=[int]$s.failures;errors=[int]$s.errors;skipped=[int]$s.skipped;baseline_tests=569;baseline_assertions=4201;new_tests=62;protected_files=$original.Count;authorized_changes=$differences.Count;env_unchanged=$true;env_testing_unchanged=$true;guards_unchanged=$true;previous_evidence_unchanged=$true;previous_tests_changes='Solo helper de imagen de AnalisisMultimodalGeminiTest; aserciones intactas';diff_check='passed';source='14-regresion-final.junit.xml'}; $report | ConvertTo-Json | Tee-Object docs/calidad/evidencias-fase3c/19-verificacion-final.json; $differences | Format-Table -AutoSize",
+      "artefactos_referidos": [
+        "docs/calidad/evidencias-fase3c/00-huellas.json",
+        "docs/calidad/evidencias-fase3c/17-preservacion.json",
+        "docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml",
+        "docs/calidad/evidencias-fase3c/20-status-final.txt",
+        "docs/calidad/evidencias-fase3c/21-diff-final-worktree.patch",
+        "docs/calidad/evidencias-fase3c/19-verificacion-final.json"
+      ]
+    }
+  ]
+}

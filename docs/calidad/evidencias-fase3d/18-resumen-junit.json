@@ -1,0 +1,137 @@
+﻿[
+    {
+        "file":  "02-baseline.junit.xml",
+        "tests":  631,
+        "assertions":  4381,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "72.210511"
+    },
+    {
+        "file":  "03-rojo.junit.xml",
+        "tests":  21,
+        "assertions":  21,
+        "failures":  21,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "23.178396"
+    },
+    {
+        "file":  "04-verde.junit.xml",
+        "tests":  21,
+        "assertions":  36,
+        "failures":  1,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "14.538507"
+    },
+    {
+        "file":  "05-verde.junit.xml",
+        "tests":  21,
+        "assertions":  36,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "14.191803"
+    },
+    {
+        "file":  "06-rojo-integracion.junit.xml",
+        "tests":  4,
+        "assertions":  4,
+        "failures":  4,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "26.596840"
+    },
+    {
+        "file":  "07-verde-integracion.junit.xml",
+        "tests":  4,
+        "assertions":  9,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "14.075595"
+    },
+    {
+        "file":  "08-rojo-fronteras.junit.xml",
+        "tests":  4,
+        "assertions":  4,
+        "failures":  4,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "12.539019"
+    },
+    {
+        "file":  "09-regresion-espacial.junit.xml",
+        "tests":  80,
+        "assertions":  224,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "21.527988"
+    },
+    {
+        "file":  "10-rojo-consistencia.junit.xml",
+        "tests":  2,
+        "assertions":  2,
+        "failures":  2,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "13.704935"
+    },
+    {
+        "file":  "10b-rojo-null.junit.xml",
+        "tests":  1,
+        "assertions":  1,
+        "failures":  1,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "14.145121"
+    },
+    {
+        "file":  "11-ampliacion-verde.junit.xml",
+        "tests":  62,
+        "assertions":  125,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "19.933447"
+    },
+    {
+        "file":  "12-rojo-precision-area.junit.xml",
+        "tests":  3,
+        "assertions":  3,
+        "failures":  3,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "13.357212"
+    },
+    {
+        "file":  "13-refactor-verde.junit.xml",
+        "tests":  72,
+        "assertions":  143,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "19.145040"
+    },
+    {
+        "file":  "15-modulos-aislamiento.junit.xml",
+        "tests":  190,
+        "assertions":  440,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "30.732062"
+    },
+    {
+        "file":  "17-regresion-final.junit.xml",
+        "tests":  703,
+        "assertions":  4524,
+        "failures":  0,
+        "errors":  0,
+        "skipped":  0,
+        "time":  "99.254388"
+    }
+]

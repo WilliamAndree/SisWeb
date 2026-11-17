@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\ContratosFrontendUxTest" file="tests\Feature\ContratosFrontendUxTest.php" tests="3" assertions="27" errors="0" failures="3" skipped="0" time="14.543406">
+    <testsuite name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido" tests="3" assertions="27" errors="0" failures="3" skipped="0" time="14.543406">
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('COMPLETADO')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('COMPLETADO')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="9" time="14.400007">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set "('COMPLETADO')"Unexpected Inertia page component.
+Failed asserting that two strings are identical.&#13;
+at vendor\inertiajs\inertia-laravel\src\Testing\AssertableInertia.php:106
+at tests\Feature\ContratosFrontendUxTest.php:34
+at vendor\inertiajs\inertia-laravel\src\Testing\TestResponseMacros.php:26
+at vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:132
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:2014
+at tests\Feature\ContratosFrontendUxTest.php:34</failure>
+      </testcase>
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('REQUIERE_REVISION')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('REQUIERE_REVISION')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="9" time="0.075611">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set "('REQUIERE_REVISION')"Unexpected Inertia page component.
+Failed asserting that two strings are identical.&#13;
+at vendor\inertiajs\inertia-laravel\src\Testing\AssertableInertia.php:106
+at tests\Feature\ContratosFrontendUxTest.php:34
+at vendor\inertiajs\inertia-laravel\src\Testing\TestResponseMacros.php:26
+at vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:132
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:2014
+at tests\Feature\ContratosFrontendUxTest.php:34</failure>
+      </testcase>
+      <testcase name="UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('EN_PROCESO')&quot;" file="tests\Feature\ContratosFrontendUxTest.php::UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set &quot;('EN_PROCESO')&quot;" class="Tests\Feature\ContratosFrontendUxTest" classname="Tests.Feature.ContratosFrontendUxTest" assertions="9" time="0.067788">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">UX-CON-01 props iniciales conservan estado y listas del analisis persistido with data set "('EN_PROCESO')"Unexpected Inertia page component.
+Failed asserting that two strings are identical.&#13;
+at vendor\inertiajs\inertia-laravel\src\Testing\AssertableInertia.php:106
+at tests\Feature\ContratosFrontendUxTest.php:34
+at vendor\inertiajs\inertia-laravel\src\Testing\TestResponseMacros.php:26
+at vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:132
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:2014
+at tests\Feature\ContratosFrontendUxTest.php:34</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

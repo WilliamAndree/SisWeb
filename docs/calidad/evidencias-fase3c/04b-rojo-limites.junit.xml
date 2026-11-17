@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="4" assertions="4" errors="0" failures="4" skipped="0" time="11.210163">
+    <testsuite name="Tests\Unit\ValidacionResultadoIAServiceTest" file="tests\Unit\ValidacionResultadoIAServiceTest.php" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.033125">
+      <testsuite name="IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.033125">
+        <testcase name="IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('Certifico que este local es seguro.')&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('Certifico que este local es seguro.')&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.029843">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set "('Certifico que este local es seguro.')"Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:27</failure>
+        </testcase>
+        <testcase name="IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('Este local está aprobado oficialmente.')&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('Este local está aprobado oficialmente.')&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.002001">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set "('Este local está aprobado oficialmente.')"Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:27</failure>
+        </testcase>
+        <testcase name="IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('El local cuenta con certifica… ITSE.')&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set &quot;('El local cuenta con certifica… ITSE.')&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001280">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-06 rechaza afirmaciones de certificacion oficial sin respaldo visual with data set "('El local cuenta con certifica… ITSE.')"Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:27</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Tests\Feature\GeminiResilienciaTddTest" file="tests\Feature\GeminiResilienciaTddTest.php" tests="1" assertions="1" errors="0" failures="1" skipped="0" time="11.177038">
+      <testcase name="IA-3C-07 rechaza JSON generado demasiado extenso antes de procesarlo" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-07 rechaza JSON generado demasiado extenso antes de procesarlo" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="1" time="11.177038">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-07 rechaza JSON generado demasiado extenso antes de procesarloException "RuntimeException" not thrown.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:98</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

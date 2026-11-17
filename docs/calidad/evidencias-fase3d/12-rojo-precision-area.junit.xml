@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="13.357212">
+    <testsuite name="Tests\Unit\GeometriaRobustezTddTest" file="tests\Unit\GeometriaRobustezTddTest.php" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.061861">
+      <testsuite name="GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.061861">
+        <testcase name="GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set &quot;(1000000000.0)&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set &quot;(1000000000.0)&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.060007">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set "(1000000000.0)"Failed asserting that 0.0 is identical to 1.0.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:27</failure>
+        </testcase>
+        <testcase name="GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set &quot;(-1000000000.0)&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set &quot;(-1000000000.0)&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.001854">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-08 shoelace conserva area al trasladar un cuadrado lejos del origen with data set "(-1000000000.0)"Failed asserting that 0.0 is identical to 1.0.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:27</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="1" assertions="1" errors="0" failures="1" skipped="0" time="13.295350">
+      <testcase name="GEO-3D-09 rectangulo en limite SQL produce una version consultable e integra" file="tests\Feature\CroquisIntegridadTddTest.php::GEO-3D-09 rectangulo en limite SQL produce una version consultable e integra" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="13.295350">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-09 rectangulo en limite SQL produce una version consultable e integraFailed asserting that false is true.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:225</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

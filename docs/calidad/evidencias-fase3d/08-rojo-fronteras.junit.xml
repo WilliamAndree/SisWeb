@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="4" assertions="4" errors="0" failures="4" skipped="0" time="12.539019">
+    <testsuite name="Tests\Unit\GeometriaRobustezTddTest" file="tests\Unit\GeometriaRobustezTddTest.php" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.038616">
+      <testsuite name="GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.038616">
+        <testcase name="GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set &quot;(4.0)&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set &quot;(4.0)&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.036996">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set "(4.0)"Failed asserting that false is true.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:20</failure>
+        </testcase>
+        <testcase name="GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set &quot;(100.0)&quot;" file="tests\Unit\GeometriaRobustezTddTest.php::GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set &quot;(100.0)&quot;" class="Tests\Unit\GeometriaRobustezTddTest" classname="Tests.Unit.GeometriaRobustezTddTest" assertions="1" time="0.001620">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">GEO-3D-05 frontera de tolerancia es estable al trasladar coordenadas with data set "(100.0)"Failed asserting that false is true.&#13;
+at tests\Unit\GeometriaRobustezTddTest.php:20</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="12.500403">
+      <testcase name="PLAN-3D-09 analisis rechaza version activa de otro plano sin crear registros" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-09 analisis rechaza version activa de otro plano sin crear registros" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="12.404275">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-09 analisis rechaza version activa de otro plano sin crear registrosExpected response status code [409] but received 200.
+Failed asserting that 200 is identical to 409.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:191
+at tests\Feature\CroquisIntegridadTddTest.php:116</failure>
+      </testcase>
+      <testcase name="PLAN-3D-10 estructura almacenada corrupta genera fallo de integridad en vez de error 500" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-10 estructura almacenada corrupta genera fallo de integridad en vez de error 500" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.096128">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-10 estructura almacenada corrupta genera fallo de integridad en vez de error 500Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:16
+at tests\Feature\CroquisIntegridadTddTest.php:130</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

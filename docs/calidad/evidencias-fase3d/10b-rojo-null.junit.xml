@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="1" assertions="1" errors="0" failures="1" skipped="0" time="14.145121">
+    <testcase name="PLAN-3D-15 auditoria distingue null y cero en altura relacional" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-15 auditoria distingue null y cero en altura relacional" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="14.145121">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-15 auditoria distingue null y cero en altura relacionalFailed asserting that true is false.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:216</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

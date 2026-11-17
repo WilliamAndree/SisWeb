@@ -1,0 +1,13 @@
+﻿ M .github/workflows/tests.yml
+ M .gitignore
+ M phpunit.xml
+ M tests/TestCase.php
+?? .env.testing.example
+?? tests/Feature/AutorizacionUniformeTddTest.php
+?? tests/Feature/FlujosCriticosTddTest.php
+?? tests/Support/
+?? tests/Unit/IntegridadCanonicaTddTest.php
+?? tests/Unit/TestEnvironmentTest.php
+?? tests/Unit/ValidacionResultadoIATddTest.php
+?? tests/bootstrap.php
+?? tests/preflight.php

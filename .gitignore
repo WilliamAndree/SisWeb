@@ -1,28 +1,10 @@
+# Sistema operativo y editores
 .DS_Store
-.env
-.env.testing
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
+Thumbs.db
 /.idea
-/.nova
-/.phpunit.cache
 /.vscode
-/.zed
-/bootstrap/ssr
-/docs
-/node_modules
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-/scratch/qa-mariadb-native/
-auth.json
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
+
+# Variables de entorno de Docker Compose
+.env
+
+# Las reglas especificas de Laravel viven en backend/.gitignore

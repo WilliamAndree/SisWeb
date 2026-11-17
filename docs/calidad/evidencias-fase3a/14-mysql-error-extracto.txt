@@ -1,0 +1,15 @@
+Transcripción de líneas observadas en la lectura de C:/xampp/mysql/data/mysql_error.log.
+No es una copia íntegra. Al intentar copiar el archivo después de leerlo, la ruta ya no existía.
+No se modificó el archivo fuente ni su carpeta de datos desde esta tarea.
+
+2026-11-16 16:18:21 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 17912
+2026-11-16 16:18:21 0 [Note] InnoDB: !!! innodb_force_recovery is set to 1 !!!
+2026-11-16 16:18:22 0 [ERROR] InnoDB: invalid undo header offset 0
+2026-11-16 16:18:22 0 [Note] InnoDB: Retry with innodb_force_recovery=5
+2026-11-16 16:18:22 0 [ERROR] InnoDB: Plugin initialization aborted with error Data structure corruption
+2026-11-16 16:18:22 0 [ERROR] Plugin 'InnoDB' registration as a STORAGE ENGINE failed.
+2026-11-16 16:18:22 0 [ERROR] Unknown/unsupported storage engine: InnoDB
+2026-11-16 16:18:22 0 [ERROR] Aborting
+
+La sugerencia force_recovery=5 pertenece al log y NO se ejecutó ni se recomienda aquí.
+La causa original y el estado de otras bases no fueron determinados en esta revisión.

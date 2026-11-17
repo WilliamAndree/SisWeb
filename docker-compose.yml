@@ -1,0 +1,77 @@
+name: sisweb
+
+services:
+    mariadb:
+        image: mariadb:10.11
+        environment:
+            MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Completa .env (copia .env.example)}
+            MARIADB_DATABASE: sisweb
+            MARIADB_USER: sisweb
+            MARIADB_PASSWORD: ${DB_PASSWORD:?Completa .env (copia .env.example)}
+        volumes:
+            - mariadb_data:/var/lib/mysql
+        healthcheck:
+            test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+            interval: 5s
+            timeout: 5s
+            retries: 30
+
+    backend:
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+        env_file: backend/.env
+        environment: &backend-env
+            DB_CONNECTION: mysql
+            DB_HOST: mariadb
+            DB_PORT: 3306
+            DB_DATABASE: sisweb
+            DB_USERNAME: sisweb
+            DB_PASSWORD: ${DB_PASSWORD:?Completa .env (copia .env.example)}
+        volumes:
+            - ./backend:/var/www/html
+            - backend_vendor:/var/www/html/vendor
+        depends_on:
+            mariadb:
+                condition: service_healthy
+
+    # Procesa los jobs en cola (p. ej. AnalisisEvidenciaJob con Gemini).
+    queue:
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+        env_file: backend/.env
+        environment: *backend-env
+        volumes:
+            - ./backend:/var/www/html
+            - backend_vendor:/var/www/html/vendor
+        command: ['php', 'artisan', 'queue:work', '--tries=3', '--timeout=120']
+        depends_on:
+            mariadb:
+                condition: service_healthy
+
+    nginx:
+        image: nginx:1.28-alpine
+        ports:
+            - '127.0.0.1:${APP_PORT:-8000}:80'
+        volumes:
+            - ./backend/public:/var/www/html/public:ro
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+        depends_on:
+            - backend
+
+    # Compila el frontend (React + Inertia) en backend/public/build.
+    # Uso: docker compose --profile assets run --rm assets
+    assets:
+        image: node:22-bookworm-slim
+        profiles: ['assets']
+        working_dir: /app
+        volumes:
+            - ./backend:/app
+            - backend_node_modules:/app/node_modules
+        command: ['sh', '-c', 'npm ci && npm run build']
+
+volumes:
+    mariadb_data:
+    backend_vendor:
+    backend_node_modules:

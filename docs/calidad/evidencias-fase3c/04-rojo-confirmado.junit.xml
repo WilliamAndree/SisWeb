@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="27" assertions="36" errors="0" failures="27" skipped="0" time="13.502618">
+    <testsuite name="Tests\Unit\ValidacionResultadoIAServiceTest" file="tests\Unit\ValidacionResultadoIAServiceTest.php" tests="13" assertions="13" errors="0" failures="13" skipped="0" time="0.045036">
+      <testsuite name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables" tests="13" assertions="13" errors="0" failures="13" skipped="0" time="0.045036">
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;calidad desconocida&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;calidad desconocida&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.027965">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "calidad desconocida""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;relevancia desconocida&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;relevancia desconocida&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001060">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "relevancia desconocida""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;incertidumbre desconocida&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;incertidumbre desconocida&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.000890">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "incertidumbre desconocida""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;calidad null&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;calidad null&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.000775">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "calidad null""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;codigo array&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;codigo array&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.003182">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "codigo array""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;resumen array&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;resumen array&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.002505">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "resumen array""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;lista como texto&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;lista como texto&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001109">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "lista como texto""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;lista contiene objeto&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;lista contiene objeto&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.000893">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "lista contiene objeto""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;elementos como texto&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;elementos como texto&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001027">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "elementos como texto""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;elemento incompleto&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;elemento incompleto&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.000925">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "elemento incompleto""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;estado visual desconocido&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;estado visual desconocido&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001447">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "estado visual desconocido""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;confianza desconocida&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;confianza desconocida&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001630">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "confianza desconocida""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+        <testcase name="IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;resumen demasiado extenso&quot;&quot;" file="tests\Unit\ValidacionResultadoIAServiceTest.php::IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set &quot;dataset &quot;resumen demasiado extenso&quot;&quot;" class="Tests\Unit\ValidacionResultadoIAServiceTest" classname="Tests.Unit.ValidacionResultadoIAServiceTest" assertions="1" time="0.001628">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-01 rechaza enums desconocidos y estructuras invalidas sin defaults favorables with data set "dataset "resumen demasiado extenso""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Unit\ValidacionResultadoIAServiceTest.php:8</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+    <testsuite name="Tests\Feature\EvidenciasSeguridadTddTest" file="tests\Feature\EvidenciasSeguridadTddTest.php" tests="8" assertions="10" errors="0" failures="8" skipped="0" time="12.161128">
+      <testcase name="SUB-3C-01 conserva historial de creacion y edicion sin cambiar de estado" file="tests\Feature\EvidenciasSeguridadTddTest.php::SUB-3C-01 conserva historial de creacion y edicion sin cambiar de estado" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="3" time="11.645219">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">SUB-3C-01 conserva historial de creacion y edicion sin cambiar de estadoFailed asserting that two arrays are identical.&#13;
+at tests\Feature\EvidenciasSeguridadTddTest.php:29</failure>
+      </testcase>
+      <testsuite name="EVID-3C-01 rechaza codigo con traversal antes de guardar archivo" tests="3" assertions="3" errors="0" failures="3" skipped="0" time="0.243493">
+        <testcase name="EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('../fuera')&quot;" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('../fuera')&quot;" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.095940">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set "('../fuera')"Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\EvidenciasSeguridadTddTest.php:39</failure>
+        </testcase>
+        <testcase name="EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('..\fuera')&quot;" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('..\fuera')&quot;" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.088464">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set "('..\fuera')"Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\EvidenciasSeguridadTddTest.php:39</failure>
+        </testcase>
+        <testcase name="EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('CRIT/01')&quot;" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set &quot;('CRIT/01')&quot;" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.059089">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-01 rechaza codigo con traversal antes de guardar archivo with data set "('CRIT/01')"Expected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\EvidenciasSeguridadTddTest.php:39</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="EVID-3C-02 no descarga bytes adulterados aunque el titular tenga acceso" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-02 no descarga bytes adulterados aunque el titular tenga acceso" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.052408">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-02 no descarga bytes adulterados aunque el titular tenga accesoExpected response status code [409] but received 200.
+Failed asserting that 200 is identical to 409.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:191
+at tests\Feature\EvidenciasSeguridadTddTest.php:54</failure>
+      </testcase>
+      <testsuite name="EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="0.145268">
+        <testcase name="EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set &quot;('privado.txt')&quot;" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set &quot;('privado.txt')&quot;" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.073947">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set "('privado.txt')"Expected response status code [404] but received 200.
+Failed asserting that 200 is identical to 404.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:151
+at tests\Feature\EvidenciasSeguridadTddTest.php:66</failure>
+        </testcase>
+        <testcase name="EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set &quot;('evidencias/../privado.txt')&quot;" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set &quot;('evidencias/../privado.txt')&quot;" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.071321">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-03 rechaza rutas almacenadas fuera del espacio de evidencias with data set "('evidencias/../privado.txt')"Expected response status code [404] but received 200.
+Failed asserting that 200 is identical to 404.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:151
+at tests\Feature\EvidenciasSeguridadTddTest.php:66</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="EVID-3C-04 rechaza archivo vacio antes de almacenarlo" file="tests\Feature\EvidenciasSeguridadTddTest.php::EVID-3C-04 rechaza archivo vacio antes de almacenarlo" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="1" time="0.074741">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">EVID-3C-04 rechaza archivo vacio antes de almacenarloExpected response status code [422] but received 302.
+Failed asserting that 302 is identical to 422.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:175
+at vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:221
+at tests\Feature\EvidenciasSeguridadTddTest.php:76</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\Feature\GeminiResilienciaTddTest" file="tests\Feature\GeminiResilienciaTddTest.php" tests="6" assertions="13" errors="0" failures="6" skipped="0" time="1.296454">
+      <testcase name="IA-3C-02 no acredita respuestas de un criterio diferente al solicitado" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-02 no acredita respuestas de un criterio diferente al solicitado" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="2" time="0.240649">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-02 no acredita respuestas de un criterio diferente al solicitadoException "InvalidArgumentException" not thrown.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:44</failure>
+      </testcase>
+      <testsuite name="IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision" tests="2" assertions="4" errors="0" failures="2" skipped="0" time="0.333072">
+        <testcase name="IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set &quot;dataset &quot;incertidumbre alta&quot;&quot;" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set &quot;dataset &quot;incertidumbre alta&quot;&quot;" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="2" time="0.160498">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set "dataset "incertidumbre alta""Failed asserting that two strings are identical.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:57</failure>
+        </testcase>
+        <testcase name="IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set &quot;dataset &quot;no determinable&quot;&quot;" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set &quot;dataset &quot;no determinable&quot;&quot;" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="2" time="0.172574">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-03 incertidumbre alta o relevancia indeterminada requiere revision with data set "dataset "no determinable""Failed asserting that two strings are identical.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:57</failure>
+        </testcase>
+      </testsuite>
+      <testsuite name="IA-3C-04 evidencia vacia o corrupta no se encola para analisis" tests="2" assertions="4" errors="0" failures="2" skipped="0" time="0.306845">
+        <testcase name="IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set &quot;dataset &quot;vacia&quot;&quot;" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set &quot;dataset &quot;vacia&quot;&quot;" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="2" time="0.139245">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set "dataset "vacia""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:68</failure>
+        </testcase>
+        <testcase name="IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set &quot;dataset &quot;cabecera incompleta&quot;&quot;" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set &quot;dataset &quot;cabecera incompleta&quot;&quot;" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="2" time="0.167600">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-04 evidencia vacia o corrupta no se encola para analisis with data set "dataset "cabecera incompleta""Exception "InvalidArgumentException" not thrown.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:68</failure>
+        </testcase>
+      </testsuite>
+      <testcase name="IA-3C-05 job puede reintentar un fallo transitorio y conservar trazabilidad" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-05 job puede reintentar un fallo transitorio y conservar trazabilidad" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="3" time="0.415888">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-05 job puede reintentar un fallo transitorio y conservar trazabilidadFailed asserting that two strings are identical.&#13;
+at tests\Feature\GeminiResilienciaTddTest.php:86</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

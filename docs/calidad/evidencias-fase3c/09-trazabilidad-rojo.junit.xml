@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="2" assertions="7" errors="0" failures="2" skipped="0" time="11.910298">
+    <testsuite name="Tests\Feature\EvidenciasSeguridadTddTest" file="tests\Feature\EvidenciasSeguridadTddTest.php" tests="1" assertions="3" errors="0" failures="1" skipped="0" time="11.568167">
+      <testcase name="SUB-3C-03 historial conserva el texto de la observacion editada" file="tests\Feature\EvidenciasSeguridadTddTest.php::SUB-3C-03 historial conserva el texto de la observacion editada" class="Tests\Feature\EvidenciasSeguridadTddTest" classname="Tests.Feature.EvidenciasSeguridadTddTest" assertions="3" time="11.568167">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">SUB-3C-03 historial conserva el texto de la observacion editadaFailed asserting that 'Misma descripción' [UTF-8](length: 18) contains "Observación corregida" [UTF-8](length: 22).&#13;
+at tests\Feature\EvidenciasSeguridadTddTest.php:146</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\Feature\GeminiResilienciaTddTest" file="tests\Feature\GeminiResilienciaTddTest.php" tests="1" assertions="4" errors="0" failures="1" skipped="0" time="0.342131">
+      <testcase name="IA-3C-15 estado publico omite payload crudo sin perder la trazabilidad privada" file="tests\Feature\GeminiResilienciaTddTest.php::IA-3C-15 estado publico omite payload crudo sin perder la trazabilidad privada" class="Tests\Feature\GeminiResilienciaTddTest" classname="Tests.Feature.GeminiResilienciaTddTest" assertions="4" time="0.342131">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">IA-3C-15 estado publico omite payload crudo sin perder la trazabilidad privadaFailed asserting that true is false.&#13;
+at vendor\laravel\framework\src\Illuminate\Testing\AssertableJsonString.php:226
+at vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:988
+at tests\Feature\GeminiResilienciaTddTest.php:176</failure>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

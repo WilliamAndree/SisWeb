@@ -1,0 +1,25 @@
+﻿b3d6e77 HEAD@{2026-11-16 12:08:54 -0500}: checkout: moving from feature/apoyo-calidad to feature/apoyo-calidad
+b3d6e77 HEAD@{2026-11-16 12:07:20 -0500}: checkout: moving from develop to feature/apoyo-calidad
+b3d6e77 HEAD@{2026-11-16 12:07:05 -0500}: checkout: moving from feature/apoyo-calidad to develop
+b3d6e77 HEAD@{2026-11-16 12:07:01 -0500}: checkout: moving from develop to feature/apoyo-calidad
+b3d6e77 HEAD@{2026-11-16 12:07:01 -0500}: checkout: moving from feature/misional-directorio to develop
+b3d6e77 HEAD@{2026-11-16 12:06:57 -0500}: checkout: moving from develop to feature/misional-directorio
+b3d6e77 HEAD@{2026-11-16 12:06:56 -0500}: checkout: moving from feature/misional-evaluacion to develop
+b3d6e77 HEAD@{2026-11-16 12:06:52 -0500}: checkout: moving from develop to feature/misional-evaluacion
+b3d6e77 HEAD@{2026-11-16 12:06:51 -0500}: checkout: moving from feature/misional-acceso to develop
+b3d6e77 HEAD@{2026-11-16 12:06:47 -0500}: checkout: moving from develop to feature/misional-acceso
+b3d6e77 HEAD@{2026-11-16 12:06:47 -0500}: checkout: moving from feature/estrategico-normativa to develop
+b3d6e77 HEAD@{2026-11-16 12:06:43 -0500}: checkout: moving from develop to feature/estrategico-normativa
+b3d6e77 HEAD@{2026-11-16 12:06:43 -0500}: checkout: moving from develop to develop
+b3d6e77 HEAD@{2026-11-16 12:06:39 -0500}: checkout: moving from main to develop
+b3d6e77 HEAD@{2026-11-16 12:06:36 -0500}: checkout: moving from main to main
+b3d6e77 HEAD@{2026-11-16 12:06:08 -0500}: reset: moving to HEAD
+b3d6e77 HEAD@{2026-11-16 11:12:16 -0500}: commit: Primera version del proyecto SisWeb
+81fbb56 HEAD@{2026-11-16 11:12:14 -0500}: Branch: renamed refs/heads/fase-1-navbar-navegacion to refs/heads/main
+81fbb56 HEAD@{2026-11-01 16:12:09 -0500}: commit: fix(security): mitigar SEC-01 y SEC-02 en autorización de autoevaluaciones y rutas UUID
+4ec45b3 HEAD@{2026-11-01 15:33:03 -0500}: commit: refactor(auth): confirmar eliminacion de controladores breeze obsoletos en favor de AuthController unificado
+30fed05 HEAD@{2026-11-01 15:32:46 -0500}: commit: chore(testing): preservar suites de pruebas forenses, seeder de walkthrough y documentacion de arquitectura
+e693cfe HEAD@{2026-11-01 15:32:33 -0500}: commit: chore(anexos): preservar formatos oficiales cenepred y subcomponentes modulares de informe
+a0de07e HEAD@{2026-11-01 15:32:12 -0500}: commit: chore(ui): preservar componentes primitivos shadcn, logs de auditoria y utilitarios normativos
+2ad1959 HEAD@{2026-11-01 15:31:58 -0500}: commit: chore(core): preservar configuraciones de itse, sanctum, rutas api y migraciones forenses
+4948a51 HEAD@{2026-11-01 15:31:44 -0500}: commit: chore(aliados): preservar modulo de afiliacion, migraciones y catalogo de proveedores

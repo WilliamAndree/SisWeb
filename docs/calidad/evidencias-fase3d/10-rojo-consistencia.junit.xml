@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\CroquisIntegridadTddTest" file="tests\Feature\CroquisIntegridadTddTest.php" tests="2" assertions="2" errors="0" failures="2" skipped="0" time="13.704935">
+    <testcase name="PLAN-3D-13 FK de otro piso con igual codigo no pasa auditoria relacional" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-13 FK de otro piso con igual codigo no pasa auditoria relacional" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="13.613599">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-13 FK de otro piso con igual codigo no pasa auditoria relacionalFailed asserting that true is false.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:199</failure>
+    </testcase>
+    <testcase name="PLAN-3D-14 analisis deja de ser vigente si su geometria activa es adulterada" file="tests\Feature\CroquisIntegridadTddTest.php::PLAN-3D-14 analisis deja de ser vigente si su geometria activa es adulterada" class="Tests\Feature\CroquisIntegridadTddTest" classname="Tests.Feature.CroquisIntegridadTddTest" assertions="1" time="0.091336">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">PLAN-3D-14 analisis deja de ser vigente si su geometria activa es adulteradaFailed asserting that true is false.&#13;
+at tests\Feature\CroquisIntegridadTddTest.php:209</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

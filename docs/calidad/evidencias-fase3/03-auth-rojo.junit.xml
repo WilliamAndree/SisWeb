@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\AutorizacionUniformeTddTest" file="tests\Feature\AutorizacionUniformeTddTest.php" tests="12" assertions="0" errors="12" failures="0" skipped="0" time="13.710551">
+    <testsuite name="AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing" tests="4" assertions="0" errors="4" failures="0" skipped="0" time="13.281834">
+      <testcase name="AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;(null) / ('revision')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;(null) / ('revision')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="13.182132">
+        <error type="Illuminate\Database\QueryException">AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set "(null) / ('revision')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:47, 2026-11-16 17:05:47))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22</error>
+      </testcase>
+      <testcase name="AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;(null) / ('croquis')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;(null) / ('croquis')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.030222">
+        <error type="Illuminate\Database\QueryException">AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set "(null) / ('croquis')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:47, 2026-11-16 17:05:47))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22</error>
+      </testcase>
+      <testcase name="AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;('') / ('revision')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;('') / ('revision')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.038471">
+        <error type="Illuminate\Database\QueryException">AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set "('') / ('revision')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, , Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:47, 2026-11-16 17:05:47))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22</error>
+      </testcase>
+      <testcase name="AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;('') / ('croquis')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set &quot;('') / ('croquis')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.031009">
+        <error type="Illuminate\Database\QueryException">AUTH-01 borrador sin credencial recibe 403 aunque Laravel este en testing with data set "('') / ('croquis')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, , Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:47, 2026-11-16 17:05:47))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:22</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.149349">
+      <testcase name="AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set &quot;(true)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set &quot;(true)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.085522">
+        <error type="Illuminate\Database\QueryException">AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set "(true)"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (1, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:47, 2026-11-16 17:05:47))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:35
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:35</error>
+      </testcase>
+      <testcase name="AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set &quot;(false)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set &quot;(false)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.063827">
+        <error type="Illuminate\Database\QueryException">AUTH-02 propietario accede y usuario ajeno recibe 403 con UUID valido with data set "(false)"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (2, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:35
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:35</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="AUTH-03 invitado conserva acceso solo con token valido" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.095072">
+      <testcase name="AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(true)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(true)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.050967">
+        <error type="Illuminate\Database\QueryException">AUTH-03 invitado conserva acceso solo con token valido with data set "(true)"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, token-legitimo-tdd, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:44
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:44</error>
+      </testcase>
+      <testcase name="AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(false)&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-03 invitado conserva acceso solo con token valido with data set &quot;(false)&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.044105">
+        <error type="Illuminate\Database\QueryException">AUTH-03 invitado conserva acceso solo con token valido with data set "(false)"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, token-legitimo-tdd, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:44
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:44</error>
+      </testcase>
+    </testsuite>
+    <testcase name="AUTH-04 sesion inmediata legitima sigue accediendo a su borrador" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-04 sesion inmediata legitima sigue accediendo a su borrador" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.036163">
+      <error type="Illuminate\Database\QueryException">AUTH-04 sesion inmediata legitima sigue accediendo a su borradorIlluminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (?, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:53
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:53</error>
+    </testcase>
+    <testcase name="AUTH-05 croquis ajeno no puede modificarse ni crear versiones" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-05 croquis ajeno no puede modificarse ni crear versiones" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.062369">
+      <error type="Illuminate\Database\QueryException">AUTH-05 croquis ajeno no puede modificarse ni crear versionesIlluminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (3, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:60
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:60</error>
+    </testcase>
+    <testsuite name="AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs" tests="2" assertions="0" errors="2" failures="0" skipped="0" time="0.085764">
+      <testcase name="AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set &quot;('evidencia')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set &quot;('evidencia')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.049463">
+        <error type="Illuminate\Database\QueryException">AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set "('evidencia')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (4, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:72
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:72</error>
+      </testcase>
+      <testcase name="AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set &quot;('analisis')&quot;" file="tests\Feature\AutorizacionUniformeTddTest.php::AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set &quot;('analisis')&quot;" class="Tests\Feature\AutorizacionUniformeTddTest" classname="Tests.Feature.AutorizacionUniformeTddTest" assertions="0" time="0.036301">
+        <error type="Illuminate\Database\QueryException">AUTH-06 evidencia y analisis ajenos no se exponen mezclando UUIDs with data set "('analisis')"Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: sisweb_testing, SQL: insert into `autoevaluaciones` (`user_id`, `session_token`, `nombre_comercio`, `funcion_economica`, `estado`, `detalle_checklist`, `updated_at`, `created_at`) values (5, ?, Local sintético TDD, Comercio, INICIADA, [], 2026-11-16 17:05:48, 2026-11-16 17:05:48))&#13;
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:72
+Caused by
+PDOException: SQLSTATE[HY000]: General error: 1364 Field 'uuid_trazabilidad' doesn't have a default value
+
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+at vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+at vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+at vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+at vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4170
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2237
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+at vendor\laravel\framework\src\Illuminate\Support\helpers.php:393
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+at vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2544
+at vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2560
+at tests\Feature\AutorizacionUniformeTddTest.php:11
+at tests\Feature\AutorizacionUniformeTddTest.php:72</error>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

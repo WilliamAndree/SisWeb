@@ -1,0 +1,3716 @@
+﻿[
+    {
+        "path":  ".agents/mcp_config.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/deploying-to-cloud/reference/checklists.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/deploying-to-cloud/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/inertia-react-development/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/infer-conventions/references/checklist.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/infer-conventions/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/advanced-queries.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/architecture.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/blade-views.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/caching.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/collections.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/config.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/db-performance.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/eloquent.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/error-handling.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/events-notifications.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/http-client.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/mail.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/migrations.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/queue-jobs.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/routing.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/scheduling.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/security.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/style.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/rules/validation.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/laravel-best-practices/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/tailwindcss-development/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/assertions.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/endpoint-tests.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/finding-features.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/isolation.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/naming.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/performance.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/review.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/security.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/rules/test-data.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".agents/skills/testing-best-practices/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/mcp.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/deploying-to-cloud/reference/checklists.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/deploying-to-cloud/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/inertia-react-development/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/infer-conventions/references/checklist.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/infer-conventions/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/advanced-queries.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/architecture.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/blade-views.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/caching.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/collections.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/config.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/db-performance.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/eloquent.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/error-handling.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/events-notifications.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/http-client.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/mail.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/migrations.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/queue-jobs.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/routing.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/scheduling.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/security.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/style.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/rules/validation.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/laravel-best-practices/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/tailwindcss-development/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/assertions.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/endpoint-tests.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/finding-features.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/isolation.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/naming.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/performance.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/review.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/security.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/rules/test-data.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".cursor/skills/testing-best-practices/SKILL.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".editorconfig",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".env",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".env.example",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".env.testing",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".env.testing.example",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".gitattributes",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".github/workflows/lint.yml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".github/workflows/tests.yml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".prettierignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".prettierrc",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".scannerwork/.sonar_lock",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  ".scannerwork/report-task.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "AGENTS.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Console/Commands/GenerarReadmeAutomatico.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Exceptions/CodigoAccesoGenerationException.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/Auth/AuthController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/Controller.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/DirectorioController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/EvaluacionController.php",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "app/Http/Controllers/PlanoEstablecimientoController.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Controllers/Traits/EvaluacionHelperTrait.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Middleware/HandleGuestSession.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Middleware/HandleInertiaRequests.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/Settings/ProfileUpdateRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/SolicitudAfiliacionRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/StoreAutoevaluacionRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Http/Requests/StoreChecklistDeclaracionesRequest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Jobs/AnalisisEvidenciaJob.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ActividadComercial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/AmbienteZona.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/AnalisisEspacial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/AnalisisEvidencia.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/Autoevaluacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/CategoriaSubsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ConectorCirculacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/CriterioNormativo.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ElementoEspacial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/HistorialSubsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/NivelPiso.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/PlanoEstablecimiento.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ProveedorRecurso.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/RecursoEducativo.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ReglaAplicabilidad.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/RespuestaAutoevaluacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/ResultadoAnalisisEvidencia.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SimulacionRevision.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SolicitudAfiliacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/Subsanacion.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/SugerenciaEspacial.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/User.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Models/VersionPlano.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Providers/AppServiceProvider.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/AnalisisEvidenciaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/GeminiMultimodalService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/MotorCorrelacionNormativaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/AI/ValidacionResultadoIAService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/ApplicabilityEngineService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/DirectorioAliadosService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/AnalisisEspacialService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/Geometria/GeometriaPuntoSegmento.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/GestionEspacialService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Espacio/SugerenciaEspacialService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Evaluacion/EvaluacionSyncService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Evaluacion/EvidenciaPrivadaService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Evaluacion/IntegridadEvaluacionService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/GeoLocationService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/ItseRiskService.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "app/Services/Traits/ApplicabilityEvaluationHelpersTrait.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "artisan",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "boost.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/app.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/cache/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "bootstrap/providers.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "components.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "composer.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "composer.lock",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/aliados.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/app.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/auth.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/cache.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/database.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/filesystems.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/itse.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/logging.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/mail.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/queue.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/sanctum.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/services.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "config/session.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "coverage.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/factories/UserFactory.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/0001_01_01_000000_create_users_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/0001_01_01_000001_create_cache_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/0001_01_01_000002_create_jobs_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_20_234516_create_evaluacion_itses_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_21_011308_create_auditoria_inspectors_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_21_012802_create_subsanacion_observacions_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_21_030000_rename_tables_to_preventive_naming.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_22_234752_add_telefono_to_users_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_22_234753_add_hybrid_identity_to_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_23_195302_create_recursos_educativos_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_23_200849_create_categorias_y_proveedores_recursos_tables.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_23_202255_add_tracking_and_history_to_subsanaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_24_015718_add_ubicacion_to_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_24_040035_move_evidencias_to_private_storage.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_24_122000_add_evaluacion_origen_id_to_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_013802_create_checkitse_normative_architecture_tables.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_013810_update_autoevaluaciones_for_v2_architecture.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_015251_make_area_pisos_aforo_nullable_in_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_020532_make_sector_huancayo_nullable_in_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_030000_make_caracteristicas_especiales_nullable_in_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_032720_add_catalog_fields_to_criterios_normativos_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_040000_make_tipo_tramite_and_nivel_riesgo_nullable_in_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_223536_add_estado_and_registrada_at_to_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_25_225649_add_payload_canonico_to_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_26_231223_adapt_recursos_educativos_for_normative_criteria.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_09_27_203012_make_codigo_acceso_unique_in_autoevaluaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_10_05_204235_create_personal_access_tokens_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_10_25_230738_create_solicitudes_afiliacion_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_10_25_230742_add_campos_directorio_to_proveedores_recursos_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_10_25_235003_add_actor_and_ip_to_historial_subsanaciones_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_11_02_000001_add_direct_subsanacion_and_evidence_hash_fields.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_11_03_000001_create_analisis_evidencias_tables.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_11_04_000001_create_planos_y_modelos_espaciales_tables.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_11_05_000001_create_sugerencias_espaciales_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/migrations/2026_11_06_000001_create_analisis_espaciales_table.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/seeders/DatabaseSeeder.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/seeders/DemoWalkthroughSeeder.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/seeders/NormativaCatalogSeeder.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "database/seeders/ProveedorRecursoSeeder.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/auditoria/informe_auditoria_fase1.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/00-diagnostico-inicial.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/01-arquitectura-actual.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/02-inventario-pruebas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/03-matriz-hallazgos.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/04-plan-mejoras.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/05-aislamiento-pruebas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/06-resultados-validacion-entorno.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/07-plan-tdd.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/08-casos-prueba-tdd.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/09-registro-rojo-verde-refactor.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/10-resultados-regresion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/11-matriz-trazabilidad-actualizada.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/12-incidente-perdida-aislamiento.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/13-recuperacion-fase2.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/14-tdd-autorizacion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/15-resultados-autorizacion.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/16-tdd-autoevaluaciones-checklist.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/17-integridad-criptografica.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/18-resultados-fase3b.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/19-tdd-subsanaciones.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/20-seguridad-evidencias.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/21-validacion-gemini.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/22-resultados-fase3c.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/23-tdd-geometria.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/24-versionado-integridad-planos.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/25-analisis-conectividad.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/26-resultados-fase3d.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/02-guardas.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/02-guardas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/03-diagnostico-risky.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/04-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/06-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/07-guardas.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/07-guardas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/08-archivos-protegidos-antes.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/09-seleccion.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/09-seleccion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/10-preflight-suite.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/11-suite-completa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/11-suite-completa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/12-destino-rechazado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase2/13-archivos-protegidos-despues.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-archivos-protegidos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-diff-inicial.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/00-git-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/02-baseline.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/02-baseline.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/03-auth-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/03-auth-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04-auth-rojo-valido.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04-auth-rojo-valido.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04b-auth-rojo-valido.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/04b-auth-rojo-valido.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3/05-git-tras-cambio-externo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-autorizacion-test-original.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-cambios-previos.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-git.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-matriz-original.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/00-protegidos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/02-cinco-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/02-cinco-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03b-invitado-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03b-invitado-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03c-cookies-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03c-cookies-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03-invitado-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/03-invitado-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/04-cookies-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/04-cookies-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/05-originales-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/05-originales-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/06-autorizacion-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/06-autorizacion-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/07-preflight-bloqueado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/10-preflight-reanudacion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/11-autorizacion-paridad.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/11-autorizacion-paridad.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/14-mysql-error-extracto.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/15-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/16-diagnostico-xampp.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/17-preflight-nativo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/18-aislamiento-nativo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/18-aislamiento-nativo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/19-autorizacion-nativa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/19-autorizacion-nativa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/20-regresion-nativa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/20-regresion-nativa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/21-fixtures-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/21-fixtures-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/22-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/23-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/24-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/24-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/25-resumen-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/26-preservacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistDinamicoEndpointTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistInteractivaViewTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ChecklistUX032Test.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ClasificacionTramiteResumenTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/DesacoplamientoFlujoLegadoTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/RecursosEducativosIntegrationTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3a/fixtures-antes/ResumenDescriptivoTest.php.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-cambios-previos.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-huellas.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/00-status.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/02-aislamiento-inicial.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/02-aislamiento-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/03-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/03-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/04-rojo-confirmado.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/04-rojo-confirmado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/05-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/05-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/06-checklist.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/06-checklist.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/07-refactor.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/07-refactor.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/08b-pint-nuevos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/08-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/09-modulos-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/09-modulos-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/10-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/11-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/11-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/12-lineas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/13-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/14-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/15-status-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3b/16-verificacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-diff-previo.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-huellas.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-procesos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/00-status.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/02-baseline.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/02-baseline.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/03-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/03-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04b-rojo-limites.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04b-rojo-limites.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04-rojo-confirmado.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/04-rojo-confirmado.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/05-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/05-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/06-regresion-modulos.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/06-regresion-modulos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/07-refactor.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/07-refactor.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/08-casos-ampliados.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/08-casos-ampliados.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/09-trazabilidad-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/10-trazabilidad-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/11b-pint-nuevos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/11-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/12-modulos-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/13-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/14-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/14-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/15-lineas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/16-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/17-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/18-comandos.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/19-verificacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/20-status-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3c/21-diff-final-worktree.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/00-diff-previo.patch",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/00-huellas.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/00-procesos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/00-status.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/01-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/02-baseline.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/02-baseline.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/02b-preflight-reanudacion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/03-rojo.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/03-rojo.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/04-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/04-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/05-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/05-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/06-rojo-integracion.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/06-rojo-integracion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/07-verde-integracion.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/07-verde-integracion.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/08-rojo-fronteras.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/08-rojo-fronteras.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/09-regresion-espacial.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/09-regresion-espacial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/10b-rojo-null.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/10b-rojo-null.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/10-rojo-consistencia.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/10-rojo-consistencia.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/11-ampliacion-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/11-ampliacion-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/12-rojo-precision-area.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/12-rojo-precision-area.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/13-refactor-verde.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/13-refactor-verde.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/14b-pint-nuevos.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/14-pint.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/15-modulos-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/15-modulos-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/16-preflight-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/17-regresion-final.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/17-regresion-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/18-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/19-lineas.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/20-comandos.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/21-preservacion.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/22-status-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-fase3d/23-verificacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/00-manifiesto-inicial.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/01-git-inicial.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/02-reflog.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/03-stash-reflog.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/04-comparacion-stash.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/05-preflight.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/06-aislamiento.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/06-aislamiento.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/07-funcionales.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/07-funcionales.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/08-manifiesto-suite-fase2.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/09-suite-fase2.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/09-suite-fase2.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/10-suite-actual-completa.junit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/10-suite-actual-completa.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/11-git-final.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/12-fallos-suite-actual.csv",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/13-preservacion-final.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/calidad/evidencias-recuperacion-fase2/14-resumen-junit.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/01-auditoria-ux-ui.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/02-perfiles-usuarios.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/03-sistema-diseno.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/04-rediseño-pantallas.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/05-roadmap-producto.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "docs/producto/06-criterios-aceptacion-ux.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "eslint.config.js",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "opencode.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "package.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "package-lock.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "phpunit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "public/.htaccess",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "public/favicon.ico",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "public/index.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "public/logo.svg",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "public/robots.txt",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "README.md",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/css/app.css",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/app.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Directorio/ModalAfiliacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Directorio/ModalContactoProveedor.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Espacio/PlanoEditor2D.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo01.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo02.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo03.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/FormatoAnexo04.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/index.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/anexos/types.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/CajaNotasSubsanacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/DesgloseEspecialidades.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/DiagnosticoMultidimensional.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/GuiaPedagogicaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/HojaModeloAnexo.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/NubeAsistenciaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Evaluacion/PanelResultadoAnalisisIA.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/EvidenciaUploadModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Footer.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/GuiaModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ModalConfirmarReevaluacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ModalGuardarProgreso.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/Navbar.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ProveedoresCercanosModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/RecursoEducativoModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/RegistrarLocalButton.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/shared/AuditoriaLogs.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/shared/CryptoSealBadge.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/ui/accordion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/button.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/components/ui/card.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/dialog.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/progress.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/ui/tabs.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/components/VideoEducativoModal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/data/checklistCatalogo.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/data/estados.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-appearance.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-initials.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-mobile.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/hooks/use-mobile-navigation.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/layouts/AppLayout.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/layouts/AuthLayout.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/lib/riesgo.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/lib/utils.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Auth/Login.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Auth/Register.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Dashboard/Dashboard.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Directorio/Index.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/AnexoOficial.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Checklist.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeDatosGenerales.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeMatrizCondiciones.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/InformeTrazabilidadLegal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/components/ResumenHeader.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/CroquisEditor.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/ExpedienteLocal.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Home.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/InformePreventivo.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/MisAutoevaluaciones.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Nueva.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Resultado.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Resumen.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/SimulacionRevision.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/Subsanacion.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/pages/Evaluacion/SubsanacionDirecta.tsx",
+        "exists":  true,
+        "unchanged":  false,
+        "authorized_change":  true
+    },
+    {
+        "path":  "resources/js/pages/Perfil/PerfilUsuario.tsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/ssr.jsx",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/contrato.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/global.d.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/index.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/types/vite-env.d.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/js/utils/normativaFormatters.ts",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "resources/views/app.blade.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "routes/api.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "routes/console.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "routes/web.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "sonar-project.properties",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/private/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/app/public/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/cache/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/cache/data/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/sessions/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/testing/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/framework/views/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "storage/logs/.gitignore",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "test-results/.last-run.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/bootstrap.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/coverage/clover.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/coverage/phpunit.xml",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AfiliacionAliadosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AnalisisEspacialPreventivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AnalisisMultimodalGeminiTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutoevaluacionIntegridadCicloVidaTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutoevaluacionReglasTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutorizacionRutasUuidTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/AutorizacionUniformeTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CheckItseIntegrationTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CheckItseModulosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistConsistenciaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistDinamicoEndpointTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistInteractivaViewTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ChecklistUX032Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CierreAutoevaluacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ClasificacionTramiteResumenTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ConectividadGrafosTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ContratoYSeguridadFase0Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ConversionInvitadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/CroquisIntegridadTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DashboardYPerfilCiudadanoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DemoWalkthroughSeederTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/DesacoplamientoFlujoLegadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/EvidenciasSeguridadTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/FlujosCriticosTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/GeminiResilienciaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/HistorialAutoevaluacionesTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/HybridIdentityTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/InformePreventivoFase16Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/InformePreventivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/JornadaCompletaComercianteTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ModeloEspacialVersionadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/Paso1DatosEstablecimientoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/Paso9HistorialVinculacionAccesoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/PortadaYCapturaInicialTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/QARevisionFinalFase18Test.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RecursosCercanosTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RecursosEducativosIntegrationTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ReevaluacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/RegistroInicialChecklistTransitionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ResultadoActualizadoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/ResumenDescriptivoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SubsanacionDirectaTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SubsanacionEvidenciasTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/SugerenciasEspacialesMultimodalTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Feature/TrazabilidadForenseSubsanacionTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Pest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/preflight.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/start-native-mariadb.ps1",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Support/EspacioFixture.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Support/GeminiFixture.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Support/TestEnvironment.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/TestCase.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ApplicabilityEngineServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/GeoLocationServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/GeometriaPuntoSegmentoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/GeometriaRobustezTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/IntegridadCanonicaTddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/IntegridadEvaluacionServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ItseRiskServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/NormativaArchitectureModelsTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/RecursoEducativoTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/StoreAutoevaluacionRequestTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/TestEnvironmentTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ValidacionResultadoIAServiceTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tests/Unit/ValidacionResultadoIATddTest.php",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "tsconfig.json",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    },
+    {
+        "path":  "vite.config.js",
+        "exists":  true,
+        "unchanged":  true,
+        "authorized_change":  false
+    }
+]
