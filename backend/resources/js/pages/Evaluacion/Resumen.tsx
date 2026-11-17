@@ -3,6 +3,7 @@ import { DesgloseEspecialidades } from '@/components/Evaluacion/DesgloseEspecial
 import { DiagnosticoMultidimensional } from '@/components/Evaluacion/DiagnosticoMultidimensional';
 import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
 import { HojaModeloAnexo } from '@/components/Evaluacion/HojaModeloAnexo';
+import { LoQueTeFalta } from '@/components/Evaluacion/LoQueTeFalta';
 import { NubeAsistenciaModal, type CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
 import { RecursoEducativoModal, type RecursoEducativoData } from '@/components/RecursoEducativoModal';
@@ -2148,6 +2149,12 @@ export default function Resumen({
                                 Ver qué atender
                             </Link>
                             <Link
+                                href={route('autoevaluacion.expediente_digital', { uuid: autoevaluacion.uuid })}
+                                className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-11 items-center rounded-xl px-5 py-3 text-base font-semibold text-white"
+                            >
+                                Preparar mi expediente
+                            </Link>
+                            <Link
                                 href={`/autoevaluacion/${autoevaluacion.uuid}/checklist`}
                                 className="inline-flex min-h-11 items-center rounded-xl border border-slate-400 px-5 py-3 text-base font-semibold"
                             >
@@ -2155,6 +2162,15 @@ export default function Resumen({
                             </Link>
                         </div>
                     </section>
+                    {(pendiente_atender.length > 0 || por_revisar.length > 0) && (
+                        <LoQueTeFalta
+                            items={[
+                                ...pendiente_atender.map((item) => ({ ...item, estado: 'PENDIENTE_ATENDER' })),
+                                ...por_revisar.map((item) => ({ ...item, estado: 'POR_REVISAR' })),
+                            ].map((item) => ({ ...item, codigo: String(item.codigo ?? ''), titulo: String(item.titulo ?? '') }))}
+                            nombreLocal={autoevaluacion?.nombre_comercio}
+                        />
+                    )}
                     <SeccionSaludTecnica
                         resumen={resumen}
                         totalAplicables={totalAplicables}

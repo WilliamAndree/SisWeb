@@ -5,19 +5,31 @@
 El público principal son **emprendedores jóvenes que abren su primer local** en Huancayo, muchos de ellos usuarios nuevos de este tipo de trámite. Las pantallas siguen cuatro reglas:
 
 1. **Letra grande.** La base es de 17 px (`html { font-size: 106.25% }` en `app.css`). Los textos de lectura usan `text-base` a `text-xl` y los títulos `text-3xl` o más.
-2. **Una acción principal por pantalla.** El botón ámbar ("Simular mi local gratis") o el verde ("Continuar", "Pedir cotización") es siempre el siguiente paso.
-3. **Fotos reales que reflejen el rubro.** Las portadas de los locales se eligen por el nombre del negocio (`lib/imagen-negocio.ts`): "BillyEssences" muestra una perfumería, no una bodega.
+2. **Una acción principal por pantalla.** El botón dorado sobre fondo oscuro ("Simular mi local gratis") o el naranja ("Continuar", "Subir una foto") es siempre el siguiente paso.
+3. **Fotos reales que reflejen el rubro y lo que falta.** Las portadas se eligen por el nombre del negocio (`lib/imagen-negocio.ts`) y cada ítem pendiente muestra la foto de lo que falta (`lib/item-visual.ts`).
 4. **Sin repetir.** Hay un único indicador de pasos (`FlujoCiudadano`) y un único aviso legal compacto por pantalla.
+
+## Identidad "Andes"
+
+Inspirada en los textiles wanka del Valle del Mantaro, para que CheckITSE no se parezca a una plantilla genérica:
+
+- **Naranja fuego** para acciones: es el color de la seguridad contra incendios.
+- **Índigo noche** para las superficies oscuras (hero, encabezados de sección y pie de página).
+- **Dorado y magenta** como acentos, igual que en las mantas andinas.
+- **Franja andina** (`franja-andina`): triángulos y rombos al pie de cada bloque oscuro. **Trama andina** (`trama-andina`): retícula de rombos casi invisible sobre el índigo.
+- **Verde azulado solo para "cumple / listo"**: `emerald-*` se redefinió para que conserve ese único significado.
 
 ## Tokens (`backend/resources/css/app.css`)
 
-| Token | Valor | Uso |
+| Token | Valor base | Uso |
 | --- | --- | --- |
-| `primary-*` | Verde esmeralda (`#047857` como base) | Acciones, estados "listo", enlaces |
-| `ink-900 / 800 / 700` | `#0b1f1a`, `#12302a`, `#1b4038` | Superficies de alto impacto: hero, bloque para proveedores |
-| `sun-*` | Ámbar (`#fbbf24` como base) | CTA principal sobre fondo oscuro y datos destacados |
-| `canvas` | `#f6f7f4` | Fondo general cálido |
-| Tipografía | Plus Jakarta Sans (fonts.bunny.net) | Titulares en `extrabold` con `tracking-tight` |
+| `primary-*` | Naranja fuego `#c2410c` (texto blanco con contraste AA) | Acciones, enlaces, énfasis |
+| `ink-900 / 800 / 700 / 600` | Índigo `#17133a` a `#4a3f94` | Hero, encabezados de sección, pie de página |
+| `sun-*` | Dorado `#ffc233` | CTA sobre fondo oscuro, cifras y etiquetas |
+| `magenta-*` | `#c21f68` | Acento textil |
+| `emerald-*` / `success-*` | Verde azulado `#0d7c68` | Solo estados "cumple", "listo" y "verificado" |
+| `canvas` | Crema `#fbf6ee` | Fondo general |
+| Tipografía | Bricolage Grotesque (títulos `h1` y `h2`, clase `font-display`) y Plus Jakarta Sans (texto) | fonts.bunny.net |
 
 ## Imágenes
 
@@ -67,3 +79,23 @@ Formularios que siguen estas reglas: datos del local (`/autoevaluacion/nueva`, 1
 ## Pendiente
 
 Aplicar este sistema a Checklist, Resumen, Resultado y Panel ciudadano.
+
+## Lo que te falta
+
+`components/Evaluacion/LoQueTeFalta.tsx` aparece en el Resumen y en la pantalla de subsanación:
+
+1. Cada ítem pendiente es una tarjeta grande con la foto de lo que falta y la etiqueta "Falta" o "Por revisar".
+2. Al elegir una, el panel muestra qué hacer, el costo aproximado y los proveedores de esa especialidad.
+3. Cada proveedor tiene un botón de WhatsApp con el mensaje ya escrito (producto y nombre del local) y un mapa de su zona.
+4. El botón "Ya lo resolví: subir una foto" abre la carga de evidencia de ese ítem.
+
+Los mapas usan la búsqueda pública de Google Maps (`output=embed`), sin clave de API. Muestran la **zona de atención** (distrito) del proveedor, no una dirección exacta, porque el directorio no guarda direcciones verificadas.
+
+## Expediente digital
+
+`/autoevaluacion/{uuid}/expediente-digital` reúne los documentos del trámite, basado en el formulario de ITSE de facilita.gob.pe, pero más simple:
+
+- **Solo se pide lo que corresponde.** Con riesgo bajo o medio, la declaración jurada (D.S. 002-2018-PCM, art. 20.1). Con riesgo alto, los 6 documentos del art. 25.1. Catálogo editable en `config/expediente.php`.
+- **Cada documento** está numerado y explica qué es, cómo conseguirlo y qué formatos acepta (PDF, JPG, PNG o WebP, máximo 10 MB). Se puede arrastrar el archivo o tomar una foto con el celular.
+- **Para quien revisa:** progreso "X de Y obligatorios", vista previa de cada archivo, descarga de todo en un ZIP numerado en orden y una ficha de revisión imprimible con un código de verificación (huella SHA-256) por archivo.
+- **Seguridad:** los archivos se guardan en el disco privado y solo los descarga el dueño del expediente (con cuenta o con su token de invitado).

@@ -226,7 +226,8 @@ export default function Home() {
             <GuiaModal isOpen={showGuia} onClose={() => setShowGuia(false)} />
 
             {/* HERO */}
-            <section aria-labelledby="hero-titulo" className="bg-ink-900 relative overflow-hidden rounded-3xl text-white">
+            <section aria-labelledby="hero-titulo" className="bg-ink-900 trama-andina relative overflow-hidden rounded-3xl pb-[18px] text-white">
+                <div aria-hidden="true" className="franja-andina absolute inset-x-0 bottom-0 z-10" />
                 <div aria-hidden="true" className="bg-primary-500/25 absolute -top-32 -left-24 size-96 rounded-full blur-3xl" />
                 <div className="relative grid items-center lg:grid-cols-[1.1fr_1fr]">
                     <div className="px-6 py-10 sm:px-10 sm:py-14 lg:py-16 lg:pl-14">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\EvaluacionController;
+use App\Http\Controllers\ExpedienteDigitalController;
 use App\Http\Controllers\PlanoEstablecimientoController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,13 @@ Route::prefix('autoevaluacion')->name('autoevaluacion.')->group(function () {
 
         // Subsanación directa limpia de criterios observados
         Route::get('/{uuid}/subsanar-items', [EvaluacionController::class, 'subsanarItems'])->name('subsanar_items');
+
+        // Expediente digital: documentos para el trámite, listos para revisar
+        Route::get('/{uuid}/expediente-digital', [ExpedienteDigitalController::class, 'show'])->name('expediente_digital');
+        Route::get('/{uuid}/expediente-digital/zip', [ExpedienteDigitalController::class, 'zip'])->name('expediente_digital.zip');
+        Route::post('/{uuid}/expediente-digital/{tipo}', [ExpedienteDigitalController::class, 'store'])->where('tipo', '[a-z_]+')->name('expediente_digital.store');
+        Route::get('/{uuid}/expediente-digital/{documento}/archivo', [ExpedienteDigitalController::class, 'archivo'])->whereNumber('documento')->name('expediente_digital.archivo');
+        Route::delete('/{uuid}/expediente-digital/{documento}', [ExpedienteDigitalController::class, 'destroy'])->whereNumber('documento')->name('expediente_digital.destroy');
         Route::post('/{uuid}/declarar-subsanado', [EvaluacionController::class, 'declararSubsanado'])->name('declarar_subsanado');
 
         /*

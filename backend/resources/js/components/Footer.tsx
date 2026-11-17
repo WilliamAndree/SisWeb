@@ -4,67 +4,53 @@ import { ShieldCheck } from 'lucide-react';
 /** `ancla` marca los destinos que son un fragmento dentro de la portada. */
 const ENLACES_NAVEGACION: { texto: string; href: string; ancla?: boolean }[] = [
     { texto: '¿Cómo funciona?', href: '/#como-funciona', ancla: true },
-    { texto: 'Proveedores', href: '/directorio' },
-    { texto: 'Autoevaluar mi local', href: '/autoevaluacion/nueva' },
+    { texto: 'Simular mi local', href: '/autoevaluacion/nueva' },
+    { texto: 'Renovar mi certificado', href: '/#renovacion', ancla: true },
+    { texto: 'Aliados técnicos', href: '/directorio' },
+    { texto: 'Anunciar mi negocio', href: '/directorio/anunciate' },
+];
+
+const MARCO_NORMATIVO = [
+    'D.S. N° 002-2018-PCM, Reglamento de ITSE',
+    'R.J. N° 016-2018-CENEPRED/J, Manual de Ejecución de ITSE',
+    'Reglamento Nacional de Edificaciones (RNE)',
+    'Código Nacional de Electricidad (CNE-U)',
 ];
 
 /**
- * Compendio normativo de referencia. Vive en el cuerpo del footer y no en un
- * slot `children` para que Home y Directorio muestren exactamente el mismo
- * bloque, sin depender de que cada página lo reescriba.
- */
-const MARCO_NORMATIVO: { norma: string; detalle: string }[] = [
-    {
-        norma: 'Manual CENEPRED',
-        detalle: 'Inspección Técnica de Seguridad en Edificaciones (ITSE)',
-    },
-    { norma: 'R.J. N° 016-2018-CENEPRED/J', detalle: '' },
-    { norma: 'D.S. N° 002-2018-PCM', detalle: '' },
-    { norma: 'Reglamento Nacional de Edificaciones (RNE)', detalle: '' },
-    { norma: 'Código Nacional de Electricidad (CNE-U)', detalle: '' },
-];
-
-/**
- * Pie institucional único de la aplicación: lo renderiza `layouts/AppLayout.tsx`.
- *
- * Concentra en un solo lugar lo que la plataforma es y lo que no es: la marca
- * institucional, el marco normativo de referencia y el deslinde legal. Ninguna
- * página debe renderizar su propio pie ni duplicar esos bloques.
+ * Pie único de la aplicación (lo renderiza `layouts/AppLayout.tsx`): marca,
+ * navegación, marco normativo y deslinde legal. Ninguna página debe duplicarlo.
  */
 export default function Footer() {
-    const url = usePage().url;
-    const enPortada = url === '/';
-
-    // En la portada el destino se resuelve como fragmento puro; fuera de ella, como
-    // ruta con ancla. Ir a `/#ancla` desde `/` no desplaza: Inertia no gestiona el
-    // scroll cuando la URL resultante es la misma página.
+    const enPortada = usePage().url === '/';
+    // En la portada el ancla es un fragmento puro; fuera de ella, ruta con ancla.
     const hrefDe = (href: string, ancla?: boolean) => (ancla && enPortada ? href.replace('/#', '#') : href);
 
     return (
-        <footer className="mt-20 border-t border-slate-200 bg-white px-6 pt-12 pb-8 lg:px-8">
-            <div className="mx-auto w-full max-w-7xl">
-                <div className="flex flex-col gap-10 md:flex-row md:justify-between">
-                    <div className="max-w-sm">
-                        <div className="flex items-center gap-2.5">
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white">
-                                <ShieldCheck className="h-5 w-5" />
+        <footer className="bg-ink-900 mt-24 text-slate-300">
+            <div aria-hidden="true" className="franja-andina" />
+            <div className="trama-andina px-6 pt-14 pb-10 lg:px-8">
+                <div className="mx-auto grid w-full max-w-7xl gap-12 md:grid-cols-[1.4fr_1fr_1.4fr]">
+                    <div>
+                        <div className="flex items-center gap-3">
+                            <span className="bg-primary-500 flex size-11 items-center justify-center rounded-xl text-white">
+                                <ShieldCheck aria-hidden="true" className="size-6" />
                             </span>
-                            <p className="text-lg font-bold text-slate-900">CheckITSE Huancayo</p>
+                            <p className="font-display text-2xl font-bold text-white">CheckITSE Huancayo</p>
                         </div>
-                        <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-600">
-                            Sistema de autoevaluación y diagnóstico de seguridad para comerciantes de Huancayo. Prepárate antes de la inspección
-                            municipal oficial de ITSE.
+                        <p className="mt-4 max-w-sm text-base leading-relaxed">
+                            Simula tu inspección de seguridad, corrige lo que falta con proveedores de tu zona y llega listo a tu municipalidad.
                         </p>
                     </div>
 
-                    <nav aria-label="Enlaces institucionales" className="md:text-right">
-                        <p className="text-sm font-bold text-slate-400">Navegación</p>
-                        <ul className="mt-3 space-y-2">
+                    <nav aria-label="Enlaces del sitio">
+                        <p className="text-sun-300 text-base font-bold">Navegación</p>
+                        <ul className="mt-4 space-y-1">
                             {ENLACES_NAVEGACION.map((enlace) => (
                                 <li key={enlace.href}>
                                     <Link
                                         href={hrefDe(enlace.href, enlace.ancla)}
-                                        className="inline-flex min-h-[36px] items-center rounded-lg text-sm font-medium text-slate-600 transition hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+                                        className="focus-visible:ring-sun-300 inline-flex min-h-10 items-center rounded text-base text-slate-200 transition hover:text-white focus-visible:ring-2 focus-visible:outline-none"
                                     >
                                         {enlace.texto}
                                     </Link>
@@ -72,34 +58,24 @@ export default function Footer() {
                             ))}
                         </ul>
                     </nav>
-                </div>
 
-                <div className="mt-8 grid grid-cols-1 gap-6 border-t border-slate-100 pt-6 md:grid-cols-2">
                     <div>
-                        <p className="text-sm font-bold text-slate-400">Marco normativo de referencia</p>
-                        <ul className="mt-2.5 space-y-1.5 text-sm leading-relaxed text-slate-600">
-                            {MARCO_NORMATIVO.map((entrada) => (
-                                <li key={entrada.norma}>
-                                    <span className="font-semibold text-slate-700">{entrada.norma}</span>
-                                    {entrada.detalle && ` — ${entrada.detalle}`}
-                                </li>
+                        <p className="text-sun-300 text-base font-bold">Marco normativo</p>
+                        <ul className="mt-4 space-y-2 text-base">
+                            {MARCO_NORMATIVO.map((norma) => (
+                                <li key={norma}>{norma}</li>
                             ))}
                         </ul>
                     </div>
-
-                    <div>
-                        <p className="text-sm font-bold text-slate-400">Alcance del servicio</p>
-                        <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                            CheckITSE Huancayo no constituye inspección oficial ni reemplaza la labor del inspector técnico de seguridad. No emite
-                            licencias, autorizaciones, certificaciones ni actas. Los resultados reflejan únicamente las condiciones declaradas por el
-                            ciudadano.
-                        </p>
-                    </div>
                 </div>
 
-                <p className="mt-6 text-sm text-slate-500">Herramienta gratuita. Sin registros obligatorios.</p>
-
-                <p className="mt-12 text-sm text-slate-400">© CheckITSE • Herramienta de autoevaluación preventiva según D.S. N° 002-2018-PCM</p>
+                <div className="mx-auto mt-12 max-w-7xl border-t border-white/10 pt-6 text-sm leading-relaxed text-slate-400">
+                    <p>
+                        CheckITSE no es una inspección oficial ni reemplaza al inspector técnico de seguridad. No emite licencias, autorizaciones ni
+                        certificados. Los resultados reflejan solo lo que declara cada usuario.
+                    </p>
+                    <p className="mt-3">© CheckITSE Huancayo · Herramienta preventiva según el D.S. N° 002-2018-PCM</p>
+                </div>
             </div>
         </footer>
     );

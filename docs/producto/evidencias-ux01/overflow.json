@@ -1,38 +1,14 @@
 [
   {
-    "tag": "BUTTON",
-    "classes": "flex size-10 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500",
-    "text": "",
-    "right": 334.484375
-  },
-  {
-    "tag": "svg",
-    "classes": {},
-    "text": "",
-    "right": 333.484375
-  },
-  {
-    "tag": "line",
-    "classes": {},
-    "text": "",
-    "right": 329.9427185058594
-  },
-  {
-    "tag": "line",
-    "classes": {},
-    "text": "",
-    "right": 329.9427185058594
-  },
-  {
-    "tag": "line",
-    "classes": {},
-    "text": "",
-    "right": 329.9427185058594
-  },
-  {
     "tag": "DIV",
-    "classes": "bg-primary-500/25 absolute -top-32 -left-24 size-96 rounded-full blur-3xl",
-    "text": "",
-    "right": 323
+    "classes": "flex items-center gap-2 self-start sm:self-center",
+    "text": "Croquis 2DMi expedienteIr al Dashboard",
+    "right": 387.0625
+  },
+  {
+    "tag": "A",
+    "classes": "inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95",
+    "text": "Ir al Dashboard",
+    "right": 387.0625
   }
 ]

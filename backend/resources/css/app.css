@@ -8,24 +8,46 @@
     --font-sans:
         'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 
     /*
-      Identidad visual CheckITSE (docs/diseno-visual.md):
-        primary -> verde de seguridad (confianza, "listo para operar")
-        ink     -> superficies de alto contraste (hero, CTA)
-        sun     -> acento cálido para emprendimiento y llamadas a la acción secundarias
-        canvas  -> fondo general cálido, menos frío que el gris neutro
+      Identidad visual CheckITSE "Andes" (docs/diseno-visual.md), inspirada en los
+      textiles wanka del Valle del Mantaro:
+        primary -> naranja fuego: acciones y énfasis (color de la seguridad contra incendios)
+        ink     -> índigo noche: superficies de alto contraste (hero, bloques oscuros)
+        sun     -> dorado: llamadas a la acción sobre fondo oscuro y cifras
+        magenta -> acento textil: etiquetas y detalles
+        emerald -> se redefine como verde azulado y queda SOLO para "cumple / listo"
+        canvas  -> fondo crema cálido
     */
-    --color-ink-900: #0b1f1a;
-    --color-ink-800: #12302a;
-    --color-ink-700: #1b4038;
-    --color-sun-50: #fff8eb;
-    --color-sun-100: #ffefcc;
-    --color-sun-300: #fcd27a;
-    --color-sun-400: #fbbf24;
-    --color-sun-500: #f59e0b;
-    --color-sun-700: #a15c07;
-    --color-canvas: #f6f7f4;
+    --color-ink-900: #17133a;
+    --color-ink-800: #231d52;
+    --color-ink-700: #322a6e;
+    --color-ink-600: #4a3f94;
+    --color-sun-50: #fff8e6;
+    --color-sun-100: #ffefc2;
+    --color-sun-300: #ffd56b;
+    --color-sun-400: #ffc233;
+    --color-sun-500: #f5a700;
+    --color-sun-700: #9a5b00;
+    --color-magenta-50: #fdf0f6;
+    --color-magenta-100: #fbdcea;
+    --color-magenta-500: #e0337f;
+    --color-magenta-600: #c21f68;
+    --color-magenta-700: #9d1654;
+    --color-canvas: #fbf6ee;
+
+    --color-emerald-50: #ecfaf6;
+    --color-emerald-100: #cff3e8;
+    --color-emerald-200: #a2e6d3;
+    --color-emerald-300: #67d1b9;
+    --color-emerald-400: #2fb69b;
+    --color-emerald-500: #149a80;
+    --color-emerald-600: #0d7c68;
+    --color-emerald-700: #0c6355;
+    --color-emerald-800: #0e4f45;
+    --color-emerald-900: #0f413a;
+    --color-emerald-950: #05241f;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -64,30 +86,30 @@
     --color-input: var(--input);
     --color-ring: var(--ring);
 
-    --color-primary-50: #ecfdf5;
-    --color-primary-100: #d1fae5;
-    --color-primary-200: #a7f3d0;
-    --color-primary-300: #6ee7b7;
-    --color-primary-400: #34d399;
-    --color-primary-500: #059669;
-    --color-primary-600: #047857;
-    --color-primary-700: #065f46;
-    --color-primary-800: #065f46;
-    --color-primary-900: #064e3b;
-    --color-primary-950: #022c22;
+    --color-primary-50: #fff4ec;
+    --color-primary-100: #ffe5d3;
+    --color-primary-200: #ffc7a5;
+    --color-primary-300: #ffa06c;
+    --color-primary-400: #fb7536;
+    --color-primary-500: #ee5a14;
+    --color-primary-600: #c2410c;
+    --color-primary-700: #a1360c;
+    --color-primary-800: #822d10;
+    --color-primary-900: #6a2710;
+    --color-primary-950: #3a1105;
 
     --color-success: var(--color-success-600);
     --color-success-foreground: #ffffff;
-    --color-success-50: #ecfdf5;
-    --color-success-100: #d1fae5;
-    --color-success-200: #a7f3d0;
-    --color-success-300: #6ee7b7;
-    --color-success-400: #34d399;
-    --color-success-500: #10b981;
-    --color-success-600: #047857;
-    --color-success-700: #047857;
-    --color-success-800: #065f46;
-    --color-success-900: #064e3b;
+    --color-success-50: #ecfaf6;
+    --color-success-100: #cff3e8;
+    --color-success-200: #a2e6d3;
+    --color-success-300: #67d1b9;
+    --color-success-400: #2fb69b;
+    --color-success-500: #149a80;
+    --color-success-600: #0d7c68;
+    --color-success-700: #0c6355;
+    --color-success-800: #0e4f45;
+    --color-success-900: #0f413a;
 
     --color-warning: var(--color-warning-600);
     --color-warning-foreground: #ffffff;
@@ -189,7 +211,7 @@
     --destructive-foreground: hsl(0, 0%, 100%);
     --border: hsl(0, 0%, 92.8%);
     --input: #64748b;
-    --ring: #1d4ed8;
+    --ring: #c2410c;
     --chart-1: hsl(12, 76%, 61%);
     --chart-2: hsl(173, 58%, 39%);
     --chart-3: hsl(197, 37%, 24%);
@@ -244,7 +266,7 @@
 
 @layer base {
     :focus-visible {
-        outline: 2px solid #1d4ed8;
+        outline: 3px solid #c2410c;
         outline-offset: 3px;
     }
     [id] {
@@ -258,5 +280,29 @@
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
         }
+    }
+}
+
+/*
+  Firma visual "Andes": franja de triángulos y rombos inspirada en las mantas
+  wanka del Valle del Mantaro. `franja-andina` es un borde decorativo de 18 px;
+  `trama-andina` es una retícula de rombos casi invisible para fondos oscuros.
+*/
+@utility franja-andina {
+    height: 18px;
+    background-repeat: repeat-x;
+    background-size: 64px 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='18' viewBox='0 0 64 18'%3E%3Cpath d='M0 18L16 4l16 14z' fill='%23ee5a14'/%3E%3Cpath d='M32 18L48 4l16 14z' fill='%23c21f68'/%3E%3Cpath d='M32 0l4 4-4 4-4-4zM0 0l4 4-4 4-4-4zM64 0l4 4-4 4-4-4z' fill='%23ffc233'/%3E%3Cpath d='M16 11l3 3-3 3-3-3zM48 11l3 3-3 3-3-3z' fill='%23fff8e6'/%3E%3C/svg%3E");
+}
+
+@utility trama-andina {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M22 4l9 9-9 9-9-9zM0 26l9 9-9 9M44 26l-9 9 9 9' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+@layer base {
+    h1,
+    h2 {
+        font-family: var(--font-display);
+        letter-spacing: -0.025em;
     }
 }

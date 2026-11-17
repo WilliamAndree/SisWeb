@@ -601,6 +601,11 @@ class EvaluacionController extends Controller
             }
         }
 
+        // Proveedores, costo estimado y guía de cada ítem, para el panel "Lo que te falta".
+        $itemsObservados = $itemsObservados->map(fn (array $item): array => $item + [
+            'asistencia' => $this->construirAsistenciaTecnica($item['codigo'] ?? null, $item['titulo'] ?? null, $item['norma_base'] ?? null),
+        ]);
+
         return Inertia::render('Evaluacion/SubsanacionDirecta', [
             'autoevaluacion' => [
                 'id' => $autoevaluacion->id,

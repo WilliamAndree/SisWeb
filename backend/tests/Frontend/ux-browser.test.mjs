@@ -18,6 +18,7 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
     const server = http.createServer(async (req, res) => {
         if (req.method === 'POST') { let data = ''; for await (const chunk of req) data += chunk; received.push({ url: req.url, body: JSON.parse(data) }); res.writeHead(303, { Location: '/?pantalla=Datos&error=1' }); res.end(); return; }
         if (req.headers['x-inertia']) { res.writeHead(200, { 'Content-Type': 'application/json', 'X-Inertia': 'true' }); res.end(JSON.stringify({ component: 'Datos', props: { auth: { user: null }, errors: { nombre_comercio: 'Error de prueba: conserva los datos.' } }, url: req.url, version: null, clearHistory: false, encryptHistory: false })); return; }
+        if (/^\/images\/[a-z0-9-]+\.webp$/.test(req.url ?? '')) { res.setHeader('Content-Type', 'image/webp'); res.end(await fs.readFile(path.join('public', req.url))); return; }
         if (req.url === '/fixture.js') { res.setHeader('Content-Type', 'application/javascript'); res.end(await fs.readFile(bundle)); return; }
         if (req.url === '/fixture.css') { res.setHeader('Content-Type', 'text/css'); res.end(css); return; }
         res.setHeader('Content-Type', 'text/html; charset=utf-8'); res.end('<!doctype html><html lang="es"><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="sintetico"><title>Fixture UX-01</title><link rel="stylesheet" href="/fixture.css"></head><body><div id="app"></div><script type="module" src="/fixture.js"></script></body></html>');
@@ -43,7 +44,7 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Network.setBlockedURLs', { urls: ['https://*', '*generativelanguage.googleapis.com*'] });
         const wait = async (expression) => { for (let i = 0; i < 100; i++) { if (await evaluate(expression)) return; await new Promise((r) => setTimeout(r, 50)); } throw Error('No se cumplió: ' + expression); };
         const observations = [];
-        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen']) {
+        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen', 'Subsanar', 'Expediente']) {
             for (const width of [320, 390, 768, 1440]) {
                 await send('Emulation.setDeviceMetricsOverride', { width, height: 960, deviceScaleFactor: 1, mobile: false });
                 await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=${pantalla}` });
@@ -60,6 +61,17 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
                 if (width === 390 || width === 1440) { const shot = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false }); await fs.writeFile(path.join(evidence, `${pantalla.toLowerCase()}-${width}.png`), Buffer.from(shot.data, 'base64')); }
             }
         }
+        // Panel "Lo que te falta": al elegir un ítem se muestran sus proveedores.
+        await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1300, deviceScaleFactor: 1, mobile: false });
+        await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=Subsanar` });
+        await wait('document.querySelector("#falta-titulo") !== null');
+        await evaluate(`[...document.querySelectorAll('[aria-pressed]')].find(b=>b.textContent.includes('Botiquín')).click()`);
+        await wait(`document.body.innerText.includes('Escribir por WhatsApp')`);
+        assert.match(await evaluate('document.querySelector("a[href^=\\"https://wa.me/\\"]").href'), /Botiqu%C3%ADn/);
+        await evaluate('document.querySelector("#falta-titulo").scrollIntoView()');
+        await new Promise((r) => setTimeout(r, 300));
+        const panelFalta = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
+        await fs.writeFile(path.join(evidence, 'subsanar-lo-que-falta-1440.png'), Buffer.from(panelFalta.data, 'base64'));
         await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=Datos` });
         await wait('document.querySelector("#est-nombre") !== null');
         await evaluate(`(()=>{const input=document.querySelector('#est-nombre');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,'Local sintético UX');input.dispatchEvent(new Event('input',{bubbles:true}));})()`);

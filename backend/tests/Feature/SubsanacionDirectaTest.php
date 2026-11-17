@@ -206,3 +206,25 @@ test('al subsanar todas las observaciones, la autoevaluacion queda al 100% y en 
             ->where('records.0.clasificacion_estado', 'CONFORME')
         );
 });
+
+test('cada ítem por subsanar incluye proveedores sugeridos para el panel "Lo que te falta"', function () {
+    $user = User::factory()->create();
+    $autoevaluacion = crearAutoevaluacionSubsanacion(['user_id' => $user->id]);
+    $crit01 = CriterioNormativo::where('codigo_criterio', 'CRIT-01')->firstOrFail();
+
+    RespuestaAutoevaluacion::create([
+        'autoevaluacion_id' => $autoevaluacion->id,
+        'criterio_id' => $crit01->id,
+        'estado_respuesta' => ApplicabilityEngineService::ESTADO_PENDIENTE_ATENDER,
+    ]);
+
+    actingAs($user)
+        ->get(route('autoevaluacion.subsanar_items', ['uuid' => $autoevaluacion->uuid_trazabilidad]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Evaluacion/SubsanacionDirecta')
+            ->where('items.0.codigo', 'CRIT-01')
+            ->has('items.0.asistencia.aliados')
+            ->where('items.0.asistencia.aliados', fn ($aliados) => count($aliados) > 0)
+        );
+});

@@ -1,3 +1,5 @@
+import { LoQueTeFalta } from '@/components/Evaluacion/LoQueTeFalta';
+import type { CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
 import { PanelResultadoAnalisisIA } from '@/components/Evaluacion/PanelResultadoAnalisisIA';
 import { EvidenciaUploadModal } from '@/components/EvidenciaUploadModal';
 import { ProveedoresCercanosModal } from '@/components/ProveedoresCercanosModal';
@@ -36,6 +38,7 @@ export interface RecursoEducativoItem {
 }
 
 export interface CriterioObservadoItem {
+    asistencia?: CriterioAsistencia | null;
     id?: number | null;
     subsanacion_id?: number | null;
     criterio_id?: number | null;
@@ -290,13 +293,20 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 </p>
                             </div>
 
-                            <div className="flex items-center gap-2 self-start sm:self-center">
+                            <div className="flex flex-wrap items-center gap-2 self-start sm:self-center">
                                 <Link
                                     href={route('autoevaluacion.croquis', { uuid: autoevaluacion.uuid })}
                                     className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
                                 >
                                     <Building2 className="h-4 w-4 text-indigo-600" />
                                     <span>Croquis 2D</span>
+                                </Link>
+
+                                <Link
+                                    href={route('autoevaluacion.expediente_digital', { uuid: autoevaluacion.uuid })}
+                                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-[44px] items-center justify-center rounded-2xl px-4 py-2.5 text-sm font-bold text-white"
+                                >
+                                    Mi expediente
                                 </Link>
 
                                 <Link
@@ -312,50 +322,11 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
                 {/* Contenido Principal */}
                 <main className="mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6">
-                    {/* Banner de Trazabilidad, Evidencias, Orientación Visual y Deslinde Cívico */}
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-4 text-sm text-sky-950">
-                            <div className="mb-1 flex items-center gap-1.5 font-bold text-sky-900">
-                                <CheckCircle2 className="h-4 w-4 shrink-0 text-sky-600" />
-                                <span>Declaración Cívica</span>
-                            </div>
-                            <p className="text-sm leading-relaxed text-sky-800">
-                                Al marcar una condición como subsanada, registras una declaración voluntaria de cumplimiento para tu preparación
-                                preventiva.
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm text-emerald-950">
-                            <div className="mb-1 flex items-center gap-1.5 font-bold text-emerald-900">
-                                <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-600" />
-                                <span>Custodia de Evidencias</span>
-                            </div>
-                            <p className="text-sm leading-relaxed text-emerald-800">
-                                Puedes adjuntar fotografías o certificados (máx. 5 MB). Se almacenan en entorno privado y con respaldo hash SHA-256.
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 text-sm text-indigo-950">
-                            <div className="mb-1 flex items-center gap-1.5 font-bold text-indigo-900">
-                                <Sparkles className="h-4 w-4 shrink-0 text-indigo-600" />
-                                <span>Orientación Visual IA</span>
-                            </div>
-                            <p className="text-sm leading-relaxed text-indigo-800">
-                                Asistencia fotográfica con Gemini para detectar elementos visibles, limitaciones y sugerencias de mejora preventiva.
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm text-amber-950">
-                            <div className="mb-1 flex items-center gap-1.5 font-bold text-amber-900">
-                                <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
-                                <span>Sin Valor Municipal</span>
-                            </div>
-                            <p className="text-sm leading-relaxed text-amber-800">
-                                CheckITSE no emite certificados ITSE ni reemplaza la inspección técnica de seguridad efectuada por inspectores
-                                municipales.
-                            </p>
-                        </div>
-                    </div>
+                    <p className="flex items-start gap-2 text-base leading-relaxed text-slate-600">
+                        <ShieldCheck aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                        Tus fotos y documentos se guardan en privado. Marcar algo como resuelto es una declaración tuya: CheckITSE no emite
+                        certificados ni reemplaza la inspección municipal.
+                    </p>
 
                     {/* Barra de Progreso y Estado */}
                     <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
@@ -405,6 +376,18 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             />
                         </div>
                     </div>
+
+                    {/* Lo que falta, en grande y con foto, con proveedores y mapa */}
+                    {pendientes.length > 0 && (
+                        <LoQueTeFalta
+                            items={pendientes}
+                            nombreLocal={autoevaluacion.nombre_comercio}
+                            onAdjuntarEvidencia={(codigo) => {
+                                const item = items.find((it) => it.codigo === codigo);
+                                if (item) setCriterioEvidenciaModal(item);
+                            }}
+                        />
+                    )}
 
                     {/* Banner de Felicitación / 100% Conforme */}
                     {todosSubsanados && (

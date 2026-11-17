@@ -1,4 +1,5 @@
 import { ModalContactoProveedor } from '@/components/Directorio/ModalContactoProveedor';
+import { mapaZona } from '@/lib/item-visual';
 import type { AliadoAsistenciaContrato } from '@/types/contrato';
 import { Head, Link, router } from '@inertiajs/react';
 import {
@@ -95,6 +96,7 @@ function irA(id: string) {
 
 export default function Directorio({ aliados, planes = [], filtros, categorias, distritos }: Readonly<DirectorioProps>) {
     const [aliadoSeleccionado, setAliadoSeleccionado] = useState<AliadoAsistenciaContrato | null>(null);
+    const [mapaAbierto, setMapaAbierto] = useState<string | null>(null);
 
     const filtroCategoria = filtros.categoria ?? '';
     const filtroDistrito = filtros.distrito ?? '';
@@ -120,7 +122,8 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
             <Head title="Aliados técnicos - CheckITSE Huancayo" />
 
             {/* HERO */}
-            <header className="bg-ink-900 relative overflow-hidden rounded-3xl text-white">
+            <header className="bg-ink-900 relative overflow-hidden rounded-3xl pb-[18px] text-white">
+                <div aria-hidden="true" className="franja-andina absolute inset-x-0 bottom-0 z-10" />
                 <img src="/images/extintor.webp" alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
                 <div aria-hidden="true" className="from-ink-900 via-ink-900/90 absolute inset-0 bg-gradient-to-r to-transparent" />
                 <div className="relative max-w-3xl px-6 py-12 sm:px-10 sm:py-16">
@@ -316,6 +319,36 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                             ))}
                                         </ul>
                                     )}
+                                    <div className="mt-4">
+                                        <button
+                                            type="button"
+                                            aria-expanded={mapaAbierto === aliado.id}
+                                            onClick={() => setMapaAbierto(mapaAbierto === aliado.id ? null : aliado.id)}
+                                            className="text-primary-700 inline-flex min-h-11 cursor-pointer items-center gap-2 text-base font-semibold underline underline-offset-2"
+                                        >
+                                            <MapPin aria-hidden="true" className="size-5" />
+                                            {mapaAbierto === aliado.id ? 'Ocultar mapa' : `Ver zona en el mapa (${aliado.sede})`}
+                                        </button>
+                                        {mapaAbierto === aliado.id && (
+                                            <div className="mt-2 overflow-hidden rounded-xl border border-slate-200">
+                                                <iframe
+                                                    title={`Mapa de la zona de ${aliado.nombre_comercial}`}
+                                                    src={mapaZona(aliado.sede || 'Huancayo').embed}
+                                                    loading="lazy"
+                                                    referrerPolicy="no-referrer-when-downgrade"
+                                                    className="h-56 w-full border-0"
+                                                />
+                                                <a
+                                                    href={mapaZona(aliado.sede || 'Huancayo').abrir}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary-700 flex min-h-11 items-center justify-center text-base font-semibold"
+                                                >
+                                                    Abrir en Google Maps
+                                                </a>
+                                            </div>
+                                        )}
+                                    </div>
                                     <div className="mt-auto pt-6">
                                         <button
                                             type="button"
