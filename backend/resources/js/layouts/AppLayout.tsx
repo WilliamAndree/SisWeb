@@ -25,7 +25,8 @@ export default function AppLayout({ children, ancho = 'contenido' }: Readonly<Ap
                 Saltar al contenido principal
             </a>
 
-            <div className="print:hidden">
+            {/* La barra se queda visible al bajar: el contenedor es el que es sticky. */}
+            <div className="sticky top-0 z-40 print:hidden">
                 <Navbar />
             </div>
 

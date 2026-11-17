@@ -22,7 +22,7 @@ Para agregar una foto, verifica que la página diga "Free to use under the Unspl
 | balon-gas.webp | Mufid Majnun | https://unsplash.com/photos/KDfQ9lY-MkQ |
 | escalera-pasamanos.webp | Adi Goldstein | https://unsplash.com/photos/Zb0tQk413aU |
 | estanteria.webp | Nathália Rosa | https://unsplash.com/photos/rWMIbqmOxrY |
-| luz-emergencia.webp | Glenn Villas | https://unsplash.com/photos/-RrHhp58MZo |
+| luz-emergencia.svg | Ilustración propia de CheckITSE | — |
 
 ## Fondos de la portada (1920 px)
 

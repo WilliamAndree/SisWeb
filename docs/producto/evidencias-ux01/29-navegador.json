@@ -290,6 +290,70 @@
       "content": 1425,
       "title": "Extintores Wanka · Datos ficticios",
       "missingLabels": 0
+    },
+    {
+      "pantalla": "Panel",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Mi panel",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Panel",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Mi panel",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Panel",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Mi panel",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Panel",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Mi panel",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Aliados",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Todo lo que tu local necesitapara pasar la ITSE.",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Aliados",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Todo lo que tu local necesitapara pasar la ITSE.",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Aliados",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Todo lo que tu local necesitapara pasar la ITSE.",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Aliados",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Todo lo que tu local necesitapara pasar la ITSE.",
+      "missingLabels": 0
     }
   ],
   "payload": {

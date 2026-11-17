@@ -1,29 +1,22 @@
 import { RegistrarLocalButton } from '@/components/RegistrarLocalButton';
-import { resolverFotoNegocio } from '@/lib/imagen-negocio';
-import { formatearNivelRiesgo } from '@/lib/riesgo';
+import { resolverFotoNegocio, usarFotoRespaldo } from '@/lib/imagen-negocio';
 import type { AutoevaluacionItem } from '@/types/contrato';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     AlertTriangle,
     ArrowRight,
-    Check,
-    CheckCircle2,
     ClipboardList,
     Clock,
-    Copy,
-    ExternalLink,
     FileSpreadsheet,
     FileText,
     Fingerprint,
-    Flame,
-    Hash,
     MapPin,
     RotateCw,
     Search,
     ShieldCheck,
     Store,
+    Trash2,
     Users,
-    Wrench,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
@@ -41,329 +34,170 @@ export interface DashboardProps {
     readonly kpis: DashboardKpis;
 }
 
-function resolverClaseRiesgo(nivel?: string | null): string {
-    const norm = (nivel ?? '').toUpperCase();
-    if (norm.includes('BAJO')) {
-        return 'bg-emerald-500/90 text-white border-emerald-400';
-    }
-    if (norm.includes('MEDIO')) {
-        return 'bg-amber-500/90 text-white border-amber-400';
-    }
-    if (norm.includes('ALTO') || norm.includes('MUY')) {
-        return 'bg-rose-600/90 text-white border-rose-500';
-    }
-    return 'bg-slate-700/90 text-white border-slate-600';
-}
-
 interface LocalCardProps {
     readonly record: AutoevaluacionItem;
 }
 
+/**
+ * Tarjeta del local en "Mi panel": foto del rubro, cuánto está listo en grande,
+ * una acción principal según el caso y accesos secundarios ordenados. Permite
+ * eliminar registros antiguos con confirmación en la misma tarjeta.
+ */
 function LocalCard({ record }: Readonly<LocalCardProps>) {
-    const [copiadoUuid, setCopiadoUuid] = useState(false);
-    const [copiadoHash, setCopiadoHash] = useState(false);
+    const [confirmarBorrado, setConfirmarBorrado] = useState(false);
+    const [borrando, setBorrando] = useState(false);
 
-    const clasificacion =
-        record.clasificacion_estado ??
-        (record.estado !== 'REGISTRADA' ? 'EN_PROCESO' : (record.porcentaje_cumplimiento ?? 0) >= 100 ? 'CONFORME' : 'OBSERVADO');
+    const enProceso = record.estado !== 'REGISTRADA';
+    const conteo = record.conteo_condiciones ?? { total: 0, cumple: 0, no_cumple: 0, por_revisar: 0, na: 0 };
+    const falta = conteo.no_cumple ?? 0;
+    const porRevisar = conteo.por_revisar ?? 0;
+    const listo = conteo.cumple ?? 0;
+    const aplicables = Math.max(listo + falta + porRevisar, 1);
+    const porcentaje = Math.round(record.porcentaje_cumplimiento ?? (listo / aplicables) * 100);
+    const pendientes = falta + porRevisar;
+    const uuid = record.uuid_trazabilidad;
+    const foto = resolverFotoNegocio(record.nombre_comercio, record.funcion_economica, uuid ?? record.id ?? record.nombre_comercio);
 
-    const esConforme = clasificacion === 'CONFORME';
-    const esObservado = clasificacion === 'OBSERVADO';
-    const esEnProceso = clasificacion === 'EN_PROCESO';
+    let estado = { texto: '¡Listo para la inspección!', clase: 'bg-emerald-500 text-white', Icono: ShieldCheck };
+    if (enProceso) estado = { texto: 'Simulación sin terminar', clase: 'bg-white/90 text-slate-900', Icono: Clock };
+    else if (pendientes > 0)
+        estado = { texto: `Te falta${pendientes === 1 ? '' : 'n'} ${pendientes}`, clase: 'bg-sun-400 text-ink-900', Icono: AlertTriangle };
 
-    const nivelRiesgo = record.nivel_riesgo ?? record.clasificacion_tramite?.nivel_riesgo ?? 'MEDIO';
-    const claseRiesgo = resolverClaseRiesgo(nivelRiesgo);
-    const fotoPortada = resolverFotoNegocio(
-        record.nombre_comercio,
-        record.funcion_economica,
-        record.uuid_trazabilidad ?? record.id ?? record.nombre_comercio,
-    );
+    let principal = { texto: 'Ver mi resumen', href: route('autoevaluacion.resumen', { uuid }) };
+    if (enProceso) principal = { texto: 'Continuar simulación', href: route('autoevaluacion.checklist', { uuid }) };
+    else if (pendientes > 0) principal = { texto: 'Ver lo que me falta', href: route('autoevaluacion.subsanar_items', { uuid }) };
 
-    const conteo = record.conteo_condiciones ?? {
-        total: 0,
-        cumple: 0,
-        no_cumple: 0,
-        por_revisar: 0,
-        na: 0,
+    const eliminar = () => {
+        setBorrando(true);
+        router.delete(route('mis-autoevaluaciones.destroy', { uuid }), {
+            preserveScroll: true,
+            onFinish: () => {
+                setBorrando(false);
+                setConfirmarBorrado(false);
+            },
+        });
     };
 
-    let totalObservaciones = 0;
-    if ((record.resumen_subsanaciones?.pendientes ?? 0) > 0) {
-        totalObservaciones = record.resumen_subsanaciones.pendientes;
-    } else {
-        totalObservaciones = (conteo.no_cumple ?? 0) + (conteo.por_revisar ?? 0);
-    }
-
-    const copiarTexto = async (texto: string, setFn: (v: boolean) => void) => {
-        try {
-            await navigator.clipboard.writeText(texto);
-            setFn(true);
-            setTimeout(() => setFn(false), 2000);
-        } catch {
-            // Silencioso ante bloqueo de portapapeles
-        }
-    };
-
-    let badgeEstadoBg = 'bg-emerald-500 text-white';
-    let badgeEstadoTexto = 'CONFORME';
-    let badgeIcono = <ShieldCheck className="h-3 w-3" aria-hidden="true" />;
-    let circuloCumplimientoBg = 'bg-emerald-600 text-white border-emerald-400';
-
-    if (esObservado) {
-        badgeEstadoBg = 'bg-amber-500 text-white';
-        badgeEstadoTexto = 'CON OBSERVACIONES';
-        badgeIcono = <AlertTriangle className="h-3 w-3" aria-hidden="true" />;
-        circuloCumplimientoBg = 'bg-amber-500 text-white border-amber-300';
-    } else if (esEnProceso) {
-        badgeEstadoBg = 'bg-slate-700 text-white';
-        badgeEstadoTexto = 'EN PROCESO';
-        badgeIcono = <Clock className="h-3 w-3" aria-hidden="true" />;
-        circuloCumplimientoBg = 'bg-slate-700 text-white border-slate-500';
-    }
+    const secundarios = [
+        { texto: 'Mi resumen', href: route('autoevaluacion.resumen', { uuid }), Icono: ClipboardList, oculto: enProceso },
+        { texto: 'Expediente digital', href: route('autoevaluacion.expediente_digital', { uuid }), Icono: FileText, oculto: enProceso },
+        { texto: 'Informe', href: route('autoevaluacion.informe', { uuid }), Icono: FileSpreadsheet, oculto: enProceso },
+        { texto: 'Volver a evaluar', href: route('autoevaluacion.reevaluar', { uuid }), Icono: RotateCw, oculto: enProceso },
+    ].filter((s) => !s.oculto);
 
     return (
         <article
-            aria-label={`Expediente comercial de ${record.nombre_comercio}`}
-            className="flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
+            aria-label={`Local ${record.nombre_comercio}`}
+            className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
         >
-            {/* 1. Cabecera con Imagen Fotográfica y Overlays */}
-            <div className="relative h-48 w-full overflow-hidden">
-                <img
-                    src={fotoPortada}
-                    alt={`Fachada de ${record.nombre_comercio}`}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                    loading="lazy"
-                />
-
-                {/* Gradiente oscuro cinematográfico */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-black/30" />
-
-                {/* Badges superiores flotantes */}
-                <div className="absolute top-3 right-3 left-3 flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                        <span
-                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-black tracking-wider uppercase shadow-xs ${badgeEstadoBg}`}
-                        >
-                            {badgeIcono}
-                            {badgeEstadoTexto}
+            <div className="relative h-52">
+                <img src={foto} alt="" loading="lazy" onError={usarFotoRespaldo} className="h-full w-full object-cover" />
+                <div aria-hidden="true" className="from-ink-900/95 absolute inset-0 bg-gradient-to-t via-black/20 to-transparent" />
+                <span
+                    className={`absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold shadow ${estado.clase}`}
+                >
+                    <estado.Icono aria-hidden="true" className="size-4" /> {estado.texto}
+                </span>
+                <div className="absolute right-5 bottom-4 left-5 text-white">
+                    <h3 className="font-display truncate text-2xl font-bold">{record.nombre_comercio}</h3>
+                    <p className="mt-0.5 flex flex-wrap items-center gap-x-3 text-base text-slate-200">
+                        <span className="inline-flex items-center gap-1">
+                            <MapPin aria-hidden="true" className="size-4" /> {record.sector_huancayo || 'Huancayo'}
                         </span>
-
-                        <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-slate-900/60 px-2.5 py-0.5 text-sm font-semibold text-white backdrop-blur-xs">
-                            <MapPin className="h-3 w-3 text-emerald-400" aria-hidden="true" />
-                            {record.sector_huancayo || 'Huancayo'}
-                        </span>
-
-                        <span
-                            className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-bold backdrop-blur-xs ${claseRiesgo}`}
-                        >
-                            {formatearNivelRiesgo(nivelRiesgo)}
-                        </span>
-                    </div>
-
-                    <Link
-                        href={route('autoevaluacion.reevaluar', { uuid: record.uuid_trazabilidad })}
-                        aria-label={`Reevaluar ${record.nombre_comercio}`}
-                        title="Iniciar reevaluación preventiva"
-                        className="flex h-11 min-h-[44px] w-11 min-w-[44px] items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-xs transition hover:bg-white/40 active:scale-95"
-                    >
-                        <RotateCw className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                </div>
-
-                {/* Título del local e información en el pie de la foto */}
-                <div className="absolute right-3 bottom-3 left-3 flex items-end justify-between gap-3">
-                    <div className="min-w-0 flex-1 drop-shadow-sm">
-                        <h3 className="truncate text-lg font-black tracking-tight text-white">{record.nombre_comercio}</h3>
-                        {(() => {
-                            const tieneDatosFisicos = (record.area_m2 ?? 0) > 0 || (record.aforo ?? 0) > 0;
-                            const datosFisicosTexto = tieneDatosFisicos
-                                ? [
-                                      (record.area_m2 ?? 0) > 0 ? `${record.area_m2} m²` : null,
-                                      (record.aforo ?? 0) > 0 ? `${record.aforo} pers.` : null,
-                                  ]
-                                      .filter(Boolean)
-                                      .join(' • ')
-                                : 'Datos del local por completar';
-
-                            return (
-                                <p className="mt-0.5 truncate text-sm font-semibold text-slate-200">
-                                    {record.funcion_economica} • {datosFisicosTexto}
-                                </p>
-                            );
-                        })()}
-                    </div>
-
-                    {/* Círculo flotante de porcentaje */}
-                    <div
-                        className={`flex shrink-0 flex-col items-center justify-center rounded-2xl border px-2.5 py-1 text-center shadow-md backdrop-blur-xs ${circuloCumplimientoBg}`}
-                    >
-                        <span className="text-sm leading-none font-black tracking-tight">{record.porcentaje_cumplimiento}%</span>
-                        <span className="text-[9px] font-bold tracking-wider text-white/90 uppercase">Cumpl.</span>
-                    </div>
+                        {record.fecha_corta && <span>{record.fecha_corta}</span>}
+                    </p>
                 </div>
             </div>
 
-            {/* 2. Cuerpo de la Tarjeta */}
-            <div className="flex flex-1 flex-col justify-between space-y-4 p-5">
-                <div className="space-y-3.5">
-                    {/* Caja de alerta de estado */}
-                    {esConforme ? (
-                        <div className="flex items-center gap-2.5 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-3 text-sm text-emerald-950">
-                            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
-                            <div className="leading-tight">
-                                <strong className="font-bold">APTO PARA MESA DE PARTES</strong>
-                                <p className="text-sm text-emerald-800">Condiciones técnicas de seguridad 100% conformes según autodeclaración.</p>
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+                {!enProceso && (
+                    <>
+                        <div className="flex items-end justify-between gap-3">
+                            <p className="text-5xl font-extrabold text-slate-900">
+                                {porcentaje}
+                                <span className="text-2xl text-slate-400">%</span>
+                            </p>
+                            <p className="pb-2 text-base font-semibold text-slate-600">listo para la ITSE</p>
+                        </div>
+                        <div className="mt-3 h-3 overflow-hidden rounded-full bg-slate-100">
+                            <div
+                                className={`h-full rounded-full ${pendientes === 0 ? 'bg-emerald-500' : 'bg-primary'}`}
+                                style={{ width: `${porcentaje}%` }}
+                            />
+                        </div>
+                        <dl className="mt-5 grid grid-cols-3 gap-2 text-center">
+                            {[
+                                { etiqueta: 'Listo', valor: listo, clase: 'bg-emerald-50 text-emerald-800' },
+                                { etiqueta: 'Falta', valor: falta, clase: 'bg-primary-50 text-primary-800' },
+                                { etiqueta: 'Por revisar', valor: porRevisar, clase: 'bg-sun-50 text-sun-700' },
+                            ].map((c) => (
+                                <div key={c.etiqueta} className={`rounded-xl px-2 py-3 ${c.clase}`}>
+                                    <dd className="text-2xl font-extrabold">{c.valor}</dd>
+                                    <dt className="text-sm font-semibold">{c.etiqueta}</dt>
+                                </div>
+                            ))}
+                        </dl>
+                    </>
+                )}
+                {enProceso && (
+                    <p className="text-lg text-slate-700">Aún no terminas de responder las condiciones de tu local. Continúa donde lo dejaste.</p>
+                )}
+
+                <Link
+                    href={principal.href}
+                    className="bg-primary hover:bg-primary-700 mt-6 flex min-h-13 items-center justify-center gap-2 rounded-xl px-5 text-lg font-bold text-white"
+                >
+                    {principal.texto} <ArrowRight aria-hidden="true" className="size-5" />
+                </Link>
+
+                {secundarios.length > 0 && (
+                    <ul className="mt-3 grid grid-cols-2 gap-2">
+                        {secundarios.map((s) => (
+                            <li key={s.texto}>
+                                <Link
+                                    href={s.href}
+                                    className="flex min-h-12 items-center gap-2 rounded-xl border border-slate-200 px-3 text-base font-semibold text-slate-800 hover:bg-slate-50"
+                                >
+                                    <s.Icono aria-hidden="true" className="text-primary-700 size-5 shrink-0" /> {s.texto}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                <div className="mt-auto pt-5">
+                    {confirmarBorrado ? (
+                        <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-4">
+                            <p className="text-base font-semibold text-rose-900">
+                                ¿Eliminar este registro? Se borrarán sus respuestas, fotos y documentos.
+                            </p>
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                <button
+                                    type="button"
+                                    onClick={eliminar}
+                                    disabled={borrando}
+                                    className="min-h-12 cursor-pointer rounded-xl bg-rose-600 px-5 text-base font-bold text-white disabled:opacity-60"
+                                >
+                                    {borrando ? 'Eliminando…' : 'Sí, eliminar'}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setConfirmarBorrado(false)}
+                                    className="min-h-12 cursor-pointer rounded-xl px-4 text-base font-semibold text-slate-700 hover:bg-white"
+                                >
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
                     ) : (
-                        <div className="flex items-start gap-2.5 rounded-2xl border border-amber-200 bg-amber-50/90 p-3 text-sm text-amber-950">
-                            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
-                            <div className="leading-tight">
-                                <strong className="font-bold">REQUIERE SUBSANACIÓN TÉCNICA</strong>
-                                <p className="text-sm text-amber-800">
-                                    Se detectaron {totalObservaciones} condiciones observadas pendientes de evidencia.
-                                </p>
-                            </div>
-                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setConfirmarBorrado(true)}
+                            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-lg px-2 text-base font-semibold text-slate-500 hover:text-rose-700"
+                        >
+                            <Trash2 aria-hidden="true" className="size-5" /> Eliminar registro
+                        </button>
                     )}
-
-                    {/* Dirección y Condición de Gas */}
-                    <div className="grid grid-cols-1 gap-2 text-sm text-slate-600 sm:grid-cols-2">
-                        <div className="flex items-center gap-1.5 truncate">
-                            <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
-                            <span className="truncate">{record.direccion || 'Dirección no consignada'}</span>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 truncate">
-                            <Flame className={`h-3.5 w-3.5 shrink-0 ${record.usa_glp ? 'text-amber-500' : 'text-slate-400'}`} aria-hidden="true" />
-                            <span className="truncate font-medium">{record.usa_glp ? 'Gas GLP Declarado' : 'Sin instalación de Gas'}</span>
-                        </div>
-                    </div>
-
-                    {/* Barra de Progreso y Desglose */}
-                    <div>
-                        <div className="mb-1.5 flex items-center justify-between text-sm font-semibold text-slate-500">
-                            <span>Cumplimiento normativo</span>
-                            <span className="font-bold text-slate-800">
-                                {conteo.cumple} conformes de {conteo.total || record.area_m2 ? conteo.total : '-'}
-                            </span>
-                        </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
-                            <div
-                                className={`h-full rounded-full transition-all duration-500 ${esConforme ? 'bg-emerald-500' : 'bg-amber-500'}`}
-                                style={{
-                                    width: `${Math.min(100, Math.max(0, record.porcentaje_cumplimiento))}%`,
-                                }}
-                            />
-                        </div>
-                        <p className="mt-1 text-sm text-slate-400">
-                            {conteo.cumple} conformes • {conteo.no_cumple + conteo.por_revisar} observados • {conteo.na} no aplican
-                        </p>
-                    </div>
-
-                    {/* Detalles técnicos plegados */}
-                    <details className="group rounded-2xl border border-slate-200/60 bg-slate-50/80 p-2.5 font-mono text-sm text-slate-600 transition">
-                        <summary className="flex cursor-pointer items-center justify-between font-sans text-sm font-bold text-slate-600 select-none hover:text-slate-900">
-                            <span>Detalles técnicos</span>
-                            <span className="text-sm font-normal text-slate-400 transition-transform group-open:rotate-180">▼</span>
-                        </summary>
-
-                        <div className="mt-2 space-y-1.5 border-t border-slate-200/60 pt-2 font-mono">
-                            <div className="flex items-center justify-between gap-1">
-                                <div className="flex items-center gap-1 truncate">
-                                    <Hash className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
-                                    <span className="truncate">Código: {record.uuid_trazabilidad.slice(0, 8)}...</span>
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => copiarTexto(record.uuid_trazabilidad, setCopiadoUuid)}
-                                    aria-label="Copiar código de expediente"
-                                    className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-sm font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
-                                >
-                                    {copiadoUuid ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
-                                    {copiadoUuid ? 'Copiado' : 'Copiar'}
-                                </button>
-                            </div>
-
-                            {record.hash_integridad && (
-                                <div className="flex items-center justify-between gap-1 text-slate-700">
-                                    <div className="flex items-center gap-1 truncate">
-                                        <Fingerprint className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
-                                        <span className="truncate">Firma: {record.hash_integridad.slice(0, 12)}...</span>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => copiarTexto(record.hash_integridad!, setCopiadoHash)}
-                                        aria-label="Copiar firma"
-                                        className="inline-flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded bg-white px-2.5 py-1 text-sm font-bold text-slate-700 shadow-2xs hover:bg-slate-100"
-                                    >
-                                        {copiadoHash ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
-                                        {copiadoHash ? 'Copiado' : 'Copiar'}
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </details>
-                </div>
-
-                {/* 3. Botones de Acción Inferiores */}
-                <div className="space-y-2 border-t border-slate-100 pt-4">
-                    {/* Botón Primario */}
-                    <Link
-                        href={route('autoevaluacion.resumen', { uuid: record.uuid_trazabilidad })}
-                        className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
-                    >
-                        <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                        <span>Ver Estado y Trazabilidad</span>
-                        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                    </Link>
-
-                    {/* Botones Secundarios */}
-                    <div className="flex flex-wrap items-center gap-1.5">
-                        <Link
-                            href={route('autoevaluacion.checklist', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
-                        >
-                            <ClipboardList className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
-                            Checklist
-                        </Link>
-
-                        <Link
-                            href={route('autoevaluacion.informe', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
-                        >
-                            <FileText className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
-                            Informe
-                        </Link>
-
-                        <Link
-                            href={route('mis-autoevaluaciones.expediente', { uuid: record.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
-                        >
-                            <FileSpreadsheet className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
-                            Expediente
-                        </Link>
-
-                        <a
-                            href={route('autoevaluacion.anexo', { uuid: record.uuid_trazabilidad })}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-semibold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
-                        >
-                            <ExternalLink className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
-                            <span>Anexos</span>
-                        </a>
-
-                        {!esConforme && totalObservaciones > 0 && (
-                            <Link
-                                href={route('autoevaluacion.subsanar_items', { uuid: record.uuid_trazabilidad })}
-                                className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-bold text-amber-900 transition hover:bg-amber-100 active:scale-95"
-                            >
-                                <Wrench className="h-3.5 w-3.5 text-amber-600" aria-hidden="true" />
-                                <span>Subsanar ({totalObservaciones})</span>
-                            </Link>
-                        )}
-                    </div>
                 </div>
             </div>
         </article>
@@ -371,6 +205,7 @@ function LocalCard({ record }: Readonly<LocalCardProps>) {
 }
 
 export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
+    const { flash } = usePage().props as { flash?: { success?: string | null } };
     const [busqueda, setBusqueda] = useState('');
     const [pestanaActiva, setPestanaActiva] = useState<'locales' | 'trazabilidad'>('locales');
     const [filtroEstado, setFiltroEstado] = useState<'todos' | 'conformes' | 'observados'>('todos');
@@ -413,7 +248,15 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
 
     return (
         <>
-            <Head title="Panel del Contribuyente — CheckITSE" />
+            <Head title="Mi panel — CheckITSE" />
+            {flash?.success && (
+                <p
+                    role="status"
+                    className="mb-6 flex items-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-lg font-semibold text-emerald-800"
+                >
+                    <ShieldCheck aria-hidden="true" className="size-6" /> {flash.success}
+                </p>
+            )}
 
             <div className="space-y-6 sm:space-y-8">
                 {/* Cabecera Principal */}
@@ -425,10 +268,8 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                 Autoevaluación ITSE Huancayo
                             </span>
                         </div>
-                        <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Panel Ciudadano</h1>
-                        <p className="mt-1 text-sm text-slate-500">
-                            Monitoreo y gestión de condiciones de seguridad ITSE de tus establecimientos comerciales en Huancayo.
-                        </p>
+                        <h1 className="font-display mt-2 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Mi panel</h1>
+                        <p className="mt-2 text-lg text-slate-600">Tus locales, lo que les falta y tus documentos, en un solo lugar.</p>
                     </div>
 
                     {records.length === 0 && (
@@ -534,9 +375,9 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <button
                             type="button"
                             onClick={() => setPestanaActiva('locales')}
-                            className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-2xl px-4 py-2.5 text-xs font-bold transition ${
+                            className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-2xl px-4 py-2.5 text-base font-bold transition ${
                                 pestanaActiva === 'locales'
-                                    ? 'bg-emerald-600 text-white shadow-xs'
+                                    ? 'bg-ink-900 text-white shadow-xs'
                                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                             }`}
                         >
@@ -547,9 +388,9 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                         <button
                             type="button"
                             onClick={() => setPestanaActiva('trazabilidad')}
-                            className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-2xl px-4 py-2.5 text-xs font-bold transition ${
+                            className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-2xl px-4 py-2.5 text-base font-bold transition ${
                                 pestanaActiva === 'trazabilidad'
-                                    ? 'bg-emerald-600 text-white shadow-xs'
+                                    ? 'bg-ink-900 text-white shadow-xs'
                                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                             }`}
                         >
@@ -565,11 +406,12 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                             <div className="relative w-full lg:w-96">
                                 <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
                                 <input
-                                    type="text"
-                                    placeholder="Buscar por nombre comercial, dirección o UUID..."
+                                    type="search"
+                                    aria-label="Buscar mis locales"
+                                    placeholder="Buscar por nombre o dirección…"
                                     value={busqueda}
                                     onChange={(e) => setBusqueda(e.target.value)}
-                                    className="w-full rounded-2xl border border-slate-200 bg-white py-2.5 pr-4 pl-9 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-2xs transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
+                                    className="focus:border-primary focus:ring-primary/20 min-h-12 w-full rounded-2xl border border-slate-200 bg-white py-2.5 pr-4 pl-10 text-base font-medium text-slate-800 placeholder-slate-400 shadow-2xs transition focus:ring-2 focus:outline-none"
                                 />
                             </div>
 
@@ -578,9 +420,9 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                 <button
                                     type="button"
                                     onClick={() => setFiltroEstado('todos')}
-                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-xs font-bold transition ${
+                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-base font-bold transition ${
                                         filtroEstado === 'todos'
-                                            ? 'bg-emerald-600 text-white shadow-xs'
+                                            ? 'bg-ink-900 text-white shadow-xs'
                                             : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                                     }`}
                                 >
@@ -590,9 +432,9 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                 <button
                                     type="button"
                                     onClick={() => setFiltroEstado('conformes')}
-                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-xs font-bold transition ${
+                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-base font-bold transition ${
                                         filtroEstado === 'conformes'
-                                            ? 'bg-emerald-600 text-white shadow-xs'
+                                            ? 'bg-ink-900 text-white shadow-xs'
                                             : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                                     }`}
                                 >
@@ -602,7 +444,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                                 <button
                                     type="button"
                                     onClick={() => setFiltroEstado('observados')}
-                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-xs font-bold transition ${
+                                    className={`inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl px-3.5 py-2.5 text-base font-bold transition ${
                                         filtroEstado === 'observados'
                                             ? 'bg-amber-600 text-white shadow-xs'
                                             : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
@@ -706,10 +548,10 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                 )}
 
                 {/* 4. Banner Inferior de Aliados Técnicos */}
-                <div className="relative overflow-hidden rounded-3xl border border-emerald-200/90 bg-gradient-to-r from-emerald-900 via-emerald-950 to-slate-950 p-6 text-white shadow-sm sm:p-8">
+                <div className="from-ink-900 via-ink-800 relative overflow-hidden rounded-3xl border border-emerald-200/90 bg-gradient-to-r to-slate-950 p-6 text-white shadow-sm sm:p-8">
                     <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                         <div className="max-w-2xl space-y-1.5">
-                            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-800/80 px-2.5 py-0.5 text-sm font-bold text-emerald-200">
+                            <span className="text-sun-100 inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-0.5 text-sm font-bold">
                                 <Users className="h-3 w-3" aria-hidden="true" />
                                 Red de Profesionales Verificados
                             </span>
@@ -724,11 +566,11 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
 
                         <Link
                             href={route('directorio.index')}
-                            className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-bold text-emerald-950 shadow-md transition hover:bg-emerald-50 active:scale-95"
+                            className="text-ink-900 hover:bg-sun-50 inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-base font-bold shadow-md transition active:scale-95"
                         >
-                            <Store className="h-4 w-4 text-emerald-700" aria-hidden="true" />
+                            <Store className="text-primary-700 h-4 w-4" aria-hidden="true" />
                             <span>Directorio de Aliados Técnicos</span>
-                            <ArrowRight className="h-3.5 w-3.5 text-emerald-700" aria-hidden="true" />
+                            <ArrowRight className="text-primary-700 h-3.5 w-3.5" aria-hidden="true" />
                         </Link>
                     </div>
                 </div>

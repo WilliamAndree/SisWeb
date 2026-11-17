@@ -1,23 +1,49 @@
 import { Link } from '@inertiajs/react';
 import { ArrowRight, CheckCircle2, Pause, Play } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const DURACION_MS = 6000;
 
 /** Fondos a pantalla completa. La primera se carga de inmediato y las demás cuando les toca. */
-const DIAPOSITIVAS = [
+export interface Diapositiva {
+    foto: string;
+    rubro: string;
+    posicion: string;
+}
+
+const DIAPOSITIVAS_PORTADA: Diapositiva[] = [
     { foto: '/images/hero-emprendedora.webp', rubro: 'Tiendas de ropa', posicion: 'object-[70%_30%]' },
     { foto: '/images/hero-perfumeria.webp', rubro: 'Perfumerías', posicion: 'object-center' },
     { foto: '/images/hero-farmacia.webp', rubro: 'Farmacias y boticas', posicion: 'object-center' },
     { foto: '/images/hero-salon.webp', rubro: 'Salones de belleza', posicion: 'object-center' },
-] as const;
+];
+
+interface HeroCinematicoProps {
+    readonly diapositivas?: Diapositiva[];
+    readonly etiqueta?: string;
+    readonly titulo?: ReactNode;
+    readonly texto?: string;
+    /** Botones propios; si no se pasan, se usan los de la portada. */
+    readonly acciones?: ReactNode;
+    readonly pie?: ReactNode;
+    /** Altura: pantalla completa (portada) o compacta (secciones internas). */
+    readonly alto?: 'completo' | 'compacto';
+}
 
 /**
  * Portada a pantalla completa: fotos que cambian con fundido y acercamiento
  * lento, título grande y dos acciones. Se pausa al pasar el mouse, al enfocar
  * con teclado o con el botón de pausa; sin movimiento si el sistema lo pide.
  */
-export function HeroCinematico() {
+export function HeroCinematico({
+    diapositivas: DIAPOSITIVAS = DIAPOSITIVAS_PORTADA,
+    etiqueta = 'Huancayo · Seguridad para tu negocio',
+    titulo,
+    texto = 'Simula la inspección de tu local, descubre qué te falta, compara precios de proveedores y llega preparado a la municipalidad.',
+    acciones,
+    pie,
+    alto = 'completo',
+}: Readonly<HeroCinematicoProps>) {
     const [actual, setActual] = useState(0);
     const [pausado, setPausado] = useState(false);
     const [enfocado, setEnfocado] = useState(false);
@@ -33,18 +59,18 @@ export function HeroCinematico() {
         if (detenido) return;
         const temporizador = window.setTimeout(() => setActual((i) => (i + 1) % DIAPOSITIVAS.length), DURACION_MS);
         return () => window.clearTimeout(temporizador);
-    }, [actual, detenido]);
+    }, [actual, detenido, DIAPOSITIVAS.length]);
 
     useEffect(() => {
         // Precarga la siguiente foto para que el cambio no muestre un hueco.
         setCargadas((previas) => new Set([...previas, actual, (actual + 1) % DIAPOSITIVAS.length]));
-    }, [actual]);
+    }, [actual, DIAPOSITIVAS.length]);
 
     return (
         <section
             aria-labelledby="hero-titulo"
             aria-roledescription="carrusel"
-            className="bg-ink-900 relative isolate flex h-[calc(100svh-4.5rem)] max-h-[60rem] min-h-[36rem] items-end overflow-hidden text-white"
+            className={`bg-ink-900 relative isolate flex items-end overflow-hidden text-white ${alto === 'completo' ? 'h-[calc(100svh-4.5rem)] max-h-[60rem] min-h-[36rem]' : 'min-h-[30rem] sm:min-h-[34rem]'}`}
             onMouseEnter={() => setEnfocado(true)}
             onMouseLeave={() => setEnfocado(false)}
             onFocus={() => setEnfocado(true)}
@@ -69,36 +95,46 @@ export function HeroCinematico() {
             <div aria-hidden="true" className="from-ink-900 via-ink-900/55 absolute inset-0 -z-10 bg-gradient-to-t to-transparent" />
             <div aria-hidden="true" className="from-ink-900/80 absolute inset-0 -z-10 bg-gradient-to-r via-transparent to-transparent" />
 
-            <div className="mx-auto w-full max-w-7xl px-5 pb-16 sm:px-8 sm:pb-20">
-                <p className="text-sun-300 text-sm font-bold tracking-[0.25em] uppercase">Huancayo · Seguridad para tu negocio</p>
-                <h1 id="hero-titulo" className="mt-4 max-w-4xl text-5xl leading-[0.95] font-extrabold sm:text-7xl lg:text-8xl">
-                    Abre seguro.
-                    <span className="text-primary-300 block">Llega listo a tu ITSE.</span>
+            <div className="mx-auto w-full max-w-7xl px-5 pt-14 pb-16 sm:px-8 sm:pb-20">
+                <p className="text-sun-300 text-sm font-bold tracking-[0.25em] uppercase">{etiqueta}</p>
+                <h1
+                    id="hero-titulo"
+                    className={`mt-4 max-w-4xl leading-[0.95] font-extrabold ${alto === 'completo' ? 'text-5xl sm:text-7xl lg:text-8xl' : 'text-4xl sm:text-6xl lg:text-7xl'}`}
+                >
+                    {titulo ?? (
+                        <>
+                            Abre seguro.
+                            <span className="text-primary-300 block">Llega listo a tu ITSE.</span>
+                        </>
+                    )}
                 </h1>
-                <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200 sm:text-xl">
-                    Simula la inspección de tu local, descubre qué te falta, compara precios de proveedores y llega preparado a la municipalidad.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                    <Link
-                        href={route('autoevaluacion.nueva')}
-                        className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-lg font-bold transition focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-                    >
-                        Simular mi local gratis <ArrowRight aria-hidden="true" className="size-5" />
-                    </Link>
-                    <a
-                        href="#renovacion"
-                        className="inline-flex min-h-14 items-center rounded-full border border-white/40 px-7 text-lg font-semibold backdrop-blur-sm transition hover:bg-white/10"
-                    >
-                        Renovar mi certificado
-                    </a>
-                </div>
-                <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-base text-slate-200">
-                    {['Gratis', 'Sin crear cuenta', 'Unos 5 minutos'].map((item) => (
-                        <li key={item} className="flex items-center gap-2">
-                            <CheckCircle2 aria-hidden="true" className="text-primary-300 size-5" /> {item}
-                        </li>
-                    ))}
-                </ul>
+                <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200 sm:text-xl">{texto}</p>
+                {acciones ?? (
+                    <>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <Link
+                                href={route('autoevaluacion.nueva')}
+                                className="bg-sun-400 text-ink-900 hover:bg-sun-300 inline-flex min-h-14 items-center gap-2 rounded-full px-8 text-lg font-bold transition focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                            >
+                                Simular mi local gratis <ArrowRight aria-hidden="true" className="size-5" />
+                            </Link>
+                            <a
+                                href="#renovacion"
+                                className="inline-flex min-h-14 items-center rounded-full border border-white/40 px-7 text-lg font-semibold backdrop-blur-sm transition hover:bg-white/10"
+                            >
+                                Renovar mi certificado
+                            </a>
+                        </div>
+                        <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-base text-slate-200">
+                            {['Gratis', 'Sin crear cuenta', 'Unos 5 minutos'].map((item) => (
+                                <li key={item} className="flex items-center gap-2">
+                                    <CheckCircle2 aria-hidden="true" className="text-primary-300 size-5" /> {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+                {pie}
             </div>
 
             {/* Controles del carrusel */}

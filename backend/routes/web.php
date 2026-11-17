@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\ExpedienteDigitalController;
+use App\Http\Controllers\MisRegistrosController;
 use App\Http\Controllers\PlanoEstablecimientoController;
 use App\Http\Controllers\ProveedorPanelController;
 use Illuminate\Support\Facades\Route;
@@ -121,6 +122,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mis-autoevaluaciones', [EvaluacionController::class, 'misEvaluaciones'])->name('mis-autoevaluaciones');
     Route::get('/api/autoevaluaciones/mis-evaluaciones', [EvaluacionController::class, 'misEvaluaciones'])->name('api.autoevaluaciones.mis-evaluaciones');
+    Route::delete('/mis-autoevaluaciones/{uuid}', [MisRegistrosController::class, 'destroy'])->name('mis-autoevaluaciones.destroy')->whereUuid('uuid');
     Route::get('/mis-autoevaluaciones/{uuid}/expediente', [EvaluacionController::class, 'expediente'])->name('mis-autoevaluaciones.expediente')->whereUuid('uuid');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

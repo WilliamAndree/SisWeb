@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import AppLayout from '../../resources/js/layouts/AppLayout';
 import Login from '../../resources/js/pages/Auth/Login';
 import Register from '../../resources/js/pages/Auth/Register';
+import Dashboard from '../../resources/js/pages/Dashboard/Dashboard';
+import Directorio from '../../resources/js/pages/Directorio/Index';
 import Checklist from '../../resources/js/pages/Evaluacion/Checklist';
 import ExpedienteDigital from '../../resources/js/pages/Evaluacion/ExpedienteDigital';
 import Home from '../../resources/js/pages/Evaluacion/Home';
@@ -87,6 +89,50 @@ const asistenciaDemo = (codigo: string, titulo: string) => ({
         },
     ],
 });
+const panelCliente = {
+    records: [
+        {
+            id: 1,
+            uuid_trazabilidad: 'demo',
+            nombre_comercio: 'BillyEssences · Datos ficticios',
+            funcion_economica: 'Comercio',
+            estado: 'REGISTRADA',
+            porcentaje_cumplimiento: 73,
+            sector_huancayo: 'El Tambo',
+            fecha: '2026-11-17',
+            fecha_corta: '17 nov 2026',
+            conteo_condiciones: { total: 11, cumple: 8, no_cumple: 2, por_revisar: 1, na: 0 },
+        },
+        {
+            id: 2,
+            uuid_trazabilidad: 'demo2',
+            nombre_comercio: 'Café Wanka · Datos ficticios',
+            funcion_economica: 'Encuentro',
+            estado: 'INICIADA',
+            porcentaje_cumplimiento: 0,
+            fecha: '2026-11-16',
+            conteo_condiciones: { total: 0, cumple: 0, no_cumple: 0, por_revisar: 0, na: 0 },
+        },
+    ],
+    kpis: { total_locales: 2, aprobados: 0, observados: 1, en_proceso: 1, riesgo_dominante: 'BAJO_MEDIO' },
+};
+const directorio = {
+    aliados: [
+        {
+            ...aliadoDemo,
+            categoria: 'incendios',
+            contacto_nombre: 'Rosa',
+            especialidad_texto: 'Recarga de extintores',
+            cobertura: 'Huancayo',
+            servicios: ['Recarga PQS'],
+            plan: 'destacado',
+        },
+    ],
+    planes: [{ id: 'basico', nombre: 'Básico', precio: 0, descripcion: 'Para empezar.', destacado: false, beneficios: ['Ficha'] }],
+    filtros: { categoria: null, distrito: null },
+    categorias: [{ valor: '', etiqueta: 'Todas' }],
+    distritos: [{ valor: '', etiqueta: 'Todos' }],
+};
 const panelProveedor = {
     perfil: {
         nombre_comercial: 'Extintores Wanka · Datos ficticios',
@@ -186,6 +232,8 @@ const props = {
         : {}),
     ...(pantalla === 'Expediente' ? { autoevaluacion, modalidad: 'EX_POST', documentos: documentosExpediente, tamano_maximo_mb: 10 } : {}),
     ...(pantalla === 'Proveedor' ? panelProveedor : {}),
+    ...(pantalla === 'Panel' ? panelCliente : {}),
+    ...(pantalla === 'Aliados' ? directorio : {}),
     ...(pantalla === 'Resumen'
         ? {
               autoevaluacion,
@@ -213,6 +261,8 @@ const pages = {
     Login,
     Registro: Register,
     Proveedor: PanelProveedor,
+    Panel: Dashboard,
+    Aliados: Directorio,
 };
 const Component = pages[pantalla as keyof typeof pages] || Home;
 void createInertiaApp({

@@ -62,7 +62,7 @@ const POR_CODIGO: Record<string, VisualItem> = {
         icono: 'electricidad',
         especialidad: 'electricas',
     },
-    'CRIT-08': { nombreCorto: 'Luces de emergencia', imagen: '/images/luz-emergencia.webp', icono: 'luz', especialidad: 'incendios' },
+    'CRIT-08': { nombreCorto: 'Luces de emergencia', imagen: '/images/luz-emergencia.svg', icono: 'luz', especialidad: 'incendios' },
     'CRIT-09': { nombreCorto: 'Botiquín de primeros auxilios', imagen: '/images/botiquin.webp', icono: 'botiquin', especialidad: null },
     'CRIT-10': { nombreCorto: 'Instalación segura de gas', imagen: '/images/balon-gas.webp', icono: 'gas', especialidad: null },
     'CRIT-11': { nombreCorto: 'Escaleras con pasamanos', imagen: '/images/escalera-pasamanos.webp', icono: 'escalera', especialidad: 'estructuras' },

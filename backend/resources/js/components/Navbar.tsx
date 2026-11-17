@@ -82,7 +82,7 @@ export const Navbar: React.FC = () => {
     const inicial = usuario?.name.charAt(0).toUpperCase() ?? '';
 
     return (
-        <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur-md print:hidden">
+        <header className="border-b border-slate-200/70 bg-white/85 backdrop-blur-md print:hidden">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
                 <Link
                     href={route('autoevaluacion.index')}

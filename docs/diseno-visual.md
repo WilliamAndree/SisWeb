@@ -99,3 +99,12 @@ Los mapas usan la búsqueda pública de Google Maps (`output=embed`), sin clave 
 - **Cada documento** está numerado y explica qué es, cómo conseguirlo y qué formatos acepta (PDF, JPG, PNG o WebP, máximo 10 MB). Se puede arrastrar el archivo o tomar una foto con el celular.
 - **Para quien revisa:** progreso "X de Y obligatorios", vista previa de cada archivo, descarga de todo en un ZIP numerado en orden y una ficha de revisión imprimible con un código de verificación (huella SHA-256) por archivo.
 - **Seguridad:** los archivos se guardan en el disco privado y solo los descarga el dueño del expediente (con cuenta o con su token de invitado).
+
+## Navegación fija, Aliados y Mi panel
+
+- **Barra superior fija:** la línea Inicio · Cómo funciona · Aliados técnicos · Mi panel queda visible al bajar (el contenedor `sticky` vive en `AppLayout`).
+- **Inicio:** las 5 áreas clave tienen foto propia (extintor, salidas, tablero eléctrico, **balón de gas GLP** y **escaleras/estructura**).
+- **Luces de emergencia:** ilustración propia (`/images/luz-emergencia.svg`) de la luz blanca de dos faros que se usa en Perú; no hay foto libre equivalente.
+- **Aliados técnicos:** portada `HeroCinematico` compacta con fotos de proveedores que se acercan y cambian solas (pausables y sin movimiento si el sistema lo pide).
+- **Mi panel:** cada local es una tarjeta con foto, estado claro ("¡Listo!", "Te faltan N", "Sin terminar"), porcentaje grande, una sola acción principal y accesos secundarios. **Eliminar registro** pide confirmación en la misma tarjeta y borra respuestas, evidencias y documentos privados (`DELETE /mis-autoevaluaciones/{uuid}`, solo el dueño).
+- Si una foto remota no carga, se usa una foto local de respaldo (`usarFotoRespaldo`).

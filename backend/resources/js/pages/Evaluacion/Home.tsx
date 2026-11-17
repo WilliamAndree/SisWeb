@@ -17,12 +17,10 @@ import {
     ArrowRight,
     BadgeDollarSign,
     BookOpen,
-    Boxes,
     CalendarClock,
     CheckCircle2,
     Clock3,
     FileSignature,
-    FlameKindling,
     Gauge,
     Hourglass,
     Info,
@@ -97,11 +95,8 @@ const AREAS_CON_FOTO = [
     { foto: '/images/extintor.webp', titulo: 'Extintores', texto: 'Tipo correcto, carga vigente y fácil acceso.' },
     { foto: '/images/salida-emergencia.webp', titulo: 'Evacuación', texto: 'Salidas libres, señales y luces de emergencia.' },
     { foto: '/images/tablero-electrico.webp', titulo: 'Electricidad', texto: 'Tablero con tapa, llaves y cables protegidos.' },
-] as const;
-
-const AREAS_CON_ICONO = [
-    { icono: FlameKindling, titulo: 'Gas (GLP)', texto: 'Balones ventilados y conexiones seguras. Solo si usas gas.' },
-    { icono: Boxes, titulo: 'Estructura', texto: 'Escaleras con pasamanos y estantes altos anclados a la pared.' },
+    { foto: '/images/balon-gas.webp', titulo: 'Gas (GLP)', texto: 'Balones ventilados y conexiones seguras. Solo si usas gas.' },
+    { foto: '/images/escalera-pasamanos.webp', titulo: 'Estructura', texto: 'Escaleras con pasamanos y estantes altos anclados a la pared.' },
 ] as const;
 
 const PREGUNTAS_FRECUENTES = [
@@ -428,20 +423,6 @@ export default function Home() {
                                 </div>
                             </li>
                         ))}
-                        {AREAS_CON_ICONO.map((item) => {
-                            const Icono = item.icono;
-                            return (
-                                <li key={item.titulo} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                                    <div className="bg-primary-50 flex h-40 items-center justify-center">
-                                        <Icono aria-hidden="true" className="text-primary-700 size-14" />
-                                    </div>
-                                    <div className="p-5">
-                                        <h3 className="text-xl font-bold text-slate-900">{item.titulo}</h3>
-                                        <p className="mt-1 text-base leading-relaxed text-slate-600">{item.texto}</p>
-                                    </div>
-                                </li>
-                            );
-                        })}
                     </ul>
                 </section>
 

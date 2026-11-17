@@ -40,11 +40,7 @@ export const FOTOS_POR_RUBRO: Record<RubroNegocio, readonly string[]> = {
         unsplash('photo-1524758631624-e2822e304c36'),
     ],
     gimnasio: [unsplash('photo-1534438327276-14e5300c3a48'), unsplash('photo-1540497077202-7c8a3999166f')],
-    taller: [
-        unsplash('photo-1581091226825-a6a2a5aee158'),
-        unsplash('photo-1504917599217-d4dc5ebe6122'),
-        unsplash('photo-1586528116311-ad8dd3c8310d'),
-    ],
+    taller: [unsplash('photo-1581091226825-a6a2a5aee158'), unsplash('photo-1586528116311-ad8dd3c8310d')],
     general: [
         unsplash('photo-1486406146926-c627a92ad1ab'),
         unsplash('photo-1497366811353-6870744d04b2'),
@@ -114,4 +110,12 @@ export function resolverFotoNegocio(nombreComercio?: string | null, funcionEcono
     const fotos = FOTOS_POR_RUBRO[detectarRubro(nombreComercio, funcionEconomica)];
     const indice = seed ? hashSeed(String(seed)) : 0;
     return fotos[indice % fotos.length];
+}
+
+/** Foto local de respaldo si una foto remota no carga (sin conexión o retirada). */
+export const FOTO_RESPALDO = '/images/emprendedora-tienda.webp';
+
+export function usarFotoRespaldo(evento: { currentTarget: HTMLImageElement }): void {
+    const img = evento.currentTarget;
+    if (!img.src.endsWith(FOTO_RESPALDO)) img.src = FOTO_RESPALDO;
 }
