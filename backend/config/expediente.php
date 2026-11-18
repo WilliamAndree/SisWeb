@@ -23,7 +23,7 @@ $previa = 'EX_ANTE';
 $imagenesYPdf = ['pdf', 'jpg', 'jpeg', 'png', 'webp'];
 
 return [
-    'tamano_maximo_kb' => 10240,
+    // El límite por archivo (7 MB) está fijo en ExpedienteDigitalController.
 
     'documentos' => [
         [

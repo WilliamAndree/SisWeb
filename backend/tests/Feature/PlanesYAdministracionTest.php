@@ -236,12 +236,23 @@ test('un plan vencido vuelve a Básico', function () {
 });
 
 test('el administrador se crea solo por comando y entra a su panel', function () {
-    $this->artisan('checkitse:crear-admin', ['email' => 'admin@checkitse.test', '--password' => 'Admin2026Segura'])->assertSuccessful();
+    // La clave se escribe oculta, nunca como argumento.
+    $this->artisan('checkitse:crear-admin', ['email' => 'admin@checkitse.test'])
+        ->expectsQuestion('Escribe la clave (o deja vacío para generar una segura)', 'Admin2026Segura')
+        ->assertSuccessful();
 
     expect(User::where('email', 'admin@checkitse.test')->value('tipo_cuenta'))->toBe(User::TIPO_ADMIN);
 
     $this->post(route('login.store'), ['email' => 'admin@checkitse.test', 'password' => 'Admin2026Segura'])
         ->assertRedirect(route('admin.panel'));
+});
+
+test('sin terminal interactiva el comando genera una clave segura', function () {
+    $this->artisan('checkitse:crear-admin', ['email' => 'otro@checkitse.test', '--no-interaction' => true])
+        ->expectsOutputToContain('Clave generada:')
+        ->assertSuccessful();
+
+    expect(User::where('email', 'otro@checkitse.test')->value('tipo_cuenta'))->toBe(User::TIPO_ADMIN);
 });
 
 test('el registro público no permite crear administradores', function () {

@@ -46,7 +46,7 @@ Pagar por adelantado sale más barato: 3 meses con 10 % de descuento (Destacado 
 php artisan checkitse:crear-admin correo@dominio.com --nombre="Tu nombre"
 ```
 
-Si no pasas `--password`, el comando genera una contraseña segura y la muestra una sola vez.
+El comando pide la clave oculta (no queda en el historial de la terminal). Si la dejas vacía, genera una segura y la muestra una sola vez.
 
 ## Por qué escala
 

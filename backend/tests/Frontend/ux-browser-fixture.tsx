@@ -458,7 +458,7 @@ const props = {
     ...(pantalla === 'Subsanar'
         ? { autoevaluacion: { ...autoevaluacion, sector_huancayo: 'El Tambo' }, items: itemsSubsanar, total_observaciones: 2 }
         : {}),
-    ...(pantalla === 'Expediente' ? { autoevaluacion, modalidad: 'EX_POST', documentos: documentosExpediente, tamano_maximo_mb: 10 } : {}),
+    ...(pantalla === 'Expediente' ? { autoevaluacion, modalidad: 'EX_POST', documentos: documentosExpediente, tamano_maximo_mb: 7 } : {}),
     ...(cuentaProveedor[pantalla] ?? {}),
     ...(pantalla === 'Panel' ? panelCliente : {}),
     ...(pantalla === 'Aliados' ? directorio : {}),

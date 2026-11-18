@@ -11,14 +11,16 @@ use Illuminate\Support\Str;
  * Crea una cuenta de administrador o convierte una existente.
  *
  * Por seguridad no existe registro público de administradores: solo se crean
- * desde el servidor con este comando.
+ * desde el servidor con este comando. La clave nunca se pasa como argumento
+ * (quedaría en el historial de la terminal): se escribe oculta o se genera.
  */
 class CrearAdministrador extends Command
 {
+    private const LONGITUD_MINIMA = 10;
+
     protected $signature = 'checkitse:crear-admin
         {email : Correo con el que entrará el administrador}
-        {--nombre=Administrador : Nombre visible}
-        {--password= : Contraseña (si no la das, se genera una segura)}';
+        {--nombre=Administrador : Nombre visible}';
 
     protected $description = 'Crea o promueve una cuenta de administrador de CheckITSE';
 
@@ -32,10 +34,14 @@ class CrearAdministrador extends Command
             return self::FAILURE;
         }
 
-        $password = (string) ($this->option('password') ?: Str::password(16, symbols: false));
+        $escrita = $this->input->isInteractive()
+            ? (string) $this->secret('Escribe la clave (o deja vacío para generar una segura)')
+            : '';
+        $generada = $escrita === '';
+        $clave = $generada ? Str::password(16, symbols: false) : $escrita;
 
-        if (mb_strlen($password) < 10) {
-            $this->error('La contraseña debe tener al menos 10 caracteres.');
+        if (mb_strlen($clave) < self::LONGITUD_MINIMA) {
+            $this->error('La clave debe tener al menos '.self::LONGITUD_MINIMA.' caracteres.');
 
             return self::FAILURE;
         }
@@ -44,14 +50,14 @@ class CrearAdministrador extends Command
         $existia = $usuario->exists;
         $usuario->forceFill([
             'name' => $usuario->name ?: (string) $this->option('nombre'),
-            'password' => Hash::make($password),
+            'password' => Hash::make($clave),
             'tipo_cuenta' => User::TIPO_ADMIN,
         ])->save();
 
         $this->info(($existia ? 'Cuenta convertida' : 'Cuenta creada').' como administrador: '.$email);
 
-        if (! $this->option('password')) {
-            $this->line('Contraseña generada: '.$password);
+        if ($generada) {
+            $this->line('Clave generada: '.$clave);
             $this->warn('Guárdala ahora: no se volverá a mostrar.');
         }
 

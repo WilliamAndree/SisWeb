@@ -86,7 +86,7 @@ class ExpedienteDigitalController extends Controller
         abort_if($definicion === null, 404);
 
         $request->validate(
-            ['archivo' => ['required', 'file', 'max:'.$this->tamanoMaximoKb(), 'mimes:'.implode(',', $definicion['formatos'])]],
+            ['archivo' => ['required', 'file', 'max:7168', 'mimes:'.implode(',', $definicion['formatos'])]],
             [
                 'archivo.required' => 'Elige un archivo para subir.',
                 'archivo.max' => 'El archivo pesa más de '.floor($this->tamanoMaximoKb() / 1024).' MB.',
@@ -195,8 +195,12 @@ class ExpedienteDigitalController extends Controller
         return config('expediente.documentos', []);
     }
 
+    /**
+     * Límite fijo de 7 MB por archivo (debe coincidir con la regla 'max:7168'):
+     * alcanza para fotos y PDF, y evita subidas abusivas que llenen el disco.
+     */
     private function tamanoMaximoKb(): int
     {
-        return (int) config('expediente.tamano_maximo_kb', 10240);
+        return 7168;
     }
 }
