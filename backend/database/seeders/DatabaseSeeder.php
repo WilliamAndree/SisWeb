@@ -204,7 +204,7 @@ class DatabaseSeeder extends Seeder
 
             ProveedorRecurso::updateOrCreate(
                 ['razon_social' => $proveedor['razon_social'], 'distrito' => $proveedor['distrito']],
-                array_merge($proveedor, ['categoria_id' => $categoria->id])
+                array_merge($proveedor, ['categoria_id' => $categoria->id, 'estado_revision' => ProveedorRecurso::ESTADO_APROBADO])
             );
         }
     }

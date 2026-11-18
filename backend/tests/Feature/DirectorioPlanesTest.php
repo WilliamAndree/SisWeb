@@ -9,7 +9,7 @@ test('el directorio envía los planes para proveedores desde la configuración',
             ->component('Directorio/Index')
             ->has('planes', count(config('aliados.planes')))
             ->has('planes.0', fn (Assert $plan) => $plan
-                ->hasAll(['id', 'nombre', 'precio', 'descripcion', 'destacado', 'beneficios'])
+                ->hasAll(['id', 'nombre', 'precio', 'descripcion', 'destacado', 'etiqueta', 'limite_productos', 'beneficios'])
             )
         );
 });

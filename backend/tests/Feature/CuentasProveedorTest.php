@@ -7,6 +7,7 @@ use App\Models\ProveedorRecurso;
 use App\Models\RespuestaAutoevaluacion;
 use App\Models\User;
 use App\Services\ApplicabilityEngineService;
+use App\Services\DirectorioAliadosService;
 use Database\Seeders\NormativaCatalogSeeder;
 use Database\Seeders\ProveedorRecursoSeeder;
 use Illuminate\Support\Str;
@@ -75,12 +76,15 @@ test('el proveedor publica su perfil con ubicación y su producto con precio', f
         'unidad' => 'unidad',
     ])->assertSessionHasNoErrors();
 
-    actingAs($usuario)->get(route('proveedor.panel'))
+    actingAs($usuario)->get(route('proveedor.productos'))
         ->assertInertia(fn (Assert $page) => $page
-            ->component('Proveedor/Panel')
+            ->component('Proveedor/Productos')
             ->where('perfil.nombre_comercial', 'Extintores Wanka')
+            ->where('perfil.estado_revision', 'pendiente')
             ->has('ofertas', 1)
             ->where('ofertas.0.precio_soles', 130)
+            ->where('ofertas.0.uso', 'incendios')
+            ->where('ofertas.0.zona', 'Todo Huancayo')
         );
 });
 
@@ -102,6 +106,7 @@ test('un proveedor no puede editar ni borrar productos de otro', function () {
 
 test('las ofertas llegan a "Lo que te falta" con el costo calculado desde sus precios', function () {
     $proveedor = proveedorConPerfil();
+    $proveedor->proveedor->update(['estado_revision' => ProveedorRecurso::ESTADO_APROBADO]);
     foreach ([[90, 'Recarga PQS'], [150, 'Extintor nuevo']] as [$precio, $nombre]) {
         actingAs($proveedor)->post(route('proveedor.ofertas.store'), [
             'criterio_codigo' => 'CRIT-01', 'nombre' => $nombre, 'precio_soles' => $precio, 'unidad' => 'unidad',
@@ -135,7 +140,7 @@ test('los proveedores del catálogo de ejemplo no exponen ubicación exacta', fu
     $ejemplo = ProveedorRecurso::whereNull('user_id')->firstOrFail();
     OfertaProveedor::create(['proveedor_recurso_id' => $ejemplo->id, 'criterio_codigo' => 'CRIT-09', 'nombre' => 'Botiquín', 'precio_soles' => 70]);
 
-    $oferta = app(App\Services\DirectorioAliadosService::class)->ofertasPorCriterio('CRIT-09')[0];
+    $oferta = app(DirectorioAliadosService::class)->ofertasPorCriterio('CRIT-09')[0];
 
     expect($oferta['proveedor']['ubicacion_exacta'])->toBeFalse()
         ->and($oferta['proveedor']['latitud'])->toBeNull();

@@ -2,6 +2,7 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import AppLayout from '../../resources/js/layouts/AppLayout';
+import AdminPanel from '../../resources/js/pages/Admin/Panel';
 import Login from '../../resources/js/pages/Auth/Login';
 import Register from '../../resources/js/pages/Auth/Register';
 import Dashboard from '../../resources/js/pages/Dashboard/Dashboard';
@@ -12,7 +13,10 @@ import Home from '../../resources/js/pages/Evaluacion/Home';
 import Nueva from '../../resources/js/pages/Evaluacion/Nueva';
 import Resumen from '../../resources/js/pages/Evaluacion/Resumen';
 import SubsanacionDirecta from '../../resources/js/pages/Evaluacion/SubsanacionDirecta';
-import PanelProveedor from '../../resources/js/pages/Proveedor/Panel';
+import InicioProveedor from '../../resources/js/pages/Proveedor/Inicio';
+import PerfilProveedor from '../../resources/js/pages/Proveedor/Perfil';
+import PlanProveedorPage from '../../resources/js/pages/Proveedor/Plan';
+import ProductosProveedor from '../../resources/js/pages/Proveedor/Productos';
 
 const pantalla = new URLSearchParams(location.search).get('pantalla') || 'Inicio';
 const rutas: Record<string, string> = {
@@ -133,27 +137,190 @@ const directorio = {
     categorias: [{ valor: '', etiqueta: 'Todas' }],
     distritos: [{ valor: '', etiqueta: 'Todos' }],
 };
-const panelProveedor = {
-    perfil: {
-        nombre_comercial: 'Extintores Wanka · Datos ficticios',
-        especialidad: 'incendios',
-        descripcion: null,
-        telefono: '964112233',
-        whatsapp: null,
-        distrito: 'El Tambo',
-        direccion: 'Jr. Puno 450',
-        latitud: null,
-        longitud: null,
-        plan: 'basico',
-        verificado: false,
+const perfilResumen = {
+    nombre_comercial: 'Extintores Wanka · Datos ficticios',
+    plan: 'basico',
+    plan_nombre: 'Básico',
+    plan_vence_el: null,
+    estado_revision: 'pendiente' as const,
+    observacion_revision: null,
+    verificado: false,
+    publicado: false,
+};
+const planesDemo = [
+    {
+        id: 'basico',
+        nombre: 'Básico',
+        precio: 0,
+        descripcion: 'Para empezar.',
+        destacado: false,
+        etiqueta: 'Gratis para siempre',
+        limite_productos: 5,
+        beneficios: ['Hasta 5 productos'],
     },
-    ofertas: [
-        { id: 1, criterio_codigo: 'CRIT-01', nombre: 'Extintor PQS 6 kg', descripcion: null, precio_soles: 140, unidad: 'unidad', activo: true },
-    ],
-    criterios: [{ codigo: 'CRIT-01', titulo: 'Extintor portátil adecuado y vigente' }],
-    distritos: ['Huancayo', 'El Tambo', 'Chilca'],
-    unidades: ['unidad', 'servicio'],
-    planes: [{ id: 'basico', nombre: 'Básico', precio: 0, descripcion: '', destacado: false, beneficios: [] }],
+    {
+        id: 'destacado',
+        nombre: 'Destacado',
+        precio: 49,
+        descripcion: 'Para que te vean primero.',
+        destacado: true,
+        etiqueta: 'El más elegido',
+        limite_productos: 25,
+        beneficios: ['Todo lo del plan Básico', 'Hasta 25 productos', 'Sello Destacado'],
+    },
+    {
+        id: 'premium',
+        nombre: 'Premium',
+        precio: 99,
+        descripcion: 'Primer lugar.',
+        destacado: false,
+        etiqueta: 'Máxima visibilidad',
+        limite_productos: null,
+        beneficios: ['Productos ilimitados'],
+    },
+];
+const precio = (base: number) => [
+    { meses: 1, etiqueta: '1 mes', descuento: 0, monto: base, por_mes: base, ahorro: 0 },
+    { meses: 3, etiqueta: '3 meses', descuento: 10, monto: Math.round(base * 2.7), por_mes: Math.round(base * 0.9), ahorro: Math.round(base * 0.3) },
+    {
+        meses: 12,
+        etiqueta: '12 meses',
+        descuento: 20,
+        monto: Math.round(base * 9.6),
+        por_mes: Math.round(base * 0.8),
+        ahorro: Math.round(base * 2.4),
+    },
+];
+const usosDemo = [
+    { valor: 'incendios', etiqueta: 'Protección contra incendios' },
+    { valor: 'primeros_auxilios', etiqueta: 'Primeros auxilios' },
+];
+const cuentaProveedor: Record<string, Record<string, unknown>> = {
+    Proveedor: {
+        perfil: perfilResumen,
+        conteo: { productos: 2, activos: 1, limite: 5 },
+        pasos: [
+            { clave: 'perfil', texto: 'Completa los datos de tu negocio', hecho: true },
+            { clave: 'producto', texto: 'Publica tu primer producto con precio', hecho: false },
+        ],
+        solicitudPendiente: null,
+        planes: planesDemo,
+    },
+    Productos: {
+        perfil: perfilResumen,
+        ofertas: [
+            {
+                id: 1,
+                criterio_codigo: 'CRIT-01',
+                uso: 'incendios',
+                nombre: 'Extintor PQS 6 kg',
+                marca: 'Kidde',
+                descripcion: null,
+                precio_soles: 140,
+                unidad: 'unidad',
+                stock: 8,
+                zona: 'Huancayo',
+                activo: true,
+            },
+            {
+                id: 2,
+                criterio_codigo: 'CRIT-09',
+                uso: 'primeros_auxilios',
+                nombre: 'Botiquín completo',
+                marca: null,
+                descripcion: null,
+                precio_soles: 75,
+                unidad: 'unidad',
+                stock: 0,
+                zona: 'Todo Huancayo',
+                activo: false,
+            },
+        ],
+        criterios: [{ codigo: 'CRIT-01', titulo: 'Extintor portátil adecuado y vigente', uso: 'incendios' }],
+        usos: usosDemo,
+        zonas: ['Todo Huancayo', 'Huancayo', 'El Tambo', 'Chilca'],
+        unidades: ['unidad', 'servicio'],
+        limite: 5,
+    },
+    MiNegocio: {
+        perfil: {
+            ...perfilResumen,
+            especialidad: 'incendios',
+            descripcion: null,
+            telefono: '964112233',
+            whatsapp: null,
+            distrito: 'El Tambo',
+            direccion: 'Jr. Puno 450',
+            latitud: null,
+            longitud: null,
+        },
+        distritos: ['Huancayo', 'El Tambo', 'Chilca'],
+    },
+    Planes: {
+        perfil: perfilResumen,
+        planes: planesDemo,
+        precios: { destacado: precio(49), premium: precio(99) },
+        duraciones: [
+            { meses: 1, descuento: 0, etiqueta: '1 mes' },
+            { meses: 3, descuento: 10, etiqueta: '3 meses' },
+            { meses: 12, descuento: 20, etiqueta: '12 meses' },
+        ],
+        metodos: [
+            { valor: 'yape', etiqueta: 'Yape' },
+            { valor: 'transferencia', etiqueta: 'Transferencia bancaria' },
+        ],
+        pago: {
+            titular: 'CheckITSE Huancayo',
+            yape_plin: '999 888 777',
+            banco: 'BCP',
+            cuenta: '355-00000000-0-00',
+            cci: '002-355-000000000000-00',
+            es_ejemplo: true,
+        },
+        solicitudes: [
+            {
+                uuid: 'a',
+                plan_solicitado: 'destacado',
+                plan_nombre: 'Destacado',
+                meses: 3,
+                monto_soles: 132,
+                metodo_pago: 'Yape',
+                numero_operacion: '04512398',
+                fecha_pago: '2026-11-10',
+                estado: 'rechazada',
+                observacion_admin: 'El monto no coincide.',
+                vigente_hasta: null,
+                enviado_el: '2026-11-10 10:00:00',
+            },
+        ],
+    },
+    Admin: {
+        resumen: { pagos_pendientes: 1, negocios_pendientes: 1, ingresos_mes: 470, planes_pagados_activos: 3 },
+        filtros: { pagos: 'pendiente', negocios: 'pendiente' },
+        solicitudes: [
+            {
+                id: 1,
+                negocio: 'Extintores Wanka · Datos ficticios',
+                negocio_estado: 'pendiente',
+                cuenta: 'rosa@example.test',
+                plan_actual: 'Básico',
+                plan_solicitado: 'Destacado',
+                meses: 3,
+                monto_soles: 132,
+                metodo_pago: 'Yape',
+                numero_operacion: '04512398',
+                fecha_pago: '2026-11-17',
+                es_imagen: false,
+                estado: 'pendiente',
+                observacion_admin: null,
+                revisor: null,
+                revisado_en: null,
+                vigente_hasta: null,
+                enviado_el: '2026-11-17 09:00:00',
+            },
+        ],
+        negocios: [],
+    },
 };
 const itemsSubsanar = [
     {
@@ -231,7 +398,7 @@ const props = {
         ? { autoevaluacion: { ...autoevaluacion, sector_huancayo: 'El Tambo' }, items: itemsSubsanar, total_observaciones: 2 }
         : {}),
     ...(pantalla === 'Expediente' ? { autoevaluacion, modalidad: 'EX_POST', documentos: documentosExpediente, tamano_maximo_mb: 10 } : {}),
-    ...(pantalla === 'Proveedor' ? panelProveedor : {}),
+    ...(cuentaProveedor[pantalla] ?? {}),
     ...(pantalla === 'Panel' ? panelCliente : {}),
     ...(pantalla === 'Aliados' ? directorio : {}),
     ...(pantalla === 'Resumen'
@@ -260,7 +427,11 @@ const pages = {
     Expediente: ExpedienteDigital,
     Login,
     Registro: Register,
-    Proveedor: PanelProveedor,
+    Proveedor: InicioProveedor,
+    Productos: ProductosProveedor,
+    MiNegocio: PerfilProveedor,
+    Planes: PlanProveedorPage,
+    Admin: AdminPanel,
     Panel: Dashboard,
     Aliados: Directorio,
 };

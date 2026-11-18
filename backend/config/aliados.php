@@ -239,14 +239,14 @@ return [
             ],
         ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Planes para proveedores (modelo de ingresos)
     |--------------------------------------------------------------------------
     |
-    | Precios de lanzamiento en soles por mes. Se muestran en /directorio#anunciate.
-    | Ajusta montos y beneficios aquí; la página los toma sin cambios de código.
+    | Precio mensual en soles. Cada beneficio listado aquí funciona de verdad en
+    | la aplicación (orden en el directorio, sello y límite de productos).
+    | `limite_productos` null = ilimitado.
     |
     */
     'planes' => [
@@ -254,39 +254,67 @@ return [
             'id' => 'basico',
             'nombre' => 'Básico',
             'precio' => 0,
-            'descripcion' => 'Para empezar a recibir clientes.',
+            'descripcion' => 'Para empezar a recibir clientes sin pagar nada.',
             'destacado' => false,
+            'etiqueta' => 'Gratis para siempre',
+            'limite_productos' => 5,
             'beneficios' => [
-                'Ficha de tu negocio en el directorio',
-                'Contacto directo por WhatsApp',
-                '1 especialidad',
+                'Ficha de tu negocio con mapa y WhatsApp',
+                'Hasta 5 productos con precio',
+                'Apareces en "Lo que te falta" de cada local',
             ],
         ],
         [
             'id' => 'destacado',
             'nombre' => 'Destacado',
             'precio' => 49,
-            'descripcion' => 'Aparece cuando un local descubre que le falta lo que vendes.',
+            'descripcion' => 'Para que te vean antes que a la competencia.',
             'destacado' => true,
+            'etiqueta' => 'El más elegido',
+            'limite_productos' => 25,
             'beneficios' => [
                 'Todo lo del plan Básico',
-                'Primero en tu especialidad, con sello "Destacado"',
-                'Recomendado en el plan de mejoras de cada local',
-                'Reporte mensual de visitas y contactos',
+                'Hasta 25 productos con precio',
+                'Sello "Destacado" en tu ficha',
+                'Apareces antes que los negocios del plan Básico',
             ],
         ],
         [
             'id' => 'premium',
             'nombre' => 'Premium',
             'precio' => 99,
-            'descripcion' => 'Para tiendas con catálogo y varias especialidades.',
+            'descripcion' => 'Para tiendas con catálogo grande que quieren el primer lugar.',
             'destacado' => false,
+            'etiqueta' => 'Máxima visibilidad',
+            'limite_productos' => null,
             'beneficios' => [
                 'Todo lo del plan Destacado',
-                'Catálogo de hasta 20 productos con precio',
-                'Visible en la portada de CheckITSE',
-                'Hasta 3 especialidades',
+                'Productos ilimitados',
+                'Primer lugar: apareces antes que todos',
+                'Sello "Premium" y atención prioritaria',
             ],
         ],
+    ],
+
+    /*
+    | Duraciones de pago: pagar por adelantado sale más barato.
+    */
+    'duraciones' => [
+        ['meses' => 1, 'descuento' => 0, 'etiqueta' => '1 mes'],
+        ['meses' => 3, 'descuento' => 10, 'etiqueta' => '3 meses'],
+        ['meses' => 12, 'descuento' => 20, 'etiqueta' => '12 meses'],
+    ],
+
+    /*
+    | Dónde paga el proveedor. Configúralo en .env; mientras no lo hagas, la
+    | página avisa que son datos de ejemplo.
+    */
+    'pago' => [
+        'titular' => env('CHECKITSE_PAGO_TITULAR', 'CheckITSE Huancayo'),
+        'yape_plin' => env('CHECKITSE_PAGO_YAPE', '999 888 777'),
+        'banco' => env('CHECKITSE_PAGO_BANCO', 'BCP'),
+        'cuenta' => env('CHECKITSE_PAGO_CUENTA', '355-00000000-0-00'),
+        'cci' => env('CHECKITSE_PAGO_CCI', '002-355-000000000000-00'),
+        'es_ejemplo' => env('CHECKITSE_PAGO_YAPE') === null,
     ],
 ];

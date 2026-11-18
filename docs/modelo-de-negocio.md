@@ -11,13 +11,32 @@ El emprendedor es gratuito para que la base de usuarios crezca. Los ingresos vie
 
 ## Planes para proveedores
 
-Se configuran en `backend/config/aliados.php` (clave `planes`) y se muestran en `/directorio#anunciate`. Son **precios de lanzamiento propuestos**; ajústalos según tu validación con proveedores reales.
+Se configuran en `backend/config/aliados.php` (claves `planes`, `duraciones` y `pago`) y se contratan desde la cuenta del proveedor (`/proveedor/plan`). Son **precios de lanzamiento propuestos**. Cada beneficio listado funciona de verdad en la aplicación.
 
-| Plan | Precio | Beneficios |
-| --- | --- | --- |
-| Básico | Gratis | Ficha en el directorio, contacto por WhatsApp, 1 especialidad |
-| Destacado | S/ 49 al mes | Primero en su especialidad, sello "Destacado", recomendado en el plan de mejoras del local, reporte mensual |
-| Premium | S/ 99 al mes | Catálogo de hasta 20 productos con precio, visible en la portada, hasta 3 especialidades |
+| Plan | Precio | Productos | Beneficios |
+| --- | --- | --- | --- |
+| Básico | Gratis | Hasta 5 | Ficha con mapa y WhatsApp; aparece en "Lo que te falta" |
+| Destacado | S/ 49 al mes | Hasta 25 | Sello "Destacado"; aparece antes que los negocios Básico |
+| Premium | S/ 99 al mes | Ilimitados | Sello "Premium"; primer lugar; atención prioritaria |
+
+Pagar por adelantado sale más barato: 3 meses con 10 % de descuento (Destacado S/ 132) y 12 meses con 20 % (Destacado S/ 470, Premium S/ 950). El servidor calcula el monto; el proveedor no puede cambiarlo.
+
+## Cobro con comprobante y administración
+
+1. El proveedor elige plan y duración, paga por **Yape, Plin, transferencia o depósito** a la cuenta configurada en `.env` (`CHECKITSE_PAGO_*`) y sube la foto o PDF del comprobante con su número de operación.
+2. Se guarda en `solicitudes_plan` como **pendiente**, con el archivo privado (`storage/app/private/pagos`) y su huella SHA-256. Un mismo número de operación no se puede usar dos veces ni enviar otro pago mientras uno está en revisión.
+3. Un **administrador** (`/admin`) ve el comprobante y lo **aprueba** (el plan se activa y vence según los meses pagados; si renueva el mismo plan, se suma al final) o lo **rechaza con un motivo** que el proveedor lee en su cuenta. Queda registrado quién revisó y cuándo.
+4. Cada madrugada `checkitse:vencer-planes` devuelve a Básico los planes vencidos. Aunque no corra, la aplicación ya trata un plan vencido como Básico.
+
+**Aprobación de negocios:** un proveedor nuevo queda **en revisión** y no lo ven los clientes hasta que el administrador lo aprueba. El administrador también puede **pedir correcciones** (el negocio vuelve a revisión cuando el proveedor guarda sus cambios) o **suspenderlo**.
+
+**Cuentas de administrador:** no hay registro público. Se crean desde el servidor:
+
+```bash
+php artisan checkitse:crear-admin correo@dominio.com --nombre="Tu nombre"
+```
+
+Si no pasas `--password`, el comando genera una contraseña segura y la muestra una sola vez.
 
 ## Por qué escala
 
@@ -54,12 +73,14 @@ Los proveedores y precios iniciales (`OfertasDemoSeeder`) son **datos de ejemplo
 
 | Paso | Estado |
 | --- | --- |
-| Página de planes y solicitud en 3 pasos con el plan elegido (`/directorio/anunciate`) | Hecho |
+| Página de planes con ventajas, precios por 1, 3 y 12 meses y comparativa | Hecho |
 | Cuentas separadas de emprendedor y proveedor | Hecho |
-| Panel del proveedor: perfil, ubicación GPS y productos con precio | Hecho |
+| Cuenta del proveedor separada: Resumen, Mis productos (filtros por uso, zona y estado), Mi negocio y Mi plan | Hecho |
 | Ofertas con precio en "Lo que te falta", elección y presupuesto | Hecho |
-| Orden por plan (Premium, Destacado, Básico) y sello "Destacado" | Hecho (el plan se asigna manualmente en `proveedores_recursos.plan`) |
-| Cobro en línea de los planes (Culqi, Mercado Pago o Izipay) y vencimiento del plan | Pendiente |
+| Orden por plan (Premium, Destacado, Básico), sello y límite de productos por plan | Hecho |
+| Cobro con comprobante (Yape, Plin, banco), revisión por administrador y vencimiento del plan | Hecho |
+| Aprobación de negocios por un administrador antes de mostrarlos | Hecho |
+| Cobro automático en línea (Culqi, Mercado Pago o Izipay) | Pendiente (opcional; hoy se valida el comprobante a mano) |
+| Avisos por correo o WhatsApp cuando se aprueba o rechaza un pago | Pendiente |
 | Panel del proveedor con visitas y clics a WhatsApp | Pendiente |
-| Verificación de proveedores por un administrador (`verificado`) | Pendiente (hoy se marca en la base de datos) |
 | Guardar la elección del emprendedor en el servidor, para verla desde otro dispositivo | Pendiente |

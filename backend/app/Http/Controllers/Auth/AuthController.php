@@ -99,7 +99,12 @@ class AuthController extends Controller
         }
 
         // Cada tipo de cuenta llega a su propio panel, salvo que venía de una página protegida.
-        $destino = $request->user()?->esProveedor() ? route('proveedor.panel') : ($destinoCliente ?? route('dashboard'));
+        $usuario = $request->user();
+        $destino = match (true) {
+            (bool) $usuario?->esAdmin() => route('admin.panel'),
+            (bool) $usuario?->esProveedor() => route('proveedor.panel'),
+            default => $destinoCliente ?? route('dashboard'),
+        };
 
         return redirect()->intended($destino);
     }

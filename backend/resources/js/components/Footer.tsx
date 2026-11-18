@@ -7,7 +7,7 @@ const ENLACES_NAVEGACION: { texto: string; href: string; ancla?: boolean }[] = [
     { texto: 'Simular mi local', href: '/autoevaluacion/nueva' },
     { texto: 'Renovar mi certificado', href: '/#renovacion', ancla: true },
     { texto: 'Aliados técnicos', href: '/directorio' },
-    { texto: 'Anunciar mi negocio', href: '/directorio/anunciate' },
+    { texto: 'Vender como proveedor', href: '/registro?tipo=proveedor' },
 ];
 
 const MARCO_NORMATIVO = [

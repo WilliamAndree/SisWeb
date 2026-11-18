@@ -44,7 +44,7 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Network.setBlockedURLs', { urls: ['https://*', '*generativelanguage.googleapis.com*'] });
         const wait = async (expression) => { for (let i = 0; i < 100; i++) { if (await evaluate(expression)) return; await new Promise((r) => setTimeout(r, 50)); } throw Error('No se cumplió: ' + expression); };
         const observations = [];
-        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen', 'Subsanar', 'Expediente', 'Login', 'Registro', 'Proveedor', 'Panel', 'Aliados']) {
+        for (const pantalla of ['Inicio', 'Datos', 'Condiciones', 'Resumen', 'Subsanar', 'Expediente', 'Login', 'Registro', 'Proveedor', 'Productos', 'MiNegocio', 'Planes', 'Admin', 'Panel', 'Aliados']) {
             for (const width of [320, 390, 768, 1440]) {
                 await send('Emulation.setDeviceMetricsOverride', { width, height: 960, deviceScaleFactor: 1, mobile: false });
                 await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=${pantalla}` });

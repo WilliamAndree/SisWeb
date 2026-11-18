@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\HandleGuestSession;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // iniciar sesión. Antes se los devolvía al inicio, lo que solo los obligaba
         // a reabrir el overlay de acceso desde la portada.
         $middleware->redirectGuestsTo(fn () => route('login'));
+
+        $middleware->alias(['admin' => EnsureUserIsAdmin::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

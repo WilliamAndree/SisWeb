@@ -206,9 +206,9 @@ class DirectorioAliadosService
     {
         try {
             $proveedores = ProveedorRecurso::with('categoria')
-                ->where('activo', true)
+                ->publicados()
                 ->get()
-                ->sortBy(fn (ProveedorRecurso $p): string => (ProveedorRecurso::ORDEN_PLAN[$p->plan ?? 'basico'] ?? 9).($p->verificado ? '0' : '1').str_pad((string) $p->id, 8, '0', STR_PAD_LEFT))
+                ->sortBy(fn (ProveedorRecurso $p): string => (ProveedorRecurso::ORDEN_PLAN[$p->planVigente()] ?? 9).($p->verificado ? '0' : '1').str_pad((string) $p->id, 8, '0', STR_PAD_LEFT))
                 ->values();
 
             if ($proveedores->isNotEmpty()) {
@@ -268,7 +268,7 @@ class DirectorioAliadosService
             'cobertura' => $proveedor->distrito ? "Huancayo / {$proveedor->distrito}" : 'Huancayo Metropolitano',
             'verificado' => (bool) ($proveedor->verificado ?? true),
             'servicios' => $servicios,
-            'plan' => (string) ($proveedor->plan ?? 'basico'),
+            'plan' => $proveedor->planVigente(),
             'descripcion' => $proveedor->descripcion,
             ...$this->ubicacionPublica($proveedor),
         ];
@@ -311,7 +311,7 @@ class DirectorioAliadosService
         }
 
         return $ofertas
-            ->sortBy(fn (OfertaProveedor $o): string => (ProveedorRecurso::ORDEN_PLAN[$o->proveedor->plan ?? 'basico'] ?? 9)
+            ->sortBy(fn (OfertaProveedor $o): string => (ProveedorRecurso::ORDEN_PLAN[$o->proveedor->planVigente()] ?? 9)
                 .str_pad(number_format((float) $o->precio_soles, 2, '.', ''), 12, '0', STR_PAD_LEFT))
             ->map(fn (OfertaProveedor $o): array => [
                 'id' => $o->id,

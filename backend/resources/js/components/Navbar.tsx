@@ -51,8 +51,15 @@ export const Navbar: React.FC = () => {
         { etiqueta: 'Cómo funciona', href: esInicio ? '#como-funciona' : '/#como-funciona', activo: false },
         { etiqueta: 'Aliados técnicos', href: route('directorio.index'), activo: Boolean(route().current('directorio.*')) },
     ];
-    if (usuario?.tipo_cuenta === 'proveedor') {
-        enlaces.push({ etiqueta: 'Mi negocio', href: route('proveedor.panel'), activo: Boolean(route().current('proveedor.*')) });
+    const esProveedor = usuario?.tipo_cuenta === 'proveedor';
+    const esAdmin = usuario?.tipo_cuenta === 'admin';
+    // Proveedores y administradores no evalúan locales: no ven el botón "Revisar mi local".
+    const muestraCtaLocal = !esProveedor && !esAdmin;
+
+    if (esProveedor) {
+        enlaces.push({ etiqueta: 'Mi cuenta de proveedor', href: route('proveedor.panel'), activo: Boolean(route().current('proveedor.*')) });
+    } else if (esAdmin) {
+        enlaces.push({ etiqueta: 'Administración', href: route('admin.panel'), activo: Boolean(route().current('admin.*')) });
     } else if (usuario) {
         enlaces.push({
             etiqueta: 'Mi panel',
@@ -128,12 +135,12 @@ export const Navbar: React.FC = () => {
                             Ingresar
                         </Link>
                     )}
-                    <RegistrarLocalButton variant="compact" />
+                    {muestraCtaLocal && <RegistrarLocalButton variant="compact" />}
                 </div>
 
                 <div className="flex items-center gap-2 lg:hidden">
                     {/* En pantallas muy angostas (< 380 px) el botón vive dentro del menú. */}
-                    <RegistrarLocalButton variant="compact" onClick={cerrarMenu} className="max-[379px]:hidden" />
+                    {muestraCtaLocal && <RegistrarLocalButton variant="compact" onClick={cerrarMenu} className="max-[379px]:hidden" />}
                     <button
                         ref={menuButtonRef}
                         type="button"
@@ -154,7 +161,7 @@ export const Navbar: React.FC = () => {
                     aria-label="Navegación móvil"
                     className="max-h-[calc(100vh-4rem)] space-y-1 overflow-y-auto border-t border-slate-200/70 bg-white px-4 py-4 lg:hidden"
                 >
-                    <RegistrarLocalButton variant="large" onClick={cerrarMenu} className="mb-3 w-full min-[380px]:hidden" />
+                    {muestraCtaLocal && <RegistrarLocalButton variant="large" onClick={cerrarMenu} className="mb-3 w-full min-[380px]:hidden" />}
                     {enlaces.map((enlace) => renderEnlace(enlace, true))}
                     <div className="mt-3 space-y-1 border-t border-slate-100 pt-3">
                         {usuario ? (

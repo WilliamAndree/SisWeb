@@ -3,7 +3,8 @@ import { HeroCinematico, type Diapositiva } from '@/components/landing/HeroCinem
 import AppLayout from '@/layouts/AppLayout';
 import { mapaProveedor } from '@/lib/item-visual';
 import type { AliadoAsistenciaContrato } from '@/types/contrato';
-import { Head, Link, router } from '@inertiajs/react';
+import type { PlanProveedor } from '@/types/proveedor';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     ArrowRight,
     BadgeCheck,
@@ -29,13 +30,11 @@ interface FiltroOpcion {
     etiqueta: string;
 }
 
-export interface PlanProveedor {
-    id: string;
-    nombre: string;
-    precio: number;
-    descripcion: string;
-    destacado: boolean;
-    beneficios: string[];
+export type { PlanProveedor };
+
+function textoBotonPlan(plan: PlanProveedor, esProveedor: boolean): string {
+    if (esProveedor) return plan.precio === 0 ? 'Ver mi cuenta' : `Elegir ${plan.nombre}`;
+    return plan.precio === 0 ? 'Crear mi cuenta gratis' : `Empezar gratis y subir a ${plan.nombre}`;
 }
 
 interface DirectorioProps {
@@ -104,6 +103,7 @@ function irA(id: string) {
 export default function Directorio({ aliados, planes = [], filtros, categorias, distritos }: Readonly<DirectorioProps>) {
     const [aliadoSeleccionado, setAliadoSeleccionado] = useState<AliadoAsistenciaContrato | null>(null);
     const [mapaAbierto, setMapaAbierto] = useState<string | null>(null);
+    const esProveedor = (usePage().props as { auth?: { user?: { tipo_cuenta?: string } | null } }).auth?.user?.tipo_cuenta === 'proveedor';
 
     const filtroCategoria = filtros.categoria ?? '';
     const filtroDistrito = filtros.distrito ?? '';
@@ -414,7 +414,9 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                     {planes.length > 0 && (
                         <>
                             <h3 className="mt-12 text-center text-3xl font-extrabold tracking-tight text-slate-900">Elige tu plan</h3>
-                            <p className="mt-2 text-center text-lg text-slate-600">Precios de lanzamiento. Sin contratos: cancela cuando quieras.</p>
+                            <p className="mt-2 text-center text-lg text-slate-600">
+                                Sin contratos. Paga 1, 3 o 12 meses (con hasta 20% de descuento) por Yape, Plin o banco.
+                            </p>
                             <ul className="mt-8 grid gap-5 lg:grid-cols-3">
                                 {planes.map((plan) => (
                                     <li
@@ -423,7 +425,7 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                     >
                                         {plan.destacado && (
                                             <span className="bg-primary absolute -top-4 left-8 rounded-full px-4 py-1 text-sm font-bold text-white">
-                                                Más elegido
+                                                {plan.etiqueta ?? 'Más elegido'}
                                             </span>
                                         )}
                                         <p className="text-2xl font-extrabold text-slate-900">{plan.nombre}</p>
@@ -443,10 +445,10 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                             ))}
                                         </ul>
                                         <Link
-                                            href={plan.precio === 0 ? '/registro?tipo=proveedor' : route('directorio.afiliacion', { plan: plan.id })}
+                                            href={esProveedor ? route('proveedor.plan') : '/registro?tipo=proveedor'}
                                             className={`mt-8 flex min-h-13 w-full items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
                                         >
-                                            {plan.precio === 0 ? 'Crear mi cuenta de proveedor' : `Quiero el plan ${plan.nombre}`}
+                                            {textoBotonPlan(plan, esProveedor)}
                                         </Link>
                                     </li>
                                 ))}

@@ -59,9 +59,17 @@ class User extends Authenticatable
 
     public const TIPO_PROVEEDOR = 'proveedor';
 
+    /** Revisa negocios y comprobantes de pago. Se crea con: php artisan checkitse:crear-admin */
+    public const TIPO_ADMIN = 'admin';
+
     public function esProveedor(): bool
     {
         return $this->tipo_cuenta === self::TIPO_PROVEEDOR;
+    }
+
+    public function esAdmin(): bool
+    {
+        return $this->tipo_cuenta === self::TIPO_ADMIN;
     }
 
     public function proveedor(): HasOne

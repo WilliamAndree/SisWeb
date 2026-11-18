@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\EvaluacionController;
@@ -129,10 +130,25 @@ Route::middleware('auth')->group(function () {
     // Panel del proveedor: perfil, ubicación y productos con precio
     Route::prefix('proveedor')->name('proveedor.')->group(function () {
         Route::get('/', [ProveedorPanelController::class, 'panel'])->name('panel');
+        Route::get('/productos', [ProveedorPanelController::class, 'productos'])->name('productos');
+        Route::get('/mi-negocio', [ProveedorPanelController::class, 'perfil'])->name('perfil.editar');
         Route::put('/perfil', [ProveedorPanelController::class, 'guardarPerfil'])->name('perfil');
+        Route::get('/plan', [ProveedorPanelController::class, 'plan'])->name('plan');
+        Route::post('/plan', [ProveedorPanelController::class, 'solicitarPlan'])->middleware('throttle:10,1')->name('plan.solicitar');
+        Route::get('/plan/comprobante/{uuid}', [ProveedorPanelController::class, 'evidencia'])->whereUuid('uuid')->name('plan.comprobante');
         Route::post('/ofertas', [ProveedorPanelController::class, 'guardarOferta'])->name('ofertas.store');
         Route::put('/ofertas/{oferta}', [ProveedorPanelController::class, 'actualizarOferta'])->whereNumber('oferta')->name('ofertas.update');
+        Route::patch('/ofertas/{oferta}/estado', [ProveedorPanelController::class, 'alternarOferta'])->whereNumber('oferta')->name('ofertas.alternar');
         Route::delete('/ofertas/{oferta}', [ProveedorPanelController::class, 'eliminarOferta'])->whereNumber('oferta')->name('ofertas.destroy');
+    });
+
+    // Administración: comprobantes de pago y aprobación de negocios
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('panel');
+        Route::get('/pagos/{solicitud}/comprobante', [AdminController::class, 'evidencia'])->whereNumber('solicitud')->name('pagos.comprobante');
+        Route::post('/pagos/{solicitud}/aprobar', [AdminController::class, 'aprobarPago'])->whereNumber('solicitud')->name('pagos.aprobar');
+        Route::post('/pagos/{solicitud}/rechazar', [AdminController::class, 'rechazarPago'])->whereNumber('solicitud')->name('pagos.rechazar');
+        Route::post('/negocios/{proveedor}/revisar', [AdminController::class, 'revisarNegocio'])->whereNumber('proveedor')->name('negocios.revisar');
     });
 });
 

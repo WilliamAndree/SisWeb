@@ -83,6 +83,7 @@ test('la consulta a directorio expone los aliados técnicos almacenados en la ba
             'servicios_ofrecidos' => 'Medición de puesta a tierra, tableros y mandiles',
             'activo' => true,
             'verificado' => true,
+            'estado_revision' => ProveedorRecurso::ESTADO_APROBADO,
         ]
     );
 

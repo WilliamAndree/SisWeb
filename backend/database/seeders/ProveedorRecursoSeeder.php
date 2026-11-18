@@ -152,7 +152,7 @@ class ProveedorRecursoSeeder extends Seeder
 
             ProveedorRecurso::updateOrCreate(
                 ['razon_social' => $aliado['razon_social']],
-                array_merge($aliado, ['categoria_id' => $categoria->id])
+                array_merge($aliado, ['categoria_id' => $categoria->id, 'estado_revision' => ProveedorRecurso::ESTADO_APROBADO])
             );
         }
     }

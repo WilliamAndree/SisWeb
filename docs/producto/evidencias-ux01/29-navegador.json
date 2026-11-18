@@ -264,7 +264,7 @@
       "h1": 1,
       "width": 320,
       "content": 305,
-      "title": "Extintores Wanka · Datos ficticios",
+      "title": "Resumen de tu negocio",
       "missingLabels": 0
     },
     {
@@ -272,7 +272,7 @@
       "h1": 1,
       "width": 390,
       "content": 375,
-      "title": "Extintores Wanka · Datos ficticios",
+      "title": "Resumen de tu negocio",
       "missingLabels": 0
     },
     {
@@ -280,7 +280,7 @@
       "h1": 1,
       "width": 768,
       "content": 753,
-      "title": "Extintores Wanka · Datos ficticios",
+      "title": "Resumen de tu negocio",
       "missingLabels": 0
     },
     {
@@ -288,7 +288,135 @@
       "h1": 1,
       "width": 1440,
       "content": 1425,
-      "title": "Extintores Wanka · Datos ficticios",
+      "title": "Resumen de tu negocio",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Productos",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Mis productos",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Productos",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Mis productos",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Productos",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Mis productos",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Productos",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Mis productos",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "MiNegocio",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Mi negocio",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "MiNegocio",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Mi negocio",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "MiNegocio",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Mi negocio",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "MiNegocio",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Mi negocio",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Planes",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Elige tu plan",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Planes",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Elige tu plan",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Planes",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Elige tu plan",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Planes",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Elige tu plan",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Admin",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Revisión de pagos y negocios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Admin",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Revisión de pagos y negocios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Admin",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Revisión de pagos y negocios",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Admin",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Revisión de pagos y negocios",
       "missingLabels": 0
     },
     {

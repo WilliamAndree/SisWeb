@@ -29,6 +29,23 @@ php artisan migrate --seed
 2. Desde `backend/`, ejecuta `composer run dev`. Levanta el servidor, el worker de colas, los logs y Vite.
 3. Abre <http://localhost:8000>.
 
+### Cuentas de demostración
+
+Para probar el circuito proveedor → pago → administrador, ejecuta desde `backend/`:
+
+```bash
+php artisan db:seed --class=DemoCuentasSeeder
+```
+
+Crea (o reinicia) dos cuentas con la contraseña `CheckItse2026!`. Solo funciona fuera de producción.
+
+| Cuenta | Para qué |
+| --- | --- |
+| `admin@checkitse.local` | Administración (`/admin`): aprobar el negocio y el pago pendientes |
+| `proveedor@checkitse.local` | Cuenta de proveedor con 3 productos, el negocio en revisión y un pago de S/ 132 por revisar |
+
+Cada vez que lo ejecutas, el escenario vuelve a quedar pendiente para revisarlo de nuevo.
+
 ## Opción B: Docker
 
 ```powershell
