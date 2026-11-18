@@ -138,7 +138,7 @@ function DiagramaPozoTierra() {
 
                     {/* Recuadro Técnico Oficial: R <= 25 Ohmios */}
                     <rect x="35" y="185" width="130" height="58" rx="10" fill="#ffffff" stroke="#34C759" strokeWidth="2" />
-                    <text x="45" y="205" fontSize="8.5" fontWeight="bold" fill="#065f46" letterSpacing="0.5">
+                    <text x="45" y="205" fontSize="8.5" fontWeight="bold" fill="#3a307a" letterSpacing="0.5">
                         RESISTENCIA MÁXIMA
                     </text>
                     <text x="45" y="230" fontSize="18" fontWeight="black" fill="#34C759">
@@ -207,8 +207,8 @@ function DiagramaExtintores() {
                     {/* Soporte y Extintor */}
                     <rect x="238" y="95" width="34" height="85" fill="#ef4444" stroke="#b91c1c" strokeWidth="2" rx="10" />
                     <rect x="250" y="80" width="10" height="15" fill="#475569" rx="2" />
-                    <circle cx="264" cy="85" r="4" fill="#34C759" stroke="#15803d" strokeWidth="1" />
-                    <text x="282" y="90" fontSize="9" fontWeight="bold" fill="#15803d">
+                    <circle cx="264" cy="85" r="4" fill="#34C759" stroke="#463a96" strokeWidth="1" />
+                    <text x="282" y="90" fontSize="9" fontWeight="bold" fill="#463a96">
                         Manómetro en franja verde
                     </text>
 
@@ -452,7 +452,7 @@ function DiagramaEvacuacionPuerta() {
                     </text>
 
                     {/* Señal de SALIDA verde fotoluminiscente */}
-                    <rect x="235" y="22" width="70" height="20" fill="#15803d" stroke="#166534" strokeWidth="1" rx="3" />
+                    <rect x="235" y="22" width="70" height="20" fill="#463a96" stroke="#166534" strokeWidth="1" rx="3" />
                     <text x="250" y="36" fontSize="10" fontWeight="bold" fill="#ffffff">
                         SALIDA ➜
                     </text>

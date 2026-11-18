@@ -20,11 +20,10 @@ import {
     Signpost,
     Star,
     Users,
-    Wallet,
     Zap,
     type LucideIcon,
 } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ProveedorOferta extends AliadoAsistencia {
     plan?: string | null;
@@ -58,7 +57,6 @@ interface LoQueTeFaltaProps {
     readonly items: ItemFaltante[];
     readonly nombreLocal?: string | null;
     /** UUID de la evaluación: la elección del cliente se recuerda por evaluación. */
-    readonly claveSeleccion?: string | null;
     readonly onAdjuntarEvidencia?: (codigo: string) => void;
 }
 
@@ -114,11 +112,6 @@ function guia(asistencia?: CriterioAsistencia | null): string[] {
     return (Array.isArray(g) ? g : [g]).slice(0, 3);
 }
 
-function precioTarjeta(precioElegido?: number, rangoTexto?: string): string {
-    if (precioElegido !== undefined) return soles(precioElegido);
-    return rangoTexto ? `Desde ${rangoTexto.split(' a ')[0]}` : 'Sin precio aún';
-}
-
 function textoBotonMapa(abierto: boolean, exacto: boolean): string {
     if (abierto) return 'Ocultar mapa';
     return exacto ? 'Cómo llegar' : 'Ver zona';
@@ -126,15 +119,6 @@ function textoBotonMapa(abierto: boolean, exacto: boolean): string {
 
 function textoOfertas(cantidad: number): string {
     return `Según ${cantidad} ${cantidad === 1 ? 'oferta' : 'ofertas'} de proveedores de Huancayo.`;
-}
-
-function leerSeleccion(clave?: string | null): Record<string, number> {
-    if (!clave) return {};
-    try {
-        return JSON.parse(window.localStorage.getItem(`checkitse:eleccion:${clave}`) ?? '{}') as Record<string, number>;
-    } catch {
-        return {};
-    }
 }
 
 function AccionesProveedor({
@@ -198,28 +182,12 @@ function AccionesProveedor({
 
 /**
  * Panel principal de subsanación: lo que le falta al local, en grande y con foto.
- * Cada ítem muestra el precio desde los proveedores; al elegirlo se comparan las
- * ofertas y el cliente escoge la suya. Las elecciones suman "Tu presupuesto".
+ * Cada ítem muestra el precio desde los proveedores; al tocarlo se comparan las
+ * ofertas y el cliente le escribe directo y en privado al proveedor por WhatsApp.
  */
-export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvidencia }: Readonly<LoQueTeFaltaProps>) {
+export function LoQueTeFalta({ items, nombreLocal, onAdjuntarEvidencia }: Readonly<LoQueTeFaltaProps>) {
     const [seleccion, setSeleccion] = useState<string | null>(items[0]?.codigo ?? null);
-    const [elecciones, setElecciones] = useState<Record<string, number>>({});
     const panel = useRef<HTMLDivElement>(null);
-
-    useEffect(() => setElecciones(leerSeleccion(claveSeleccion)), [claveSeleccion]);
-
-    const presupuesto = useMemo(() => {
-        let total = 0;
-        let elegidos = 0;
-        for (const item of items) {
-            const oferta = item.asistencia?.ofertas?.find((o) => o.id === elecciones[item.codigo]);
-            if (oferta) {
-                total += oferta.precio_soles;
-                elegidos++;
-            }
-        }
-        return { total, elegidos };
-    }, [items, elecciones]);
 
     if (items.length === 0) {
         return (
@@ -248,20 +216,6 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
         }
     };
 
-    const elegirOferta = (codigo: string, ofertaId: number) => {
-        const nuevas = { ...elecciones, [codigo]: elecciones[codigo] === ofertaId ? -1 : ofertaId };
-        if (nuevas[codigo] === -1) delete nuevas[codigo];
-        else registrarEvento('eleccion', { ofertaId });
-        setElecciones(nuevas);
-        if (claveSeleccion) {
-            try {
-                window.localStorage.setItem(`checkitse:eleccion:${claveSeleccion}`, JSON.stringify(nuevas));
-            } catch {
-                // Sin almacenamiento disponible: la elección vale solo en esta visita.
-            }
-        }
-    };
-
     return (
         <section aria-labelledby="falta-titulo" className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="bg-ink-900 trama-andina flex flex-col gap-5 px-5 py-7 text-white sm:px-10 lg:flex-row lg:items-end lg:justify-between">
@@ -270,17 +224,12 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                     <h2 id="falta-titulo" className="mt-1 text-3xl font-bold sm:text-4xl">
                         {items.length === 1 ? 'Te falta 1 cosa para estar listo' : `Te faltan ${items.length} cosas para estar listo`}
                     </h2>
-                    <p className="mt-2 text-lg text-slate-300">Toca cada una, compara precios de proveedores de tu zona y elige.</p>
+                    <p className="mt-2 text-lg text-slate-300">Toca cada una, compara precios de proveedores de tu zona y escríbeles.</p>
                 </div>
-                <div className="shrink-0 rounded-2xl bg-white/10 px-5 py-4" aria-live="polite">
-                    <p className="flex items-center gap-2 text-base text-slate-300">
-                        <Wallet aria-hidden="true" className="size-5" /> Tu presupuesto
-                    </p>
-                    <p className="text-sun-300 text-3xl font-extrabold">{soles(presupuesto.total)}</p>
-                    <p className="text-sm text-slate-300">
-                        {presupuesto.elegidos} de {items.length} elegidos
-                    </p>
-                </div>
+                <p className="flex max-w-xs shrink-0 items-start gap-3 rounded-2xl bg-white/10 px-5 py-4 text-base text-slate-200">
+                    <MessageCircle aria-hidden="true" className="text-sun-300 mt-0.5 size-6 shrink-0" />
+                    Hablas directo con el proveedor por WhatsApp. Tu conversación es privada.
+                </p>
             </div>
             <div aria-hidden="true" className="franja-andina" />
 
@@ -290,7 +239,6 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                         const v = visualDeItem(item.codigo, item.titulo);
                         const activo = item.codigo === actual.codigo;
                         const porRevisar = item.estado === 'POR_REVISAR';
-                        const elegida = item.asistencia?.ofertas?.find((o) => o.id === elecciones[item.codigo]);
                         const rango = rangoCosto(item.asistencia);
                         return (
                             <li key={item.codigo}>
@@ -309,16 +257,11 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                                         >
                                             {porRevisar ? 'Por revisar' : 'Falta'}
                                         </span>
-                                        {elegida && (
-                                            <span className="absolute top-2 right-2 flex size-7 items-center justify-center rounded-full bg-emerald-600 text-white">
-                                                <CheckCircle2 aria-label="Elegido" className="size-5" />
-                                            </span>
-                                        )}
                                     </span>
                                     <span className="flex flex-1 flex-col p-3">
                                         <span className="block text-base leading-snug font-bold text-slate-900">{v.nombreCorto || item.titulo}</span>
                                         <span className="text-primary-700 mt-auto pt-2 text-base font-bold">
-                                            {precioTarjeta(elegida?.precio_soles, rango?.texto)}
+                                            {rango ? `Desde ${rango.texto.split(' a ')[0]}` : 'Sin precio aún'}
                                         </span>
                                     </span>
                                 </button>
@@ -369,60 +312,45 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                         )}
 
                         {ofertas.length > 0 ? (
-                            <fieldset>
-                                <legend className="text-primary-700 text-base font-bold">Elige tu opción</legend>
+                            <section aria-labelledby="ofertas-titulo">
+                                <h4 id="ofertas-titulo" className="text-primary-700 text-base font-bold">
+                                    Proveedores de tu zona
+                                </h4>
                                 <ul className="mt-3 space-y-3">
                                     {ofertas.map((oferta) => {
-                                        const elegida = elecciones[actual.codigo] === oferta.id;
                                         const destacado = oferta.proveedor.plan && oferta.proveedor.plan !== 'basico';
                                         return (
-                                            <li
-                                                key={oferta.id}
-                                                className={`rounded-xl border-2 p-4 transition ${elegida ? 'border-emerald-500 bg-emerald-50/60' : 'border-slate-200'}`}
-                                            >
-                                                <label className="flex cursor-pointer gap-3">
-                                                    <input
-                                                        type="radio"
-                                                        name={`oferta-${actual.codigo}`}
-                                                        checked={elegida}
-                                                        onChange={() => elegirOferta(actual.codigo, oferta.id)}
-                                                        onClick={() => elegida && elegirOferta(actual.codigo, oferta.id)}
-                                                        className="mt-1.5 size-5 shrink-0 accent-emerald-600"
-                                                    />
-                                                    <span className="min-w-0 flex-1">
-                                                        <span className="flex flex-wrap items-baseline justify-between gap-x-3">
-                                                            <span className="text-lg font-bold text-slate-900">{oferta.nombre}</span>
-                                                            <span className="text-primary-700 text-2xl font-extrabold">
-                                                                {soles(oferta.precio_soles)}
-                                                                <span className="text-sm font-semibold text-slate-500"> / {oferta.unidad}</span>
+                                            <li key={oferta.id} className="rounded-xl border-2 border-slate-200 p-4">
+                                                <div className="min-w-0">
+                                                    <span className="flex flex-wrap items-baseline justify-between gap-x-3">
+                                                        <span className="text-lg font-bold text-slate-900">{oferta.nombre}</span>
+                                                        <span className="text-primary-700 text-2xl font-extrabold">
+                                                            {soles(oferta.precio_soles)}
+                                                            <span className="text-sm font-semibold text-slate-500"> / {oferta.unidad}</span>
+                                                        </span>
+                                                    </span>
+                                                    <span className="mt-1 flex flex-wrap items-center gap-2 text-base text-slate-600">
+                                                        {oferta.proveedor.nombre_comercial}
+                                                        {destacado && (
+                                                            <span className="bg-sun-100 text-sun-700 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-bold">
+                                                                <Star aria-hidden="true" className="size-3.5" /> Destacado
                                                             </span>
-                                                        </span>
-                                                        <span className="mt-1 flex flex-wrap items-center gap-2 text-base text-slate-600">
-                                                            {oferta.proveedor.nombre_comercial}
-                                                            {destacado && (
-                                                                <span className="bg-sun-100 text-sun-700 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-bold">
-                                                                    <Star aria-hidden="true" className="size-3.5" /> Destacado
-                                                                </span>
-                                                            )}
-                                                            {oferta.proveedor.verificado && (
-                                                                <span className="inline-flex items-center gap-1 text-sm font-bold text-emerald-700">
-                                                                    <BadgeCheck aria-hidden="true" className="size-4" /> Verificado
-                                                                </span>
-                                                            )}
-                                                        </span>
-                                                        <span className="block text-sm text-slate-500">
-                                                            {oferta.proveedor.ubicacion_exacta && oferta.proveedor.direccion
-                                                                ? `${oferta.proveedor.direccion}, ${oferta.proveedor.sede}`
-                                                                : `Zona: ${oferta.proveedor.sede}`}
-                                                        </span>
-                                                        {oferta.descripcion && (
-                                                            <span className="mt-1 block text-base text-slate-700">{oferta.descripcion}</span>
                                                         )}
-                                                        {elegida && (
-                                                            <span className="mt-2 block text-base font-bold text-emerald-700">✓ Tu elección</span>
+                                                        {oferta.proveedor.verificado && (
+                                                            <span className="inline-flex items-center gap-1 text-sm font-bold text-emerald-700">
+                                                                <BadgeCheck aria-hidden="true" className="size-4" /> Verificado
+                                                            </span>
                                                         )}
                                                     </span>
-                                                </label>
+                                                    <span className="block text-sm text-slate-500">
+                                                        {oferta.proveedor.ubicacion_exacta && oferta.proveedor.direccion
+                                                            ? `${oferta.proveedor.direccion}, ${oferta.proveedor.sede}`
+                                                            : `Zona: ${oferta.proveedor.sede}`}
+                                                    </span>
+                                                    {oferta.descripcion && (
+                                                        <span className="mt-1 block text-base text-slate-700">{oferta.descripcion}</span>
+                                                    )}
+                                                </div>
                                                 <AccionesProveedor
                                                     proveedor={oferta.proveedor}
                                                     producto={oferta.nombre}
@@ -433,7 +361,7 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                                         );
                                     })}
                                 </ul>
-                            </fieldset>
+                            </section>
                         ) : (
                             <div>
                                 <p className="text-primary-700 text-base font-bold">Quién te ayuda cerca</p>

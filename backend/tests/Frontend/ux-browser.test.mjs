@@ -66,12 +66,11 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=Subsanar` });
         await wait('document.querySelector("#falta-titulo") !== null');
         await evaluate(`[...document.querySelectorAll('[aria-pressed]')].find(b=>b.textContent.includes('Botiquín')).click()`);
-        await wait(`document.body.innerText.includes('Elige tu opción')`);
+        await wait(`document.body.innerText.includes('Proveedores de tu zona')`);
         assert.match(await evaluate('document.querySelector("a[href^=\\"https://wa.me/\\"]").href'), /Botiqu%C3%ADn/);
-        // Elegir la oferta de S/ 155 la suma a "Tu presupuesto".
-        await evaluate(`document.querySelectorAll('input[name="oferta-CRIT-09"]')[1].click()`);
-        await wait(`document.body.innerText.includes('Tu elección')`);
-        assert.match(await evaluate('document.querySelector("#falta-titulo").closest("section").innerText'), /S\/ 155[\s\S]*1 de 2 elegidos/);
+        // El cliente habla en privado con el proveedor: no hay selección ni presupuesto.
+        assert.equal(await evaluate('document.querySelectorAll("input[name^=\\"oferta-\\"]").length'), 0);
+        assert.doesNotMatch(await evaluate('document.querySelector("#falta-titulo").closest("section").innerText'), /presupuesto/i);
         await evaluate('document.querySelector("#falta-titulo").scrollIntoView()');
         await new Promise((r) => setTimeout(r, 300));
         const panelFalta = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });

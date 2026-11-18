@@ -319,8 +319,8 @@ export function PlanoEditor2D({
 
                         {/* Símbolo de señal de salida */}
                         <g id="simbolo-salida">
-                            <rect x="-13" y="-7" width="26" height="14" rx="2" fill="#d1fae5" stroke="#059669" strokeWidth="2" />
-                            <text x="0" y="3" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="#047857">
+                            <rect x="-13" y="-7" width="26" height="14" rx="2" fill="#d1fae5" stroke="#5546b8" strokeWidth="2" />
+                            <text x="0" y="3" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="#463a96">
                                 SALIDA
                             </text>
                         </g>
@@ -486,11 +486,11 @@ export function PlanoEditor2D({
                                                 width={anchoPx}
                                                 height={12}
                                                 rx="3"
-                                                fill="#10b981"
-                                                stroke="#047857"
+                                                fill="#6a59cf"
+                                                stroke="#463a96"
                                                 strokeWidth="2"
                                             />
-                                            <polygon points="0,-16 -6,-9 6,-9" fill="#047857" />
+                                            <polygon points="0,-16 -6,-9 6,-9" fill="#463a96" />
                                             <text
                                                 x="0"
                                                 y="22"

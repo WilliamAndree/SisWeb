@@ -107,7 +107,7 @@ function segmentosEstado(item: AutoevaluacionItem, esFlujoNuevo: boolean): Segme
                 etiqueta: 'Cumple',
                 valor: c.cumple_declarado,
                 barra: 'bg-emerald-600',
-                color: '#059669',
+                color: '#5546b8',
                 chip: 'border-emerald-200 bg-emerald-50 text-emerald-700',
             },
             {
@@ -144,7 +144,7 @@ function segmentosEstado(item: AutoevaluacionItem, esFlujoNuevo: boolean): Segme
             etiqueta: 'Cumple',
             valor: c?.cumple ?? 0,
             barra: 'bg-emerald-600',
-            color: '#059669',
+            color: '#5546b8',
             chip: 'border-emerald-200 bg-emerald-50 text-emerald-700',
         },
         {
@@ -589,7 +589,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
             {!esModalidadExAnte ? (
                 /* MODALIDAD ITSE POSTERIOR (EX-POST) */
                 <div className="space-y-4">
-                    <div className="space-y-3 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 p-5">
+                    <div className="space-y-3 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50/90 to-sun-50/50 p-5">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-200/80 px-2.5 py-0.5 text-sm font-black text-emerald-900">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700" />

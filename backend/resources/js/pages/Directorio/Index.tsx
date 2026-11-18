@@ -32,6 +32,44 @@ interface FiltroOpcion {
 
 export type { PlanProveedor };
 
+/**
+ * Aviso para quien entra con su cuenta de emprendedor: vender requiere una
+ * cuenta de proveedor aparte (con otro correo), así cada una ve solo lo suyo.
+ */
+function AvisoCuentaProveedor({ onCerrar }: Readonly<{ onCerrar: () => void }>) {
+    const [saliendo, setSaliendo] = useState(false);
+    return (
+        <div id="aviso-cuenta" role="alert" className="border-sun-300 bg-sun-50 mx-auto mt-6 max-w-3xl rounded-3xl border-2 p-6 sm:p-8">
+            <p className="font-display text-2xl font-bold text-slate-900">Para vender necesitas una cuenta de proveedor</p>
+            <p className="mt-2 text-lg text-slate-700">
+                Ahora estás con tu cuenta de <strong>emprendedor</strong>, que sirve para revisar tu local. Los proveedores usan una cuenta aparte,
+                con otro correo, para publicar sus productos, ver sus ventas y recibir clientes por WhatsApp.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+                <button
+                    type="button"
+                    disabled={saliendo}
+                    onClick={() => {
+                        setSaliendo(true);
+                        router.post(route('logout'), { destino: 'registro_proveedor' });
+                    }}
+                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-13 cursor-pointer items-center rounded-xl px-6 text-lg font-bold text-white disabled:opacity-60"
+                >
+                    {saliendo ? 'Abriendo…' : 'Crear mi cuenta de proveedor'}
+                </button>
+                <button
+                    type="button"
+                    onClick={onCerrar}
+                    className="min-h-13 cursor-pointer rounded-xl px-5 text-lg font-semibold text-slate-700 hover:bg-white"
+                >
+                    Seguir como emprendedor
+                </button>
+            </div>
+            <p className="mt-3 text-base text-slate-600">Se cerrará tu sesión actual. Tus locales y registros quedan guardados.</p>
+        </div>
+    );
+}
+
 function textoBotonPlan(plan: PlanProveedor, esProveedor: boolean): string {
     if (esProveedor) return plan.precio === 0 ? 'Ver mi cuenta' : `Elegir ${plan.nombre}`;
     return plan.precio === 0 ? 'Crear mi cuenta gratis' : `Empezar gratis y subir a ${plan.nombre}`;
@@ -103,7 +141,11 @@ function irA(id: string) {
 export default function Directorio({ aliados, planes = [], filtros, categorias, distritos }: Readonly<DirectorioProps>) {
     const [aliadoSeleccionado, setAliadoSeleccionado] = useState<AliadoAsistenciaContrato | null>(null);
     const [mapaAbierto, setMapaAbierto] = useState<string | null>(null);
-    const esProveedor = (usePage().props as { auth?: { user?: { tipo_cuenta?: string } | null } }).auth?.user?.tipo_cuenta === 'proveedor';
+    const usuario = (usePage().props as { auth?: { user?: { tipo_cuenta?: string } | null } }).auth?.user ?? null;
+    const esProveedor = usuario?.tipo_cuenta === 'proveedor';
+    // Con una cuenta de emprendedor (o admin) no se puede vender: se explica y se ofrece crear la cuenta de proveedor.
+    const otraCuenta = usuario !== null && !esProveedor;
+    const [avisoCuenta, setAvisoCuenta] = useState(false);
 
     const filtroCategoria = filtros.categoria ?? '';
     const filtroDistrito = filtros.distrito ?? '';
@@ -415,8 +457,9 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                         <>
                             <h3 className="mt-12 text-center text-3xl font-extrabold tracking-tight text-slate-900">Elige tu plan</h3>
                             <p className="mt-2 text-center text-lg text-slate-600">
-                                Sin contratos. Paga 1, 3 o 12 meses (con hasta 20% de descuento) por Yape, Plin o banco.
+                                Sin contratos. Paga 1, 3 o 12 meses (con hasta 20% de descuento) por Yape o Plin.
                             </p>
+                            {avisoCuenta && <AvisoCuentaProveedor onCerrar={() => setAvisoCuenta(false)} />}
                             <ul className="mt-8 grid gap-5 lg:grid-cols-3">
                                 {planes.map((plan) => (
                                     <li
@@ -444,12 +487,29 @@ export default function Directorio({ aliados, planes = [], filtros, categorias, 
                                                 </li>
                                             ))}
                                         </ul>
-                                        <Link
-                                            href={esProveedor ? route('proveedor.plan') : '/registro?tipo=proveedor'}
-                                            className={`mt-8 flex min-h-13 w-full items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
-                                        >
-                                            {textoBotonPlan(plan, esProveedor)}
-                                        </Link>
+                                        {otraCuenta ? (
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setAvisoCuenta(true);
+                                                    requestAnimationFrame(() =>
+                                                        document
+                                                            .getElementById('aviso-cuenta')
+                                                            ?.scrollIntoView({ behavior: 'smooth', block: 'center' }),
+                                                    );
+                                                }}
+                                                className={`mt-8 flex min-h-13 w-full cursor-pointer items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+                                            >
+                                                {textoBotonPlan(plan, false)}
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                href={esProveedor ? route('proveedor.plan') : '/registro?tipo=proveedor'}
+                                                className={`mt-8 flex min-h-13 w-full items-center justify-center rounded-xl text-lg font-bold ${plan.destacado ? 'bg-primary hover:bg-primary-700 text-white' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}`}
+                                            >
+                                                {textoBotonPlan(plan, esProveedor)}
+                                            </Link>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

@@ -108,3 +108,19 @@ Los mapas usan la búsqueda pública de Google Maps (`output=embed`), sin clave 
 - **Aliados técnicos:** portada `HeroCinematico` compacta con fotos de proveedores que se acercan y cambian solas (pausables y sin movimiento si el sistema lo pide).
 - **Mi panel:** cada local es una tarjeta con foto, estado claro ("¡Listo!", "Te faltan N", "Sin terminar"), porcentaje grande, una sola acción principal y accesos secundarios. **Eliminar registro** pide confirmación en la misma tarjeta y borra respuestas, evidencias y documentos privados (`DELETE /mis-autoevaluaciones/{uuid}`, solo el dueño).
 - Si una foto remota no carga, se usa una foto local de respaldo (`usarFotoRespaldo`).
+
+## Sin verdes: "listo" en lila andino
+
+- La identidad no usa verde. El token `emerald` (y `success`) se redefinió en `resources/css/app.css` como **lila andino**, de la familia del índigo, y se usa solo para "listo / cumple". Así se recolorearon de una vez todos los estados sin tocar cada pantalla.
+- Los botones de WhatsApp usan ese mismo lila.
+
+## Resumen del local
+
+- Cabecera visual: foto del local, **% listo** en grande, contadores (Listo, Falta, Por revisar, No aplica) y una sola acción principal ("Ver lo que me falta" o "Preparar mi expediente").
+- Debajo, "Lo que te falta" con proveedores. El detalle técnico (normativa, especialidades, costos frente a multas y tipo de trámite) queda en **"Ver detalle técnico"**, que se abre al tocarlo.
+
+## Contacto cliente–proveedor
+
+- El cliente no arma presupuesto ni "elige" ofertas: compara y le escribe **en privado por WhatsApp** a cada proveedor.
+- El **croquis 2D** se quitó de "Lo que te falta" porque confundía; los documentos del trámite se suben en el expediente digital. Su ruta y pruebas se conservan.
+- Si un emprendedor con sesión toca un plan de proveedor, se le explica que vender requiere una **cuenta de proveedor aparte** y se le lleva directo a crearla (cierra su sesión; sus registros quedan guardados).

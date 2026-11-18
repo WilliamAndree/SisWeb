@@ -1,7 +1,7 @@
 import { CajaNotasSubsanacion } from '@/components/Evaluacion/CajaNotasSubsanacion';
 import { DesgloseEspecialidades } from '@/components/Evaluacion/DesgloseEspecialidades';
 import { DiagnosticoMultidimensional } from '@/components/Evaluacion/DiagnosticoMultidimensional';
-import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
+import { FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
 import { HojaModeloAnexo } from '@/components/Evaluacion/HojaModeloAnexo';
 import { LoQueTeFalta } from '@/components/Evaluacion/LoQueTeFalta';
 import { NubeAsistenciaModal, type CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
@@ -2126,42 +2126,18 @@ export default function Resumen({
                         esApto={esApto}
                         hashIntegridad={autoevaluacion?.hash_integridad}
                         esRegistrada={esRegistrada}
+                        porcentaje={pctCumple}
+                        conteo={{
+                            listo: resumen?.total_cumple_declarado ?? 0,
+                            falta: resumen?.total_pendiente_atender ?? 0,
+                            porRevisar: resumen?.total_por_revisar ?? 0,
+                            noAplica: resumen?.total_no_aplica ?? 0,
+                        }}
                     />
 
                     {/* ========================================================================= */}
                     {/* B. BARRA DE SALUD TÉCNICA Y MÉTRICAS PROPORCIONALES (Bento Superior)       */}
                     {/* ========================================================================= */}
-                    <AvisoPreventivo />
-                    <section aria-labelledby="proximo-paso" className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-                        <h2 id="proximo-paso" className="text-xl font-semibold">
-                            ¿Cómo continúo?
-                        </h2>
-                        <p className="mt-2 text-base text-slate-600">
-                            {resumen.total_pendiente_atender > 0 || resumen.total_por_revisar > 0
-                                ? 'Empieza por las condiciones pendientes y luego revisa las que no pudiste confirmar. Este orden organiza tus respuestas; no es una prioridad normativa.'
-                                : 'Revisa tus declaraciones y conserva el registro cuando estés listo. Declarar que cumple no equivale a una aprobación oficial.'}
-                        </p>
-                        <div className="mt-4 flex flex-wrap gap-3">
-                            <Link
-                                href={`/autoevaluacion/${autoevaluacion.uuid}/subsanar-items`}
-                                className="bg-primary hover:bg-primary-700 inline-flex min-h-11 items-center rounded-xl px-5 py-3 text-base font-semibold text-white"
-                            >
-                                Ver qué atender
-                            </Link>
-                            <Link
-                                href={route('autoevaluacion.expediente_digital', { uuid: autoevaluacion.uuid })}
-                                className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-11 items-center rounded-xl px-5 py-3 text-base font-semibold text-white"
-                            >
-                                Preparar mi expediente
-                            </Link>
-                            <Link
-                                href={`/autoevaluacion/${autoevaluacion.uuid}/checklist`}
-                                className="inline-flex min-h-11 items-center rounded-xl border border-slate-400 px-5 py-3 text-base font-semibold"
-                            >
-                                {esRegistrada ? 'Consultar mis respuestas' : 'Revisar mis respuestas'}
-                            </Link>
-                        </div>
-                    </section>
                     {(pendiente_atender.length > 0 || por_revisar.length > 0) && (
                         <LoQueTeFalta
                             items={[
@@ -2169,145 +2145,160 @@ export default function Resumen({
                                 ...por_revisar.map((item) => ({ ...item, estado: 'POR_REVISAR' })),
                             ].map((item) => ({ ...item, codigo: String(item.codigo ?? ''), titulo: String(item.titulo ?? '') }))}
                             nombreLocal={autoevaluacion?.nombre_comercio}
-                            claveSeleccion={autoevaluacion?.uuid}
                         />
                     )}
-                    <SeccionSaludTecnica
-                        resumen={resumen}
-                        totalAplicables={totalAplicables}
-                        pctCumple={pctCumple}
-                        pctPendiente={pctPendiente}
-                        pctRevisar={pctRevisar}
-                    />
-
-                    {/* ========================================================================= */}
-                    {/* B.2 DIAGNÓSTICO ANALÍTICO MULTIDIMENSIONAL (CENEPRED Anexo 17)            */}
-                    {/* ========================================================================= */}
-                    <DiagnosticoMultidimensional
-                        desglose={desglose_especialidades}
-                        pendientes={pendiente_atender}
-                        porRevisar={por_revisar}
-                        cumple={cumple_declarado}
-                        clasificacion={clasificacion_tramite}
-                        nombreComercio={autoevaluacion?.nombre_comercio}
-                    />
-
-                    {/* ========================================================================= */}
-                    {/* C. LAYOUT BENTO GRID DE 2 COLUMNAS (Cuerpo Central)                       */}
-                    {/* ========================================================================= */}
-                    <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-                        {/* COLUMNA IZQUIERDA (60% - Ancha): PLAN DE SUBSANACIÓN, REVISIÓN Y CUMPLIMIENTO */}
-                        <div className="space-y-6 lg:col-span-7">
-                            <Tabs defaultValue="pendientes" className="w-full space-y-5">
-                                <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1.5 rounded-2xl border border-slate-200 bg-slate-100/70 p-1.5">
-                                    <TabsTrigger
-                                        value="pendientes"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
-                                    >
-                                        <AlertTriangle className="text-warning-800 h-3.5 w-3.5" />
-                                        <span>Por Subsanar ({resumen?.total_pendiente_atender ?? 0})</span>
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="por-revisar"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
-                                    >
-                                        <HelpCircle className="h-3.5 w-3.5 text-sky-600" />
-                                        <span>Por Verificar ({resumen?.total_por_revisar ?? 0})</span>
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="conformes"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
-                                    >
-                                        <CheckCircle2 className="text-success-800 h-3.5 w-3.5" />
-                                        <span>Declaradas ({resumen?.total_cumple_declarado ?? 0})</span>
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value="economico"
-                                        className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
-                                    >
-                                        <Coins className="h-3.5 w-3.5 text-amber-600" />
-                                        <span>Inversión vs Multas</span>
-                                    </TabsTrigger>
-                                </TabsList>
-
-                                <TabsContent value="pendientes" className="space-y-5 focus-visible:outline-hidden">
-                                    <SeccionPlanSubsanacion
-                                        pendienteAtender={pendiente_atender}
-                                        totalPendienteAtender={resumen?.total_pendiente_atender ?? 0}
-                                        uuid={autoevaluacion?.uuid}
-                                        onAbrirRecurso={abrirRecurso}
-                                        onAbrirAsistencia={abrirAsistencia}
-                                    />
-                                </TabsContent>
-
-                                <TabsContent value="por-revisar" className="space-y-5 focus-visible:outline-hidden">
-                                    <SeccionPorRevisar
-                                        porRevisar={por_revisar}
-                                        totalPorRevisar={resumen?.total_por_revisar ?? 0}
-                                        uuid={autoevaluacion?.uuid}
-                                        onAbrirRecurso={abrirRecurso}
-                                        onAbrirAsistencia={abrirAsistencia}
-                                    />
-                                </TabsContent>
-
-                                <TabsContent value="conformes" className="space-y-5 focus-visible:outline-hidden">
-                                    <SeccionPuntosFuertes
-                                        cumpleDeclarado={cumple_declarado}
-                                        totalCumpleDeclarado={resumen?.total_cumple_declarado ?? 0}
-                                    />
-                                </TabsContent>
-
-                                <TabsContent value="economico" className="space-y-5 focus-visible:outline-hidden">
-                                    <SeccionEstimadorEconomico
-                                        pendienteAtenderCount={pendiente_atender.length}
-                                        estimacionEconomica={estimacionEconomica}
-                                    />
-                                </TabsContent>
-                            </Tabs>
-                        </div>
-
-                        {/* COLUMNA DERECHA (40% - Lateral): TRÁMITE, ESPECIALIDADES Y DESGLOSE */}
-                        <div className="space-y-6 lg:col-span-5">
-                            {/* 1. TARJETA MODALIDAD DE TRÁMITE MUNICIPAL */}
-                            <SeccionModalidadTramite
-                                modalidadTramite={modalidadTramite}
-                                esModalidadExAnte={esModalidadExAnte}
-                                uuid={autoevaluacion.uuid}
-                                onAbrirHojaModelo={() => setModalHojaModeloAbierto(true)}
+                    {/* Detalle técnico: normativa, especialidades, costos y tipo de trámite, solo si se quiere ver. */}
+                    <details className="group rounded-3xl border border-slate-200 bg-white">
+                        <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 sm:px-8 [&::-webkit-details-marker]:hidden">
+                            <span>
+                                <span className="font-display block text-xl font-bold text-slate-900 sm:text-2xl">Ver detalle técnico</span>
+                                <span className="block text-base text-slate-600">
+                                    Normativa de cada condición, especialidades, costos frente a multas y tipo de trámite.
+                                </span>
+                            </span>
+                            <span className="bg-ink-900 flex size-10 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white transition group-open:rotate-45">
+                                +
+                            </span>
+                        </summary>
+                        <div className="space-y-6 border-t border-slate-100 p-4 sm:p-6">
+                            <SeccionSaludTecnica
+                                resumen={resumen}
+                                totalAplicables={totalAplicables}
+                                pctCumple={pctCumple}
+                                pctPendiente={pctPendiente}
+                                pctRevisar={pctRevisar}
                             />
 
-                            {/* 2. TARJETA DESGLOSE POR ESPECIALIDAD TÉCNICA */}
-                            {desglose_especialidades && (
-                                <section
-                                    aria-labelledby="especialidades-title"
-                                    className="space-y-3.5 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6"
-                                >
-                                    <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                                            <Layers className="h-5 w-5 text-slate-600" />
-                                        </div>
-                                        <div>
-                                            <h2 id="especialidades-title" className="text-base font-bold text-slate-900">
-                                                Desglose por Especialidad
-                                            </h2>
-                                            <p className="text-sm text-slate-500">Condiciones evaluadas por disciplina técnica ITSE.</p>
-                                        </div>
-                                    </div>
+                            {/* ========================================================================= */}
+                            {/* B.2 DIAGNÓSTICO ANALÍTICO MULTIDIMENSIONAL (CENEPRED Anexo 17)            */}
+                            {/* ========================================================================= */}
+                            <DiagnosticoMultidimensional
+                                desglose={desglose_especialidades}
+                                pendientes={pendiente_atender}
+                                porRevisar={por_revisar}
+                                cumple={cumple_declarado}
+                                clasificacion={clasificacion_tramite}
+                                nombreComercio={autoevaluacion?.nombre_comercio}
+                            />
 
-                                    <DesgloseEspecialidades desglose={desglose_especialidades} variante="detallada" />
-                                </section>
-                            )}
+                            {/* ========================================================================= */}
+                            {/* C. LAYOUT BENTO GRID DE 2 COLUMNAS (Cuerpo Central)                       */}
+                            {/* ========================================================================= */}
+                            <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
+                                {/* COLUMNA IZQUIERDA (60% - Ancha): PLAN DE SUBSANACIÓN, REVISIÓN Y CUMPLIMIENTO */}
+                                <div className="space-y-6 lg:col-span-7">
+                                    <Tabs defaultValue="pendientes" className="w-full space-y-5">
+                                        <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1.5 rounded-2xl border border-slate-200 bg-slate-100/70 p-1.5">
+                                            <TabsTrigger
+                                                value="pendientes"
+                                                className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                            >
+                                                <AlertTriangle className="text-warning-800 h-3.5 w-3.5" />
+                                                <span>Por Subsanar ({resumen?.total_pendiente_atender ?? 0})</span>
+                                            </TabsTrigger>
+                                            <TabsTrigger
+                                                value="por-revisar"
+                                                className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                            >
+                                                <HelpCircle className="h-3.5 w-3.5 text-sky-600" />
+                                                <span>Por Verificar ({resumen?.total_por_revisar ?? 0})</span>
+                                            </TabsTrigger>
+                                            <TabsTrigger
+                                                value="conformes"
+                                                className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                            >
+                                                <CheckCircle2 className="text-success-800 h-3.5 w-3.5" />
+                                                <span>Declaradas ({resumen?.total_cumple_declarado ?? 0})</span>
+                                            </TabsTrigger>
+                                            <TabsTrigger
+                                                value="economico"
+                                                className="flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-xs"
+                                            >
+                                                <Coins className="h-3.5 w-3.5 text-amber-600" />
+                                                <span>Inversión vs Multas</span>
+                                            </TabsTrigger>
+                                        </TabsList>
 
-                            {/* 3. SIMULACIÓN ORIENTATIVA DE DILIGENCIA */}
-                            <SeccionPronosticoDiligencia esApto={esApto} tipoTramite={clasificacion_tramite?.tipo_tramite} />
+                                        <TabsContent value="pendientes" className="space-y-5 focus-visible:outline-hidden">
+                                            <SeccionPlanSubsanacion
+                                                pendienteAtender={pendiente_atender}
+                                                totalPendienteAtender={resumen?.total_pendiente_atender ?? 0}
+                                                uuid={autoevaluacion?.uuid}
+                                                onAbrirRecurso={abrirRecurso}
+                                                onAbrirAsistencia={abrirAsistencia}
+                                            />
+                                        </TabsContent>
 
-                            {/* 4. CARACTERÍSTICAS FÍSICAS DECLARADAS (Acordeón colapsable) */}
-                            <SeccionCaracteristicasDeclaradas caracteristicasDeclaradas={caracteristicasDeclaradas} />
+                                        <TabsContent value="por-revisar" className="space-y-5 focus-visible:outline-hidden">
+                                            <SeccionPorRevisar
+                                                porRevisar={por_revisar}
+                                                totalPorRevisar={resumen?.total_por_revisar ?? 0}
+                                                uuid={autoevaluacion?.uuid}
+                                                onAbrirRecurso={abrirRecurso}
+                                                onAbrirAsistencia={abrirAsistencia}
+                                            />
+                                        </TabsContent>
 
-                            {/* 5. CONDICIONES NO APLICABLES (Acordeón colapsable sutil) */}
-                            <SeccionCondicionesNoAplicables noAplica={no_aplica} />
+                                        <TabsContent value="conformes" className="space-y-5 focus-visible:outline-hidden">
+                                            <SeccionPuntosFuertes
+                                                cumpleDeclarado={cumple_declarado}
+                                                totalCumpleDeclarado={resumen?.total_cumple_declarado ?? 0}
+                                            />
+                                        </TabsContent>
+
+                                        <TabsContent value="economico" className="space-y-5 focus-visible:outline-hidden">
+                                            <SeccionEstimadorEconomico
+                                                pendienteAtenderCount={pendiente_atender.length}
+                                                estimacionEconomica={estimacionEconomica}
+                                            />
+                                        </TabsContent>
+                                    </Tabs>
+                                </div>
+
+                                {/* COLUMNA DERECHA (40% - Lateral): TRÁMITE, ESPECIALIDADES Y DESGLOSE */}
+                                <div className="space-y-6 lg:col-span-5">
+                                    {/* 1. TARJETA MODALIDAD DE TRÁMITE MUNICIPAL */}
+                                    <SeccionModalidadTramite
+                                        modalidadTramite={modalidadTramite}
+                                        esModalidadExAnte={esModalidadExAnte}
+                                        uuid={autoevaluacion.uuid}
+                                        onAbrirHojaModelo={() => setModalHojaModeloAbierto(true)}
+                                    />
+
+                                    {/* 2. TARJETA DESGLOSE POR ESPECIALIDAD TÉCNICA */}
+                                    {desglose_especialidades && (
+                                        <section
+                                            aria-labelledby="especialidades-title"
+                                            className="space-y-3.5 rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6"
+                                        >
+                                            <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                                                    <Layers className="h-5 w-5 text-slate-600" />
+                                                </div>
+                                                <div>
+                                                    <h2 id="especialidades-title" className="text-base font-bold text-slate-900">
+                                                        Desglose por Especialidad
+                                                    </h2>
+                                                    <p className="text-sm text-slate-500">Condiciones evaluadas por disciplina técnica ITSE.</p>
+                                                </div>
+                                            </div>
+
+                                            <DesgloseEspecialidades desglose={desglose_especialidades} variante="detallada" />
+                                        </section>
+                                    )}
+
+                                    {/* 3. SIMULACIÓN ORIENTATIVA DE DILIGENCIA */}
+                                    <SeccionPronosticoDiligencia esApto={esApto} tipoTramite={clasificacion_tramite?.tipo_tramite} />
+
+                                    {/* 4. CARACTERÍSTICAS FÍSICAS DECLARADAS (Acordeón colapsable) */}
+                                    <SeccionCaracteristicasDeclaradas caracteristicasDeclaradas={caracteristicasDeclaradas} />
+
+                                    {/* 5. CONDICIONES NO APLICABLES (Acordeón colapsable sutil) */}
+                                    <SeccionCondicionesNoAplicables noAplica={no_aplica} />
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </details>
 
                     {/* ========================================================================= */}
                     {/* D. SELLO DE VALIDEZ CÍVICA Y CIERRE EJECUTIVO (Pie de Página)             */}

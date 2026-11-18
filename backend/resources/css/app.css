@@ -17,7 +17,8 @@
         ink     -> índigo noche: superficies de alto contraste (hero, bloques oscuros)
         sun     -> dorado: llamadas a la acción sobre fondo oscuro y cifras
         magenta -> acento textil: etiquetas y detalles
-        emerald -> se redefine como verde azulado y queda SOLO para "cumple / listo"
+        emerald -> se redefine como LILA ANDINO (familia del índigo) para "cumple / listo".
+                   No hay verdes en la identidad: el nombre se conserva para no tocar cientos de clases.
         canvas  -> fondo crema cálido
     */
     --color-ink-900: #17133a;
@@ -37,17 +38,17 @@
     --color-magenta-700: #9d1654;
     --color-canvas: #fbf6ee;
 
-    --color-emerald-50: #ecfaf6;
-    --color-emerald-100: #cff3e8;
-    --color-emerald-200: #a2e6d3;
-    --color-emerald-300: #67d1b9;
-    --color-emerald-400: #2fb69b;
-    --color-emerald-500: #149a80;
-    --color-emerald-600: #0d7c68;
-    --color-emerald-700: #0c6355;
-    --color-emerald-800: #0e4f45;
-    --color-emerald-900: #0f413a;
-    --color-emerald-950: #05241f;
+    --color-emerald-50: #f3f1fd;
+    --color-emerald-100: #e6e2fa;
+    --color-emerald-200: #cdc6f4;
+    --color-emerald-300: #ab9fea;
+    --color-emerald-400: #8576dc;
+    --color-emerald-500: #6a59cf;
+    --color-emerald-600: #5546b8;
+    --color-emerald-700: #463a96;
+    --color-emerald-800: #3a307a;
+    --color-emerald-900: #2f2863;
+    --color-emerald-950: #1d183f;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -100,16 +101,16 @@
 
     --color-success: var(--color-success-600);
     --color-success-foreground: #ffffff;
-    --color-success-50: #ecfaf6;
-    --color-success-100: #cff3e8;
-    --color-success-200: #a2e6d3;
-    --color-success-300: #67d1b9;
-    --color-success-400: #2fb69b;
-    --color-success-500: #149a80;
-    --color-success-600: #0d7c68;
-    --color-success-700: #0c6355;
-    --color-success-800: #0e4f45;
-    --color-success-900: #0f413a;
+    --color-success-50: #f3f1fd;
+    --color-success-100: #e6e2fa;
+    --color-success-200: #cdc6f4;
+    --color-success-300: #ab9fea;
+    --color-success-400: #8576dc;
+    --color-success-500: #6a59cf;
+    --color-success-600: #5546b8;
+    --color-success-700: #463a96;
+    --color-success-800: #3a307a;
+    --color-success-900: #2f2863;
 
     --color-warning: var(--color-warning-600);
     --color-warning-foreground: #ffffff;

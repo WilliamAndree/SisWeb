@@ -282,7 +282,7 @@ export default function Dashboard({ records, kpis }: Readonly<DashboardProps>) {
                 {/* 1. Métricas Superiores (3 Tarjetas KPI) */}
                 <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3">
                     {/* Tarjeta 1: Nivel de Cumplimiento Normativo */}
-                    <div className="flex h-full flex-col justify-between rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/40 p-5 shadow-xs transition-all hover:shadow-sm">
+                    <div className="flex h-full flex-col justify-between rounded-2xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/80 via-white to-sun-50/40 p-5 shadow-xs transition-all hover:shadow-sm">
                         <div className="flex items-center justify-between">
                             <span className="text-sm font-bold text-emerald-800">Nivel de Cumplimiento Normativo</span>
                             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">

@@ -145,3 +145,12 @@ test('los proveedores del catálogo de ejemplo no exponen ubicación exacta', fu
     expect($oferta['proveedor']['ubicacion_exacta'])->toBeFalse()
         ->and($oferta['proveedor']['latitud'])->toBeNull();
 });
+
+test('un emprendedor que quiere vender sale de su cuenta y llega al registro de proveedor', function () {
+    actingAs(User::factory()->create())
+        ->post(route('logout'), ['destino' => 'registro_proveedor'])
+        ->assertRedirect(route('register', ['tipo' => 'proveedor']));
+
+    $this->assertGuest();
+    $this->get(route('register', ['tipo' => 'proveedor']))->assertOk();
+});

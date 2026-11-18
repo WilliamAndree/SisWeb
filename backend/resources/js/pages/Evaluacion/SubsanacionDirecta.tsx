@@ -11,7 +11,6 @@ import {
     ArrowLeft,
     ArrowRight,
     BookOpen,
-    Building2,
     Camera,
     Check,
     CheckCircle2,
@@ -19,6 +18,7 @@ import {
     FileCheck,
     FileSpreadsheet,
     FileText,
+    FolderOpen,
     Loader2,
     MapPin,
     ShieldCheck,
@@ -253,67 +253,47 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
             <Head title={`Puesta a Punto y Subsanación — ${autoevaluacion.nombre_comercio}`} />
 
             <div className="min-h-screen bg-slate-50 pb-16">
-                {/* Cabecera Superior */}
+                {/* Cabecera: de quién es, qué hacer y a dónde ir después */}
                 <header className="border-b border-slate-200 bg-white">
                     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <Link
+                            href={route('dashboard')}
+                            className="inline-flex min-h-11 items-center gap-1.5 text-base font-semibold text-slate-600 transition hover:text-slate-900"
+                        >
+                            <ArrowLeft aria-hidden="true" className="size-5" />
+                            Volver a mi panel
+                        </Link>
+                        <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                             <div>
-                                <Link
-                                    href={route('dashboard')}
-                                    className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-bold text-slate-500 transition hover:text-slate-800"
-                                >
-                                    <ArrowLeft className="h-4 w-4" />
-                                    Volver al Panel Ciudadano
-                                </Link>
-
-                                <div className="mt-2 flex flex-wrap items-center gap-2">
-                                    <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-sm font-bold text-amber-800">
-                                        <Wrench className="h-3 w-3 text-amber-600" />
-                                        Puesta a Punto ITSE
-                                    </span>
+                                <p className="flex flex-wrap items-center gap-2 text-base text-slate-600">
+                                    <span className="text-primary-700 font-bold">Puesta a punto</span>
                                     {autoevaluacion.sector_huancayo && (
-                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-sm font-semibold text-slate-700">
-                                            <MapPin className="h-3 w-3 text-slate-400" />
+                                        <span className="inline-flex items-center gap-1">
+                                            <MapPin aria-hidden="true" className="size-4 text-slate-400" />
                                             {autoevaluacion.sector_huancayo}
                                         </span>
                                     )}
-                                    {autoevaluacion.ruc && (
-                                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 font-mono text-sm text-slate-600">
-                                            RUC: {autoevaluacion.ruc}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
-                                    Subsanación y Puesta a Punto — {autoevaluacion.nombre_comercio}
+                                    {autoevaluacion.ruc && <span className="font-mono text-sm">RUC {autoevaluacion.ruc}</span>}
+                                </p>
+                                <h1 className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                                    {autoevaluacion.nombre_comercio}
                                 </h1>
-                                <p className="mt-1 max-w-2xl text-sm leading-relaxed text-slate-500 sm:text-sm">
-                                    Corrige de forma preventiva las condiciones de seguridad observadas antes de tu inspección técnica municipal. Una
-                                    vez subsanada la observación en tu local, márcala como cumplida.
+                                <p className="mt-2 max-w-2xl text-lg leading-relaxed text-slate-600">
+                                    Corrige lo que falta antes de tu inspección. Cuando lo tengas listo en tu local, márcalo como resuelto.
                                 </p>
                             </div>
-
-                            <div className="flex flex-wrap items-center gap-2 self-start sm:self-center">
-                                <Link
-                                    href={route('autoevaluacion.croquis', { uuid: autoevaluacion.uuid })}
-                                    className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
-                                >
-                                    <Building2 className="h-4 w-4 text-indigo-600" />
-                                    <span>Croquis 2D</span>
-                                </Link>
-
+                            <div className="flex flex-wrap gap-2">
                                 <Link
                                     href={route('autoevaluacion.expediente_digital', { uuid: autoevaluacion.uuid })}
-                                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-[44px] items-center justify-center rounded-2xl px-4 py-2.5 text-sm font-bold text-white"
+                                    className="bg-ink-900 hover:bg-ink-800 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 text-base font-bold text-white"
                                 >
-                                    Mi expediente
+                                    <FolderOpen aria-hidden="true" className="size-5" /> Mi expediente
                                 </Link>
-
                                 <Link
-                                    href={route('dashboard')}
-                                    className="inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
+                                    href={route('autoevaluacion.resumen', { uuid: autoevaluacion.uuid })}
+                                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 text-base font-bold text-slate-800 hover:bg-slate-50"
                                 >
-                                    Ir al Dashboard
+                                    Ver mi resumen
                                 </Link>
                             </div>
                         </div>
@@ -382,7 +362,6 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         <LoQueTeFalta
                             items={pendientes}
                             nombreLocal={autoevaluacion.nombre_comercio}
-                            claveSeleccion={autoevaluacion.uuid}
                             onAdjuntarEvidencia={(codigo) => {
                                 const item = items.find((it) => it.codigo === codigo);
                                 if (item) setCriterioEvidenciaModal(item);

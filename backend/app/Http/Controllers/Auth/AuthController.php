@@ -80,6 +80,11 @@ class AuthController extends Controller
             return response()->json(['user' => null]);
         }
 
+        // Quien sale para crear su cuenta de proveedor llega directo a ese registro.
+        if ($request->input('destino') === 'registro_proveedor') {
+            return redirect()->route('register', ['tipo' => 'proveedor']);
+        }
+
         return redirect()->route('autoevaluacion.index');
     }
 

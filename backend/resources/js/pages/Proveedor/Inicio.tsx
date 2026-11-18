@@ -9,10 +9,10 @@ import {
     Crown,
     Eye,
     Hourglass,
+    MapPin,
     MessageCircle,
     Package,
     ShieldAlert,
-    ShoppingCart,
     Wallet,
 } from 'lucide-react';
 
@@ -233,10 +233,10 @@ export default function InicioProveedor({ perfil, conteo, pasos, solicitudPendie
                                 Icono={MessageCircle}
                             />
                             <Indicador
-                                titulo="Te eligieron"
-                                valor={String(ultimos.elecciones)}
-                                detalle={`pusieron tu producto en su presupuesto · ${ultimos.mapa} vieron tu mapa`}
-                                Icono={ShoppingCart}
+                                titulo="Vieron tu ubicación"
+                                valor={String(ultimos.mapa)}
+                                detalle="abrieron tu mapa para llegar a tu local"
+                                Icono={MapPin}
                             />
                             <Indicador
                                 titulo="Vendiste este mes"
@@ -259,7 +259,7 @@ export default function InicioProveedor({ perfil, conteo, pasos, solicitudPendie
                                     </p>
                                 ) : (
                                     <div className="mt-4 overflow-x-auto">
-                                        <table className="w-full min-w-[28rem] text-left text-lg">
+                                        <table className="w-full min-w-[22rem] text-left text-lg">
                                             <thead>
                                                 <tr className="border-b border-slate-200 text-base text-slate-500">
                                                     <th scope="col" className="py-2 pr-2 font-semibold">
@@ -271,9 +271,6 @@ export default function InicioProveedor({ perfil, conteo, pasos, solicitudPendie
                                                     <th scope="col" className="px-2 py-2 text-center font-semibold">
                                                         Contactos
                                                     </th>
-                                                    <th scope="col" className="px-2 py-2 text-center font-semibold">
-                                                        Elegido
-                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -284,7 +281,6 @@ export default function InicioProveedor({ perfil, conteo, pasos, solicitudPendie
                                                         </th>
                                                         <td className="px-2 py-3 text-center">{p.apariciones}</td>
                                                         <td className="px-2 py-3 text-center font-bold text-emerald-700">{p.contactos}</td>
-                                                        <td className="px-2 py-3 text-center">{p.elecciones}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
