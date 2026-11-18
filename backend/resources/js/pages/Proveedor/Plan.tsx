@@ -19,7 +19,7 @@ interface PlanPageProps {
     precios: Record<string, PrecioDuracion[]>;
     duraciones: Array<{ meses: number; descuento: number; etiqueta: string }>;
     metodos: Array<{ valor: string; etiqueta: string }>;
-    pago: { titular: string; yape_plin: string; banco: string; cuenta: string; cci: string; es_ejemplo: boolean };
+    pago: { titular: string; yape_plin: string; banco: string | null; cuenta: string | null; cci: string | null };
     solicitudes: SolicitudPlanResumen[];
 }
 
@@ -146,7 +146,7 @@ export default function PlanProveedorPage({ perfil, planes, precios, duraciones,
                 perfil={perfil}
                 seccion="plan"
                 titulo="Elige tu plan"
-                descripcion="Más visibilidad, más clientes. Paga por Yape, Plin o banco y sube tu comprobante: lo activamos al revisarlo."
+                descripcion={`Más visibilidad, más clientes. Paga por Yape o Plin al ${pago.yape_plin} y sube tu comprobante: lo activamos al revisarlo.`}
             >
                 <div className="flex flex-col items-center gap-3">
                     <p className="text-lg font-semibold text-slate-700">¿Por cuánto tiempo?</p>
@@ -356,16 +356,21 @@ export default function PlanProveedorPage({ perfil, planes, precios, duraciones,
                                 {precioElegido.ahorro > 0 && <> · ahorras {soles(precioElegido.ahorro)}</>}. A nombre de{' '}
                                 <strong className="text-white">{pago.titular}</strong>.
                             </p>
-                            {pago.es_ejemplo && (
-                                <p className="bg-sun-400 text-ink-900 rounded-xl p-3 text-base font-semibold">
-                                    Datos de pago de ejemplo: el administrador aún debe configurarlos.
+                            <div className="rounded-2xl bg-white p-5 text-center text-slate-900">
+                                <p className="flex items-center justify-center gap-2 text-base font-bold text-slate-600">
+                                    <Smartphone aria-hidden="true" className="text-primary-700 size-5" /> Yape o Plin
                                 </p>
-                            )}
-                            <div className="space-y-2 text-slate-900">
-                                <DatoCopiable etiqueta="Yape o Plin" valor={pago.yape_plin} Icono={Smartphone} />
-                                <DatoCopiable etiqueta={`Cuenta ${pago.banco}`} valor={pago.cuenta} Icono={Landmark} />
-                                <DatoCopiable etiqueta="CCI (otros bancos)" valor={pago.cci} Icono={Landmark} />
+                                <p className="font-display mt-1 text-4xl font-extrabold tracking-wide">{pago.yape_plin}</p>
+                                <p className="mt-1 text-base text-slate-600">
+                                    Monto exacto: <strong className="text-slate-900">{soles(precioElegido.monto)}</strong>
+                                </p>
                             </div>
+                            <div className="space-y-2 text-slate-900">
+                                <DatoCopiable etiqueta="Número de Yape o Plin" valor={pago.yape_plin} Icono={Smartphone} />
+                                {pago.cuenta && <DatoCopiable etiqueta={`Cuenta ${pago.banco ?? 'bancaria'}`} valor={pago.cuenta} Icono={Landmark} />}
+                                {pago.cci && <DatoCopiable etiqueta="CCI (otros bancos)" valor={pago.cci} Icono={Landmark} />}
+                            </div>
+                            <p className="text-base text-slate-300">Luego toma una captura del comprobante y súbela en el paso 2.</p>
                         </div>
 
                         <form onSubmit={enviar} noValidate className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">

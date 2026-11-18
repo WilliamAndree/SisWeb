@@ -1,14 +1,134 @@
 [
   {
-    "tag": "DIV",
-    "classes": "flex items-center gap-2 self-start sm:self-center",
-    "text": "Croquis 2DMi expedienteIr al Dashboard",
-    "right": 387.0625
+    "tag": "SECTION",
+    "classes": "rounded-3xl border border-slate-200 bg-white p-5 sm:p-8",
+    "text": "Tus productos con más interésProductoVistasContactosElegidoExtintor PQS 6 kg120157",
+    "right": 537.5
   },
   {
-    "tag": "A",
-    "classes": "inline-flex min-h-[44px] items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95",
-    "text": "Ir al Dashboard",
-    "right": 387.0625
+    "tag": "H2",
+    "classes": "font-display text-2xl font-bold text-slate-900",
+    "text": "Tus productos con más interés",
+    "right": 515.25
+  },
+  {
+    "tag": "DIV",
+    "classes": "mt-4 overflow-x-auto",
+    "text": "ProductoVistasContactosElegidoExtintor PQS 6 kg120157",
+    "right": 515.25
+  },
+  {
+    "tag": "TABLE",
+    "classes": "w-full min-w-[28rem] text-left text-lg",
+    "text": "ProductoVistasContactosElegidoExtintor PQS 6 kg120157",
+    "right": 515.25
+  },
+  {
+    "tag": "THEAD",
+    "classes": "",
+    "text": "ProductoVistasContactosElegido",
+    "right": 515.25
+  },
+  {
+    "tag": "TR",
+    "classes": "border-b border-slate-200 text-base text-slate-500",
+    "text": "ProductoVistasContactosElegido",
+    "right": 515.25
+  },
+  {
+    "tag": "TH",
+    "classes": "px-2 py-2 text-center font-semibold",
+    "text": "Contactos",
+    "right": 424.609375
+  },
+  {
+    "tag": "TH",
+    "classes": "px-2 py-2 text-center font-semibold",
+    "text": "Elegido",
+    "right": 515.25
+  },
+  {
+    "tag": "TBODY",
+    "classes": "",
+    "text": "Extintor PQS 6 kg120157",
+    "right": 515.25
+  },
+  {
+    "tag": "TR",
+    "classes": "border-b border-slate-100 last:border-0",
+    "text": "Extintor PQS 6 kg120157",
+    "right": 515.25
+  },
+  {
+    "tag": "TD",
+    "classes": "px-2 py-3 text-center font-bold text-emerald-700",
+    "text": "15",
+    "right": 424.609375
+  },
+  {
+    "tag": "TD",
+    "classes": "px-2 py-3 text-center",
+    "text": "7",
+    "right": 515.25
+  },
+  {
+    "tag": "DIV",
+    "classes": "grid gap-4",
+    "text": " Productos publicados2 / 51 visibles para los clientes Mi planBásicoGratis, sin fecha de v",
+    "right": 537.5
+  },
+  {
+    "tag": "ARTICLE",
+    "classes": "rounded-2xl border border-slate-200 bg-white p-5",
+    "text": " Productos publicados2 / 51 visibles para los clientes",
+    "right": 537.5
+  },
+  {
+    "tag": "P",
+    "classes": "flex items-center gap-2 text-base font-bold text-slate-600",
+    "text": " Productos publicados",
+    "right": 515.25
+  },
+  {
+    "tag": "P",
+    "classes": "mt-2 text-2xl font-extrabold text-slate-900",
+    "text": "2 / 5",
+    "right": 515.25
+  },
+  {
+    "tag": "DIV",
+    "classes": "mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100",
+    "text": "",
+    "right": 515.25
+  },
+  {
+    "tag": "P",
+    "classes": "mt-2 text-base text-slate-600",
+    "text": "1 visibles para los clientes",
+    "right": 515.25
+  },
+  {
+    "tag": "ARTICLE",
+    "classes": "bg-ink-900 rounded-2xl p-5 text-white",
+    "text": " Mi planBásicoGratis, sin fecha de vencimientoRegistrar una venta ",
+    "right": 537.5
+  },
+  {
+    "tag": "P",
+    "classes": "text-sun-300 flex items-center gap-2 text-base font-bold",
+    "text": " Mi plan",
+    "right": 516.25
+  },
+  {
+    "tag": "P",
+    "classes": "mt-2 text-2xl font-extrabold",
+    "text": "Básico",
+    "right": 516.25
+  },
+  {
+    "tag": "P",
+    "classes": "mt-1 text-base text-slate-300",
+    "text": "Gratis, sin fecha de vencimiento",
+    "right": 516.25
   }
 ]

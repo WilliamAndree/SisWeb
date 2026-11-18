@@ -24,10 +24,55 @@ function claseEnlace(activo: boolean, movil = false): string {
     return `${base} ${estado} transition ${claseFoco}`;
 }
 
+/**
+ * Cada tipo de cuenta ve solo lo que usa: el administrador sus secciones de
+ * revisión, el proveedor las de su negocio y el emprendedor el sitio público.
+ */
+function enlacesPorCuenta(usuario: Usuario | null, esInicio: boolean, url: string): EnlaceNav[] {
+    if (usuario?.tipo_cuenta === 'admin') {
+        const seccion = new URLSearchParams(url.split('?')[1] ?? '').get('seccion') ?? 'resumen';
+        const enAdmin = Boolean(route().current('admin.*'));
+        return [
+            ['resumen', 'Resumen'],
+            ['pagos', 'Pagos'],
+            ['negocios', 'Negocios'],
+            ['vencimientos', 'Vencimientos'],
+        ].map(([clave, etiqueta]) => ({
+            etiqueta,
+            href: clave === 'resumen' ? route('admin.panel') : `${route('admin.panel')}?seccion=${clave}`,
+            activo: enAdmin && seccion === clave,
+        }));
+    }
+    if (usuario?.tipo_cuenta === 'proveedor') {
+        return [
+            ['proveedor.panel', 'Resumen'],
+            ['proveedor.productos', 'Mis productos'],
+            ['proveedor.ventas', 'Mis ventas'],
+            ['proveedor.perfil.editar', 'Mi negocio'],
+            ['proveedor.plan', 'Mi plan'],
+        ].map(([ruta, etiqueta]) => ({ etiqueta, href: route(ruta), activo: Boolean(route().current(ruta)) }));
+    }
+
+    const enlaces: EnlaceNav[] = [
+        { etiqueta: 'Inicio', href: route('autoevaluacion.index'), activo: esInicio },
+        { etiqueta: 'Cómo funciona', href: esInicio ? '#como-funciona' : '/#como-funciona', activo: false },
+        { etiqueta: 'Aliados técnicos', href: route('directorio.index'), activo: Boolean(route().current('directorio.*')) },
+    ];
+    if (usuario) {
+        enlaces.push({
+            etiqueta: 'Mi panel',
+            href: route('dashboard'),
+            activo: Boolean(route().current('dashboard') || route().current('mis-autoevaluaciones*')),
+        });
+    }
+    return enlaces;
+}
+
 export const Navbar: React.FC = () => {
     const [menuAbierto, setMenuAbierto] = useState(false);
     const menuButtonRef = useRef<HTMLButtonElement | null>(null);
-    const { auth } = usePage().props as { auth?: { user: Usuario | null } };
+    const { props, url } = usePage();
+    const { auth } = props as { auth?: { user: Usuario | null } };
     const usuario = auth?.user ?? null;
 
     useEffect(() => {
@@ -46,27 +91,13 @@ export const Navbar: React.FC = () => {
     const cerrarMenu = () => setMenuAbierto(false);
     const cerrarSesion = () => router.post(route('logout'));
 
-    const enlaces: EnlaceNav[] = [
-        { etiqueta: 'Inicio', href: route('autoevaluacion.index'), activo: esInicio },
-        { etiqueta: 'Cómo funciona', href: esInicio ? '#como-funciona' : '/#como-funciona', activo: false },
-        { etiqueta: 'Aliados técnicos', href: route('directorio.index'), activo: Boolean(route().current('directorio.*')) },
-    ];
     const esProveedor = usuario?.tipo_cuenta === 'proveedor';
     const esAdmin = usuario?.tipo_cuenta === 'admin';
     // Proveedores y administradores no evalúan locales: no ven el botón "Revisar mi local".
     const muestraCtaLocal = !esProveedor && !esAdmin;
-
-    if (esProveedor) {
-        enlaces.push({ etiqueta: 'Mi cuenta de proveedor', href: route('proveedor.panel'), activo: Boolean(route().current('proveedor.*')) });
-    } else if (esAdmin) {
-        enlaces.push({ etiqueta: 'Administración', href: route('admin.panel'), activo: Boolean(route().current('admin.*')) });
-    } else if (usuario) {
-        enlaces.push({
-            etiqueta: 'Mi panel',
-            href: route('dashboard'),
-            activo: Boolean(route().current('dashboard') || route().current('mis-autoevaluaciones*')),
-        });
-    }
+    const enlaces = enlacesPorCuenta(usuario, esInicio, url);
+    const subtituloMarca = (esAdmin && 'Administración') || (esProveedor && 'Proveedores') || 'Huancayo';
+    const inicioDeCuenta = (esAdmin && route('admin.panel')) || (esProveedor && route('proveedor.panel')) || route('autoevaluacion.index');
 
     const renderEnlace = (enlace: EnlaceNav, movil = false) => {
         const props = {
@@ -91,17 +122,13 @@ export const Navbar: React.FC = () => {
     return (
         <header className="border-b border-slate-200/70 bg-white/85 backdrop-blur-md print:hidden">
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-                <Link
-                    href={route('autoevaluacion.index')}
-                    onClick={cerrarMenu}
-                    className={`flex shrink-0 items-center gap-2.5 rounded-xl ${claseFoco}`}
-                >
+                <Link href={inicioDeCuenta} onClick={cerrarMenu} className={`flex shrink-0 items-center gap-2.5 rounded-xl ${claseFoco}`}>
                     <span className="bg-ink-900 flex size-9 items-center justify-center rounded-xl text-white">
                         <ShieldCheck aria-hidden="true" className="text-primary-300 size-5" />
                     </span>
                     <span className="leading-tight">
                         <span className="block text-base font-extrabold tracking-tight text-slate-900">CheckITSE</span>
-                        <span className="hidden text-[11px] font-medium text-slate-500 sm:block">Huancayo</span>
+                        <span className="hidden text-[11px] font-medium text-slate-500 sm:block">{subtituloMarca}</span>
                     </span>
                 </Link>
 

@@ -8,6 +8,8 @@ use App\Models\OfertaProveedor;
 use App\Models\ProveedorRecurso;
 use App\Models\SolicitudPlan;
 use App\Models\User;
+use App\Models\VentaProveedor;
+use App\Services\EstadisticasProveedorService;
 use App\Services\PlanesProveedorService;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\RedirectResponse;
@@ -38,7 +40,10 @@ class ProveedorPanelController extends Controller
 
     private const DISTRITOS = ['Huancayo', 'El Tambo', 'Chilca'];
 
-    public function __construct(private readonly PlanesProveedorService $planes) {}
+    public function __construct(
+        private readonly PlanesProveedorService $planes,
+        private readonly EstadisticasProveedorService $estadisticas,
+    ) {}
 
     /**
      * Resumen: estado de revisión, plan, productos y los pasos que faltan.
@@ -64,7 +69,94 @@ class ProveedorPanelController extends Controller
             ],
             'solicitudPendiente' => $pendiente ? $this->datosSolicitud($pendiente) : null,
             'planes' => $this->planes->planes(),
+            'estadisticas' => $perfil ? $this->estadisticas->resumen($perfil) : null,
         ]);
+    }
+
+    /**
+     * Mis ventas: lo que el proveedor vendió, con totales por mes.
+     */
+    public function ventas(Request $request): Response
+    {
+        /** @var ProveedorRecurso|null $perfil */
+        $perfil = $this->proveedorAutenticado($request)->proveedor()->with('ofertas')->first();
+        $ventas = $perfil ? $perfil->ventas()->with('oferta')->orderByDesc('fecha')->orderByDesc('id')->limit(200)->get() : collect();
+        $mesActual = now()->format('Y-m');
+        $mesAnterior = now()->subMonthNoOverflow()->format('Y-m');
+        $porMes = $ventas->groupBy(fn ($v): string => $v->fecha->format('Y-m'));
+
+        return Inertia::render('Proveedor/Ventas', [
+            'perfil' => $perfil ? $this->resumenPerfil($perfil) : null,
+            'ventas' => $ventas->map(fn (VentaProveedor $v): array => [
+                'id' => $v->id,
+                'descripcion' => $v->descripcion,
+                'producto' => $v->oferta?->nombre,
+                'cantidad' => $v->cantidad,
+                'monto_soles' => (float) $v->monto_soles,
+                'fecha' => $v->fecha->toDateString(),
+                'cliente' => $v->cliente,
+            ])->values(),
+            'totales' => [
+                'mes' => (float) $porMes->get($mesActual, collect())->sum('monto_soles'),
+                'mes_anterior' => (float) $porMes->get($mesAnterior, collect())->sum('monto_soles'),
+                'ventas_mes' => $porMes->get($mesActual, collect())->count(),
+                'historico' => (float) $ventas->sum('monto_soles'),
+            ],
+            'productos' => $perfil ? $perfil->ofertas->sortBy('nombre')->values()->map(fn (OfertaProveedor $o): array => [
+                'id' => $o->id,
+                'nombre' => $o->nombre,
+                'precio_soles' => (float) $o->precio_soles,
+                'stock' => $o->stock,
+            ]) : [],
+        ]);
+    }
+
+    /**
+     * Registra una venta. Si viene de un producto con unidades disponibles, las descuenta.
+     */
+    public function guardarVenta(Request $request): RedirectResponse
+    {
+        $perfil = $this->perfilObligatorio($request);
+        $datos = $request->validate([
+            'oferta_id' => ['nullable', 'integer', Rule::exists('ofertas_proveedor', 'id')->where('proveedor_recurso_id', $perfil->id)],
+            'descripcion' => ['nullable', 'required_without:oferta_id', 'string', 'max:160'],
+            'cantidad' => ['required', 'integer', 'min:1', 'max:10000'],
+            'monto_soles' => ['required', 'numeric', 'min:0.5', 'max:1000000'],
+            'fecha' => ['required', 'date', 'before_or_equal:today'],
+            'cliente' => ['nullable', 'string', 'max:120'],
+            'descontar_stock' => ['boolean'],
+        ], [
+            'descripcion.required_without' => 'Elige un producto o escribe qué vendiste.',
+            'cantidad.required' => 'Escribe cuántas unidades vendiste.',
+            'monto_soles.required' => 'Escribe el monto total de la venta.',
+            'fecha.before_or_equal' => 'La fecha no puede ser futura.',
+        ]);
+
+        /** @var OfertaProveedor|null $oferta */
+        $oferta = isset($datos['oferta_id']) ? $perfil->ofertas()->find($datos['oferta_id']) : null;
+
+        $perfil->ventas()->create([
+            'oferta_proveedor_id' => $oferta?->id,
+            'descripcion' => ($datos['descripcion'] ?? null) ?: $oferta?->nombre,
+            'cantidad' => $datos['cantidad'],
+            'monto_soles' => $datos['monto_soles'],
+            'fecha' => $datos['fecha'],
+            'cliente' => $datos['cliente'] ?? null,
+        ]);
+
+        if ($oferta !== null && $oferta->stock !== null && $request->boolean('descontar_stock', true)) {
+            $oferta->update(['stock' => max(0, $oferta->stock - (int) $datos['cantidad'])]);
+        }
+
+        return back()->with('success', 'Venta registrada.');
+    }
+
+    public function eliminarVenta(Request $request, VentaProveedor $venta): RedirectResponse
+    {
+        abort_if($venta->proveedor_recurso_id !== $this->perfilObligatorio($request)->id, 404);
+        $venta->delete();
+
+        return back()->with('success', 'Venta eliminada.');
     }
 
     /**

@@ -1,13 +1,14 @@
 import { ESTADO_NEGOCIO, fechaCorta, type PerfilResumen } from '@/types/proveedor';
 import { Link, usePage } from '@inertiajs/react';
-import { AlertTriangle, CheckCircle2, Crown, Eye, LayoutDashboard, Package, Store } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Crown, Eye, LayoutDashboard, Package, Store, Wallet } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-export type SeccionProveedor = 'inicio' | 'productos' | 'perfil' | 'plan';
+export type SeccionProveedor = 'inicio' | 'productos' | 'ventas' | 'perfil' | 'plan';
 
 const SECCIONES: ReadonlyArray<{ clave: SeccionProveedor; texto: string; ruta: string; Icono: typeof Store }> = [
     { clave: 'inicio', texto: 'Resumen', ruta: 'proveedor.panel', Icono: LayoutDashboard },
-    { clave: 'productos', texto: 'Mis productos', ruta: 'proveedor.productos', Icono: Package },
+    { clave: 'productos', texto: 'Productos', ruta: 'proveedor.productos', Icono: Package },
+    { clave: 'ventas', texto: 'Ventas', ruta: 'proveedor.ventas', Icono: Wallet },
     { clave: 'perfil', texto: 'Mi negocio', ruta: 'proveedor.perfil.editar', Icono: Store },
     { clave: 'plan', texto: 'Mi plan', ruta: 'proveedor.plan', Icono: Crown },
 ];
@@ -46,11 +47,19 @@ export function CuentaProveedor({ perfil, seccion, titulo, descripcion, children
                             <Crown aria-hidden="true" className="text-sun-300 size-4" /> Plan {perfil?.plan_nombre ?? 'Básico'}
                             {perfil?.plan_vence_el && <span className="font-medium text-slate-300">· hasta {fechaCorta(perfil.plan_vence_el)}</span>}
                         </span>
+                        {perfil?.publicado && (
+                            <Link
+                                href={route('directorio.index')}
+                                className="hidden min-h-9 items-center gap-1.5 rounded-full bg-white px-4 text-base font-bold text-slate-900 hover:bg-slate-100 lg:inline-flex"
+                            >
+                                <Eye aria-hidden="true" className="size-4" /> Ver cómo me ven
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>
 
-            <nav aria-label="Secciones de mi cuenta" className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <nav aria-label="Secciones de mi cuenta" className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap lg:hidden">
                 {SECCIONES.map(({ clave, texto, ruta, Icono }) => {
                     const activa = clave === seccion;
                     return (

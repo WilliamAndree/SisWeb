@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SolicitudAfiliacionRequest;
+use App\Models\EventoProveedor;
 use App\Models\SolicitudAfiliacion;
 use App\Services\DirectorioAliadosService;
+use App\Services\EstadisticasProveedorService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,7 +31,7 @@ class DirectorioController extends Controller
 
     protected DirectorioAliadosService $directorioAliados;
 
-    public function __construct(DirectorioAliadosService $directorioAliados)
+    public function __construct(DirectorioAliadosService $directorioAliados, private readonly EstadisticasProveedorService $estadisticas)
     {
         $this->directorioAliados = $directorioAliados;
     }
@@ -63,6 +65,12 @@ class DirectorioController extends Controller
                 return str_contains($sede, $distritoFiltro) || str_contains($cobertura, $distritoFiltro);
             }));
         }
+
+        // Cada ficha con cuenta propia mostrada cuenta como una vista para su proveedor.
+        $this->estadisticas->registrarVarios(EventoProveedor::VISTA_FICHA, array_values(array_filter(array_map(
+            fn (array $aliado): ?array => preg_match('/^PRV-(\d+)$/', (string) ($aliado['id'] ?? ''), $m) ? [(int) $m[1], null] : null,
+            $aliados,
+        ))));
 
         return Inertia::render('Directorio/Index', [
             'aliados' => $aliados,

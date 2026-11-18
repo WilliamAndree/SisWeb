@@ -80,5 +80,8 @@ export const ESTADO_PAGO: Record<SolicitudPlanResumen['estado'], { texto: string
 export const soles = (monto: number) =>
     `S/ ${monto.toLocaleString('es-PE', { minimumFractionDigits: monto % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}`;
 
+/** "+12%" o "-5%": variación frente al periodo anterior. */
+export const porcentajeCambio = (cambio: number) => `${cambio > 0 ? '+' : ''}${cambio}%`;
+
 export const fechaCorta = (iso: string | null) =>
     iso ? new Date(`${iso.slice(0, 10)}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'short', year: 'numeric' }) : '';

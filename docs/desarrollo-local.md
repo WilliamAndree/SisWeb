@@ -42,7 +42,8 @@ Crea (o reinicia) dos cuentas con la contraseña `CheckItse2026!`. Solo funciona
 | Cuenta | Para qué |
 | --- | --- |
 | `admin@checkitse.local` | Administración (`/admin`): aprobar el negocio y el pago pendientes |
-| `proveedor@checkitse.local` | Cuenta de proveedor con 3 productos, el negocio en revisión y un pago de S/ 132 por revisar |
+| `proveedor@checkitse.local` | Cuenta de proveedor con 3 productos, 6 meses de visitas y ventas, el negocio en revisión y un pago de S/ 132 por revisar |
+| `proveedor2@checkitse.local` | Negocio publicado con plan Premium que vence en 4 días: sirve para probar el recordatorio por WhatsApp |
 
 Cada vez que lo ejecutas, el escenario vuelve a quedar pendiente para revisarlo de nuevo.
 

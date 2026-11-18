@@ -8,6 +8,7 @@ use App\Http\Requests\StoreAutoevaluacionRequest;
 use App\Http\Requests\StoreChecklistDeclaracionesRequest;
 use App\Models\Autoevaluacion;
 use App\Models\CriterioNormativo;
+use App\Models\EventoProveedor;
 use App\Models\HistorialSubsanacion;
 use App\Models\RespuestaAutoevaluacion;
 use App\Models\SimulacionRevision;
@@ -15,6 +16,7 @@ use App\Models\Subsanacion;
 use App\Services\AI\AnalisisEvidenciaService;
 use App\Services\ApplicabilityEngineService;
 use App\Services\DirectorioAliadosService;
+use App\Services\EstadisticasProveedorService;
 use App\Services\Evaluacion\EvaluacionSyncService;
 use App\Services\Evaluacion\EvidenciaPrivadaService;
 use App\Services\Evaluacion\IntegridadEvaluacionService;
@@ -602,6 +604,16 @@ class EvaluacionController extends Controller
         $itemsObservados = $itemsObservados->map(fn (array $item): array => $item + [
             'asistencia' => $this->construirAsistenciaTecnica($item['codigo'] ?? null, $item['titulo'] ?? null, $item['norma_base'] ?? null),
         ]);
+
+        // Cada producto mostrado cuenta como una aparición para su proveedor.
+        app(EstadisticasProveedorService::class)->registrarVarios(
+            EventoProveedor::APARICION,
+            $itemsObservados->flatMap(fn (array $item): array => $item['asistencia']['ofertas'] ?? [])
+                ->filter(fn (array $oferta): bool => isset($oferta['proveedor_id']))
+                ->map(fn (array $oferta): array => [(int) $oferta['proveedor_id'], (int) $oferta['id']])
+                ->values()
+                ->all(),
+        );
 
         return Inertia::render('Evaluacion/SubsanacionDirecta', [
             'autoevaluacion' => [

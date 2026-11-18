@@ -1,3 +1,4 @@
+import { registrarEvento } from '@/lib/eventos';
 import type { AliadoAsistenciaContrato } from '@/types/contrato';
 import { Check, Copy, ExternalLink, FileCheck, MapPin, MessageCircle, Phone, ShieldCheck, X } from 'lucide-react';
 import { useState } from 'react';
@@ -132,6 +133,7 @@ export function ModalContactoProveedor({ isOpen, onClose, aliado, distritoSelecc
                             href={urlWhatsapp}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => registrarEvento('clic_whatsapp', { proveedor: aliado.id })}
                             className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 sm:flex-1"
                         >
                             <MessageCircle className="h-4 w-4" />

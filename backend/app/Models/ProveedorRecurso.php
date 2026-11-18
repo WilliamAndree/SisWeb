@@ -63,6 +63,7 @@ class ProveedorRecurso extends Model
         'revisado_en',
         'plan',
         'plan_vence_el',
+        'recordatorio_enviado_el',
     ];
 
     protected $casts = [
@@ -72,6 +73,7 @@ class ProveedorRecurso extends Model
         'verificado' => 'boolean',
         'revisado_en' => 'datetime',
         'plan_vence_el' => 'date',
+        'recordatorio_enviado_el' => 'datetime',
     ];
 
     public function categoria(): BelongsTo
@@ -92,6 +94,16 @@ class ProveedorRecurso extends Model
     public function solicitudesPlan(): HasMany
     {
         return $this->hasMany(SolicitudPlan::class, 'proveedor_recurso_id');
+    }
+
+    public function eventos(): HasMany
+    {
+        return $this->hasMany(EventoProveedor::class, 'proveedor_recurso_id');
+    }
+
+    public function ventas(): HasMany
+    {
+        return $this->hasMany(VentaProveedor::class, 'proveedor_recurso_id');
     }
 
     /** Activos y aprobados: los únicos que ven los clientes. */

@@ -264,7 +264,7 @@
       "h1": 1,
       "width": 320,
       "content": 305,
-      "title": "Resumen de tu negocio",
+      "title": "Así va tu negocio",
       "missingLabels": 0
     },
     {
@@ -272,7 +272,7 @@
       "h1": 1,
       "width": 390,
       "content": 375,
-      "title": "Resumen de tu negocio",
+      "title": "Así va tu negocio",
       "missingLabels": 0
     },
     {
@@ -280,7 +280,7 @@
       "h1": 1,
       "width": 768,
       "content": 753,
-      "title": "Resumen de tu negocio",
+      "title": "Así va tu negocio",
       "missingLabels": 0
     },
     {
@@ -288,7 +288,7 @@
       "h1": 1,
       "width": 1440,
       "content": 1425,
-      "title": "Resumen de tu negocio",
+      "title": "Así va tu negocio",
       "missingLabels": 0
     },
     {
@@ -321,6 +321,38 @@
       "width": 1440,
       "content": 1425,
       "title": "Mis productos",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Ventas",
+      "h1": 1,
+      "width": 320,
+      "content": 305,
+      "title": "Mis ventas",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Ventas",
+      "h1": 1,
+      "width": 390,
+      "content": 375,
+      "title": "Mis ventas",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Ventas",
+      "h1": 1,
+      "width": 768,
+      "content": 753,
+      "title": "Mis ventas",
+      "missingLabels": 0
+    },
+    {
+      "pantalla": "Ventas",
+      "h1": 1,
+      "width": 1440,
+      "content": 1425,
+      "title": "Mis ventas",
       "missingLabels": 0
     },
     {
@@ -392,7 +424,7 @@
       "h1": 1,
       "width": 320,
       "content": 305,
-      "title": "Revisión de pagos y negocios",
+      "title": "Resumen del negocio",
       "missingLabels": 0
     },
     {
@@ -400,7 +432,7 @@
       "h1": 1,
       "width": 390,
       "content": 375,
-      "title": "Revisión de pagos y negocios",
+      "title": "Resumen del negocio",
       "missingLabels": 0
     },
     {
@@ -408,7 +440,7 @@
       "h1": 1,
       "width": 768,
       "content": 753,
-      "title": "Revisión de pagos y negocios",
+      "title": "Resumen del negocio",
       "missingLabels": 0
     },
     {
@@ -416,7 +448,7 @@
       "h1": 1,
       "width": 1440,
       "content": 1425,
-      "title": "Revisión de pagos y negocios",
+      "title": "Resumen del negocio",
       "missingLabels": 0
     },
     {

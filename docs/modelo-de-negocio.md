@@ -23,10 +23,20 @@ Pagar por adelantado sale más barato: 3 meses con 10 % de descuento (Destacado 
 
 ## Cobro con comprobante y administración
 
-1. El proveedor elige plan y duración, paga por **Yape, Plin, transferencia o depósito** a la cuenta configurada en `.env` (`CHECKITSE_PAGO_*`) y sube la foto o PDF del comprobante con su número de operación.
+1. El proveedor elige plan y duración, paga por **Yape o Plin al 904 249 285** (configurable en `.env` con `CHECKITSE_PAGO_YAPE`; la cuenta bancaria aparece solo si se completa `CHECKITSE_PAGO_CUENTA`) y sube la foto o PDF del comprobante con su número de operación.
 2. Se guarda en `solicitudes_plan` como **pendiente**, con el archivo privado (`storage/app/private/pagos`) y su huella SHA-256. Un mismo número de operación no se puede usar dos veces ni enviar otro pago mientras uno está en revisión.
-3. Un **administrador** (`/admin`) ve el comprobante y lo **aprueba** (el plan se activa y vence según los meses pagados; si renueva el mismo plan, se suma al final) o lo **rechaza con un motivo** que el proveedor lee en su cuenta. Queda registrado quién revisó y cuándo.
+3. Un **administrador** (`/admin`) ve el comprobante y lo **aprueba**: el plan se activa y vence según los meses pagados (si renueva el mismo plan, se suma al final) y, si el negocio seguía en revisión, **queda publicado en el mismo paso** o lo **rechaza con un motivo** que el proveedor lee en su cuenta. Queda registrado quién revisó y cuándo.
 4. Cada madrugada `checkitse:vencer-planes` devuelve a Básico los planes vencidos. Aunque no corra, la aplicación ya trata un plan vencido como Básico.
+
+**Seguimiento para el administrador** (`/admin`, solo ve sus secciones: Resumen, Pagos, Negocios, Vencimientos):
+
+- **Resumen:** tareas del día, ingresos del mes (contra el mes anterior), del año e histórico, renovaciones esperadas en 30 días, gráfico de 6 meses, ingresos por plan y por medio de pago, y últimos cobros.
+- **Vencimientos:** planes por vencer (7 días), vencidos y vigentes, con el botón **Recordar por WhatsApp**: abre WhatsApp con el mensaje listo (plan, fecha, enlace para renovar y número de Yape) y guarda la fecha del aviso.
+
+**Cuenta del proveedor** (solo ve: Resumen, Mis productos, Mis ventas, Mi negocio, Mi plan):
+
+- **Resumen:** cuántas veces lo vieron, cuántos le escribieron por WhatsApp, cuántos eligieron su producto y cuánto vendió (últimos 30 días y gráfico de 6 meses), y sus productos con más interés. Se registra en `eventos_proveedor` una vez por visitante y día.
+- **Mis ventas:** registra cada venta (producto, cantidad, monto, cliente); descuenta las unidades disponibles y muestra los totales por mes (`ventas_proveedor`).
 
 **Aprobación de negocios:** un proveedor nuevo queda **en revisión** y no lo ven los clientes hasta que el administrador lo aprueba. El administrador también puede **pedir correcciones** (el negocio vuelve a revisión cuando el proveedor guarda sus cambios) o **suspenderlo**.
 

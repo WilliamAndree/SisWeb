@@ -319,6 +319,7 @@ class DirectorioAliadosService
                 'descripcion' => $o->descripcion,
                 'precio_soles' => (float) $o->precio_soles,
                 'unidad' => $o->unidad,
+                'proveedor_id' => $o->proveedor_recurso_id,
                 'proveedor' => $this->transformarProveedor($o->proveedor),
             ])
             ->values()

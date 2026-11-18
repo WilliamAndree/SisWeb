@@ -251,3 +251,71 @@ test('el registro público no permite crear administradores', function () {
 
     expect(User::where('email', 'intruso@example.test')->exists())->toBeFalse();
 });
+
+test('aprobar el pago de un negocio en revisión también lo publica', function () {
+    $proveedor = negocioProveedor();
+    actingAs($proveedor)->post(route('proveedor.plan.solicitar'), datosPago());
+
+    actingAs(administrador())->post(route('admin.pagos.aprobar', ['solicitud' => SolicitudPlan::sole()->id]))
+        ->assertSessionHas('success', fn (string $mensaje) => str_contains($mensaje, 'quedó publicado'));
+
+    actingAs($proveedor)->get(route('proveedor.panel'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Proveedor/Inicio')
+            ->where('perfil.estado_revision', 'aprobado')
+            ->where('perfil.publicado', true)
+            ->where('perfil.plan', 'destacado')
+            ->where('pasos.3.hecho', true)
+        );
+});
+
+test('un negocio suspendido no se publica aunque paguen su plan', function () {
+    $proveedor = negocioProveedor(ProveedorRecurso::ESTADO_SUSPENDIDO);
+    actingAs($proveedor)->post(route('proveedor.plan.solicitar'), datosPago());
+
+    actingAs(administrador())->post(route('admin.pagos.aprobar', ['solicitud' => SolicitudPlan::sole()->id]));
+
+    expect($proveedor->proveedor->fresh()->estado_revision)->toBe(ProveedorRecurso::ESTADO_SUSPENDIDO);
+});
+
+test('el administrador recuerda por WhatsApp un plan por vencer y queda registrado', function () {
+    $proveedor = negocioProveedor(ProveedorRecurso::ESTADO_APROBADO);
+    $negocio = $proveedor->proveedor;
+    $negocio->update(['plan' => 'premium', 'plan_vence_el' => today()->addDays(3)]);
+
+    actingAs(administrador())->get(route('admin.panel', ['seccion' => 'vencimientos']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('seccion', 'vencimientos')
+            ->where('resumen.por_vencer', 1)
+            ->where('vencimientos.0.estado', 'por_vencer')
+            ->where('vencimientos.0.dias', 3)
+            ->where('vencimientos.0.puede_recordar', true)
+        );
+
+    $respuesta = actingAs(administrador())->get(route('admin.negocios.recordatorio', ['proveedor' => $negocio->id]));
+    $destino = urldecode((string) $respuesta->headers->get('Location'));
+
+    expect($destino)->toStartWith('https://wa.me/51964112233?text=')
+        ->toContain('Premium')
+        ->toContain('904 249 285')
+        ->and($negocio->fresh()->recordatorio_enviado_el)->not->toBeNull();
+
+    actingAs($proveedor)->get(route('admin.negocios.recordatorio', ['proveedor' => $negocio->id]))->assertForbidden();
+});
+
+test('el resumen de ingresos suma los pagos aprobados por mes, plan y medio', function () {
+    $proveedor = negocioProveedor(ProveedorRecurso::ESTADO_APROBADO);
+    actingAs($proveedor)->post(route('proveedor.plan.solicitar'), datosPago(['meses' => 12, 'metodo_pago' => 'plin']));
+    actingAs(administrador())->post(route('admin.pagos.aprobar', ['solicitud' => SolicitudPlan::sole()->id]));
+
+    actingAs(administrador())->get(route('admin.panel'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('seccion', 'resumen')
+            ->where('ingresos.mes', 470)
+            ->where('ingresos.anio', 470)
+            ->where('ingresos.meses.5.monto', 470)
+            ->where('ingresos.por_plan.0.etiqueta', 'Destacado')
+            ->where('ingresos.por_metodo.0.etiqueta', 'Plin')
+            ->where('resumen.planes_pagados_activos', 1)
+        );
+});

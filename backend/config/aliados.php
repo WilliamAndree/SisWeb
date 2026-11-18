@@ -306,15 +306,14 @@ return [
     ],
 
     /*
-    | Dónde paga el proveedor. Configúralo en .env; mientras no lo hagas, la
-    | página avisa que son datos de ejemplo.
+    | Dónde paga el proveedor. Yape/Plin es el medio principal; la cuenta
+    | bancaria solo se muestra si se configura en .env.
     */
     'pago' => [
         'titular' => env('CHECKITSE_PAGO_TITULAR', 'CheckITSE Huancayo'),
-        'yape_plin' => env('CHECKITSE_PAGO_YAPE', '999 888 777'),
-        'banco' => env('CHECKITSE_PAGO_BANCO', 'BCP'),
-        'cuenta' => env('CHECKITSE_PAGO_CUENTA', '355-00000000-0-00'),
-        'cci' => env('CHECKITSE_PAGO_CCI', '002-355-000000000000-00'),
-        'es_ejemplo' => env('CHECKITSE_PAGO_YAPE') === null,
+        'yape_plin' => env('CHECKITSE_PAGO_YAPE', '904 249 285'),
+        'banco' => env('CHECKITSE_PAGO_BANCO'),
+        'cuenta' => env('CHECKITSE_PAGO_CUENTA'),
+        'cci' => env('CHECKITSE_PAGO_CCI'),
     ],
 ];

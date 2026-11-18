@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\EvaluacionController;
+use App\Http\Controllers\EventosProveedorController;
 use App\Http\Controllers\ExpedienteDigitalController;
 use App\Http\Controllers\MisRegistrosController;
 use App\Http\Controllers\PlanoEstablecimientoController;
@@ -19,26 +20,30 @@ use Illuminate\Support\Facades\Route;
 | estrella (A -> B, C), informe descargable y conversión opcional de cuenta.
 */
 
+/** Checklist dinámico: misma ruta para la página y para la API interna. */
+$rutaChecklist = '/{uuid}/checklist';
+
 // Portada pública y directorio
 Route::get('/', [EvaluacionController::class, 'index'])->name('autoevaluacion.index');
 Route::get('/directorio', [DirectorioController::class, 'index'])->name('directorio.index');
 Route::get('/directorio/anunciate', [DirectorioController::class, 'afiliacion'])->name('directorio.afiliacion');
 Route::post('/directorio/afiliarse', [DirectorioController::class, 'solicitarAfiliacion'])->name('directorio.afiliarse');
+Route::post('/eventos-proveedor', EventosProveedorController::class)->middleware('throttle:60,1')->name('eventos.proveedor');
 
 // Flujo de Autoevaluación Ciudadana
-Route::prefix('autoevaluacion')->name('autoevaluacion.')->group(function () {
+Route::prefix('autoevaluacion')->name('autoevaluacion.')->group(function () use ($rutaChecklist) {
     Route::redirect('/', '/autoevaluacion/nueva');
     Route::get('/nueva', [EvaluacionController::class, 'nueva'])->name('nueva');
     Route::post('/', [EvaluacionController::class, 'store'])->name('store');
 
     // Rutas asociadas a una autoevaluación específica (UUID)
-    Route::where(['uuid' => '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'])->group(function () {
+    Route::where(['uuid' => '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'])->group(function () use ($rutaChecklist) {
         // Redirección dinámica 302 a resumen (legacy compatible)
         Route::get('/resultado/{uuid}', [EvaluacionController::class, 'resultado'])->name('resultado');
 
         // Checklist dinámico normativo (Bloque 3 — Paso 3)
-        Route::get('/{uuid}/checklist', [EvaluacionController::class, 'checklistDinamico'])->name('checklist');
-        Route::post('/{uuid}/checklist', [EvaluacionController::class, 'guardarDeclaracionesChecklist'])->name('checklist.store');
+        Route::get($rutaChecklist, [EvaluacionController::class, 'checklistDinamico'])->name('checklist');
+        Route::post($rutaChecklist, [EvaluacionController::class, 'guardarDeclaracionesChecklist'])->name('checklist.store');
 
         // Resumen descriptivo y orientativo (Bloque 3 — Paso 5)
         Route::get('/{uuid}/resumen', [EvaluacionController::class, 'resumen'])->name('resumen');
@@ -110,9 +115,9 @@ Route::get('/evaluacion/create', [EvaluacionController::class, 'nueva'])->name('
 Route::get('/evaluacion/{uuid}', [EvaluacionController::class, 'resultado'])->name('evaluacion.show')->whereUuid('uuid');
 
 // APIs internas consumidas por componentes interactivos
-Route::prefix('api/autoevaluaciones')->name('api.autoevaluaciones.')->whereUuid('uuid')->group(function () {
-    Route::get('/{uuid}/checklist', [EvaluacionController::class, 'checklistDinamico'])->name('checklist');
-    Route::post('/{uuid}/checklist', [EvaluacionController::class, 'guardarDeclaracionesChecklist'])->name('checklist.store');
+Route::prefix('api/autoevaluaciones')->name('api.autoevaluaciones.')->whereUuid('uuid')->group(function () use ($rutaChecklist) {
+    Route::get($rutaChecklist, [EvaluacionController::class, 'checklistDinamico'])->name('checklist');
+    Route::post($rutaChecklist, [EvaluacionController::class, 'guardarDeclaracionesChecklist'])->name('checklist.store');
 });
 
 // Área personal del ciudadano registrado (requiere sesión activa)
@@ -136,6 +141,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/plan', [ProveedorPanelController::class, 'plan'])->name('plan');
         Route::post('/plan', [ProveedorPanelController::class, 'solicitarPlan'])->middleware('throttle:10,1')->name('plan.solicitar');
         Route::get('/plan/comprobante/{uuid}', [ProveedorPanelController::class, 'evidencia'])->whereUuid('uuid')->name('plan.comprobante');
+        Route::get('/ventas', [ProveedorPanelController::class, 'ventas'])->name('ventas');
+        Route::post('/ventas', [ProveedorPanelController::class, 'guardarVenta'])->name('ventas.store');
+        Route::delete('/ventas/{venta}', [ProveedorPanelController::class, 'eliminarVenta'])->whereNumber('venta')->name('ventas.destroy');
         Route::post('/ofertas', [ProveedorPanelController::class, 'guardarOferta'])->name('ofertas.store');
         Route::put('/ofertas/{oferta}', [ProveedorPanelController::class, 'actualizarOferta'])->whereNumber('oferta')->name('ofertas.update');
         Route::patch('/ofertas/{oferta}/estado', [ProveedorPanelController::class, 'alternarOferta'])->whereNumber('oferta')->name('ofertas.alternar');
@@ -149,6 +157,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/pagos/{solicitud}/aprobar', [AdminController::class, 'aprobarPago'])->whereNumber('solicitud')->name('pagos.aprobar');
         Route::post('/pagos/{solicitud}/rechazar', [AdminController::class, 'rechazarPago'])->whereNumber('solicitud')->name('pagos.rechazar');
         Route::post('/negocios/{proveedor}/revisar', [AdminController::class, 'revisarNegocio'])->whereNumber('proveedor')->name('negocios.revisar');
+        Route::get('/negocios/{proveedor}/recordatorio', [AdminController::class, 'recordatorio'])->whereNumber('proveedor')->name('negocios.recordatorio');
     });
 });
 

@@ -281,6 +281,7 @@ function TarjetaProducto({ oferta, onEditar }: Readonly<{ oferta: Oferta; onEdit
     const [confirmar, setConfirmar] = useState(false);
     const visual = visualDeItem(oferta.criterio_codigo);
     const agotado = oferta.stock === 0;
+    const claseImagen = oferta.activo ? '' : 'opacity-50 grayscale';
 
     return (
         <li
@@ -288,12 +289,7 @@ function TarjetaProducto({ oferta, onEditar }: Readonly<{ oferta: Oferta; onEdit
         >
             <div className="relative h-36 bg-slate-100">
                 {visual.imagen ? (
-                    <img
-                        src={visual.imagen}
-                        alt=""
-                        loading="lazy"
-                        className={`h-full w-full object-cover ${oferta.activo ? '' : 'opacity-50 grayscale'}`}
-                    />
+                    <img src={visual.imagen} alt="" loading="lazy" className={`h-full w-full object-cover ${claseImagen}`} />
                 ) : (
                     <span className="text-primary-700 flex h-full items-center justify-center">
                         <Package aria-hidden="true" className="size-12" />

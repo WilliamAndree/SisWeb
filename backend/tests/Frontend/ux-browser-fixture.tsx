@@ -17,8 +17,12 @@ import InicioProveedor from '../../resources/js/pages/Proveedor/Inicio';
 import PerfilProveedor from '../../resources/js/pages/Proveedor/Perfil';
 import PlanProveedorPage from '../../resources/js/pages/Proveedor/Plan';
 import ProductosProveedor from '../../resources/js/pages/Proveedor/Productos';
+import VentasProveedor from '../../resources/js/pages/Proveedor/Ventas';
 
 const pantalla = new URLSearchParams(location.search).get('pantalla') || 'Inicio';
+// Cada pantalla se ve con el tipo de cuenta que la usa, para validar su barra de navegación.
+const PANTALLAS_PROVEEDOR = ['Proveedor', 'Productos', 'Ventas', 'MiNegocio', 'Planes'];
+const tipoCuenta = (pantalla === 'Admin' && 'admin') || (PANTALLAS_PROVEEDOR.includes(pantalla) && 'proveedor') || 'cliente';
 const rutas: Record<string, string> = {
     'autoevaluacion.index': '/',
     'autoevaluacion.nueva': '/autoevaluacion/nueva',
@@ -205,6 +209,34 @@ const cuentaProveedor: Record<string, Record<string, unknown>> = {
         ],
         solicitudPendiente: null,
         planes: planesDemo,
+        estadisticas: {
+            ultimos_30_dias: { apariciones: 184, contactos: 23, mapa: 9, elecciones: 11 },
+            ventas_mes: { monto: 525, cantidad: 3 },
+            meses: ['2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11'].map((mes, i) => ({
+                mes,
+                apariciones: 60 + i * 25,
+                contactos: 6 + i * 3,
+                ventas: i * 120,
+            })),
+            top_productos: [{ oferta_id: 1, nombre: 'Extintor PQS 6 kg', apariciones: 120, contactos: 15, elecciones: 7 }],
+        },
+    },
+    Ventas: {
+        perfil: { ...perfilResumen, estado_revision: 'aprobado' as const, publicado: true },
+        ventas: [
+            {
+                id: 1,
+                descripcion: 'Extintor PQS 6 kg',
+                producto: 'Extintor PQS 6 kg',
+                cantidad: 2,
+                monto_soles: 270,
+                fecha: '2026-11-15',
+                cliente: 'Bodega Mery',
+            },
+            { id: 2, descripcion: 'Recarga PQS', producto: null, cantidad: 1, monto_soles: 40, fecha: '2026-10-02', cliente: null },
+        ],
+        totales: { mes: 270, mes_anterior: 40, ventas_mes: 1, historico: 310 },
+        productos: [{ id: 1, nombre: 'Extintor PQS 6 kg', precio_soles: 135, stock: 8 }],
     },
     Productos: {
         perfil: perfilResumen,
@@ -271,11 +303,10 @@ const cuentaProveedor: Record<string, Record<string, unknown>> = {
         ],
         pago: {
             titular: 'CheckITSE Huancayo',
-            yape_plin: '999 888 777',
-            banco: 'BCP',
-            cuenta: '355-00000000-0-00',
-            cci: '002-355-000000000000-00',
-            es_ejemplo: true,
+            yape_plin: '904 249 285',
+            banco: null,
+            cuenta: null,
+            cci: null,
         },
         solicitudes: [
             {
@@ -295,7 +326,37 @@ const cuentaProveedor: Record<string, Record<string, unknown>> = {
         ],
     },
     Admin: {
-        resumen: { pagos_pendientes: 1, negocios_pendientes: 1, ingresos_mes: 470, planes_pagados_activos: 3 },
+        seccion: 'resumen',
+        resumen: { pagos_pendientes: 1, negocios_pendientes: 1, negocios_publicados: 4, planes_pagados_activos: 3, por_vencer: 1, vencidos: 0 },
+        ingresos: {
+            mes: 470,
+            mes_anterior: 267,
+            anio: 1250,
+            total: 1250,
+            esperado_30_dias: 99,
+            meses: ['2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11'].map((mes, i) => ({
+                mes,
+                monto: [49, 99, 0, 267, 267, 470][i],
+            })),
+            por_plan: [{ etiqueta: 'Destacado', monto: 700, cantidad: 4 }],
+            por_metodo: [{ etiqueta: 'Yape', monto: 900, cantidad: 5 }],
+            ultimos: [{ id: 3, negocio: 'Señales Wanka', plan: 'Premium', meses: 3, monto_soles: 267, metodo_pago: 'Yape', fecha: '2026-11-10' }],
+        },
+        vencimientos: [
+            {
+                id: 9,
+                negocio: 'Señales Wanka',
+                responsable: 'Andrés',
+                whatsapp: '904249285',
+                plan: 'Premium',
+                precio_mes: 99,
+                vence_el: '2026-11-21',
+                dias: 4,
+                estado: 'por_vencer',
+                recordatorio_enviado_el: null,
+                puede_recordar: true,
+            },
+        ],
         filtros: { pagos: 'pendiente', negocios: 'pendiente' },
         solicitudes: [
             {
@@ -372,7 +433,7 @@ const documentosExpediente = [
     },
 ];
 const props = {
-    auth: { user: { id: 1, name: 'Persona sintética', email: 'fixture@example.test' } },
+    auth: { user: { id: 1, name: 'Persona sintética', email: 'fixture@example.test', tipo_cuenta: tipoCuenta } },
     errors: {},
     ...(pantalla === 'Condiciones'
         ? {
@@ -429,6 +490,7 @@ const pages = {
     Registro: Register,
     Proveedor: InicioProveedor,
     Productos: ProductosProveedor,
+    Ventas: VentasProveedor,
     MiNegocio: PerfilProveedor,
     Planes: PlanProveedorPage,
     Admin: AdminPanel,

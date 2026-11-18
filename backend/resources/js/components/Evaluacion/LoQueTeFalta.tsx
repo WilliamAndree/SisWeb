@@ -1,4 +1,5 @@
 import type { AliadoAsistencia, CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
+import { registrarEvento } from '@/lib/eventos';
 import { enlaceWhatsapp, mapaProveedor, visualDeItem, type IconoItem } from '@/lib/item-visual';
 import { Link } from '@inertiajs/react';
 import {
@@ -113,6 +114,20 @@ function guia(asistencia?: CriterioAsistencia | null): string[] {
     return (Array.isArray(g) ? g : [g]).slice(0, 3);
 }
 
+function precioTarjeta(precioElegido?: number, rangoTexto?: string): string {
+    if (precioElegido !== undefined) return soles(precioElegido);
+    return rangoTexto ? `Desde ${rangoTexto.split(' a ')[0]}` : 'Sin precio aún';
+}
+
+function textoBotonMapa(abierto: boolean, exacto: boolean): string {
+    if (abierto) return 'Ocultar mapa';
+    return exacto ? 'Cómo llegar' : 'Ver zona';
+}
+
+function textoOfertas(cantidad: number): string {
+    return `Según ${cantidad} ${cantidad === 1 ? 'oferta' : 'ofertas'} de proveedores de Huancayo.`;
+}
+
 function leerSeleccion(clave?: string | null): Record<string, number> {
     if (!clave) return {};
     try {
@@ -126,7 +141,9 @@ function AccionesProveedor({
     proveedor,
     producto,
     nombreLocal,
-}: Readonly<{ proveedor: ProveedorOferta; producto: string; nombreLocal?: string | null }>) {
+    ofertaId,
+}: Readonly<{ proveedor: ProveedorOferta; producto: string; nombreLocal?: string | null; ofertaId?: number }>) {
+    const evento = { ofertaId, proveedor: proveedor.id };
     const [verMapa, setVerMapa] = useState(false);
     const whatsapp = enlaceWhatsapp(proveedor.whatsapp || proveedor.telefono || '', producto, nombreLocal);
     const mapa = mapaProveedor(proveedor);
@@ -138,6 +155,7 @@ function AccionesProveedor({
                         href={whatsapp}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => registrarEvento('clic_whatsapp', evento)}
                         className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-emerald-600 px-4 text-base font-bold text-white hover:bg-emerald-700"
                     >
                         <MessageCircle aria-hidden="true" className="size-5" /> WhatsApp
@@ -146,10 +164,13 @@ function AccionesProveedor({
                 <button
                     type="button"
                     aria-expanded={verMapa}
-                    onClick={() => setVerMapa((v) => !v)}
+                    onClick={() => {
+                        if (!verMapa) registrarEvento('clic_mapa', evento);
+                        setVerMapa((v) => !v);
+                    }}
                     className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 text-base font-semibold text-slate-800 hover:bg-slate-50"
                 >
-                    <MapPin aria-hidden="true" className="size-5" /> {verMapa ? 'Ocultar mapa' : mapa.exacto ? 'Cómo llegar' : 'Ver zona'}
+                    <MapPin aria-hidden="true" className="size-5" /> {textoBotonMapa(verMapa, mapa.exacto)}
                 </button>
             </div>
             {verMapa && (
@@ -230,6 +251,7 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
     const elegirOferta = (codigo: string, ofertaId: number) => {
         const nuevas = { ...elecciones, [codigo]: elecciones[codigo] === ofertaId ? -1 : ofertaId };
         if (nuevas[codigo] === -1) delete nuevas[codigo];
+        else registrarEvento('eleccion', { ofertaId });
         setElecciones(nuevas);
         if (claveSeleccion) {
             try {
@@ -296,11 +318,7 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                                     <span className="flex flex-1 flex-col p-3">
                                         <span className="block text-base leading-snug font-bold text-slate-900">{v.nombreCorto || item.titulo}</span>
                                         <span className="text-primary-700 mt-auto pt-2 text-base font-bold">
-                                            {elegida
-                                                ? soles(elegida.precio_soles)
-                                                : rango
-                                                  ? `Desde ${rango.texto.split(' a ')[0]}`
-                                                  : 'Sin precio aún'}
+                                            {precioTarjeta(elegida?.precio_soles, rango?.texto)}
                                         </span>
                                     </span>
                                 </button>
@@ -345,9 +363,7 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                                 <p className="text-sun-700 text-base font-bold">Costo aproximado</p>
                                 <p className="mt-1 text-2xl font-extrabold text-slate-900">{costo.texto}</p>
                                 <p className="text-sm text-slate-600">
-                                    {costo.desdeProveedores
-                                        ? `Según ${ofertas.length} ${ofertas.length === 1 ? 'oferta' : 'ofertas'} de proveedores de Huancayo.`
-                                        : 'Referencial. Pide cotización para tu caso.'}
+                                    {costo.desdeProveedores ? textoOfertas(ofertas.length) : 'Referencial. Pide cotización para tu caso.'}
                                 </p>
                             </div>
                         )}
@@ -407,7 +423,12 @@ export function LoQueTeFalta({ items, nombreLocal, claveSeleccion, onAdjuntarEvi
                                                         )}
                                                     </span>
                                                 </label>
-                                                <AccionesProveedor proveedor={oferta.proveedor} producto={oferta.nombre} nombreLocal={nombreLocal} />
+                                                <AccionesProveedor
+                                                    proveedor={oferta.proveedor}
+                                                    producto={oferta.nombre}
+                                                    nombreLocal={nombreLocal}
+                                                    ofertaId={oferta.id}
+                                                />
                                             </li>
                                         );
                                     })}
