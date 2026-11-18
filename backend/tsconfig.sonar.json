@@ -1,0 +1,23 @@
+{
+    "//": "Copia de tsconfig.json solo para SonarQube 9.9, cuyo TypeScript interno no reconoce moduleResolution 'bundler'. Mantener en sincronía.",
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./resources/js/*"],
+            "ziggy-js": ["./vendor/tightenco/ziggy"]
+        },
+        "jsx": "react-jsx"
+    },
+    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx"]
+}
