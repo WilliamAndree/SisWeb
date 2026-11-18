@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="Arial, Helvetica, sans-serif">
+  <title>Figura 1. Arquitectura de CheckITSE Huancayo</title>
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#17133a"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="860" fill="#ffffff"/>
+  <text x="600" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#17133a">Arquitectura de CheckITSE Huancayo</text>
+  <text x="600" y="68" text-anchor="middle" font-size="15" fill="#475569">Monolito modular: Laravel 12 + React 19 (Inertia v2) · MariaDB · servicios externos</text>
+
+  <!-- Usuarios -->
+  <g font-size="15">
+    <rect x="120" y="95" width="260" height="62" rx="12" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/>
+    <text x="250" y="122" text-anchor="middle" font-weight="bold" fill="#7c2d12">Emprendedor (cliente)</text>
+    <text x="250" y="144" text-anchor="middle" fill="#334155">Autoevalúa y subsana su local</text>
+    <rect x="470" y="95" width="260" height="62" rx="12" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/>
+    <text x="600" y="122" text-anchor="middle" font-weight="bold" fill="#7c2d12">Proveedor</text>
+    <text x="600" y="144" text-anchor="middle" fill="#334155">Publica productos y vende</text>
+    <rect x="820" y="95" width="260" height="62" rx="12" fill="#fff1e8" stroke="#c2410c" stroke-width="2"/>
+    <text x="950" y="122" text-anchor="middle" font-weight="bold" fill="#7c2d12">Administrador</text>
+    <text x="950" y="144" text-anchor="middle" fill="#334155">Aprueba pagos y negocios</text>
+  </g>
+  <line x1="600" y1="160" x2="600" y2="196" stroke="#17133a" stroke-width="2" marker-end="url(#flecha)"/>
+  <text x="612" y="184" font-size="13" fill="#475569">HTTPS · navegador web / móvil</text>
+
+  <!-- Frontend -->
+  <rect x="80" y="200" width="1040" height="110" rx="14" fill="#f3f1fd" stroke="#463a96" stroke-width="2"/>
+  <text x="104" y="228" font-size="17" font-weight="bold" fill="#2f2863">Capa de presentación (frontend)</text>
+  <g font-size="14" fill="#1e1b4b">
+    <rect x="104" y="242" width="230" height="52" rx="8" fill="#ffffff" stroke="#8576dc"/>
+    <text x="219" y="265" text-anchor="middle" font-weight="bold">Páginas React 19</text>
+    <text x="219" y="284" text-anchor="middle">resources/js/pages</text>
+    <rect x="352" y="242" width="230" height="52" rx="8" fill="#ffffff" stroke="#8576dc"/>
+    <text x="467" y="265" text-anchor="middle" font-weight="bold">Componentes por dominio</text>
+    <text x="467" y="284" text-anchor="middle">resources/js/components</text>
+    <rect x="600" y="242" width="230" height="52" rx="8" fill="#ffffff" stroke="#8576dc"/>
+    <text x="715" y="265" text-anchor="middle" font-weight="bold">TypeScript + Tailwind v4</text>
+    <text x="715" y="284" text-anchor="middle">identidad visual "Andes"</text>
+    <rect x="848" y="242" width="250" height="52" rx="8" fill="#ffffff" stroke="#8576dc"/>
+    <text x="973" y="265" text-anchor="middle" font-weight="bold">Inertia.js v2</text>
+    <text x="973" y="284" text-anchor="middle">props tipadas, sin API REST aparte</text>
+  </g>
+  <line x1="600" y1="312" x2="600" y2="346" stroke="#17133a" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- Backend -->
+  <rect x="80" y="350" width="1040" height="250" rx="14" fill="#fbf6ee" stroke="#17133a" stroke-width="2"/>
+  <text x="104" y="378" font-size="17" font-weight="bold" fill="#17133a">Capa de aplicación (backend Laravel 12, PHP 8.2)</text>
+  <g font-size="14" fill="#0f172a">
+    <rect x="104" y="392" width="992" height="44" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="600" y="419" text-anchor="middle"><tspan font-weight="bold">Rutas y middleware</tspan> · routes/web.php · auth · admin · throttle · CSRF</text>
+    <rect x="104" y="448" width="992" height="44" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="600" y="475" text-anchor="middle"><tspan font-weight="bold">Controladores + Form Requests</tspan> · Evaluación · Expediente · Directorio · Proveedor · Admin</text>
+    <rect x="104" y="504" width="992" height="44" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="600" y="531" text-anchor="middle"><tspan font-weight="bold">Servicios de dominio</tspan> · reglas ITSE y riesgo · integridad SHA-256 · directorio · planes · estadísticas · IA</text>
+    <rect x="104" y="560" width="992" height="30" rx="8" fill="#ffffff" stroke="#94a3b8"/>
+    <text x="600" y="580" text-anchor="middle"><tspan font-weight="bold">Modelos Eloquent</tspan> · Jobs en cola (análisis de evidencias) · Comandos programados</text>
+  </g>
+  <line x1="300" y1="602" x2="230" y2="660" stroke="#17133a" stroke-width="2" marker-end="url(#flecha)"/>
+  <line x1="520" y1="602" x2="520" y2="660" stroke="#17133a" stroke-width="2" marker-end="url(#flecha)"/>
+  <line x1="760" y1="602" x2="810" y2="660" stroke="#17133a" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- Datos -->
+  <g font-size="14">
+    <rect x="90" y="664" width="290" height="80" rx="12" fill="#fff8e6" stroke="#9a5b00" stroke-width="2"/>
+    <text x="235" y="694" text-anchor="middle" font-weight="bold" fill="#7c4a00">Base de datos MariaDB / MySQL</text>
+    <text x="235" y="716" text-anchor="middle" fill="#334155">autoevaluaciones, criterios, proveedores,</text>
+    <text x="235" y="734" text-anchor="middle" fill="#334155">ofertas, pagos, eventos, ventas</text>
+    <rect x="400" y="664" width="250" height="80" rx="12" fill="#fff8e6" stroke="#9a5b00" stroke-width="2"/>
+    <text x="525" y="694" text-anchor="middle" font-weight="bold" fill="#7c4a00">Almacenamiento privado</text>
+    <text x="525" y="716" text-anchor="middle" fill="#334155">evidencias, expediente y</text>
+    <text x="525" y="734" text-anchor="middle" fill="#334155">comprobantes (no públicos)</text>
+    <rect x="670" y="664" width="430" height="80" rx="12" fill="#fdf0f6" stroke="#9d1654" stroke-width="2"/>
+    <text x="885" y="694" text-anchor="middle" font-weight="bold" fill="#9d1654">Servicios externos</text>
+    <text x="885" y="716" text-anchor="middle" fill="#334155">WhatsApp (wa.me) · Google Maps (embed)</text>
+    <text x="885" y="734" text-anchor="middle" fill="#334155">Google Gemini (análisis de fotos, opcional)</text>
+  </g>
+
+  <!-- Calidad -->
+  <rect x="90" y="770" width="1010" height="56" rx="12" fill="#f1f5f9" stroke="#64748b" stroke-dasharray="6 4"/>
+  <text x="595" y="795" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Aseguramiento de calidad</text>
+  <text x="595" y="815" text-anchor="middle" font-size="13" fill="#334155">755 pruebas Pest + 30 pruebas de interfaz en navegador · SonarQube (Quality Gate aprobado) · GitHub (main / develop)</text>
+</svg>
