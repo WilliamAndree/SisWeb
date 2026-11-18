@@ -905,7 +905,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                 tiene_escaleras: 'Escaleras',
                 tiene_estanterias_altas: 'Estanterías altas',
             }[campo],
-            data[campo] == null ? 'Aún no lo sé' : data[campo] ? 'Sí' : 'No',
+            respuestaSiNo(data[campo]),
         ]),
     ];
 
@@ -1092,9 +1092,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             disabled={processing}
                             className="bg-primary hover:bg-primary-700 flex min-h-13 w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl px-8 text-lg font-bold text-white shadow-sm transition focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:outline-none active:scale-95 disabled:opacity-60 sm:w-auto"
                         >
-                            <span>
-                                {processing ? 'Iniciando autoevaluación...' : grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones'}
-                            </span>
+                            <span>{textoBotonEnviar(processing, grupo)}</span>
                             <ArrowRight aria-hidden="true" className="h-4 w-4" />
                         </button>
                     </div>
@@ -1102,4 +1100,14 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
             </div>
         </>
     );
+}
+
+function respuestaSiNo(valor: boolean | null | undefined): string {
+    if (valor == null) return 'Aún no lo sé';
+    return valor ? 'Sí' : 'No';
+}
+
+function textoBotonEnviar(procesando: boolean, grupo: number): string {
+    if (procesando) return 'Iniciando autoevaluación...';
+    return grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones';
 }
