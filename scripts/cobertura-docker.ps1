@@ -55,7 +55,7 @@ $pasos = @(
     'docker-php-ext-install pdo_mysql zip > /dev/null 2>&1',
     'pecl install pcov > /dev/null 2>&1',
     'docker-php-ext-enable pcov > /dev/null',
-    'php -d memory_limit=-1 -d pcov.directory=/proyecto/app vendor/bin/pest --compact --coverage-clover coverage.xml',
+    'php -d memory_limit=-1 -d pcov.directory=/proyecto/app vendor/bin/pest --compact --coverage-clover coverage.xml --log-junit junit.xml',
     # El escáner de SonarQube ve el proyecto en /usr/src: se ajustan las rutas del reporte.
     "sed -i 's#/proyecto/#/usr/src/#g' coverage.xml"
 ) -join ' && '

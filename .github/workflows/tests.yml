@@ -87,4 +87,21 @@ jobs:
         run: php tests/preflight.php
 
       - name: Tests
-        run: ./vendor/bin/pest --fail-on-risky
+        run: ./vendor/bin/pest --fail-on-risky --coverage-clover coverage.xml --log-junit junit.xml
+
+      # Matriz de doble entrada (procesos × indicadores) para el control y monitoreo.
+      # Se genera aunque fallen pruebas, para que el semáforo muestre dónde.
+      - name: Matriz de control y monitoreo
+        if: always()
+        continue-on-error: true
+        run: |
+          php artisan checkitse:matriz-monitoreo --salida=storage/monitoreo
+          cat storage/monitoreo/matriz-monitoreo.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar matriz (Excel y Markdown)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matriz-monitoreo
+          path: backend/storage/monitoreo/
+          if-no-files-found: ignore

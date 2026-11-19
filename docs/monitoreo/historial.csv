@@ -1,0 +1,14 @@
+fecha,commit,codigo,proceso,estado,pruebas,fallidas,cobertura,bugs,vulnerabilidades,code_smells
+"2026-11-18 19:44",82098cc,E1,"Modelo de negocio y planes",verde,2,0,89.5,0,0,7
+"2026-11-18 19:44",82098cc,E2,"Calidad y mejora continua",verde,83,0,98.9,0,0,66
+"2026-11-18 19:44",82098cc,M1,"Registro del local",verde,47,0,93.6,0,0,44
+"2026-11-18 19:44",82098cc,M2,"Autoevaluación ITSE",verde,127,0,96.1,0,0,33
+"2026-11-18 19:44",82098cc,M3,"Resultado y plan de mejora",verde,42,0,85,0,0,19
+"2026-11-18 19:44",82098cc,M4,"Subsanación con proveedores",verde,104,0,89.3,0,0,72
+"2026-11-18 19:44",82098cc,M5,"Expediente digital",verde,22,0,89.7,0,0,6
+"2026-11-18 19:44",82098cc,M6,"Seguimiento del local",verde,75,0,100,0,0,2
+"2026-11-18 19:44",82098cc,S1,"Cuentas y accesos",verde,47,0,97.9,0,0,0
+"2026-11-18 19:44",82098cc,S2,"Gestión de proveedores",verde,13,0,92.5,0,0,24
+"2026-11-18 19:44",82098cc,S3,"Cobros de planes",verde,19,0,100,0,0,0
+"2026-11-18 19:44",82098cc,S4,"Administración y monitoreo",verde,25,0,96.1,0,0,18
+"2026-11-18 19:44",82098cc,S5,"Plataforma y datos",verde,46,0,96.1,0,0,5

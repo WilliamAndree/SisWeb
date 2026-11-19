@@ -28,6 +28,7 @@ yarn-error.log
 
 # Reportes generados (cobertura, SonarQube, Playwright)
 /coverage.xml
+/junit.xml
 /tests/coverage/
 /.scannerwork/
 /test-results/

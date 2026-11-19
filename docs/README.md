@@ -6,6 +6,8 @@
 | [respaldo-cientifico.md](respaldo-cientifico.md) | Evidencia académica: normativa, artículos y tesis que sustentan cada módulo, y fuente de cada dato de la web |
 | [modelo-de-negocio.md](modelo-de-negocio.md) | Propuesta de valor, planes para proveedores y cómo escala |
 | [diseno-visual.md](diseno-visual.md) | Público objetivo, tokens de diseño, componentes compartidos y accesibilidad |
+| [informe/](informe/README.md) | Material para el informe: mapa de 13 procesos, figuras y datos verificados |
+| [monitoreo/](monitoreo/README.md) | Matriz de doble entrada (procesos × indicadores) para el control y monitoreo, automatizada |
 | [GUIA-TERMINAL.md](GUIA-TERMINAL.md) | Comandos para correr, probar, analizar con SonarQube y subir a GitHub |
 | [desarrollo-local.md](desarrollo-local.md) | Instalación con XAMPP o Docker y solución de problemas de MySQL |
 | [pruebas.md](pruebas.md) | Entorno aislado de pruebas, comandos y CI |
