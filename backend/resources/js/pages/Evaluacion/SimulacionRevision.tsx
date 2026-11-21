@@ -105,7 +105,7 @@ export default function SimulacionRevision({ autoevaluacion }: Readonly<Props>) 
 
     return (
         <>
-            <Head title={`Simulación de Revisión In Situ - ${autoevaluacion.nombre_comercio}`} />
+            <Head title={`Simulación de la inspección - ${autoevaluacion.nombre_comercio}`} />
 
             {/* Barra de navegación contextual */}
             <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">

@@ -1,4 +1,3 @@
-import { CryptoSealBadge } from '@/components/shared/CryptoSealBadge';
 import { resolverFotoNegocio, usarFotoRespaldo } from '@/lib/imagen-negocio';
 import { Link } from '@inertiajs/react';
 import {
@@ -33,15 +32,16 @@ export interface ResumenHeaderProps {
     readonly direccion?: string;
     readonly ruc?: string;
     readonly esApto?: boolean;
-    readonly hashIntegridad?: string | null;
     readonly esRegistrada?: boolean;
     readonly conteo: ConteoResumen;
     readonly porcentaje: number;
+    /** Condiciones corregidas después de evaluar: explican por qué subió el porcentaje. */
+    readonly corregidas?: number;
 }
 
 function textoModalidad(tipoTramite?: string): string {
-    if (tipoTramite === 'EX_ANTE') return 'ITSE Previa (Ex-Ante)';
-    if (tipoTramite === 'EX_POST') return 'ITSE Posterior (Ex-Post)';
+    if (tipoTramite === 'EX_ANTE') return 'ITSE previa (antes de la licencia)';
+    if (tipoTramite === 'EX_POST') return 'ITSE posterior (después de la licencia)';
     return 'No informada';
 }
 
@@ -77,10 +77,10 @@ export function ResumenHeader({
     funcionEconomica,
     direccion,
     ruc,
-    hashIntegridad,
     esRegistrada = false,
     conteo,
     porcentaje,
+    corregidas = 0,
 }: Readonly<ResumenHeaderProps>) {
     const foto = resolverFotoNegocio(nombreComercio, funcionEconomica, uuidTrazabilidad ?? nombreComercio);
     const estadoLocal = mensajeEstado(conteo);
@@ -141,6 +141,12 @@ export function ResumenHeader({
                         <div className={`h-full rounded-full ${listo ? 'bg-emerald-500' : 'bg-primary'}`} style={{ width: `${pct}%` }} />
                     </div>
                     <p className="mt-3 text-lg text-slate-700">{estadoLocal.texto}</p>
+                    {corregidas > 0 && (
+                        <p className="mt-2 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-base font-semibold text-emerald-800">
+                            <CheckCircle2 aria-hidden="true" className="size-4" />
+                            Corregiste {corregidas} {corregidas === 1 ? 'cosa' : 'cosas'} desde tu evaluación
+                        </p>
+                    )}
 
                     <dl className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
                         {tarjetas.map(({ texto, valor, Icono, clase }) => (
@@ -185,41 +191,41 @@ export function ResumenHeader({
                     </p>
 
                     <details className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                        <summary className="cursor-pointer text-base font-semibold text-slate-700">Datos del registro y clasificación</summary>
+                        <summary className="cursor-pointer text-base font-semibold text-slate-700">Datos de tu registro</summary>
                         <dl className="mt-4 grid gap-4 text-base sm:grid-cols-2">
                             <div>
                                 <dt className="text-slate-600">Nivel de riesgo estimado</dt>
                                 <dd className="font-semibold">{nivelRiesgo || 'No informado'}</dd>
                             </div>
                             <div>
-                                <dt className="text-slate-600">Modalidad orientativa</dt>
+                                <dt className="text-slate-600">Tipo de trámite</dt>
                                 <dd className="font-semibold">{textoModalidad(tipoTramite)}</dd>
                             </div>
                             <div>
-                                <dt className="text-slate-600">Estado del registro</dt>
-                                <dd>{estado || (esRegistrada ? 'REGISTRADA' : 'INICIADA')}</dd>
+                                <dt className="text-slate-600">Estado</dt>
+                                <dd className="font-semibold">
+                                    {esRegistrada || estado === 'REGISTRADA' ? 'Guardado en tu cuenta' : 'Borrador (aún puedes cambiar respuestas)'}
+                                </dd>
                             </div>
-                            <div>
-                                <dt className="text-slate-600">Referencia</dt>
-                                <dd className="break-all">{codigoAcceso || uuidTrazabilidad || 'No informada'}</dd>
-                            </div>
+                            {codigoAcceso && (
+                                <div>
+                                    <dt className="text-slate-600">Código de tu registro</dt>
+                                    <dd className="font-mono font-semibold tracking-wider">{codigoAcceso}</dd>
+                                </div>
+                            )}
+                            {fechaEmision && (
+                                <div>
+                                    <dt className="text-slate-600">Fecha</dt>
+                                    <dd className="font-semibold">{fechaEmision}</dd>
+                                </div>
+                            )}
                             {ruc && (
                                 <div>
-                                    <dt className="text-slate-600">RUC declarado</dt>
-                                    <dd>{ruc}</dd>
+                                    <dt className="text-slate-600">RUC</dt>
+                                    <dd className="font-semibold">{ruc}</dd>
                                 </div>
                             )}
                         </dl>
-                        {hashIntegridad ? (
-                            <div className="mt-4">
-                                <CryptoSealBadge hash={hashIntegridad} fecha={fechaEmision} esInmutable={esRegistrada} />
-                                <p className="mt-2 text-sm text-slate-600">
-                                    Huella registrada. Su presencia no equivale a una verificación de integridad ni a una certificación oficial.
-                                </p>
-                            </div>
-                        ) : (
-                            <p className="mt-4 text-sm text-slate-600">No hay una huella de integridad disponible para mostrar.</p>
-                        )}
                     </details>
                 </div>
             </div>

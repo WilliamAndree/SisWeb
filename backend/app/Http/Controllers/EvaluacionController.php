@@ -20,6 +20,7 @@ use App\Services\EstadisticasProveedorService;
 use App\Services\Evaluacion\EvaluacionSyncService;
 use App\Services\Evaluacion\EvidenciaPrivadaService;
 use App\Services\Evaluacion\IntegridadEvaluacionService;
+use App\Services\Evaluacion\SubsanacionSyncService;
 use App\Services\GeoLocationService;
 use App\Services\ItseRiskService;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -57,6 +58,11 @@ class EvaluacionController extends Controller
     ) {
         $this->integridadService ??= app(IntegridadEvaluacionService::class);
         $this->analisisService ??= app(AnalisisEvidenciaService::class);
+    }
+
+    private function subsanacionSync(): SubsanacionSyncService
+    {
+        return app(SubsanacionSyncService::class);
     }
 
     public function index(): Response
@@ -405,6 +411,12 @@ class EvaluacionController extends Controller
                         ]);
                     }
                 }
+
+                // La corrección se refleja en el estado del local (resumen, panel, anexos),
+                // sea que se compró a un aliado o por cuenta propia.
+                if ($autoevaluacion->respuestas()->exists()) {
+                    $this->subsanacionSync()->sincronizar($autoevaluacion);
+                }
             });
         } catch (\Throwable $e) {
             // Limpieza compensatoria: revertir únicamente el archivo subido si falló la persistencia
@@ -438,16 +450,25 @@ class EvaluacionController extends Controller
 
         $itemsObservados = collect();
 
+        // Lo ya corregido sigue en la lista (marcado como listo) para que el emprendedor
+        // pueda ver su prueba o deshacer la corrección.
+        $codigosCorregidos = $autoevaluacion->subsanaciones()->pluck('codigo_item')
+            ->concat($autoevaluacion->simulaciones->flatMap->subsanaciones->pluck('codigo_item'))
+            ->unique()
+            ->all();
+
         // 1. Respuestas normativas registradas (V2)
         $respuestas = $autoevaluacion->respuestas()->with('criterioNormativo.recursosEducativos')->get();
         if ($respuestas->isNotEmpty()) {
             foreach ($respuestas as $resp) {
-                if (in_array($resp->estado_respuesta, [
+                $criterio = $resp->criterioNormativo ?? $criteriosPorId->get($resp->criterio_id);
+                $codigo = $criterio?->codigo_criterio ?? "CRIT-{$resp->criterio_id}";
+                $sigueObservado = in_array($resp->estado_respuesta, [
                     ApplicabilityEngineService::ESTADO_PENDIENTE_ATENDER,
                     ApplicabilityEngineService::ESTADO_POR_REVISAR,
-                ], true)) {
-                    $criterio = $resp->criterioNormativo ?? $criteriosPorId->get($resp->criterio_id);
-                    $codigo = $criterio?->codigo_criterio ?? "CRIT-{$resp->criterio_id}";
+                ], true);
+
+                if ($sigueObservado || in_array($codigo, $codigosCorregidos, true)) {
 
                     $itemsObservados->put($codigo, [
                         'id' => $resp->id,
@@ -756,22 +777,9 @@ class EvaluacionController extends Controller
                     ]);
             }
 
-            // 4. Sincronización canónica reactiva de métricas operativas
-            $autoevaluacion->unsetRelation('respuestas');
-            $datos = $this->evaluacionSyncService->obtenerDatosCompletos($autoevaluacion);
-
-            $autoevaluacion->total_condiciones_evaluadas = $datos['total_aplicables'];
-            $autoevaluacion->total_cumple_declarado = $datos['cumplen'];
-            $autoevaluacion->total_pendiente_atender = $datos['por_subsanar'];
-            $autoevaluacion->total_por_revisar = $datos['por_revisar'];
-            $autoevaluacion->total_no_aplica = $datos['no_aplica'];
-            $autoevaluacion->porcentaje_cumplimiento = $datos['porcentaje_cumplimiento'];
-            $autoevaluacion->semaforo = $datos['estado_semaforo'];
-
+            // 4. Recálculo de totales (el mismo que usa el panel de corrección).
             // NOTA CRÍTICA C.3: payload_canonico y hash_integridad NO SE MODIFICAN.
-            // El snapshot inicial permanece sellado e inmutable.
-
-            $autoevaluacion->save();
+            $datos = $this->subsanacionSync()->recalcularTotales($autoevaluacion);
 
             return [
                 'autoevaluacion' => $autoevaluacion,
@@ -1071,6 +1079,8 @@ class EvaluacionController extends Controller
             'nombre_comercio' => $datos['nombre_comercial'] ?: $autoevaluacion->nombre_comercio,
             'ruc' => $datos['ruc'] ?: $autoevaluacion->ruc,
             'direccion' => $datos['direccion'] ?: $autoevaluacion->direccion,
+            // Código corto que el emprendedor reconoce (en lugar del UUID).
+            'codigo_acceso' => $autoevaluacion->codigo_acceso,
             'semaforo' => $datos['estado_semaforo'],
             'porcentaje_cumplimiento' => $datos['porcentaje_cumplimiento'],
             'condiciones_evaluadas' => $datos['condiciones_evaluadas'],
@@ -1778,6 +1788,8 @@ class EvaluacionController extends Controller
             'ruc' => $datos['ruc'] ?: $autoevaluacion->ruc,
             'distrito' => $autoevaluacion->distrito,
             'direccion' => $datos['direccion'] ?: $autoevaluacion->direccion,
+            // Código corto que el emprendedor reconoce (en lugar del UUID).
+            'codigo_acceso' => $autoevaluacion->codigo_acceso,
             'area_techada' => $datos['area_techada'],
             'area_m2' => $autoevaluacion->area_m2 ?? ($datos['area_techada'] !== null ? (float) $datos['area_techada'] : null),
             'aforo_estimado' => $datos['aforo_estimado'],
@@ -1803,6 +1815,8 @@ class EvaluacionController extends Controller
             'no_aplica' => $resumenData['no_aplica'],
             'desglose_especialidades' => $resumenData['desglose_especialidades'],
             'clasificacion_tramite' => $this->clasificarModalidadTramite($autoevaluacion),
+            // Cuántas condiciones corrigió el emprendedor después de evaluar (con foto o descripción).
+            'corregidas' => $autoevaluacion->subsanaciones()->where('estado', SubsanacionSyncService::ESTADO_SUBSANADO)->count(),
         ];
 
         if (! $request->wantsJson() && ! $request->is(self::RUTA_API_PATTERN)) {
@@ -1910,16 +1924,7 @@ class EvaluacionController extends Controller
         $numero = $request->query('numero', '4');
         $esExAnte = in_array(strtoupper($evaluacion->nivel_riesgo ?? ''), ['ALTO', 'MUY ALTO', 'MUY_ALTO']);
 
-        // Mapear condiciones/criterios a partir del checklist o respuestas
-        $condiciones = collect($evaluacion->detalle_checklist ?? [])->map(function ($item) {
-            return [
-                'codigo' => $item['codigo'] ?? '',
-                'nombre' => $item['nombre'] ?? $item['pregunta'] ?? $item['codigo'] ?? '',
-                'estado' => $item['estado'] ?? ($item['cumple'] ? 'CUMPLE' : 'NO_CUMPLE'),
-                'observacion' => $item['observacion'] ?? '',
-                'es_critico' => (bool) ($item['es_critico'] ?? false),
-            ];
-        })->values();
+        $condiciones = $this->condicionesParaAnexo($evaluacion);
 
         $cumplen = $condiciones->filter(fn ($c) => in_array($c['estado'], ['CUMPLE', 'CUMPLE_DECLARADO']))->count();
         $total = $condiciones->count();
@@ -1931,7 +1936,7 @@ class EvaluacionController extends Controller
                 'nombre_comercial' => $evaluacion->nombre_comercio ?? '',
                 'razon_social' => $evaluacion->nombre_comercio ?? '',
                 'ruc' => $evaluacion->ruc ?? '',
-                'direccion' => $evaluacion->sector_huancayo ?? '',
+                'direccion' => $evaluacion->direccion ?: ($evaluacion->sector_huancayo ?? ''),
                 'giro' => $evaluacion->funcion_economica ?? '',
             ],
             'riesgoTramite' => [
@@ -1947,12 +1952,52 @@ class EvaluacionController extends Controller
             'conteo' => [
                 'total' => $total,
                 'cumple' => $cumplen,
-                'no_cumple' => $total - $cumplen,
+                'no_cumple' => $condiciones->where('estado', 'NO_CUMPLE')->count(),
+                'por_revisar' => $condiciones->where('estado', 'POR_REVISAR')->count(),
                 'porcentaje' => (float) ($evaluacion->porcentaje_cumplimiento ?? 0),
             ],
-            'codigoDocumento' => 'ITSE-'.substr($evaluacion->uuid_trazabilidad, 0, 8),
+            // El mismo código corto que el emprendedor ve en su resumen (no un trozo del UUID).
+            'codigoDocumento' => $evaluacion->codigo_acceso ?: 'ITSE-'.substr($evaluacion->uuid_trazabilidad, 0, 8),
             'fechaEmision' => optional($evaluacion->created_at)->format(self::FORMATO_FECHA) ?? date(self::FORMATO_FECHA),
             'urlResumen' => route('autoevaluacion.resumen', ['uuid' => $uuid]),
         ]);
+    }
+
+    /**
+     * Condiciones que se listan en la declaración jurada. Las evaluaciones actuales
+     * guardan sus respuestas en `respuestas_autoevaluacion`; las antiguas, en
+     * `detalle_checklist`. Antes solo se leía el formato antiguo y el Anexo 4 salía
+     * con "0 condiciones" para cualquier evaluación nueva.
+     *
+     * @return Collection<int, array{codigo: string, nombre: string, estado: string, observacion: string, es_critico: bool}>
+     */
+    private function condicionesParaAnexo(Autoevaluacion $evaluacion): Collection
+    {
+        if ($evaluacion->respuestas()->exists()) {
+            $datos = $this->evaluacionSyncService->obtenerDatosCompletos($evaluacion);
+
+            return collect($datos['condiciones_evaluadas'])
+                ->reject(fn (array $condicion): bool => $condicion['estado_actual'] === 'NO_APLICA')
+                ->map(fn (array $condicion): array => [
+                    'codigo' => (string) $condicion['codigo'],
+                    'nombre' => (string) $condicion['titulo'],
+                    'estado' => match ($condicion['estado_actual']) {
+                        'CUMPLE_DECLARADO' => 'CUMPLE',
+                        'PENDIENTE_ATENDER' => 'NO_CUMPLE',
+                        default => (string) $condicion['estado_actual'],
+                    },
+                    'observacion' => '',
+                    'es_critico' => false,
+                ])
+                ->values();
+        }
+
+        return collect($evaluacion->detalle_checklist ?? [])->map(fn (array $item): array => [
+            'codigo' => $item['codigo'] ?? '',
+            'nombre' => $item['nombre'] ?? $item['pregunta'] ?? $item['codigo'] ?? '',
+            'estado' => $item['estado'] ?? (($item['cumple'] ?? false) ? 'CUMPLE' : 'NO_CUMPLE'),
+            'observacion' => $item['observacion'] ?? '',
+            'es_critico' => (bool) ($item['es_critico'] ?? false),
+        ])->values();
     }
 }

@@ -1958,7 +1958,7 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
 
     return (
         <>
-            <Head title="Paso 2 de 3: Checklist de Autoevaluación - CheckITSE Huancayo" />
+            <Head title="Paso 2 de 3: Condiciones de tu local - CheckITSE Huancayo" />
 
             <div className="relative mx-auto max-w-4xl lg:grid lg:max-w-6xl lg:grid-cols-12 lg:items-start lg:gap-8">
                 <div className="space-y-7 pb-32 lg:col-span-8">

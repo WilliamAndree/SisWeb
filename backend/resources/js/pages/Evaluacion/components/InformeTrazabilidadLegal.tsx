@@ -1,36 +1,28 @@
 import { etiquetaEstado } from '@/data/estados';
 import type { FilaMatriz } from '@/types/contrato';
-import { AlertTriangle, CalendarClock, FileCheck, FileText, Fingerprint, Hash, Layers } from 'lucide-react';
+import { AlertTriangle, FileText, Layers } from 'lucide-react';
 import type { EvaluacionDatosFisicos } from './InformeDatosGenerales';
 
-interface EvaluacionTrazabilidadLegal extends EvaluacionDatosFisicos {
-    uuid_trazabilidad?: string;
-    uuid?: string;
-}
-
 interface InformeTrazabilidadLegalProps {
-    readonly evaluacion: EvaluacionTrazabilidadLegal;
+    readonly evaluacion: EvaluacionDatosFisicos;
+    /** Porcentaje que falta para estar 100 % listo, ya formateado ("18.2%"). */
     readonly gapFinal: string;
-    readonly fechaEmision: string;
+    readonly codigoRegistro?: string | null;
     readonly matrizSubsanaciones: FilaMatriz[];
-    readonly hashIntegridad: string | null;
-    readonly hashFinal: string;
 }
 
-export function InformeTrazabilidadLegal({
-    evaluacion,
-    gapFinal,
-    fechaEmision,
-    matrizSubsanaciones,
-    hashIntegridad,
-    hashFinal,
-}: Readonly<InformeTrazabilidadLegalProps>) {
+/**
+ * Cierre del informe: lo que el emprendedor corrigió, la declaración en lenguaje
+ * simple y el código corto del registro. Sin UUID ni hashes: no le dicen nada a quien
+ * lee el informe impreso.
+ */
+export function InformeTrazabilidadLegal({ evaluacion, gapFinal, codigoRegistro, matrizSubsanaciones }: Readonly<InformeTrazabilidadLegalProps>) {
     const tieneSubsanaciones = matrizSubsanaciones.length > 0;
-    const uuid = evaluacion.uuid || evaluacion.uuid_trazabilidad || '';
 
     const nombreComercio = evaluacion.nombre_comercial || evaluacion.nombre_comercio || 'Local Comercial';
     const rucTexto = evaluacion.ruc ? `identificado con RUC N° ${evaluacion.ruc}` : 'sin RUC consignado';
-    const sectorTexto = evaluacion.sector_huancayo ? `ubicado en el sector territorial ${evaluacion.sector_huancayo}` : 'ubicado en el ámbito';
+    const ubicacion = evaluacion.direccion || evaluacion.sector_huancayo;
+    const sectorTexto = ubicacion ? `ubicado en ${ubicacion}` : 'ubicado en el ámbito';
 
     const areaTexto = evaluacion.area_techada
         ? `${evaluacion.area_techada} m²`
@@ -50,7 +42,7 @@ export function InformeTrazabilidadLegal({
 
     const renderEvidenciaAdjunta = (fila: FilaMatriz) => {
         if (!fila.evidencia_url) {
-            return <span className="mt-1 block text-[10px] text-slate-400">Sin evidencia declarada</span>;
+            return <span className="mt-1 block text-[10px] text-slate-400">Sin foto</span>;
         }
 
         if (esImagenEvidencia(fila.evidencia_archivo)) {
@@ -84,9 +76,7 @@ export function InformeTrazabilidadLegal({
             <section>
                 <div className="mb-2.5 flex items-center gap-2">
                     <Layers className="h-4 w-4 text-emerald-600" />
-                    <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">
-                        Matriz de Trazabilidad de Subsanaciones y Adecuaciones
-                    </h2>
+                    <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Lo que corregiste</h2>
                 </div>
 
                 <div
@@ -95,17 +85,12 @@ export function InformeTrazabilidadLegal({
                     className="mb-2.5 flex items-start gap-2 rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 text-[10px] leading-relaxed text-sky-900"
                 >
                     <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
-                    <p>
-                        Evidencias <strong>declaradas por el ciudadano</strong>, no verificadas oficialmente por la autoridad competente. Su
-                        trazabilidad es preventiva.
-                    </p>
+                    <p>Son las mejoras y fotos que tú registraste. La municipalidad las comprobará en su inspección.</p>
                 </div>
 
                 {!tieneSubsanaciones ? (
                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
-                        <span className="text-[11px] text-slate-500">
-                            Sin adecuaciones ni subsanaciones declaradas registradas en esta autoevaluación.
-                        </span>
+                        <span className="text-[11px] text-slate-500">Todavía no registraste correcciones.</span>
                     </div>
                 ) : (
                     <div className="space-y-2.5">
@@ -119,17 +104,15 @@ export function InformeTrazabilidadLegal({
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 p-3 md:grid-cols-[1fr_1.4fr_1fr]">
                                     <div>
-                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                            Deficiencia Inicial
-                                        </span>
+                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Qué faltaba</span>
                                         <p className="mt-0.5 text-[11px] leading-snug font-semibold text-slate-800">{fila.deficiencia_inicial}</p>
                                     </div>
                                     <div>
-                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Acción Realizada</span>
+                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Qué hiciste</span>
                                         <p className="mt-0.5 text-[11px] leading-snug text-slate-700">{fila.accion_realizada}</p>
                                     </div>
                                     <div>
-                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Evidencia Adjunta</span>
+                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Foto o documento</span>
                                         {renderEvidenciaAdjunta(fila)}
                                     </div>
                                 </div>
@@ -144,9 +127,8 @@ export function InformeTrazabilidadLegal({
                 <p>
                     El titular del establecimiento <strong>"{nombreComercio}"</strong>, {rucTexto}, {sectorTexto} de la provincia de Huancayo, con un
                     área techada declarada de <strong>{areaTexto}</strong>, distribuida en <strong>{pisosTexto}</strong> y aforo estimado para{' '}
-                    <strong>{aforoTexto}</strong>, ha completado voluntariamente el ciclo de autoevaluación preventiva: revisión de condiciones
-                    técnicas, simulación de revisión in situ y plan de adecuaciones declaradas, con un GAP final de preparación del{' '}
-                    <strong>{gapFinal}</strong>.
+                    <strong>{aforoTexto}</strong>, revisó voluntariamente las condiciones de seguridad de su local. Según lo que declaró, le falta un{' '}
+                    <strong>{gapFinal}</strong> para estar completamente listo para la inspección.
                 </p>
                 <p>
                     Las condiciones técnicas fueron revisadas por el propio titular usando como referencia la{' '}
@@ -171,69 +153,12 @@ export function InformeTrazabilidadLegal({
                 </p>
             </div>
 
-            {/* Trazabilidad Digital del Registro Preventivo */}
-            <section className="rounded-2xl border border-slate-200 p-4">
-                <div className="mb-3 flex items-center gap-2">
-                    <Hash className="h-4 w-4 text-emerald-600" />
-                    <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Trazabilidad Digital del Registro Preventivo</h2>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div className="flex items-start gap-2">
-                        <Hash className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" />
-                        <div>
-                            <span className="block text-[9px] font-bold tracking-wider text-slate-700 uppercase">UUID de Trazabilidad</span>
-                            <span className="font-mono break-all text-slate-900 select-all">{uuid}</span>
-                        </div>
-                    </div>
-                    <div className="flex items-start gap-2">
-                        <CalendarClock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" />
-                        <div>
-                            <span className="block text-[9px] font-bold tracking-wider text-slate-700 uppercase">Fecha de Generación</span>
-                            <span className="font-mono text-slate-900">{fechaEmision}</span>
-                        </div>
-                    </div>
-                    <div className="flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-2">
-                        <FileCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                        <div>
-                            <span className="block text-[9px] font-bold tracking-wider text-emerald-600 uppercase">Estado del Registro</span>
-                            <span className="text-xs font-black text-emerald-600">Autoevaluación registrada según las respuestas declaradas</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-3 space-y-2">
-                    {hashIntegridad && (
-                        <div className="rounded-xl bg-slate-900 p-3 font-mono text-slate-300">
-                            <div className="mb-1 flex items-center gap-1.5">
-                                <Hash className="h-3.5 w-3.5 text-emerald-400" />
-                                <span className="text-[10px] tracking-wider text-slate-400 uppercase">Hash SHA-256 del Registro</span>
-                            </div>
-                            <p className="text-[10px] leading-relaxed break-all select-all">{hashIntegridad}</p>
-                        </div>
-                    )}
-                    {hashFinal && (
-                        <div className="rounded-xl bg-slate-900 p-3 font-mono text-slate-300">
-                            <div className="mb-1 flex items-center gap-1.5">
-                                <Fingerprint className="h-3.5 w-3.5 text-emerald-400" />
-                                <span className="text-[10px] tracking-wider text-slate-400 uppercase">
-                                    Huella Criptográfica del Payload Consolidado
-                                </span>
-                            </div>
-                            <p className="text-[10px] leading-relaxed break-all select-all">{hashFinal}</p>
-                        </div>
-                    )}
-                </div>
-            </section>
-
             {/* Pie de la hoja */}
             <div className="flex items-start gap-2 border-t border-slate-200 pt-3 text-center">
                 <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-slate-400" />
                 <p className="text-[9px] leading-relaxed text-slate-500">
-                    Informe preventivo y orientativo generado por la plataforma ciudadana CheckITSE Huancayo. El hash SHA-256 permite comprobar la
-                    integridad e inmutabilidad del contenido digital registrado, pero no acredita por sí solo la veracidad de las declaraciones ni la
-                    autenticidad física de las condiciones evaluadas. Este documento no constituye una inspección oficial ni reemplaza la evaluación
-                    de la autoridad competente.
+                    Informe preparado con CheckITSE Huancayo{codigoRegistro ? ` · Código de registro ${codigoRegistro}` : ''}. Es orientativo: no es
+                    un certificado ITSE ni reemplaza la inspección de la municipalidad.
                 </p>
             </div>
         </>

@@ -8,6 +8,7 @@ export interface EvaluacionDatosFisicos {
     giro?: string | null;
     ruc?: string | null;
     sector_huancayo?: string | null;
+    direccion?: string | null;
     area_techada?: string | null;
     area_m2?: number | string | null;
     numero_pisos?: number | null;
@@ -54,8 +55,8 @@ export function InformeDatosGenerales({ evaluacion, nivelRiesgoLegible, subtipoT
         },
         {
             icon: MapPin,
-            label: 'Ubicación en Huancayo',
-            value: evaluacion.sector_huancayo ?? 'No declarado',
+            label: 'Dirección',
+            value: evaluacion.direccion || evaluacion.sector_huancayo || 'No declarada',
             sub: 'Referencia territorial declarada',
         },
         {
@@ -86,7 +87,7 @@ export function InformeDatosGenerales({ evaluacion, nivelRiesgoLegible, subtipoT
         <section>
             <div className="mb-2.5 flex items-center gap-2">
                 <FileCheck className="h-4 w-4 text-emerald-600" />
-                <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Datos Generales Declarados del Establecimiento</h2>
+                <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Datos de tu local</h2>
             </div>
 
             <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3">

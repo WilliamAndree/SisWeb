@@ -336,6 +336,8 @@ export interface ResumenProps {
     desglose_especialidades?: DesgloseEspecialidades | null;
     /** Ausente en evaluaciones legacy renderizadas con un payload anterior. */
     clasificacion_tramite?: ClasificacionTramiteResumen | null;
+    /** Condiciones que el emprendedor corrigió después de evaluar (con foto o descripción). */
+    corregidas?: number;
 }
 
 /**
@@ -365,6 +367,7 @@ export interface FinalizarPendiente {
  */
 export interface InformeAutoevaluacion {
     uuid_trazabilidad: string;
+    codigo_acceso?: string | null;
     uuid?: string;
     nombre_comercio: string;
     funcion_economica: string;

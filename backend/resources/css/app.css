@@ -9,6 +9,8 @@
         'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
     --font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    /* Cursiva con serifa para resaltar una palabra dentro de un título. */
+    --font-acento: 'Fraunces', Georgia, 'Times New Roman', serif;
 
     /*
       Identidad visual CheckITSE "Andes" (docs/diseno-visual.md), inspirada en los
@@ -351,4 +353,96 @@
 @utility animate-avance {
     transform-origin: left;
     animation: avance var(--duracion-slide, 6s) linear forwards;
+}
+
+/*
+  Aparición al bajar (hooks/use-revelar-al-bajar.ts). El ocultamiento solo se
+  activa con la clase `revelar-listo` en <html>, que no se pone si el sistema
+  pide reducir el movimiento.
+*/
+.revelar-listo [data-revelar] {
+    opacity: 0;
+    transform: translate3d(0, 2.25rem, 0);
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--retraso, 0ms);
+    will-change: opacity, transform;
+}
+.revelar-listo [data-revelar='izquierda'] {
+    transform: translate3d(-3rem, 0, 0);
+}
+.revelar-listo [data-revelar='derecha'] {
+    transform: translate3d(3rem, 0, 0);
+}
+.revelar-listo [data-revelar='zoom'] {
+    transform: scale(0.92);
+}
+.revelar-listo [data-revelar].revelado {
+    opacity: 1;
+    transform: none;
+}
+
+/* Entrada del título de la portada: cada línea sube desde una máscara. */
+@keyframes subir-linea {
+    from {
+        transform: translateY(105%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@utility animate-subir-linea {
+    animation: subir-linea 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--retraso, 0ms);
+}
+@utility animate-aparecer {
+    animation: aparecer 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--retraso, 0ms);
+}
+
+/* Pantalla de entrada: la franja andina se llena y el telón sube. */
+@keyframes llenar {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+@keyframes telon {
+    to {
+        transform: translateY(-100%);
+    }
+}
+@utility animate-llenar {
+    transform-origin: left;
+    animation: llenar 0.9s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@utility animate-telon {
+    animation: telon 0.75s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+/* Pulso suave para llamar la atención sobre un indicador. */
+@keyframes latido {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgb(238 90 20 / 0.55);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgb(238 90 20 / 0);
+    }
+}
+@utility animate-latido {
+    animation: latido 2.2s ease-in-out infinite;
 }

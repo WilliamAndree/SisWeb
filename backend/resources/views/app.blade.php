@@ -8,7 +8,9 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:600,700,800|plus-jakarta-sans:400,500,600,700,800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:500,600,700,800|plus-jakarta-sans:400,500,600,700,800|fraunces:600i,700i&display=swap" rel="stylesheet" />
+        {{-- Activa la animación de aparición antes del primer pintado (sin parpadeo). Respeta "reducir movimiento". --}}
+        <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('revelar-listo');</script>
 
         @routes
         @viteReactRefresh

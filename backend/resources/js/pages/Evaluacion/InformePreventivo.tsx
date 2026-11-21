@@ -1,4 +1,3 @@
-import { CryptoSealBadge } from '@/components/shared/CryptoSealBadge';
 import { formatearNivelRiesgo } from '@/lib/riesgo';
 import type { ConteoEstados, InformePreventivoProps } from '@/types/contrato';
 import { Head, Link } from '@inertiajs/react';
@@ -7,13 +6,14 @@ import {
     ArrowLeft,
     CalendarClock,
     CheckCircle2,
-    ExternalLink,
+    Download,
     FileCheck,
     FileText,
     Gauge,
     Info,
     Layers,
     ShieldCheck,
+    Wrench,
 } from 'lucide-react';
 import { useMemo } from 'react';
 import { InformeDatosGenerales } from './components/InformeDatosGenerales';
@@ -32,8 +32,6 @@ export default function InformePreventivo({
     detalleChecklist = [],
     conteoEstados,
     matrizSubsanaciones = [],
-    hashFinal,
-    hashIntegridad,
 }: Readonly<InformePreventivoProps>) {
     const evaluacion = evaluacionProp ?? autoevaluacion;
     const uuid = evaluacion.uuid || autoevaluacion.uuid_trazabilidad;
@@ -45,7 +43,8 @@ export default function InformePreventivo({
     const nivelRiesgoLegible = formatearNivelRiesgo(evaluacion.nivel_riesgo);
     const gapFinal = `${(resumen?.gap_final ?? 0).toFixed(1)}%`;
 
-    const subtipoTramite = evaluacion.tipo_tramite ? (esExAnte ? 'ITSE Previa (Ex-Ante)' : 'ITSE Posterior (Ex-Post)') : 'Evaluación preventiva';
+    const textoTramite = esExAnte ? 'ITSE previa (te inspeccionan antes de la licencia)' : 'ITSE posterior (te inspeccionan después de la licencia)';
+    const subtipoTramite = evaluacion.tipo_tramite ? textoTramite : 'Evaluación preventiva';
 
     const conteo = useMemo<ConteoEstados>(() => {
         if (conteoEstados) {
@@ -78,23 +77,26 @@ export default function InformePreventivo({
             return {
                 dotColor: 'bg-emerald-600',
                 textColor: 'text-emerald-600',
-                label: 'VERDE — Sin incumplimientos declarados',
-                desc: 'Según las respuestas registradas en esta autoevaluación, no se consignaron observaciones técnicas pendientes.',
+                corto: 'Listo',
+                label: 'Tu local está listo',
+                desc: 'Según lo que declaraste, no tienes nada pendiente.',
             };
         }
         if (sem === 'AMBAR' || sem === 'ÁMBAR' || sem === 'AMARILLO') {
             return {
                 dotColor: 'bg-amber-500',
                 textColor: 'text-amber-600',
-                label: 'ÁMBAR — Presenta aspectos por revisar',
-                desc: 'Presenta condiciones técnicas observadas o pendientes de verificación previa a una inspección oficial.',
+                corto: 'Casi listo',
+                label: 'Tu local está casi listo',
+                desc: 'Tienes algunas cosas por corregir o revisar antes de la inspección.',
             };
         }
         return {
             dotColor: 'bg-rose-600',
             textColor: 'text-rose-600',
-            label: 'ROJO — Requiere atención prioritaria',
-            desc: 'Se identificaron condiciones de seguridad críticas declaradas como no conformes que requieren subsanación urgente.',
+            corto: 'Necesita atención',
+            label: 'Tu local necesita atención',
+            desc: 'Hay condiciones de seguridad importantes por corregir. Atiéndelas primero.',
         };
     }, [evaluacion.semaforo, autoevaluacion.semaforo]);
 
@@ -104,27 +106,27 @@ export default function InformePreventivo({
     const metricas = [
         {
             icon: Layers,
-            label: 'Condiciones Evaluadas',
+            label: 'Revisamos',
             value: `${resumen?.total_condiciones ?? conteo.total}`,
-            sub: 'Ítems técnicos detectables',
+            sub: 'condiciones de seguridad',
         },
         {
             icon: CheckCircle2,
-            label: 'Conformes Iniciales',
+            label: 'Ya cumplías',
             value: `${resumen?.conformes_iniciales ?? conteo.cumple}`,
-            sub: 'Al momento de la autoevaluación',
+            sub: 'desde el inicio',
         },
         {
             icon: FileCheck,
-            label: 'Subsanadas Declaradas',
+            label: 'Corregiste',
             value: `${resumen?.subsanadas_declaradas ?? 0}`,
-            sub: `${resumen?.en_proceso ?? 0} en proceso · ${resumen?.pendientes ?? conteo.no_cumple} pendientes`,
+            sub: `${resumen?.pendientes ?? conteo.no_cumple} por corregir`,
         },
         {
             icon: Gauge,
-            label: 'GAP Final de Preparación',
+            label: 'Te falta',
             value: gapFinal,
-            sub: 'Asimetría informativa del ciclo',
+            sub: 'para estar 100 % listo',
         },
     ];
 
@@ -132,32 +134,45 @@ export default function InformePreventivo({
 
     return (
         <div className="mx-auto w-full max-w-3xl space-y-6">
-            <Head
-                title={`${esReevaluacion ? 'Informe Preventivo Reevaluación' : 'Informe de Autoevaluación Preventiva ITSE'} - ${nombreComercial}`}
-            />
+            <Head title={`${esReevaluacion ? 'Informe de tu nueva evaluación' : 'Informe de tu local'} - ${nombreComercial}`} />
 
-            {/* Acciones de navegación superior */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            {/* Acciones (no se imprimen) */}
+            <div className="space-y-3 print:hidden">
                 <Link
                     href={urlSeguimiento}
-                    className="flex items-center gap-1 text-xs font-bold text-slate-600 transition-colors hover:text-slate-900"
+                    className="inline-flex min-h-11 items-center gap-1.5 text-base font-semibold text-slate-600 transition-colors hover:text-slate-900"
                 >
-                    <ArrowLeft className="h-4 w-4" /> Volver al Resultado
+                    <ArrowLeft className="size-4" /> Volver a mi resultado
                 </Link>
-
-                <div className="flex flex-wrap items-center gap-2">
-                    <a
-                        href={urlSubsanar}
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-xs transition-colors hover:bg-slate-50"
-                    >
-                        <span>Gestionar subsanaciones en la plataforma</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
+                <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-lg font-bold text-slate-900">Guarda tu informe</p>
+                        <p className="text-base text-slate-600">
+                            Pulsa el botón y, en la ventana que se abre, elige <strong>«Guardar como PDF»</strong>.
+                        </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            type="button"
+                            onClick={() => window.print()}
+                            className="bg-primary hover:bg-primary-700 inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-5 text-base font-bold text-white"
+                        >
+                            <Download className="size-5" /> Descargar PDF / Imprimir
+                        </button>
+                        {conteo.no_cumple > 0 && (
+                            <Link
+                                href={urlSubsanar}
+                                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 text-base font-bold text-slate-800 hover:bg-slate-50"
+                            >
+                                <Wrench className="size-5" /> Corregir lo que falta
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            {/* Hoja física pericial del informe */}
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
+            {/* Hoja del informe (es lo único que se imprime) */}
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg print:rounded-none print:border-0 print:shadow-none">
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.03] select-none" aria-hidden="true">
                     <ShieldCheck className="h-[460px] w-[460px] text-emerald-600" />
                 </div>
@@ -171,11 +186,11 @@ export default function InformePreventivo({
                             </span>
                         </div>
                         <span className="block text-center text-[10px] font-bold tracking-[0.22em] text-emerald-600 uppercase">
-                            Asistente Cívico CheckITSE Huancayo
+                            CheckITSE Huancayo
                         </span>
 
                         <h1 className="mt-2 text-center text-lg leading-snug font-black tracking-tight text-slate-900 uppercase sm:text-2xl">
-                            {esReevaluacion ? 'Informe Preventivo — Reevaluación' : 'Informe de Autoevaluación Preventiva ITSE'}
+                            {esReevaluacion ? 'Informe de tu local — nueva evaluación' : 'Informe de tu local para la ITSE'}
                         </h1>
 
                         {esReevaluacion && (
@@ -183,16 +198,9 @@ export default function InformePreventivo({
                                 <div className="flex items-start gap-2">
                                     <Info className="mt-0.5 h-4 w-4 shrink-0 text-sky-600" />
                                     <div className="text-[11px] leading-relaxed text-sky-900">
-                                        <strong className="font-bold">Nota contextual de reevaluación:</strong> Este informe corresponde a una{' '}
-                                        <strong>reevaluación preventiva</strong> del establecimiento.
-                                        {evaluacionOrigen?.uuid_trazabilidad && (
-                                            <span>
-                                                {' '}
-                                                Evaluación original de referencia: UUID{' '}
-                                                <span className="font-mono font-semibold">{evaluacionOrigen.uuid_trazabilidad}</span>
-                                                {evaluacionOrigen.fecha && ` (${evaluacionOrigen.fecha})`}.
-                                            </span>
-                                        )}
+                                        <strong className="font-bold">Nueva evaluación:</strong> este informe corresponde a la evaluación que hiciste
+                                        después de corregir.
+                                        {evaluacionOrigen?.fecha && <span> La anterior es del {evaluacionOrigen.fecha}.</span>}
                                     </div>
                                 </div>
                             </div>
@@ -223,25 +231,13 @@ export default function InformePreventivo({
                             </div>
                         </div>
 
-                        {(hashIntegridad || hashFinal) && (
-                            <div className="mt-3 flex justify-center">
-                                <CryptoSealBadge hash={hashIntegridad || hashFinal} fecha={fechaEmision} esInmutable={true} />
-                            </div>
-                        )}
-
                         <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50/80 p-3.5 text-left">
                             <div className="flex items-start gap-2">
                                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
                                 <div className="text-[10px] leading-relaxed text-amber-950">
-                                    <strong className="block font-bold tracking-wider text-amber-900 uppercase">
-                                        Aviso Preventivo Importante — No Oficial
-                                    </strong>
-                                    Este documento es de carácter estrictamente informativo, educativo y preventivo. Ha sido generado de forma
-                                    automatizada a partir de las declaraciones voluntarias del responsable del establecimiento.{' '}
-                                    <strong>
-                                        No constituye certificado de ITSE, no otorga aprobación ni autorización municipal, y no convalida condiciones
-                                        de seguridad ante ninguna autoridad u órgano ejecutante.
-                                    </strong>
+                                    <strong className="block font-bold tracking-wider text-amber-900 uppercase">Importante</strong>
+                                    Este informe resume lo que tú declaraste. <strong>No es un certificado ITSE</strong> ni una aprobación de la
+                                    municipalidad: el certificado solo lo da tu municipalidad después de su inspección.
                                 </div>
                             </div>
                         </div>
@@ -254,7 +250,7 @@ export default function InformePreventivo({
                     <section>
                         <div className="mb-2.5 flex items-center gap-2">
                             <Gauge className="h-4 w-4 text-emerald-600" />
-                            <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Resumen de Diagnóstico Preventivo</h2>
+                            <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Cómo está tu local</h2>
                         </div>
 
                         <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4">
@@ -262,22 +258,16 @@ export default function InformePreventivo({
                                 <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3">
                                     <span className={`h-3 w-3 shrink-0 rounded-full ${semaforoInfo.dotColor}`} aria-hidden="true" />
                                     <div>
-                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                            Semáforo Preventivo
-                                        </span>
-                                        <span className={`text-sm font-black ${semaforoInfo.textColor}`}>
-                                            {evaluacion.semaforo || autoevaluacion.semaforo}
-                                        </span>
+                                        <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Estado</span>
+                                        <span className={`text-sm font-black ${semaforoInfo.textColor}`}>{semaforoInfo.corto}</span>
                                     </div>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-white p-3">
-                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">
-                                        GAP Final de Preparación
-                                    </span>
+                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Te falta</span>
                                     <span className="text-sm font-black text-emerald-600">{gapFinal}</span>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-white p-3">
-                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Subsanación Declarada</span>
+                                    <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Listo</span>
                                     <span className="text-sm font-black text-emerald-600">
                                         {resumen?.porcentaje_subsanado ?? (es100Cumplimiento ? 100 : 0)}%
                                     </span>
@@ -285,14 +275,12 @@ export default function InformePreventivo({
                             </div>
 
                             <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3 text-left">
-                                <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">Diagnóstico Declarado</span>
+                                <span className="block text-[9px] font-bold tracking-wider text-slate-500 uppercase">En resumen</span>
                                 <p className="mt-0.5 text-xs font-bold text-slate-800">{semaforoInfo.label}</p>
                                 <p className="mt-0.5 text-[10px] text-slate-600">{semaforoInfo.desc}</p>
                                 {es100Cumplimiento && (
                                     <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50/60 p-2 text-[10px] text-emerald-600">
-                                        <strong>Nota de conformidad declarada:</strong> Según las respuestas declaradas en esta autoevaluación, no se
-                                        identificaron incumplimientos declarados en las condiciones evaluadas. Este informe tiene carácter preventivo
-                                        y no sustituye la inspección oficial ITSE.
+                                        Según lo que declaraste, cumples todas las condiciones revisadas. Mantenlas así hasta la inspección.
                                     </p>
                                 )}
                             </div>
@@ -319,10 +307,8 @@ export default function InformePreventivo({
                     <InformeTrazabilidadLegal
                         evaluacion={evaluacion}
                         gapFinal={gapFinal}
-                        fechaEmision={fechaEmision}
+                        codigoRegistro={autoevaluacion.codigo_acceso ?? null}
                         matrizSubsanaciones={matrizSubsanaciones}
-                        hashIntegridad={hashIntegridad}
-                        hashFinal={hashFinal}
                     />
                 </div>
             </div>

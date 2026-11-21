@@ -44,11 +44,9 @@ export function InformeMatrizCondiciones({ conteo, condicionesEvaluadas, condici
             <div className="mb-2.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <ClipboardList className="h-4 w-4 text-emerald-600" />
-                    <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">
-                        Matriz Completa de Condiciones Evaluadas ({conteo.total})
-                    </h2>
+                    <h2 className="text-xs font-black tracking-wider text-slate-800 uppercase">Lo que revisamos en tu local ({conteo.total})</h2>
                 </div>
-                <span className="text-[10px] font-semibold text-slate-500">Diagnóstico Integral por Condición</span>
+                <span className="text-[10px] font-semibold text-slate-500">Una fila por cada condición</span>
             </div>
 
             {/* Resumen cuantitativo por estado */}

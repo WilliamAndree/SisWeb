@@ -95,3 +95,22 @@ test('Comerciante Nuevo: usuario sin locales que visualiza el estado vacío y bo
     $responseNueva = $this->get(route('autoevaluacion.nueva'));
     $responseNueva->assertOk();
 });
+
+test('la declaración jurada (Anexo 4) lista las condiciones guardadas como respuestas, con el código corto del registro', function () {
+    $userMaria = User::where('email', 'donamaria@huancayo.pe')->firstOrFail();
+    $autoevaluacion = Autoevaluacion::where('user_id', $userMaria->id)->firstOrFail();
+    // Las evaluaciones actuales no usan el formato antiguo: el anexo debe leer las respuestas.
+    $autoevaluacion->forceFill(['detalle_checklist' => []])->save();
+    $aplicables = $autoevaluacion->respuestas()->where('estado_respuesta', '!=', 'NO_APLICA')->count();
+
+    $this->actingAs($userMaria)
+        ->get(route('autoevaluacion.anexo', ['uuid' => $autoevaluacion->uuid_trazabilidad]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Evaluacion/AnexoOficial')
+            ->has('condiciones', $aplicables)
+            ->where('conteo.total', $aplicables)
+            ->where('conteo.no_cumple', 2)
+            ->where('codigoDocumento', $autoevaluacion->codigo_acceso)
+        );
+});

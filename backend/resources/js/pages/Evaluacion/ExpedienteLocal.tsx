@@ -1,5 +1,4 @@
 import { DesgloseEspecialidades } from '@/components/Evaluacion/DesgloseEspecialidades';
-import { DiagnosticoMultidimensional } from '@/components/Evaluacion/DiagnosticoMultidimensional';
 import { HojaModeloAnexo } from '@/components/Evaluacion/HojaModeloAnexo';
 import { ModalConfirmarReevaluacion } from '@/components/ModalConfirmarReevaluacion';
 import type { AutoevaluacionItem, ExpedienteLocalProps, ProcesoPreventivo } from '@/types/contrato';
@@ -8,7 +7,6 @@ import {
     AlertTriangle,
     ArrowLeft,
     ArrowRight,
-    Building2,
     Calendar,
     CheckCircle2,
     ClipboardList,
@@ -339,9 +337,8 @@ function EncabezadoExpedienteLocal({ proceso, original, esFlujoNuevo, enCurso, c
                     <div className="flex items-center gap-2">
                         <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-sm font-black text-emerald-800">
                             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-                            Expediente Técnico del Establecimiento
+                            Expediente de tu local
                         </span>
-                        <span className="text-sm text-slate-400">{esFlujoNuevo ? 'Normativa Vigente CENEPRED' : 'Histórico Transicional'}</span>
                     </div>
                     <h1 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{proceso.nombre_comercio}</h1>
                     <p className="text-sm text-slate-600">
@@ -350,8 +347,8 @@ function EncabezadoExpedienteLocal({ proceso, original, esFlujoNuevo, enCurso, c
                         {proceso.direccion ? ` · ${proceso.direccion}` : ' · Huancayo'}
                     </p>
                     <p className="mt-0.5 text-sm text-slate-500">
-                        <strong className="text-slate-700">Registro Preventivo Ciudadano:</strong> Historial técnico consolidado de autoevaluaciones.
-                        No constituye trámite administrativo ni resolución de la Municipalidad Provincial de Huancayo.
+                        Aquí ves todas las evaluaciones de este local y cómo ha mejorado. Es una herramienta de preparación: no es un trámite
+                        municipal.
                     </p>
                 </div>
 
@@ -366,7 +363,7 @@ function EncabezadoExpedienteLocal({ proceso, original, esFlujoNuevo, enCurso, c
                     <Calendar className="h-3.5 w-3.5 text-slate-400" />
                     Fecha inicial: {original.fecha}
                 </span>
-                <span className="font-mono text-sm text-slate-500 select-all">UUID: {original.uuid_trazabilidad}</span>
+
                 {original.registrada_at && (
                     <span className="text-slate-600">
                         Registrada: <strong className="font-semibold text-slate-800">{original.registrada_at}</strong>
@@ -409,8 +406,8 @@ function TarjetaEvaluacionOriginal({
         >
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div>
-                    <h2 className="text-sm font-black tracking-wider text-slate-800 uppercase">Estado Técnico de Seguridad</h2>
-                    <p className="mt-0.5 text-sm text-slate-500">Condiciones declaradas y desglose cuantitativo por disciplina</p>
+                    <h2 className="text-sm font-black tracking-wider text-slate-800 uppercase">Cómo está tu local</h2>
+                    <p className="mt-0.5 text-sm text-slate-500">Según lo que declaraste, por especialidad</p>
                 </div>
 
                 <span className="text-xl font-black text-slate-900">
@@ -421,7 +418,7 @@ function TarjetaEvaluacionOriginal({
             {/* Barra de progreso */}
             <div>
                 <div className="mb-1.5 flex items-center justify-between text-sm">
-                    <span className="text-sm font-bold text-slate-500">Avance preventivo declarado</span>
+                    <span className="text-sm font-bold text-slate-500">Qué tan listo está</span>
                     <span className="font-black text-slate-900">{preparacion}%</span>
                 </div>
                 <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
@@ -456,7 +453,7 @@ function TarjetaEvaluacionOriginal({
             {/* Desglose por especialidad (flujo nuevo) */}
             {original.desglose_especialidades && (
                 <div className="border-t border-slate-100 pt-4">
-                    <h3 className="mb-3 text-sm font-black text-slate-700">Desglose por Especialidad Técnica</h3>
+                    <h3 className="mb-3 text-sm font-black text-slate-700">Por especialidad</h3>
                     <DesgloseEspecialidades desglose={original.desglose_especialidades} variante="compacta" />
                 </div>
             )}
@@ -494,21 +491,14 @@ function TarjetaEvaluacionOriginal({
                             className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <RefreshCw className="h-4 w-4 text-slate-500" />
-                            <span>Reevaluar Establecimiento</span>
+                            <span>Volver a evaluar</span>
                         </button>
-                        <Link
-                            href={route('autoevaluacion.croquis', { uuid: original.uuid_trazabilidad })}
-                            className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
-                        >
-                            <Building2 className="h-4 w-4 text-slate-500" />
-                            <span>Croquis Preventivo 2D</span>
-                        </Link>
                         <Link
                             href={route('autoevaluacion.informe', { uuid: original.uuid_trazabilidad })}
                             className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                         >
                             <FileText className="h-4 w-4 text-slate-500" />
-                            <span>Ver Informe Preventivo</span>
+                            <span>Mi informe (PDF)</span>
                         </Link>
                         {pendientes > 0 ? (
                             <>
@@ -517,21 +507,21 @@ function TarjetaEvaluacionOriginal({
                                     className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-bold text-indigo-700 shadow-2xs transition hover:bg-indigo-100 active:scale-95"
                                 >
                                     <Sparkles className="h-4 w-4 text-indigo-600" />
-                                    <span>Puesta a Punto y Evidencias IA</span>
+                                    <span>Corregir lo que falta ({pendientes})</span>
                                 </Link>
                                 <Link
                                     href={route('autoevaluacion.resultado', { uuid: original.uuid_trazabilidad })}
                                     className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                                 >
                                     <ShieldAlert className="h-4 w-4" />
-                                    <span>Revisar Alertas Pendientes ({pendientes})</span>
+                                    <span>Ver mi resultado</span>
                                 </Link>
                                 <Link
                                     href={route('directorio.index')}
                                     className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                                 >
                                     <Store className="h-4 w-4 text-slate-500" />
-                                    <span>Directorio Cívico</span>
+                                    <span>Aliados técnicos</span>
                                 </Link>
                             </>
                         ) : (
@@ -540,7 +530,7 @@ function TarjetaEvaluacionOriginal({
                                 className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                             >
                                 <Eye className="h-4 w-4" />
-                                <span>Ver Resumen Preventivo</span>
+                                <span>Ver mi resultado</span>
                             </Link>
                         )}
                     </>
@@ -568,13 +558,8 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                         <FolderCheck className="h-5 w-5" />
                     </span>
                     <div>
-                        <h2 className="text-sm font-black tracking-wider text-slate-900 uppercase">
-                            Plantillas de Formatos Normativos (D.S. N° 002-2018-PCM)
-                        </h2>
-                        <p className="text-sm text-slate-500">
-                            Plantillas orientativas prellenadas de autoevaluación para orientar la preparación de documentos previos a la presentación
-                            en mesa de partes.
-                        </p>
+                        <h2 className="text-sm font-black tracking-wider text-slate-900 uppercase">Documentos que puedes descargar</h2>
+                        <p className="text-sm text-slate-500">Ya vienen llenados con tus datos. Revísalos, fírmalos y llévalos a tu municipalidad.</p>
                     </div>
                 </div>
                 <span
@@ -589,11 +574,11 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
             {!esModalidadExAnte ? (
                 /* MODALIDAD ITSE POSTERIOR (EX-POST) */
                 <div className="space-y-4">
-                    <div className="space-y-3 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50/90 to-sun-50/50 p-5">
+                    <div className="to-sun-50/50 space-y-3 rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50/90 p-5">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-200/80 px-2.5 py-0.5 text-sm font-black text-emerald-900">
                                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700" />
-                                Requisito Principal Mesa de Partes
+                                El más importante
                             </span>
                             <span className="font-mono text-sm font-bold text-emerald-800">Modelo Anexo 4 (Declaración Jurada)</span>
                         </div>
@@ -614,7 +599,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                             >
                                 <FileText className="h-4 w-4" />
-                                <span>Descargar / Imprimir Declaración Jurada (Anexo 4)</span>
+                                <span>Descargar Declaración Jurada (Anexo 4)</span>
                             </a>
 
                             <a
@@ -624,7 +609,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                             >
                                 <ClipboardList className="h-4 w-4 text-slate-500" />
-                                <span>Solicitud ITSE (Anexo 9 — Opcional)</span>
+                                <span>Solicitud de ITSE (Anexo 9, opcional)</span>
                             </a>
 
                             <Link
@@ -632,7 +617,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                             >
                                 <Printer className="h-4 w-4 text-slate-500" />
-                                <span>Informe Preventivo Imprimible</span>
+                                <span>Mi informe (PDF)</span>
                             </Link>
 
                             <button
@@ -641,7 +626,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-white px-4 py-2.5 text-sm font-bold text-emerald-950 shadow-2xs transition hover:bg-emerald-50 active:scale-95"
                             >
                                 <Sparkles className="h-4 w-4 text-emerald-600" />
-                                <span>Guía de Llenado Asistido (Hoja Modelo)</span>
+                                <span>Cómo llenarla, paso a paso</span>
                             </button>
                         </div>
                     </div>
@@ -668,7 +653,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <span className="inline-flex items-center gap-1 rounded-full bg-sky-200/80 px-2.5 py-0.5 text-sm font-black text-sky-900">
                                 <FileCheck className="h-3.5 w-3.5 text-sky-700" />
-                                Requisito Principal Mesa de Partes
+                                El más importante
                             </span>
                             <span className="font-mono text-sm font-bold text-sky-800">Modelo Anexo 1 / 9 (Solicitud de ITSE)</span>
                         </div>
@@ -697,7 +682,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50 active:scale-95"
                             >
                                 <Printer className="h-4 w-4 text-slate-500" />
-                                <span>Informe Preventivo Imprimible</span>
+                                <span>Mi informe (PDF)</span>
                             </Link>
 
                             <button
@@ -706,7 +691,7 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
                                 className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border border-sky-300 bg-white px-4 py-2.5 text-sm font-bold text-sky-950 shadow-2xs transition hover:bg-sky-50 active:scale-95"
                             >
                                 <Sparkles className="h-4 w-4 text-sky-600" />
-                                <span>Guía de Llenado Asistido (Hoja Modelo)</span>
+                                <span>Cómo llenarla, paso a paso</span>
                             </button>
                         </div>
                     </div>
@@ -779,8 +764,8 @@ function SeccionFormatosOficiales({ esModalidadExAnte, ultimaUuidExpediente, onA
             <p className="flex items-start gap-2 border-t border-slate-100 pt-3 text-sm leading-relaxed text-slate-500">
                 <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" />
                 <span>
-                    Los documentos se generan con los datos declarados por el administrado y su código de trazabilidad único. Recuerde adjuntar los
-                    requisitos administrativos solicitados por Mesa de Partes.
+                    Los documentos usan los datos que declaraste. Lleva también lo que pida la mesa de partes de tu municipalidad (por ejemplo, el
+                    recibo de pago).
                 </span>
             </p>
         </section>
@@ -996,8 +981,8 @@ function ListaReevaluaciones({ nombreComercio, filasHistorial }: Readonly<ListaR
         >
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 bg-slate-50/80 px-6 py-4">
                 <div>
-                    <h2 className="text-sm font-black text-slate-800">Historial de Registros Preventivos</h2>
-                    <p className="mt-0.5 text-sm text-slate-500">Todas las versiones y reevaluaciones registradas para este establecimiento</p>
+                    <h2 className="text-sm font-black text-slate-800">Historial de evaluaciones</h2>
+                    <p className="mt-0.5 text-sm text-slate-500">Cada vez que evaluaste este local</p>
                 </div>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-500">
                     <Hash className="h-3.5 w-3.5 text-slate-400" />
@@ -1064,7 +1049,6 @@ export default function ExpedienteLocal({ proceso }: Readonly<ExpedienteLocalPro
         ultimaUuidExpediente,
         esModalidadExAnte,
         clasificacionNormalizada,
-        desgloseActivo,
     } = resolverMetadatosExpediente(proceso);
 
     return (
@@ -1121,13 +1105,6 @@ export default function ExpedienteLocal({ proceso }: Readonly<ExpedienteLocalPro
                         enCurso={enCurso}
                         pendientes={pendientes}
                         onSolicitarReevaluacion={setEvaluacionAReevaluar}
-                    />
-
-                    {/* DIAGNÓSTICO ANALÍTICO MULTIDIMENSIONAL (CENEPRED Anexo 17) */}
-                    <DiagnosticoMultidimensional
-                        desglose={desgloseActivo}
-                        clasificacion={clasificacionNormalizada}
-                        nombreComercio={proceso.nombre_comercio}
                     />
 
                     <SeccionFormatosOficiales

@@ -178,6 +178,20 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
     const porcentajeAvance = totalObservados > 0 ? Math.round((subsanados.length / totalObservados) * 100) : 100;
 
+    /** Deshace una corrección: la condición vuelve a "por corregir" y el resumen se recalcula. */
+    const handleDeshacer = (item: CriterioObservadoItem) => {
+        setProcesandoCodigo(item.codigo);
+        router.post(
+            route('autoevaluacion.subsanacion.store', { uuid: autoevaluacion.uuid }),
+            {
+                codigo_item: item.codigo,
+                descripcion_subsanacion: item.notas && item.notas.length >= 5 ? item.notas : 'Corrección deshecha por el titular.',
+                estado: 'EN_PROCESO',
+            },
+            { preserveScroll: true, onFinish: () => setProcesandoCodigo(null) },
+        );
+    };
+
     const handleDeclararSubsanado = async (item: CriterioObservadoItem, notaManual?: string) => {
         setProcesandoCodigo(item.codigo);
 
@@ -250,7 +264,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
     return (
         <>
-            <Head title={`Puesta a Punto y Subsanación — ${autoevaluacion.nombre_comercio}`} />
+            <Head title={`Corregir lo que falta — ${autoevaluacion.nombre_comercio}`} />
 
             <div className="min-h-screen bg-slate-50 pb-16">
                 {/* Cabecera: de quién es, qué hacer y a dónde ir después */}
@@ -312,15 +326,17 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                     <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <span className="text-sm font-bold text-slate-400">Progreso de Subsanación</span>
+                                <span className="text-sm font-bold text-slate-400">Tu avance</span>
                                 <div className="mt-1 flex items-baseline gap-2">
                                     <span className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
                                         {subsanados.length} de {totalObservados}
                                     </span>
                                     <span className="text-sm font-semibold text-slate-500">
                                         {pendientes.length === 1
-                                            ? '1 condición pendiente por regularizar'
-                                            : `${pendientes.length} condiciones pendientes por regularizar`}
+                                            ? 'te falta 1'
+                                            : pendientes.length === 0
+                                              ? 'todo corregido'
+                                              : `te faltan ${pendientes.length}`}
                                     </span>
                                 </div>
                             </div>
@@ -336,12 +352,12 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                     {todosSubsanados ? (
                                         <>
                                             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                                            100% de Condiciones Declaradas Subsanadas
+                                            ¡Todo corregido!
                                         </>
                                     ) : (
                                         <>
                                             <AlertTriangle className="h-4 w-4 text-amber-600" />
-                                            {porcentajeAvance}% Completado
+                                            {porcentajeAvance}% listo
                                         </>
                                     )}
                                 </span>
@@ -379,12 +395,11 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                     </div>
                                     <div>
                                         <h2 className="text-lg font-black tracking-tight text-slate-900 sm:text-xl">
-                                            ¡Excelente trabajo! Has subsanado todas las observaciones
+                                            ¡Excelente trabajo! Corregiste todo lo que faltaba
                                         </h2>
                                         <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-sm">
-                                            Todas las condiciones observadas han sido declaradas como subsanadas por el titular. En tu Panel Ciudadano
-                                            este local figura con <strong>100% de cumplimiento declarado</strong> como preparación preventiva para tu
-                                            trámite oficial ante la municipalidad.
+                                            Tu local ya figura al <strong>100 %</strong> en tu panel. Ahora arma tu expediente y descarga tu
+                                            declaración jurada para presentarla en tu municipalidad.
                                         </p>
                                     </div>
                                 </div>
@@ -395,7 +410,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                         className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                                     >
                                         <Store className="h-4 w-4" />
-                                        <span>Volver al Dashboard</span>
+                                        <span>Volver a mi panel</span>
                                         <ArrowRight className="h-3.5 w-3.5" />
                                     </Link>
 
@@ -427,7 +442,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                     href={route('dashboard')}
                                     className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-emerald-600 px-6 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700"
                                 >
-                                    Regresar al Panel Ciudadano
+                                    Volver a mi panel
                                 </Link>
                             </div>
                         </div>
@@ -435,9 +450,9 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         <div className="space-y-4">
                             <div className="flex items-center justify-between px-1">
                                 <h2 className="text-sm font-black tracking-wider text-slate-700 uppercase">
-                                    Condiciones Técnicas Observadas ({items.length})
+                                    Lo que había que corregir ({items.length})
                                 </h2>
-                                <span className="text-sm font-semibold text-slate-400">{pendientes.length} por resolver</span>
+                                <span className="text-sm font-semibold text-slate-400">{pendientes.length} por corregir</span>
                             </div>
 
                             <div className="grid grid-cols-1 gap-4">
@@ -477,12 +492,12 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         {estaSubsanado ? (
                                                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-sm font-bold text-emerald-800">
                                                                 <Check className="h-3 w-3 text-emerald-600" />
-                                                                Subsanado y conforme
+                                                                Corregido
                                                             </span>
                                                         ) : (
                                                             <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-sm font-bold text-amber-800">
                                                                 <AlertTriangle className="h-3 w-3 text-amber-600" />
-                                                                Por regularizar
+                                                                Por corregir
                                                             </span>
                                                         )}
                                                     </div>
@@ -492,9 +507,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                     {/* Pregunta o qué observar */}
                                                     {(item.que_observar || item.pregunta_ciudadana) && (
                                                         <div className="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-3 text-sm leading-relaxed text-slate-600">
-                                                            <span className="block font-bold text-slate-700">
-                                                                ¿Qué verificar en tu establecimiento?
-                                                            </span>
+                                                            <span className="block font-bold text-slate-700">Qué revisar en tu local</span>
                                                             <p>{item.que_observar || item.pregunta_ciudadana}</p>
                                                         </div>
                                                     )}
@@ -504,7 +517,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         <div className="space-y-1 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 text-sm leading-relaxed text-emerald-950">
                                                             <div className="flex items-center gap-1.5 font-bold text-emerald-900">
                                                                 <Wrench className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                                                                <span>Acción correctiva recomendada:</span>
+                                                                <span>Qué hacer:</span>
                                                             </div>
                                                             <p className="text-emerald-800">{item.accion_mejora_orientativa}</p>
                                                         </div>
@@ -513,7 +526,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                     {/* Nota previamente registrada */}
                                                     {item.notas && (
                                                         <div className="rounded-xl border border-slate-200/80 bg-white p-2.5 text-sm font-medium text-slate-500 italic">
-                                                            <strong>Anotación del comerciante:</strong> "{item.notas}"
+                                                            <strong>Lo que escribiste:</strong> "{item.notas}"
                                                         </div>
                                                     )}
 
@@ -555,7 +568,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
                                                     >
                                                         <Users className="h-4 w-4 text-emerald-600" />
-                                                        <span>Contactar especialistas Huancayo</span>
+                                                        <span>Quién lo vende o instala</span>
                                                     </button>
 
                                                     {item.recursos_educativos && item.recursos_educativos.length > 0 && (
@@ -575,7 +588,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
                                                     >
                                                         <Camera className="h-4 w-4 text-slate-500" />
-                                                        <span>{item.evidencia_url ? 'Actualizar evidencia' : 'Adjuntar evidencia (foto/PDF)'}</span>
+                                                        <span>{item.evidencia_url ? 'Cambiar foto o documento' : 'Subir foto o documento'}</span>
                                                     </button>
 
                                                     {item.evidencia_url && (
@@ -612,14 +625,20 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                 {/* Botón de Subsanación */}
                                                 <div>
                                                     {estaSubsanado ? (
-                                                        <button
-                                                            type="button"
-                                                            disabled
-                                                            className="inline-flex min-h-[44px] cursor-default items-center gap-2 rounded-xl bg-emerald-100 px-4 py-2.5 text-sm font-bold text-emerald-800"
-                                                        >
-                                                            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                                                            <span>Condición Subsanada</span>
-                                                        </button>
+                                                        <div className="flex flex-wrap items-center gap-2">
+                                                            <span className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-emerald-100 px-4 py-2.5 text-sm font-bold text-emerald-800">
+                                                                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                                                                Corregido
+                                                            </span>
+                                                            <button
+                                                                type="button"
+                                                                disabled={cargandoEsteItem}
+                                                                onClick={() => handleDeshacer(item)}
+                                                                className="inline-flex min-h-[44px] cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+                                                            >
+                                                                {cargandoEsteItem ? 'Guardando…' : 'Deshacer'}
+                                                            </button>
+                                                        </div>
                                                     ) : (
                                                         <button
                                                             type="button"
@@ -635,7 +654,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                             ) : (
                                                                 <>
                                                                     <Check className="h-4 w-4" />
-                                                                    <span>Ya lo subsané / Marcar como Cumple</span>
+                                                                    <span>Ya lo corregí</span>
                                                                 </>
                                                             )}
                                                         </button>
@@ -656,7 +675,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             className="inline-flex min-h-[44px] items-center gap-2 text-sm font-bold text-slate-600 transition hover:text-slate-900"
                         >
                             <ArrowLeft className="h-4 w-4" />
-                            <span>Volver al Panel Ciudadano</span>
+                            <span>Volver a mi panel</span>
                         </Link>
 
                         <div className="flex flex-wrap items-center gap-2">
@@ -665,7 +684,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 shadow-2xs transition hover:bg-slate-50"
                             >
                                 <FileText className="h-4 w-4 text-slate-400" />
-                                <span>Ver Diagnóstico Inicial (Resumen)</span>
+                                <span>Ver mi resultado</span>
                             </Link>
 
                             <Link
@@ -673,7 +692,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700"
                             >
                                 <FileCheck className="h-4 w-4" />
-                                <span>Ver Informe Preventivo</span>
+                                <span>Mi informe (PDF)</span>
                             </Link>
                         </div>
                     </div>
@@ -695,7 +714,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             </div>
                             <div>
                                 <h3 id="modal-subsanar-title" className="text-base font-black text-slate-900">
-                                    Declarar Condición Subsanada
+                                    ¿Ya lo corregiste?
                                 </h3>
                                 <span className="font-mono text-sm font-bold text-slate-500">
                                     {itemParaDeclarar.codigo} — {itemParaDeclarar.titulo}
@@ -704,8 +723,8 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                         </div>
 
                         <p className="text-sm leading-relaxed text-slate-600">
-                            Al marcar esta condición como cumplida, confirmas bajo declaración cívica que tu local en Huancayo cuenta con esta
-                            condición de seguridad debidamente implementada.
+                            Puedes haberlo comprado a un aliado de CheckITSE o por tu cuenta. Cuéntanos qué hiciste; si tienes una foto, súbela
+                            después con «Subir foto o documento».
                         </p>
 
                         <div className="space-y-1.5">
@@ -715,7 +734,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             <textarea
                                 id="nota-subsanacion"
                                 rows={3}
-                                placeholder="Ej. Se instaló extintor PQS de 6 kg recargado con certificado y cartel fotoluminiscente..."
+                                placeholder="Ej. Compré un extintor PQS de 6 kg en una ferretería del centro y lo colgué junto a la puerta."
                                 value={notaSubsanacion[itemParaDeclarar.codigo] || ''}
                                 onChange={(e) =>
                                     setNotaSubsanacion({

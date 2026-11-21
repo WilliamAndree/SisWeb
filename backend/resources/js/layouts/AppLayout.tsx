@@ -1,5 +1,7 @@
 import Footer from '@/components/Footer';
 import { Navbar } from '@/components/Navbar';
+import { useRevelarAlBajar } from '@/hooks/use-revelar-al-bajar';
+import { usePage } from '@inertiajs/react';
 
 interface AppLayoutProps {
     readonly children: React.ReactNode;
@@ -8,9 +10,12 @@ interface AppLayoutProps {
      * borde). La página se encarga de centrar sus propias secciones.
      */
     readonly ancho?: 'contenido' | 'completo';
+    /** La página empieza con una foto a pantalla completa: la barra va encima y se vuelve blanca al bajar. */
+    readonly navSobreImagen?: boolean;
 }
 
-export default function AppLayout({ children, ancho = 'contenido' }: Readonly<AppLayoutProps>) {
+export default function AppLayout({ children, ancho = 'contenido', navSobreImagen = false }: Readonly<AppLayoutProps>) {
+    useRevelarAlBajar(usePage().url);
     const claseMain =
         ancho === 'completo'
             ? 'w-full flex-1 outline-none focus:outline-none'
@@ -26,8 +31,8 @@ export default function AppLayout({ children, ancho = 'contenido' }: Readonly<Ap
             </a>
 
             {/* La barra se queda visible al bajar: el contenedor es el que es sticky. */}
-            <div className="sticky top-0 z-40 print:hidden">
-                <Navbar />
+            <div className={`${navSobreImagen ? 'fixed inset-x-0' : 'sticky'} top-0 z-40 print:hidden`}>
+                <Navbar sobreImagen={navSobreImagen} />
             </div>
 
             <main id="main-content" tabIndex={-1} className={claseMain}>

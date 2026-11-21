@@ -485,12 +485,11 @@ export default function AnexoOficial({
     const enlaceResumen = resolverUrlResumen(urlResumen, autoevaluacion?.uuid_trazabilidad);
     const nombreTitular = resolverNombreTitular(titular, autoevaluacion);
     const nombreTitularFirma = resolverNombreTitular(titular, autoevaluacion, 'Administrado / Titular');
-    const estadoPlataformaTexto = autoevaluacion?.estado === 'REGISTRADA' ? 'REGISTRADA (Inmutable)' : 'INICIADA (Borrador)';
 
     return (
         <div className="min-h-screen bg-slate-100 font-sans text-slate-900 antialiased print:bg-white print:p-0 print:text-black">
             <Head
-                title={`Plantilla Orientativa de Trabajo — Modelo Anexo ${numero} (D.S. N° 002-2018-PCM) - ${autoevaluacion?.nombre_comercio ?? ''}`}
+                title={`${numero === '9' ? 'Solicitud de ITSE (Anexo 9)' : 'Declaración jurada (Anexo 4)'} - ${autoevaluacion?.nombre_comercio ?? ''}`}
             >
                 <style>{`
                     @media print {
@@ -515,9 +514,8 @@ export default function AnexoOficial({
                         <span className="inline-block rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 font-mono text-[10px] font-bold text-slate-700">
                             {codigoDocumento}
                         </span>
-                        <h1 className="text-xs font-bold text-slate-900 sm:text-sm">
-                            Plantilla Orientativa de Trabajo — Modelo Normativo CENEPRED (D.S. N° 002-2018-PCM)
-                        </h1>
+                        <h1 className="text-sm font-bold text-slate-900">Tu documento, listo para imprimir</h1>
+                        <p className="text-xs text-slate-500">Para PDF: pulsa «Imprimir» y elige «Guardar como PDF».</p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
@@ -527,7 +525,7 @@ export default function AnexoOficial({
                             className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-emerald-300 bg-white px-3.5 py-2 text-xs font-bold text-emerald-950 shadow-2xs transition hover:bg-emerald-50 active:scale-95"
                         >
                             <Sparkles className="h-4 w-4 text-emerald-600" />
-                            <span>Guía de Llenado Asistido</span>
+                            <span>Cómo llenarlo</span>
                         </button>
 
                         <button
@@ -536,7 +534,7 @@ export default function AnexoOficial({
                             className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95"
                         >
                             <Printer className="h-4 w-4" />
-                            <span>🖨️ Imprimir Formato A4</span>
+                            <span>Imprimir o guardar en PDF</span>
                         </button>
                     </div>
                 </div>
@@ -673,15 +671,11 @@ export default function AnexoOficial({
                             <header className="border-b-2 border-slate-800 pb-4 text-center">
                                 <div className="mb-3 flex items-center justify-between gap-4 border-b border-slate-200 pb-3 text-left">
                                     <div className="space-y-0.5">
+                                        <p className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">Dirigido a</p>
                                         <h2 className="text-xs font-black tracking-wider text-slate-900 uppercase">
                                             Municipalidad Provincial de Huancayo
                                         </h2>
-                                        <p className="text-[11px] font-semibold text-slate-700">
-                                            Gerencia de Seguridad Ciudadana y Gestión del Riesgo de Desastres
-                                        </p>
-                                        <p className="text-[10px] text-slate-500">
-                                            Subgerencia de Gestión del Riesgo de Desastres e Inspecciones Técnicas (ITSE)
-                                        </p>
+                                        <p className="text-[10px] text-slate-500">Modelo de formato según el D.S. N° 002-2018-PCM</p>
                                     </div>
                                     <div className="shrink-0 text-right">
                                         <span className="block font-mono text-[10px] font-bold text-slate-600">CENEPRED · D.S. N° 002-2018-PCM</span>
@@ -695,12 +689,8 @@ export default function AnexoOficial({
                                 {/* Metadatos de Expediente y Fecha */}
                                 <div className="mt-3 flex flex-wrap items-center justify-between border-t border-dashed border-slate-300 pt-2 text-[10px] text-slate-600">
                                     <div>
-                                        <span className="font-semibold text-slate-700">Folio CheckITSE: </span>
-                                        <span className="font-mono font-bold text-slate-900">{autoevaluacion?.codigo_acceso || 'CHK-PROV'}</span>
-                                    </div>
-                                    <div>
-                                        <span className="font-semibold text-slate-700">Código de Documento: </span>
-                                        <span className="font-mono text-slate-900">{codigoDocumento}</span>
+                                        <span className="font-semibold text-slate-700">Código CheckITSE: </span>
+                                        <span className="font-mono font-bold text-slate-900">{codigoDocumento}</span>
                                     </div>
                                     <div>
                                         <span className="font-semibold text-slate-700">Fecha de Emisión: </span>
@@ -792,27 +782,12 @@ export default function AnexoOficial({
                             {/* Bloques específicos de ANEXO 9 (Solicitud ITSE) */}
                             {esAnexo9 && <BloquesAnexo9 esExAnte={esExAnte} autoevaluacion={autoevaluacion} conteo={conteo} />}
 
-                            {/* 4. Trazabilidad Cívica y Huella Criptográfica */}
-                            <section className="rounded-lg border border-slate-200 bg-slate-50/80 p-3 text-[10px] leading-snug print:border-slate-300 print:bg-transparent">
-                                <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-1.5">
-                                    <span className="text-[9.5px] font-bold tracking-wider text-slate-800 uppercase">
-                                        Trazabilidad Cívica e Integridad Técnica
-                                    </span>
-                                    <span className="font-mono text-slate-500">UUID: {autoevaluacion?.uuid_trazabilidad || 'No generado'}</span>
-                                </div>
-                                <div className="grid grid-cols-1 gap-1 text-slate-600 sm:grid-cols-2">
-                                    <div>
-                                        <span className="font-semibold text-slate-700">Hash de integridad (SHA-256): </span>
-                                        <span className="font-mono text-[9px] break-all text-slate-800 select-all">
-                                            {autoevaluacion?.hash_integridad || 'Sin registro definitivo'}
-                                        </span>
-                                    </div>
-                                    <div className="text-left sm:text-right">
-                                        <span className="font-semibold text-slate-700">Estado en plataforma: </span>
-                                        <span className="font-bold text-slate-900">{estadoPlataformaTexto}</span>
-                                    </div>
-                                </div>
-                            </section>
+                            {/* 4. Origen del documento, en simple (sin UUID ni hash) */}
+                            <p className="rounded-lg border border-slate-200 bg-slate-50/80 p-3 text-[10px] leading-snug text-slate-600 print:border-slate-300 print:bg-transparent">
+                                Documento preparado con CheckITSE a partir de la autoevaluación de tu local (código{' '}
+                                <strong className="font-mono text-slate-900">{codigoDocumento}</strong>). Revisa que los datos sean correctos antes de
+                                firmarlo.
+                            </p>
 
                             {/* 5. Espacio Formal de Firmas y Cargo de Mesa de Partes */}
                             <section className="pt-6 print:pt-4">

@@ -1,14 +1,14 @@
 import '../css/app.css';
 
-import React from 'react';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 import AppLayout from './layouts/AppLayout';
 
-
-const appName = import.meta.env.VITE_APP_NAME || 'CheckITSE';
+// Nombre del producto: no depende de APP_NAME (que en una instalación nueva vale "Laravel").
+const appName = 'CheckITSE Huancayo';
 
 /**
  * Inertia envuelve la página en el layout recibido como `children`, por lo que el
@@ -26,7 +26,7 @@ function buildTitle(title?: string): string {
         return appName;
     }
 
-    return title === appName || title.includes(appName) ? title : `${title} - ${appName}`;
+    return title.includes('CheckITSE') ? title : `${title} - ${appName}`;
 }
 
 void createInertiaApp({

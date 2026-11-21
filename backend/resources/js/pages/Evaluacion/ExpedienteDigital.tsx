@@ -1,3 +1,4 @@
+import { EjemploCroquis } from '@/components/Evaluacion/EjemploCroquis';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     AlertCircle,
@@ -137,6 +138,7 @@ function TarjetaDocumento({ numero, documento, uuid, tamanoMaximoMb }: Readonly<
                     {documento.como_conseguirlo}
                 </span>
             </p>
+            {documento.tipo === 'croquis_ubicacion' && <EjemploCroquis />}
 
             {documento.archivo ? (
                 <div className="mt-5 flex flex-col gap-4 rounded-xl bg-slate-50 p-4 sm:flex-row sm:items-center">

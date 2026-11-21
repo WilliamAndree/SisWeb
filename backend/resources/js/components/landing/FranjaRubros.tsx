@@ -18,8 +18,10 @@ export function FranjaRubros() {
     return (
         <section aria-labelledby="rubros-titulo" className="overflow-hidden py-16">
             <div className="mx-auto max-w-7xl px-5 sm:px-8">
-                <p className="text-primary-700 text-sm font-bold tracking-[0.2em] uppercase">Para cualquier rubro</p>
-                <h2 id="rubros-titulo" className="mt-2 max-w-3xl text-3xl font-bold text-slate-900 sm:text-5xl">
+                <p data-revelar className="text-primary-700 text-sm font-bold tracking-[0.2em] uppercase">
+                    Para cualquier rubro
+                </p>
+                <h2 id="rubros-titulo" data-revelar className="mt-2 max-w-3xl text-4xl font-extrabold text-slate-900 sm:text-5xl">
                     Preguntas hechas a la medida de tu negocio
                 </h2>
             </div>

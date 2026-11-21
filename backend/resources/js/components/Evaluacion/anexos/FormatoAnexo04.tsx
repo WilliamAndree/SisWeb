@@ -28,11 +28,9 @@ export function FormatoAnexo04({ autoevaluacion, titular, condiciones = [], cont
             <header className="border-b-2 border-slate-800 pb-3 text-center">
                 <div className="flex items-center justify-between text-left text-[11px] font-semibold text-slate-600 print:text-black">
                     <div>
+                        <p className="text-[10px] tracking-wider text-slate-500 uppercase print:text-black">Dirigido a</p>
                         <p className="font-black text-slate-900 uppercase print:text-black">MUNICIPALIDAD PROVINCIAL DE HUANCAYO</p>
-                        <p>Gerencia de Seguridad Ciudadana y Gestión del Riesgo</p>
-                        <p className="text-[10px] text-slate-500 print:text-black">
-                            Subgerencia de Gestión del Riesgo de Desastres e ITSE · Modelo Normativo
-                        </p>
+                        <p className="text-[10px] text-slate-500 print:text-black">Modelo de formato según el D.S. N° 002-2018-PCM</p>
                     </div>
                     <div className="text-right">
                         <span className="rounded border border-slate-400 px-2 py-0.5 font-mono text-[10px] font-bold">

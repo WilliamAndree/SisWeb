@@ -18,8 +18,12 @@ interface EnlaceNav {
 
 const claseFoco = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500';
 
-function claseEnlace(activo: boolean, movil = false): string {
+function claseEnlace(activo: boolean, movil = false, sobreImagen = false): string {
     const base = movil ? 'block rounded-xl px-4 py-3 text-sm font-semibold' : 'rounded-full px-3.5 py-2 text-sm font-semibold';
+    if (sobreImagen) {
+        const estadoClaro = activo ? 'bg-white/15 text-white' : 'text-white/85 hover:bg-white/10 hover:text-white';
+        return `${base} ${estadoClaro} transition ${claseFoco}`;
+    }
     const estado = activo ? 'bg-primary-50 text-primary-800' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900';
     return `${base} ${estado} transition ${claseFoco}`;
 }
@@ -68,8 +72,13 @@ function enlacesPorCuenta(usuario: Usuario | null, esInicio: boolean, url: strin
     return enlaces;
 }
 
-export const Navbar: React.FC = () => {
+/**
+ * `sobreImagen`: en portadas con foto a pantalla completa la barra empieza
+ * transparente, encima de la foto, y se vuelve blanca al bajar.
+ */
+export const Navbar: React.FC<{ readonly sobreImagen?: boolean }> = ({ sobreImagen = false }) => {
     const [menuAbierto, setMenuAbierto] = useState(false);
+    const [arriba, setArriba] = useState(true);
     const menuButtonRef = useRef<HTMLButtonElement | null>(null);
     const { props, url } = usePage();
     const { auth } = props as { auth?: { user: Usuario | null } };
@@ -87,6 +96,17 @@ export const Navbar: React.FC = () => {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [menuAbierto]);
 
+    useEffect(() => {
+        if (!sobreImagen) return;
+        const revisar = () => setArriba(window.scrollY < 40);
+        revisar();
+        window.addEventListener('scroll', revisar, { passive: true });
+        return () => window.removeEventListener('scroll', revisar);
+    }, [sobreImagen]);
+
+    // Transparente solo arriba del todo y con el menú cerrado.
+    const transparente = sobreImagen && arriba && !menuAbierto;
+
     const esInicio = Boolean(route().current('autoevaluacion.index'));
     const cerrarMenu = () => setMenuAbierto(false);
     const cerrarSesion = () => router.post(route('logout'));
@@ -101,7 +121,7 @@ export const Navbar: React.FC = () => {
 
     const renderEnlace = (enlace: EnlaceNav, movil = false) => {
         const props = {
-            className: claseEnlace(enlace.activo, movil),
+            className: claseEnlace(enlace.activo, movil, transparente && !movil),
             'aria-current': enlace.activo ? ('page' as const) : undefined,
             onClick: movil ? cerrarMenu : undefined,
         };
@@ -120,15 +140,21 @@ export const Navbar: React.FC = () => {
     const inicial = usuario?.name.charAt(0).toUpperCase() ?? '';
 
     return (
-        <header className="border-b border-slate-200/70 bg-white/85 backdrop-blur-md print:hidden">
+        <header
+            className={`border-b transition-colors duration-300 print:hidden ${transparente ? 'border-transparent bg-transparent' : 'border-slate-200/70 bg-white/90 shadow-sm backdrop-blur-md'}`}
+        >
             <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
                 <Link href={inicioDeCuenta} onClick={cerrarMenu} className={`flex shrink-0 items-center gap-2.5 rounded-xl ${claseFoco}`}>
                     <span className="bg-ink-900 flex size-9 items-center justify-center rounded-xl text-white">
                         <ShieldCheck aria-hidden="true" className="text-primary-300 size-5" />
                     </span>
                     <span className="leading-tight">
-                        <span className="block text-base font-extrabold tracking-tight text-slate-900">CheckITSE</span>
-                        <span className="hidden text-[11px] font-medium text-slate-500 sm:block">{subtituloMarca}</span>
+                        <span className={`block text-base font-extrabold tracking-tight ${transparente ? 'text-white' : 'text-slate-900'}`}>
+                            CheckITSE
+                        </span>
+                        <span className={`hidden text-[11px] font-medium sm:block ${transparente ? 'text-white/70' : 'text-slate-500'}`}>
+                            {subtituloMarca}
+                        </span>
                     </span>
                 </Link>
 
@@ -141,7 +167,7 @@ export const Navbar: React.FC = () => {
                         <>
                             <Link
                                 href={route('perfil.show')}
-                                className={`flex items-center gap-2 rounded-full border border-slate-200 py-1 pr-3 pl-1 text-sm font-semibold text-slate-700 hover:bg-slate-50 ${claseFoco}`}
+                                className={`flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-sm font-semibold ${transparente ? 'border-white/30 text-white hover:bg-white/10' : 'border-slate-200 text-slate-700 hover:bg-slate-50'} ${claseFoco}`}
                             >
                                 <span className="bg-primary flex size-7 items-center justify-center rounded-full text-xs font-bold text-white">
                                     {inicial}
@@ -152,13 +178,13 @@ export const Navbar: React.FC = () => {
                                 type="button"
                                 onClick={cerrarSesion}
                                 aria-label="Cerrar sesión"
-                                className={`flex size-9 cursor-pointer items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 ${claseFoco}`}
+                                className={`flex size-9 cursor-pointer items-center justify-center rounded-full ${transparente ? 'text-white/80 hover:bg-white/10 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'} ${claseFoco}`}
                             >
                                 <LogOut aria-hidden="true" className="size-4" />
                             </button>
                         </>
                     ) : (
-                        <Link href={route('login')} className={claseEnlace(false)}>
+                        <Link href={route('login')} className={claseEnlace(false, false, transparente)}>
                             Ingresar
                         </Link>
                     )}
@@ -175,7 +201,7 @@ export const Navbar: React.FC = () => {
                         aria-expanded={menuAbierto}
                         aria-controls="menu-movil"
                         aria-label={menuAbierto ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
-                        className={`flex size-10 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 ${claseFoco}`}
+                        className={`flex size-10 cursor-pointer items-center justify-center rounded-xl border ${transparente ? 'border-white/30 bg-white/10 text-white backdrop-blur-sm' : 'border-slate-200 bg-white text-slate-700'} ${claseFoco}`}
                     >
                         {menuAbierto ? <X className="size-5" /> : <Menu className="size-5" />}
                     </button>

@@ -40,7 +40,7 @@ return [
             'tipo' => 'croquis_ubicacion',
             'titulo' => 'Croquis de ubicación',
             'descripcion' => 'Dibujo simple que muestra dónde está tu local respecto a calles y referencias.',
-            'como_conseguirlo' => 'Puedes hacerlo con el editor de croquis de CheckITSE y exportarlo en PDF.',
+            'como_conseguirlo' => 'Dibújalo a mano en una hoja: tu local, las calles de alrededor y una referencia conocida. Tómale una foto y súbela.',
             'base_legal' => 'D.S. N° 002-2018-PCM, art. 25.1 a)',
             'formatos' => $imagenesYPdf,
             'obligatorio_en' => [$previa],
