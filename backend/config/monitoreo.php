@@ -53,7 +53,7 @@ return [
             'pruebas' => [
                 'JornadaCompletaComercianteTest', 'CheckItseIntegrationTest', 'CheckItseModulosTest', 'ContratosFrontendUxTest',
                 'ContratoYSeguridadFase0Test', 'QARevisionFinalFase18Test', 'DesacoplamientoFlujoLegadoTest', 'TestEnvironmentTest',
-                'NormativaArchitectureModelsTest', 'DemoWalkthroughSeederTest',
+                'NormativaArchitectureModelsTest', 'DemoWalkthroughSeederTest', 'RecorridoEmprendedorNuevoTest',
             ],
             'codigo_fuente' => ['app/Services/Monitoreo/'],
         ],
@@ -89,7 +89,7 @@ return [
             'nombre' => 'Subsanación con proveedores',
             'responsable' => 'Emprendedor y proveedor',
             'pruebas' => [
-                'SubsanacionDirectaTest', 'SubsanacionEvidenciasTest', 'TrazabilidadForenseSubsanacionTest', 'AnalisisMultimodalGeminiTest',
+                'SubsanacionDirectaTest', 'SubsanacionSincronizadaTest', 'SubsanacionEvidenciasTest', 'TrazabilidadForenseSubsanacionTest', 'AnalisisMultimodalGeminiTest',
                 'GeminiResilienciaTddTest', 'ValidacionResultadoIAServiceTest', 'ValidacionResultadoIATddTest', 'RecursosCercanosTest',
                 'GeoLocationServiceTest', 'AfiliacionAliadosTest', 'DirectorioAfiliacionPaginaTest',
             ],
