@@ -59,6 +59,7 @@ export default defineConfig({
                                     titulo: t.title.join(' › '),
                                     estado: t.state,
                                     duracion_ms: t.duration,
+                                    error: t.displayError ?? null,
                                 })),
                             ),
                         },
