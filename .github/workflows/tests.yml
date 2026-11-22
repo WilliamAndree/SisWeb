@@ -195,7 +195,8 @@ jobs:
           APP_ENV: e2e
         run: |
           php artisan serve --host=127.0.0.1 --port=8010 > storage/logs/servidor-e2e.log 2>&1 &
-          for i in $(seq 1 40); do curl -fs http://127.0.0.1:8010/up && break; sleep 1; done
+          for i in $(seq 1 60); do curl -fs http://127.0.0.1:8010/up > /dev/null && exit 0; sleep 1; done
+          cat storage/logs/servidor-e2e.log; exit 1
 
       - name: Cypress
         env:
@@ -207,7 +208,10 @@ jobs:
         run: |
           if [ -f cypress/reports/resumen.json ]; then
             php -r '$r = json_decode(file_get_contents("cypress/reports/resumen.json"), true); echo "## Cypress\n\n| Total | Aprobadas | Fallidas | Tiempo |\n|---|---|---|---|\n| {$r["total"]} | {$r["aprobadas"]} | {$r["fallidas"]} | ".round($r["duracion_ms"]/1000, 1)." s |\n";' >> "$GITHUB_STEP_SUMMARY"
+            # Cada escenario fallido aparece como anotación con su mensaje de error.
+            php -r '$r = json_decode(file_get_contents("cypress/reports/resumen.json"), true); foreach ($r["escenarios"] as $e) { if ($e["estado"] !== "passed") { echo "::error title=".$e["archivo"]."::".$e["titulo"]." - ".str_replace(["\r", "\n"], " ", substr((string) $e["error"], 0, 500)).PHP_EOL; } }'
           fi
+          if [ -f storage/logs/laravel.log ]; then tail -n 15 storage/logs/laravel.log | cut -c1-300 | sed 's/^/::warning title=laravel.log::/'; fi
 
       - name: Guardar evidencias de Cypress
         if: always()
