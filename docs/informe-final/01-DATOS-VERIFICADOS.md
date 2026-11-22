@@ -423,7 +423,7 @@ Análisis del código del commit **0ec9db8 (el mismo que está desplegado)** eje
 | Vulnerabilities | 0 | Sin problemas de seguridad. Calificación de seguridad A. *Security hotspots*: 0 pendientes (100 % revisados). |
 | Code Smells | 734 | Problemas de mantenibilidad (deuda técnica estimada 2 546 min ≈ 42 h). Calificación de mantenibilidad A. Ver detalle abajo. |
 | Coverage | 90.0 % | Porcentaje de líneas de `app/` ejecutadas por las 775 pruebas PHP (7 678 líneas a cubrir, 771 sin cubrir). |
-| Duplicated Lines | 3.2 % | Código duplicado bajo; se concentra en componentes de interfaz similares. |
+| Duplicated Lines | 3.2 % | 3.2 % del código total; en el código nuevo es 0.62 %, bajo el umbral de 3 %. Los seeders de demostración y config/aliados.php no cuentan para este cálculo. |
 
 Tamaño analizado: 43 787 líneas de código en 243 archivos.
 
@@ -467,7 +467,7 @@ Tamaño analizado: 43 787 líneas de código en 243 archivos.
    textos normativos y datos de demostración). Le siguen el uso de excepciones genéricas (`php:S112`), detalles de formato
    del estándar PSR (`php:S1808`) y funciones con complejidad cognitiva alta en
    TypeScript (`typescript:S3776`). Durante la práctica también aparecieron 18 *security hotspots* (`mt_rand`), ya corregidos.
-3. **¿Qué componentes presentan mayores observaciones?** `app/Services/Espacio` (130, lógica geométrica del croquis con funciones extensas), `app/Http/Controllers` (97, sobre todo `EvaluacionController`, que concentra muchas acciones), `database/seeders` (95, líneas largas con textos normativos y de demostración), servicios generales de `app/Services` (67) y `app/Services/Monitoreo` (66). En el frontend, los componentes con más complejidad cognitiva son los del croquis y de los informes.
+3. **¿Qué componentes presentan mayores observaciones?** `app/Services/Espacio` (130, lógica geométrica del croquis con funciones extensas), `app/Http/Controllers` (97), `database/seeders` (95, líneas largas con textos normativos y de demostración), servicios generales de `app/Services` (67) y `app/Services/Monitoreo` (66). En el frontend, las observaciones principales son de complejidad cognitiva (`typescript:S3776`, 17) y ternarios anidados (`typescript:S3358`, 16).
 4. **¿Qué mejoras deberían implementarse?** (a) Partir las líneas largas y mover textos normativos a archivos de datos;
    (b) reemplazar `\Exception` genérica por excepciones propias del dominio; (c) dividir las funciones y componentes con
    complejidad cognitiva alta (servicios de `Espacio`, componentes del croquis); (d) subir la cobertura de los servicios
@@ -775,7 +775,7 @@ Fuente de las figuras 1–3: elaboración propia. Resto: captura del sistema Che
 ## 10b. Recomendaciones sugeridas (con base en los resultados)
 
 1. Publicar SonarQube en un servidor accesible (o usar SonarQube Cloud) y definir `SONAR_HOST_URL` / `SONAR_TOKEN` en GitHub para activar el job automático con Quality Gate bloqueante; de paso, actualizar SonarQube 9.9 (sin soporte) a la versión LTA vigente.
-2. Reducir los 734 code smells empezando por `app/Services/Espacio` y `EvaluacionController` (complejidad y líneas largas), y reemplazar excepciones genéricas por excepciones del dominio.
+2. Reducir los 734 code smells empezando por `app/Services/Espacio` y `app/Http/Controllers` (complejidad y líneas largas), y reemplazar excepciones genéricas por excepciones del dominio.
 3. Activar las tareas de fondo en el servidor con `scripts/tareas-xampp.ps1` y, si el servidor pasa a producción real, añadir HTTPS y respaldo automático de la base de datos.
 4. Recoger el resultado de la inspección municipal real (aprobó / fue observado) para medir el impacto final del sistema con datos de usuarios reales, no solo de demostración.
 5. Ampliar Cypress a los flujos de proveedor (publicar productos, solicitar plan) y ejecutar la prueba de humo de forma programada contra el servidor.
