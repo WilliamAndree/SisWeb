@@ -47,7 +47,7 @@
   <path class="l" d="M458 206 H582"/>
   <text x="470" y="196" class="et">git push</text>
   <path class="ln" d="M1018 196 C1080 196 1080 210 1142 210"/>
-  <text x="1030" y="180" class="et" fill="#a1360c">git pull (main validado)</text>
+  <text x="1030" y="166" class="et" fill="#a1360c">git pull</text><text x="1030" y="184" class="et" fill="#a1360c">(main en verde)</text>
   <path class="p" d="M582 610 C520 610 520 430 458 430"/>
   <text x="470" y="540" class="et">análisis local</text>
   <path class="l" d="M1340 494 V510"/>

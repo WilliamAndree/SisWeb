@@ -1,6 +1,6 @@
 # Código clave del proyecto (extraído del repositorio)
 
-Repositorio: https://github.com/WilliamAndree/SisWeb · Cada bloque es el contenido real del archivo indicado.
+Repositorio: https://github.com/WilliamAndree/SisWeb · Commit 2c0b80b · Cada bloque es el contenido real y completo del archivo indicado.
 
 ## Configuración de Cypress
 
@@ -26,7 +26,8 @@ export default defineConfig({
         supportFile: 'cypress/support/e2e.ts',
         viewportWidth: 1366,
         viewportHeight: 900,
-        defaultCommandTimeout: 10000,
+        // El servidor de pruebas de PHP atiende una petición a la vez: en equipos modestos conviene más margen.
+        defaultCommandTimeout: 20000,
         pageLoadTimeout: 90000,
         // Las fuentes externas no influyen en la lógica: bloquearlas evita esperas por la red.
         blockHosts: ['fonts.bunny.net'],
@@ -49,7 +50,7 @@ export default defineConfig({
                 if (!resultados || !('totalTests' in resultados)) return;
                 mkdirSync('cypress/reports', { recursive: true });
                 writeFileSync(
-                    'cypress/reports/resumen.json',
+                    `cypress/reports/${process.env.CYPRESS_REPORTE ?? 'resumen'}.json`,
                     JSON.stringify(
                         {
                             fecha: new Date().toISOString(),
@@ -67,6 +68,7 @@ export default defineConfig({
                                     titulo: t.title.join(' › '),
                                     estado: t.state,
                                     duracion_ms: t.duration,
+                                    error: t.displayError ?? null,
                                 })),
                             ),
                         },
@@ -113,7 +115,7 @@ Cypress.Commands.add('ingresar', (correo: string, clave: string) => {
     cy.get('#email').clear().type(correo);
     cy.get('#password').clear().type(clave, { log: false });
     cy.get('form').find('button[type="submit"]').click();
-    cy.location('pathname').should('not.eq', '/login');
+    cy.location('pathname', { timeout: 30000 }).should('not.eq', '/login');
 });
 
 Cypress.Commands.add('prepararBase', () => {
@@ -123,6 +125,35 @@ Cypress.Commands.add('prepararBase', () => {
 // La pantalla de bienvenida de la portada solo aparece una vez por sesión: se omite en las pruebas.
 Cypress.on('window:before:load', (ventana) => {
     ventana.sessionStorage.setItem('checkitse-entrada-vista', '1');
+});
+```
+
+## Escenario E2E-00 (verificación del despliegue)
+
+Archivo: `backend/cypress/e2e/00-humo-despliegue.cy.ts`
+
+```ts
+/**
+ * E2E-00 · Verificación posterior al despliegue (solo lectura).
+ * Se ejecuta contra el servidor XAMPP (CYPRESS_BASE_URL=http://localhost:8081) al terminar
+ * scripts/desplegar-xampp.ps1 -Verificar, y también dentro del pipeline de CI.
+ */
+describe('E2E-00 · Verificación del despliegue', () => {
+    it('la aplicación responde: salud, portada, directorio e ingreso', () => {
+        cy.request('/up').its('status').should('eq', 200);
+
+        cy.visit('/');
+        cy.get('h1').should('contain.text', 'Abre tu negocio');
+        cy.contains('a', 'Simular mi local gratis').should('have.attr', 'href').and('include', '/autoevaluacion/nueva');
+
+        cy.visit('/directorio');
+        // El título se anima al bajar: se comprueba que exista con su texto, no su animación.
+        cy.get('#proveedores-titulo').should('contain.text', 'Proveedores');
+
+        cy.visit('/login');
+        cy.get('#email').should('be.visible');
+        cy.screenshot('E2E-00-despliegue-login');
+    });
 });
 ```
 
@@ -278,6 +309,48 @@ describe('E2E-06 · Reportes de impacto (administración)', () => {
             });
     });
 });
+```
+
+## Preparación segura de la base e2e
+
+Archivo: `backend/app/Console/Commands/PrepararE2e.php`
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use Database\Seeders\E2eSeeder;
+use Illuminate\Console\Command;
+
+/**
+ * Deja la base de pruebas end-to-end en un estado conocido antes de correr Cypress.
+ *
+ * Por seguridad solo funciona en el entorno "e2e" y con una base cuyo nombre termine en
+ * "_e2e": nunca puede borrar la base real de la aplicación.
+ */
+class PrepararE2e extends Command
+{
+    protected $signature = 'checkitse:e2e-preparar';
+
+    protected $description = 'Reinicia la base sisweb_e2e con datos conocidos para Cypress';
+
+    public function handle(): int
+    {
+        $base = (string) config('database.connections.'.config('database.default').'.database');
+
+        if (! app()->environment('e2e') || ! str_ends_with($base, '_e2e')) {
+            $this->error('Rechazado: requiere APP_ENV=e2e y una base *_e2e (actual: entorno '.app()->environment().", base {$base}).");
+
+            return self::FAILURE;
+        }
+
+        $this->call('migrate:fresh', ['--force' => true, '--seed' => true, '--seeder' => E2eSeeder::class]);
+        $this->info("Base {$base} lista para Cypress.");
+
+        return self::SUCCESS;
+    }
+}
 ```
 
 ## Pipeline de CI (GitHub Actions)
@@ -476,13 +549,17 @@ jobs:
         run: |
           cp .env.e2e.example .env.e2e
           sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env.e2e
+          # La base del runner nace vacía: se migra y siembra antes de levantar la app
+          # (la prueba de humo 00 solo lee y no prepara la base por sí misma).
+          APP_ENV=e2e php artisan checkitse:e2e-preparar
 
       - name: Levantar la aplicación
         env:
           APP_ENV: e2e
         run: |
           php artisan serve --host=127.0.0.1 --port=8010 > storage/logs/servidor-e2e.log 2>&1 &
-          for i in $(seq 1 40); do curl -fs http://127.0.0.1:8010/up && break; sleep 1; done
+          for i in $(seq 1 60); do curl -fs http://127.0.0.1:8010/up > /dev/null && exit 0; sleep 1; done
+          cat storage/logs/servidor-e2e.log; exit 1
 
       - name: Cypress
         env:
@@ -494,7 +571,10 @@ jobs:
         run: |
           if [ -f cypress/reports/resumen.json ]; then
             php -r '$r = json_decode(file_get_contents("cypress/reports/resumen.json"), true); echo "## Cypress\n\n| Total | Aprobadas | Fallidas | Tiempo |\n|---|---|---|---|\n| {$r["total"]} | {$r["aprobadas"]} | {$r["fallidas"]} | ".round($r["duracion_ms"]/1000, 1)." s |\n";' >> "$GITHUB_STEP_SUMMARY"
+            # Cada escenario fallido aparece como anotación con su mensaje de error.
+            php -r '$r = json_decode(file_get_contents("cypress/reports/resumen.json"), true); foreach ($r["escenarios"] as $e) { if ($e["estado"] !== "passed") { echo "::error title=".$e["archivo"]."::".$e["titulo"]." - ".str_replace(["\r", "\n"], " ", substr((string) $e["error"], 0, 500)).PHP_EOL; } }'
           fi
+          if [ -f storage/logs/laravel.log ]; then tail -n 15 storage/logs/laravel.log | cut -c1-300 | sed 's/^/::warning title=laravel.log::/'; fi
 
       - name: Guardar evidencias de Cypress
         if: always()
@@ -645,7 +725,7 @@ sonar.cpd.exclusions=database/seeders/**,config/aliados.php
 sonar.sourceEncoding=UTF-8
 ```
 
-## Despliegue en el servidor XAMPP (CD)
+## Despliegue en el servidor XAMPP (CD con puerta de CI)
 
 Archivo: `scripts/desplegar-xampp.ps1`
 
@@ -690,9 +770,14 @@ $vhosts = 'C:\xampp\apache\conf\extra\httpd-vhosts.conf'
 $include = 'Include "C:/xampp/htdocs/SisWeb/deploy/xampp/checkitse.conf"'
 
 function Paso([string]$texto) { Write-Host "`n==> $texto" -ForegroundColor Cyan }
+# Composer, npm y git escriben su progreso en stderr: solo cuenta el código de salida.
 function Ejecutar([string]$comando) {
-    & cmd /c $comando
-    if ($LASTEXITCODE -ne 0) { throw "Falló: $comando" }
+    $anterior = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & cmd /c "$comando 2>&1" | ForEach-Object { "$_" }
+    $codigo = $LASTEXITCODE
+    $ErrorActionPreference = $anterior
+    if ($codigo -ne 0) { throw "Falló: $comando" }
 }
 
 Push-Location $backend
@@ -746,8 +831,10 @@ try {
     Write-Host "OK: $url/up respondió $($salud.StatusCode)." -ForegroundColor Green
 
     if ($Verificar) {
+        # Resultados aparte: no borran la evidencia de la suite completa.
         $env:CYPRESS_BASE_URL = $url
-        Ejecutar 'npx cypress run --spec cypress/e2e/00-humo-despliegue.cy.ts'
+        $env:CYPRESS_REPORTE = 'resumen-despliegue'
+        Ejecutar 'npx cypress run --spec cypress/e2e/00-humo-despliegue.cy.ts --config screenshotsFolder=cypress/screenshots-despliegue,trashAssetsBeforeRuns=false'
     }
 
     Write-Host "`nDespliegue listo: $url" -ForegroundColor Green
@@ -826,6 +913,9 @@ class ReportesImpactoService
     public const ORIGENES = ['todos', 'reales', 'demo'];
 
     public const ESTADOS = ['VERDE', 'AMBAR', 'ROJO'];
+
+    /** Dominio de las cuentas de demostración (admin, proveedores y datos DEMO-). */
+    public const DOMINIO_DEMO = '@checkitse.local';
 
     private const ETIQUETA_ESTADO = ['VERDE' => 'Listo', 'AMBAR' => 'Casi listo', 'ROJO' => 'Necesita atención'];
 
@@ -1037,12 +1127,21 @@ class ReportesImpactoService
         return $meses;
     }
 
-    /** @param  array<string, string>  $filtros */
+    /**
+     * Clics a WhatsApp de proveedores. Respeta el filtro "Origen": los proveedores de las
+     * cuentas de demostración (correo @checkitse.local) cuentan como datos de demostración.
+     *
+     * @param  array<string, string>  $filtros
+     */
     private function contactosWhatsapp(array $filtros): int
     {
+        $deDemostracion = fn (Builder $proveedor) => $proveedor->whereHas('user', fn (Builder $u) => $u->where('email', 'like', '%'.self::DOMINIO_DEMO));
+
         return EventoProveedor::query()
             ->where('tipo', EventoProveedor::CLIC_WHATSAPP)
             ->whereBetween('created_at', [Carbon::parse($filtros['desde'])->startOfDay(), Carbon::parse($filtros['hasta'])->endOfDay()])
+            ->when($filtros['origen'] === 'demo', fn (Builder $q) => $q->whereHas('proveedor', $deDemostracion))
+            ->when($filtros['origen'] === 'reales', fn (Builder $q) => $q->whereDoesntHave('proveedor', $deDemostracion))
             ->count();
     }
 
@@ -1119,3 +1218,104 @@ class ReportesController extends Controller
 }
 ```
 
+## Pruebas del módulo de reportes (Pest)
+
+Archivo: `backend/tests/Feature/ReportesImpactoTest.php`
+
+```php
+<?php
+
+use App\Models\Autoevaluacion;
+use App\Models\User;
+use Database\Seeders\DemoCuentasSeeder;
+use Database\Seeders\DemoImpactoSeeder;
+use Database\Seeders\NormativaCatalogSeeder;
+use Database\Seeders\ProveedorRecursoSeeder;
+use Inertia\Testing\AssertableInertia as Assert;
+
+/**
+ * Módulo de reportes de impacto: indicadores calculados con los registros de la base
+ * de datos, filtros por fecha / distrito / giro / estado / origen y exportación a CSV.
+ */
+beforeEach(function () {
+    $this->seed(NormativaCatalogSeeder::class);
+    $this->seed(DemoImpactoSeeder::class);
+    $this->admin = User::factory()->create(['tipo_cuenta' => User::TIPO_ADMIN]);
+});
+
+function reporte(array $filtros = []): array
+{
+    $datos = null;
+    test()->get(route('admin.reportes', $filtros))
+        ->assertOk()
+        ->assertInertia(function (Assert $page) use (&$datos) {
+            $page->component('Admin/Reportes');
+            $datos = $page->toArray()['props'];
+        });
+
+    return $datos;
+}
+
+test('solo la administración puede ver los reportes', function () {
+    $this->get(route('admin.reportes'))->assertRedirect();
+    $this->actingAs(User::factory()->create(['tipo_cuenta' => User::TIPO_CLIENTE]))
+        ->get(route('admin.reportes'))->assertForbidden();
+});
+
+test('los indicadores salen de los registros guardados, no de valores fijos', function () {
+    $this->actingAs($this->admin);
+    $esperados = Autoevaluacion::where('estado', Autoevaluacion::ESTADO_REGISTRADA)->get();
+
+    $r = reporte(['desde' => now()->subYear()->toDateString()]);
+
+    expect($r['indicadores']['locales'])->toBe($esperados->count())
+        ->and($r['indicadores']['listos'])->toBe($esperados->where('semaforo', 'VERDE')->count())
+        ->and($r['indicadores']['preparacion_actual'])->toBe(round((float) $esperados->avg('porcentaje_cumplimiento'), 1))
+        // Corregir sube la preparación: después es mayor o igual que al evaluar.
+        ->and($r['indicadores']['preparacion_actual'])->toBeGreaterThanOrEqual($r['indicadores']['preparacion_inicial'])
+        ->and($r['indicadores']['corregidas'])->toBeGreaterThan(0)
+        ->and(collect($r['por_mes'])->sum('evaluados'))->toBe($esperados->count())
+        ->and($r['condiciones'])->not->toBeEmpty();
+});
+
+test('los filtros por distrito, estado y origen cambian el resultado', function () {
+    $this->actingAs($this->admin);
+    $desde = now()->subYear()->toDateString();
+
+    $tambo = reporte(['desde' => $desde, 'distrito' => 'El Tambo']);
+    $verdes = reporte(['desde' => $desde, 'estado' => 'VERDE']);
+    $reales = reporte(['desde' => $desde, 'origen' => 'reales']);
+
+    expect($tambo['indicadores']['locales'])->toBe(Autoevaluacion::where('distrito', 'El Tambo')->where('estado', 'REGISTRADA')->count())
+        ->and(collect($tambo['por_distrito'])->pluck('distrito')->all())->toBe(['El Tambo'])
+        ->and($verdes['indicadores']['locales'])->toBe($verdes['indicadores']['listos'])
+        // Sin usuarios reales en esta base de prueba: el filtro excluye los DEMO-.
+        ->and($reales['indicadores']['locales'])->toBe(0);
+});
+
+test('el reporte se descarga en CSV con una fila por local', function () {
+    $this->actingAs($this->admin);
+
+    $respuesta = $this->get(route('admin.reportes.exportar', ['desde' => now()->subYear()->toDateString(), 'distrito' => 'Chilca']));
+
+    $respuesta->assertOk()->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    $lineas = array_filter(explode("\n", trim($respuesta->streamedContent())));
+    expect(count($lineas) - 1)->toBe(Autoevaluacion::where('distrito', 'Chilca')->where('estado', 'REGISTRADA')->count())
+        ->and($lineas[0])->toContain('Preparación al evaluar (%)');
+});
+
+test('los contactos por WhatsApp respetan el filtro de origen (cuentas de demostración aparte)', function () {
+    $this->seed(ProveedorRecursoSeeder::class);
+    $this->seed(DemoCuentasSeeder::class);
+    $this->actingAs($this->admin);
+    $desde = now()->subYear()->toDateString();
+
+    $todos = reporte(['desde' => $desde])['indicadores']['contactos_whatsapp'];
+    $demo = reporte(['desde' => $desde, 'origen' => 'demo'])['indicadores']['contactos_whatsapp'];
+    $reales = reporte(['desde' => $desde, 'origen' => 'reales'])['indicadores']['contactos_whatsapp'];
+
+    expect($todos)->toBeGreaterThan(0)
+        ->and($demo)->toBe($todos)
+        ->and($reales)->toBe(0);
+});
+```

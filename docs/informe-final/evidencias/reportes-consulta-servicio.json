@@ -1,0 +1,338 @@
+{
+    "todos": {
+        "filtros": {
+            "desde": "2025-11-22",
+            "hasta": "2026-11-22",
+            "distrito": "",
+            "giro": "",
+            "estado": "",
+            "origen": "todos"
+        },
+        "indicadores": {
+            "locales": 43,
+            "preparacion_inicial": 74.4,
+            "preparacion_actual": 88.9,
+            "listos": 11,
+            "porcentaje_listos": 25.6,
+            "faltaban_al_inicio": 113,
+            "corregidas": 64,
+            "tasa_correccion": 56.6,
+            "dias_promedio_correccion": 14.9,
+            "contactos_whatsapp": 180
+        },
+        "totales_origen": {
+            "reales": 1,
+            "demo": 42
+        },
+        "por_mes": [
+            {
+                "mes": "2025-11",
+                "etiqueta": "Nov. 25",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2025-12",
+                "etiqueta": "Dic. 25",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-01",
+                "etiqueta": "Ene. 26",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-02",
+                "etiqueta": "Feb. 26",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-03",
+                "etiqueta": "Mar. 26",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-04",
+                "etiqueta": "Abr. 26",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-05",
+                "etiqueta": "May. 26",
+                "evaluados": 0,
+                "listos": 0
+            },
+            {
+                "mes": "2026-06",
+                "etiqueta": "Jun. 26",
+                "evaluados": 4,
+                "listos": 1
+            },
+            {
+                "mes": "2026-07",
+                "etiqueta": "Jul. 26",
+                "evaluados": 5,
+                "listos": 0
+            },
+            {
+                "mes": "2026-08",
+                "etiqueta": "Ago. 26",
+                "evaluados": 4,
+                "listos": 0
+            },
+            {
+                "mes": "2026-09",
+                "etiqueta": "Sep. 26",
+                "evaluados": 7,
+                "listos": 3
+            },
+            {
+                "mes": "2026-10",
+                "etiqueta": "Oct. 26",
+                "evaluados": 12,
+                "listos": 4
+            },
+            {
+                "mes": "2026-11",
+                "etiqueta": "Nov. 26",
+                "evaluados": 11,
+                "listos": 3
+            }
+        ],
+        "por_estado": [
+            {
+                "estado": "VERDE",
+                "etiqueta": "Listo",
+                "locales": 11
+            },
+            {
+                "estado": "AMBAR",
+                "etiqueta": "Casi listo",
+                "locales": 10
+            },
+            {
+                "estado": "ROJO",
+                "etiqueta": "Necesita atención",
+                "locales": 22
+            }
+        ],
+        "por_distrito": [
+            {
+                "distrito": "El Tambo",
+                "locales": 17,
+                "preparacion_inicial": 69.3,
+                "preparacion_actual": 86.9,
+                "listos": 3
+            },
+            {
+                "distrito": "Huancayo",
+                "locales": 14,
+                "preparacion_inicial": 80,
+                "preparacion_actual": 91,
+                "listos": 3
+            },
+            {
+                "distrito": "Chilca",
+                "locales": 12,
+                "preparacion_inicial": 75.1,
+                "preparacion_actual": 89.4,
+                "listos": 5
+            }
+        ],
+        "condiciones": [
+            {
+                "codigo": "CRIT-01",
+                "titulo": "Extintor portátil adecuado y vigente",
+                "faltaban": 18,
+                "corregidas": 11,
+                "porcentaje_corregido": 61.1
+            },
+            {
+                "codigo": "CRIT-08",
+                "titulo": "Luces de emergencia autónomas operativas",
+                "faltaban": 15,
+                "corregidas": 11,
+                "porcentaje_corregido": 73.3
+            },
+            {
+                "codigo": "CRIT-05",
+                "titulo": "Puesta a tierra con constancia documental ≤25 Ω",
+                "faltaban": 14,
+                "corregidas": 8,
+                "porcentaje_corregido": 57.1
+            },
+            {
+                "codigo": "CRIT-02B",
+                "titulo": "Señalización básica de seguridad y evacuación",
+                "faltaban": 14,
+                "corregidas": 7,
+                "porcentaje_corregido": 50
+            },
+            {
+                "codigo": "CRIT-07",
+                "titulo": "Cables canalizados, sin cables expuestos o \"mellizos\"",
+                "faltaban": 12,
+                "corregidas": 5,
+                "porcentaje_corregido": 41.7
+            },
+            {
+                "codigo": "CRIT-06",
+                "titulo": "Tablero con mandil protector y diferencial en tomacorrientes",
+                "faltaban": 9,
+                "corregidas": 6,
+                "porcentaje_corregido": 66.7
+            },
+            {
+                "codigo": "CRIT-13",
+                "titulo": "Mobiliario alto y estanterías con arriostramiento antisísmico",
+                "faltaban": 8,
+                "corregidas": 5,
+                "porcentaje_corregido": 62.5
+            },
+            {
+                "codigo": "CRIT-03",
+                "titulo": "Rutas y pasadizos de evacuación libres de obstáculos",
+                "faltaban": 7,
+                "corregidas": 3,
+                "porcentaje_corregido": 42.9
+            },
+            {
+                "codigo": "CRIT-14A",
+                "titulo": "Espacio libre de 1 metro frente al tablero eléctrico",
+                "faltaban": 7,
+                "corregidas": 5,
+                "porcentaje_corregido": 71.4
+            },
+            {
+                "codigo": "CRIT-04",
+                "titulo": "Puertas de evacuación libres de trabas durante atención",
+                "faltaban": 6,
+                "corregidas": 2,
+                "porcentaje_corregido": 33.3
+            }
+        ],
+        "opciones": {
+            "distritos": [
+                "Chilca",
+                "El Tambo",
+                "Huancayo"
+            ],
+            "giros": [
+                "Comercio",
+                "Educacion",
+                "Encuentro",
+                "Oficinas",
+                "Salud"
+            ]
+        }
+    },
+    "reales": {
+        "filtros": {
+            "desde": "2025-11-22",
+            "hasta": "2026-11-22",
+            "distrito": "",
+            "giro": "",
+            "estado": "",
+            "origen": "reales"
+        },
+        "indicadores": {
+            "locales": 1,
+            "preparacion_inicial": 81.8,
+            "preparacion_actual": 100,
+            "listos": 1,
+            "porcentaje_listos": 100,
+            "faltaban_al_inicio": 2,
+            "corregidas": 2,
+            "tasa_correccion": 100,
+            "dias_promedio_correccion": 4,
+            "contactos_whatsapp": 0
+        },
+        "totales_origen": {
+            "reales": 1,
+            "demo": 42
+        }
+    },
+    "demo": {
+        "filtros": {
+            "desde": "2025-11-22",
+            "hasta": "2026-11-22",
+            "distrito": "",
+            "giro": "",
+            "estado": "",
+            "origen": "demo"
+        },
+        "indicadores": {
+            "locales": 42,
+            "preparacion_inicial": 74.2,
+            "preparacion_actual": 88.7,
+            "listos": 10,
+            "porcentaje_listos": 23.8,
+            "faltaban_al_inicio": 111,
+            "corregidas": 62,
+            "tasa_correccion": 55.9,
+            "dias_promedio_correccion": 15.2,
+            "contactos_whatsapp": 180
+        },
+        "totales_origen": {
+            "reales": 1,
+            "demo": 42
+        }
+    },
+    "tambo": {
+        "filtros": {
+            "desde": "2025-11-22",
+            "hasta": "2026-11-22",
+            "distrito": "El Tambo",
+            "giro": "",
+            "estado": "",
+            "origen": "todos"
+        },
+        "indicadores": {
+            "locales": 17,
+            "preparacion_inicial": 69.3,
+            "preparacion_actual": 86.9,
+            "listos": 3,
+            "porcentaje_listos": 17.6,
+            "faltaban_al_inicio": 53,
+            "corregidas": 30,
+            "tasa_correccion": 56.6,
+            "dias_promedio_correccion": 16.3,
+            "contactos_whatsapp": 180
+        },
+        "totales_origen": {
+            "reales": 0,
+            "demo": 17
+        }
+    },
+    "rojo_encuentro": {
+        "filtros": {
+            "desde": "2025-11-22",
+            "hasta": "2026-11-22",
+            "distrito": "",
+            "giro": "Encuentro",
+            "estado": "ROJO",
+            "origen": "todos"
+        },
+        "indicadores": {
+            "locales": 5,
+            "preparacion_inicial": 80,
+            "preparacion_actual": 89.1,
+            "listos": 0,
+            "porcentaje_listos": 0,
+            "faltaban_al_inicio": 11,
+            "corregidas": 5,
+            "tasa_correccion": 45.5,
+            "dias_promedio_correccion": 14.7,
+            "contactos_whatsapp": 180
+        },
+        "totales_origen": {
+            "reales": 0,
+            "demo": 5
+        }
+    }
+}

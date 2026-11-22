@@ -23,8 +23,8 @@
   <g transform="translate(1000 120)"><rect width="300" height="150" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#3a307a"/><text x="14" y="25" class="cab">criterios_normativos</text>
     <text x="14" y="62" class="k">id · codigo_criterio (CRIT-01…)</text><text x="14" y="86" class="c">titulo, pregunta, que_observar</text><text x="14" y="110" class="c">norma_base, accion_mejora</text><text x="14" y="134" class="c">+ reglas_aplicabilidad (13)</text></g>
   <!-- respuestas -->
-  <g transform="translate(1000 330)"><rect width="300" height="130" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#3a307a"/><text x="14" y="25" class="cab">respuestas_autoevaluacion</text>
-    <text x="14" y="62" class="k">autoevaluacion_id · criterio_id</text><text x="14" y="86" class="c">estado_respuesta: CUMPLE_DECLARADO /</text><text x="14" y="108" class="c">PENDIENTE_ATENDER / POR_REVISAR / NO_APLICA</text></g>
+  <g transform="translate(1000 330)"><rect width="300" height="150" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#3a307a"/><text x="14" y="25" class="cab">respuestas_autoevaluacion</text>
+    <text x="14" y="62" class="k">autoevaluacion_id · criterio_id</text><text x="14" y="86" class="c">estado_respuesta: CUMPLE_DECLARADO /</text><text x="14" y="108" class="c">PENDIENTE_ATENDER / POR_REVISAR /</text><text x="14" y="130" class="c">NO_APLICA</text></g>
   <!-- subsanaciones -->
   <g transform="translate(470 430)"><rect width="360" height="170" rx="10" class="tabla"/><rect width="360" height="36" rx="10" fill="#9a5b00"/><text x="14" y="25" class="cab">subsanaciones (correcciones)</text>
     <text x="14" y="62" class="k">autoevaluacion_id · codigo_item</text><text x="14" y="86" class="c">descripcion, evidencia_url (foto/PDF), hash_sha256</text><text x="14" y="110" class="c">estado: PENDIENTE / EN_PROCESO /</text><text x="14" y="132" class="c">SUBSANADO_DECLARADO, fecha_subsanacion</text><text x="14" y="156" class="c">+ historial_subsanaciones (auditoría)</text></g>
@@ -45,9 +45,9 @@
   <path class="rel" d="M1150 270 V330"/><text x="1160" y="304" class="et">N &gt;─ 1</text>
   <path class="rel" d="M650 370 V430"/><text x="660" y="404" class="et">1 ─&lt; N</text>
   <path class="rel" d="M470 330 H200 V430"/><text x="220" y="322" class="et">1 ─&lt; N</text>
-  <path class="rel" d="M190 270 V300 H120 V640"/><text x="128" y="600" class="et">1 ─ 1</text>
+  <path class="rel" d="M40 200 H22 V715 H40"/><text x="56" y="788" class="et">1 ─ 1 (cuenta del proveedor)</text>
   <path class="rel" d="M360 715 H470"/><text x="376" y="706" class="et">1 ─&lt; N</text>
-  <path class="rel" d="M360 690 C700 640 900 640 1000 690"/><text x="760" y="636" class="et">1 ─&lt; N</text>
+  <path class="rel" d="M200 790 V830 H1150 V770"/><text x="680" y="852" class="et">1 ─&lt; N (solicitudes de plan)</text>
 
   <rect x="1330" y="120" width="230" height="650" rx="14" fill="#fff8e6" stroke="#ffd56b" stroke-width="2"/>
   <text x="1346" y="150" font-size="15" font-weight="800" fill="#9a5b00">LO QUE LEEN</text>

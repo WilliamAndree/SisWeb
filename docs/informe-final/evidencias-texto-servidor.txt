@@ -1,8 +1,8 @@
-﻿PS C:\xampp\htdocs\SisWeb> .\scripts\info-servidor.ps1
+PS C:\xampp\htdocs\SisWeb> .\scripts\info-servidor.ps1
 
 Sistema operativo : Microsoft Windows 11 Home Single Language (build 22621, 64 bits)
 Procesador        : 11th Gen Intel(R) Core(TM) i5-11400H @ 2.70GHz
-NÃºcleos / hilos   : 6 nÃºcleos / 12 hilos
+Núcleos / hilos   : 6 núcleos / 12 hilos
 Memoria RAM       : 11.8 GB
 Disco C:          : 238 GB total, 61 GB libres
 
@@ -17,5 +17,5 @@ Docker            : Docker version 29.9.3, build 5457199
 Extensiones PHP requeridas:
   bcmath, ctype, curl, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip
 
-LÃ­mites de PHP:
+Límites de PHP:
   memory_limit=512M   post_max_size=40M   upload_max_filesize=40M

@@ -1,9 +1,10 @@
 # Prompt para generar el informe técnico grupal (copiar y pegar en Claude)
 
 > **Cómo usarlo:** en claude.ai crea una conversación nueva, adjunta **todos los archivos de esta carpeta**
-> (este prompt, `01-DATOS-VERIFICADOS.md`, `02-CODIGO-CLAVE.md`, la guía del docente `Guía Práctica GRUPAL de Arquitectura.docx`
-> y las imágenes de `figuras/` y `evidencias/`). Luego pega el texto de abajo, desde «Eres…» hasta el final.
-> Antes de enviarlo, **reemplaza los datos entre corchetes** (nombres, códigos, docente, sección).
+> (este prompt, `01-DATOS-VERIFICADOS.md`, `02-CODIGO-CLAVE.md`, la guía del docente `Guía Práctica GRUPAL de Arquitectura.docx`,
+> las imágenes de `figuras/` y `evidencias/`, y los archivos de texto y JSON de `evidencias/`). Si la conversación no admite tantos archivos, adjunta como mínimo los tres .md, la guía y las figuras que se insertarán. Luego pega el texto de abajo, desde «Eres…» hasta el final.
+> Antes de enviarlo, **reemplaza los datos entre corchetes** (nombres, códigos, docente, sección) aquí y en la sección 0 de `01-DATOS-VERIFICADOS.md`.
+> Agrega también las dos capturas de SonarQube que toma el equipo (`S-01-panel-general.png` y `S-02-issues.png`).
 
 ---
 
