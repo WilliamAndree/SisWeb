@@ -10,19 +10,18 @@
 
 ---
 
-## 0. Datos que debe completar el equipo
+## 0. Datos del equipo
 
 | Dato | Valor |
 |---|---|
-| Universidad / facultad / escuela | [completar] |
-| Sección / NRC | [completar] |
-| Docente | [completar] |
-| Integrante 1 (nombre y código) | [completar] |
-| Integrante 2 (nombre y código) | [completar] |
-| Integrante 3 (nombre y código) | [completar] |
-| Fecha de entrega | [completar] |
+| Universidad / facultad / escuela | Universidad Continental · Facultad de Ingeniería · Escuela Profesional de Ingeniería de Sistemas e Informática |
+| Sección / NRC | 30181 |
+| Docente | Maglioni Arana Caparachin |
+| Integrante 1 | Rojas Zuñiga, William Andree — 74416060 |
+| Integrante 2 | Crisóstomo Palomino, Yolvy Luis — 75448767 |
+| Fecha de entrega | Huancayo, noviembre de 2026 |
 
-Pista para completar: los commits del repositorio están firmados por tres cuentas institucionales `@continental.edu.pe` (códigos 75448767, 73076280 y 74416060), lo que sugiere Universidad Continental; **confirmar** nombres, códigos y universidad antes de usarlos.
+El equipo está conformado por **dos integrantes**; los tres roles de referencia de la guía (sección V) se distribuyen entre ambos.
 
 ---
 
@@ -626,12 +625,10 @@ commit 19bb291 todos los flujos están en verde.
 
 | Integrante | Responsabilidad principal | Actividades |
 |---|---|---|
-| [Integrante 1] | Arquitectura y tecnologías | Análisis de la arquitectura, tabla de APIs, adaptación al servidor XAMPP, sitio de Apache, script de despliegue, diagramas D1–D3. |
-| [Integrante 2] | Automatización y calidad | Configuración de Cypress, 8 escenarios (10 casos), integración en GitHub Actions, configuración de SonarQube, corrección de *hotspots*, interpretación de métricas. |
-| [Integrante 3] | Reportes e integración | Módulo de reportes (servicio, controlador, página, CSV), indicadores, datos de demostración, pruebas del módulo, apoyo en el despliegue. |
+| Rojas Zuñiga, William Andree (74416060) | Arquitectura, tecnologías, pipelines y calidad (roles 1 y 2 de la guía, parte de calidad) | Análisis de la arquitectura, tabla de APIs, adaptación al servidor XAMPP, sitio de Apache, scripts de despliegue y de tareas de fondo, flujos de GitHub Actions, diagramas D1–D3, configuración de SonarQube, corrección de los *hotspots* e interpretación de métricas. |
+| Crisóstomo Palomino, Yolvy Luis (75448767) | Automatización de pruebas, reportes e integración (rol 2, parte de Cypress, y rol 3 de la guía) | Configuración de Cypress, 8 escenarios (10 casos), job de Cypress en GitHub Actions, prueba de humo tras el despliegue, módulo de reportes (servicio, controlador, página y CSV), indicadores, datos de demostración y pruebas del módulo. |
 
-Los tres integrantes revisaron el pipeline completo y deben poder explicar la arquitectura y las herramientas.
-(El equipo puede ajustar esta distribución a lo que realmente hizo cada uno.)
+Ambos integrantes revisaron el pipeline completo y pueden explicar la arquitectura, las herramientas y el funcionamiento general del proyecto.
 
 ---
 
@@ -678,16 +675,16 @@ Los tres integrantes revisaron el pipeline completo y deben poder explicar la ar
 
 ### M-3 Matriz de responsabilidades (RACI) por actividad
 
-R = responsable, A = aprueba, C = consultado, I = informado. Ajustar a lo que realmente hizo cada integrante.
+R = responsable, A = aprueba, C = consultado, I = informado.
 
-| Actividad | Integrante 1 | Integrante 2 | Integrante 3 |
-|---|:-:|:-:|:-:|
-| Act. 1 Arquitectura de software | R/A | C | C |
-| Act. 2 Tecnología, servidor y pipelines | R | C | A |
-| Act. 3 Cypress | C | R/A | I |
-| Act. 4 SonarQube | I | R/A | C |
-| Act. 5 Reportes e impacto | C | I | R/A |
-| Informe y sustentación | R | R | R |
+| Actividad | William A. Rojas Zuñiga | Yolvy L. Crisóstomo Palomino |
+|---|:-:|:-:|
+| Act. 1 Arquitectura de software | R/A | C |
+| Act. 2 Tecnología, servidor y pipelines | R/A | C |
+| Act. 3 Cypress | C | R/A |
+| Act. 4 SonarQube | R/A | C |
+| Act. 5 Reportes e impacto | C | R/A |
+| Informe y sustentación | R/A | R |
 
 ### M-4 Matriz de control y monitoreo (procesos × indicadores)
 

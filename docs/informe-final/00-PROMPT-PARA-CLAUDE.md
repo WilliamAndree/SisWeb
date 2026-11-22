@@ -23,9 +23,9 @@ automatización de pruebas y reportes de impacto* (asignatura **Pruebas y Calida
 - Facultad / Escuela profesional: [completar]
 - Asignatura y sección/NRC: Pruebas y Calidad de Software — [completar]
 - Docente: [completar]
-- Integrante 1 (nombre completo — código) — rol: Arquitectura y tecnologías: [completar]
-- Integrante 2 (nombre completo — código) — rol: Automatización y calidad: [completar]
-- Integrante 3 (nombre completo — código) — rol: Reportes e integración: [completar]
+- Integrante 1 (nombre completo — código) — roles: arquitectura, tecnologías, pipelines y SonarQube: [completar]
+- Integrante 2 (nombre completo — código) — roles: Cypress, reportes e integración: [completar]
+- El equipo tiene **dos integrantes**: reparte entre ambos los tres roles de referencia de la guía y explícalo en «Organización del trabajo grupal».
 - Ciudad y fecha de entrega: Huancayo, [completar]
 
 ## Archivos que te entrego (dentro del zip adjunto)
@@ -66,7 +66,7 @@ automatización de pruebas y reportes de impacto* (asignatura **Pruebas y Calida
 
 ## Paso 3 — Estructura del informe (sección VI de la guía, en este orden)
 
-- Portada (universidad, facultad, asignatura, sección, título del informe, proyecto, docente, los 3 integrantes con
+- Portada (universidad, facultad, asignatura, sección, título del informe, proyecto, docente, los 2 integrantes con
   código, ciudad y fecha) · Índice general · Índice de figuras · Índice de tablas
 1. Descripción general del proyecto existente (problema, usuarios, módulos, estado antes de la práctica).
 2. Arquitectura de software (1.1 actual · 1.2 adaptación y ajustes · 1.3 diagrama D1 + D3 + tabla de APIs).
