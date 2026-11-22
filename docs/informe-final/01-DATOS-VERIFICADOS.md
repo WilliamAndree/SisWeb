@@ -5,7 +5,7 @@
 > debe poner «[completar]»; no se debe suponer.
 >
 > - Repositorio: https://github.com/WilliamAndree/SisWeb (ramas `main`, `develop` y `feature/rediseno-emprendedor`).
-> - Versión del código evaluada y desplegada: commit **2c0b80b** («feat(reportes): contactos por WhatsApp respetan el filtro de origen»).
+> - Versión del código evaluada y desplegada: commit **0ec9db8** («feat(servidor): cola de trabajos y tareas programadas en XAMPP sin servicios de fondo»).
 > - Aplicación desplegada: http://localhost:8081 (servidor XAMPP del equipo).
 
 ---
@@ -21,6 +21,8 @@
 | Integrante 2 (nombre y código) | [completar] |
 | Integrante 3 (nombre y código) | [completar] |
 | Fecha de entrega | [completar] |
+
+Pista para completar: los commits del repositorio están firmados por tres cuentas institucionales `@continental.edu.pe` (códigos 75448767, 73076280 y 74416060), lo que sugiere Universidad Continental; **confirmar** nombres, códigos y universidad antes de usarlos.
 
 ---
 
@@ -53,9 +55,9 @@ reunir los documentos.
 
 **Usuarios:** emprendedor (cliente), proveedor y administración.
 
-**Tamaño del código (SonarQube y conteo de archivos):** 43 779 líneas de código (ncloc) en 243 archivos analizados;
-28 modelos Eloquent, 40 migraciones, 9 controladores de la aplicación más el de autenticación, 30 páginas React y 42 componentes React; 70 archivos de
-pruebas PHP y 7 de pruebas de interfaz (Node). Historial en Git: 71 commits en la rama `main`.
+**Tamaño del código (SonarQube y conteo de archivos):** 43 787 líneas de código (ncloc) en 243 archivos analizados;
+28 modelos Eloquent, 40 migraciones, 9 controladores de la aplicación más el de autenticación, 30 páginas React y 42 componentes React; 71 archivos de
+pruebas PHP y 7 de pruebas de interfaz (Node). Historial en Git: 73 commits en la rama `main` hasta 0ec9db8.
 
 **Estado previo a esta práctica:** el sistema ya funcionaba en local con `php artisan serve`, tenía pruebas PHP (Pest)
 y un análisis puntual con SonarQube, pero **no** tenía: pruebas end-to-end con Cypress, despliegue en el servidor
@@ -171,7 +173,7 @@ Fuente: `scripts/info-servidor.ps1` → `evidencias-texto-servidor.txt`.
 | Servicios permitidos | Apache, MySQL/MariaDB (panel de XAMPP), PHP CLI (Artisan), Git, Node/npm, Docker Desktop |
 | Extensiones PHP presentes | bcmath, ctype, curl, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip |
 | Límites de PHP | `memory_limit=512M`, `post_max_size=40M`, `upload_max_filesize=40M` (Apache limita la subida a 10 MB) |
-| Restricciones | Sin IP pública (red local): GitHub no puede conectarse al servidor para hacer *push* del despliegue. RAM limitada y compartida: SonarQube (Java) y Cypress no deben correr a la vez con todo lo demás. Windows sin cron/systemd: la cola de trabajos y el programador de Laravel no están instalados como servicio. No hay certificado HTTPS (uso local). Faltan las extensiones `gd` e `intl` (el proyecto no las requiere). MariaDB 10.4 es más antigua que la 10.11 del pipeline (las migraciones se probaron en ambas). |
+| Restricciones | Sin IP pública (red local): GitHub no puede conectarse al servidor para hacer *push* del despliegue. RAM limitada y compartida: SonarQube (Java) y Cypress no deben correr a la vez con todo lo demás. Windows sin cron/systemd ni servicios de fondo para PHP: la cola de trabajos (análisis con IA) y las tareas programadas (vencimiento de planes) necesitan un mecanismo propio (ver 3.3). No hay certificado HTTPS (uso local). Faltan las extensiones `gd` e `intl` (el proyecto no las requiere). MariaDB 10.4 es más antigua que la 10.11 del pipeline (las migraciones se probaron en ambas). |
 
 ### 3.3 Justificación de la adaptación (2.3)
 
@@ -188,6 +190,12 @@ Fuente: `scripts/info-servidor.ps1` → `evidencias-texto-servidor.txt`.
   archivos *lock*).
 - **Distribución de servicios:** Apache + PHP + MariaDB en el servidor; pruebas e integración en los runners de GitHub
   (en la nube); SonarQube en Docker en el equipo del equipo de desarrollo.
+- **Tareas de fondo sin cron:** en lugar de un proceso permanente (`queue:work` siempre encendido consume memoria),
+  el Programador de tareas de Windows ejecuta `php artisan schedule:run` cada minuto con `php-win.exe` (sin ventana).
+  Laravel ejecuta entonces `checkitse:vencer-planes` (diario 00:10) y `queue:work --stop-when-empty` (cada minuto, sin
+  solaparse), que procesa la cola y termina. Se activa una sola vez con `scripts/tareas-xampp.ps1` (y se quita con
+  `-Quitar`); la prueba `ProgramadorTareasTest` verifica que ambas tareas estén programadas. Mientras no se active,
+  el sistema funciona igual, pero el análisis opcional con IA queda en espera y los planes vencidos no se degradan solos.
 - **Uso eficiente de recursos:** caché de configuración, rutas y vistas (`php artisan optimize`); el pipeline pesado
   (pruebas con cobertura y Cypress) corre en GitHub, no en el servidor; Cypress se ejecuta con `--disable-gpu`.
 
@@ -207,11 +215,11 @@ Fuente: `scripts/info-servidor.ps1` → `evidencias-texto-servidor.txt`.
 `success`, `skipped` o `neutral`, el script se detiene con «El commit … no pasó el pipeline de CI. No se despliega».
 Solo con `-Forzar` (emergencia) se puede saltar, y deja una advertencia.
 
-**Evidencia del despliegue del commit 2c0b80b** (`evidencias/registro-despliegue-xampp.txt`):
+**Evidencia del despliegue del commit 0ec9db8** (`evidencias/registro-despliegue-xampp.txt`):
 
 ```
 ==> 1/6 Obteniendo la versión validada (william/main)
-CI en verde para 2c0b80b: 8 verificaciones aprobadas.
+CI en verde para 0ec9db8: 8 verificaciones aprobadas.
 ==> 2/6 Instalando dependencias y construyendo el frontend
 ==> 3/6 Aplicando migraciones
 ==> 4/6 Optimizando para producción
@@ -222,15 +230,15 @@ Cypress E2E-00: Tests 1, Passing 1, Failing 0 — All specs passed! (00:06)
 Despliegue listo: http://localhost:8081
 ```
 
-Las 8 verificaciones del commit 2c0b80b (consultadas en la API de GitHub) son las 4 siguientes, una vez por la ejecución
+Las 8 verificaciones del commit 0ec9db8 (consultadas en la API de GitHub) son las 4 siguientes, una vez por la ejecución
 en `main` y otra por la de `develop` (el mismo commit se publicó en ambas ramas): `quality` (flujo linter) — success;
 `Pruebas PHP y cobertura` — success; `Pruebas end-to-end (Cypress)` — success; `Análisis de calidad (SonarQube)` —
 skipped. Resultado de la
 verificación posterior: `evidencias/cypress-despliegue/resumen-verificacion-despliegue.json` (1/1 aprobada, 6.2 s).
 
-**Duraciones del pipeline para 2c0b80b en `main`** (captura G-02): flujo `tests` 2 min 23 s en total; job *Pruebas PHP
-y cobertura* 1 min 45 s; job *Pruebas end-to-end (Cypress)* 2 min 20 s (en paralelo); *Análisis de calidad (SonarQube)*
-omitido. Flujo `linter` en `main`: 2 min 13 s (captura G-01). Enlace del run: https://github.com/WilliamAndree/SisWeb/actions/runs/44994598436
+**Duraciones del pipeline para 0ec9db8 en `main`** (captura G-02, run #59): flujo `tests` 3 min 10 s en total; job *Pruebas PHP
+y cobertura* 1 min 47 s; job *Pruebas end-to-end (Cypress)* 3 min 8 s (en paralelo); *Análisis de calidad (SonarQube)*
+omitido. Flujo `linter` en `main`: 2 min 20 s. Enlace del run: https://github.com/WilliamAndree/SisWeb/actions/runs/45062599725
 
 ### 3.5 Figura de la Actividad 2
 
@@ -345,7 +353,7 @@ Resultados de la corrida completa del 22/11/2026 (`evidencias/cypress/resumen-cy
 | Porcentaje de aprobación | 100 % |
 | Reintentos usados | 0 |
 | Tiempo de ejecución (local, Windows) | 247.3 s (≈ 4 min 7 s), Cypress 16.2.1, Electron 146 |
-| Tiempo en el pipeline (job de GitHub Actions, incluye instalación) | 2 min 20 s (commit 2c0b80b, `main`) |
+| Tiempo en el pipeline (job de GitHub Actions, incluye instalación) | 3 min 8 s (commit 0ec9db8, `main`; incluye instalar Cypress y preparar la base) |
 | Errores identificados en la corrida final | Ninguno |
 
 **Errores encontrados y corregidos durante la implementación** (análisis de resultados):
@@ -366,7 +374,7 @@ Resultados de la corrida completa del 22/11/2026 (`evidencias/cypress/resumen-cy
 - **Presentación y almacenamiento de resultados:** tabla resumen (Total / Aprobadas / Fallidas / Tiempo) en el *Job Summary* de GitHub; artefacto descargable `evidencias-cypress` con capturas, videos, `resumen.json` y logs. Localmente, `cypress/reports/resumen.json` y capturas en `cypress/screenshots`.
 - **Tras el despliegue:** el servidor ejecuta E2E-00 contra `http://localhost:8081` (resumen en `cypress/reports/resumen-despliegue.json`).
 
-Evidencias: `evidencias/github/G-02-pipeline-tests-main.png` (run #54 en verde), `G-03-job-cypress.png` (detalle del job, run 44994598436, job 137122790823), `G-01-actions-lista.png` (historial de ejecuciones en verde en `main` y `develop`), `evidencias/cypress/salida-consola-cypress.txt`.
+Evidencias: `evidencias/github/G-02-pipeline-tests-main.png` (run #59 en verde), `G-03-job-cypress.png` (detalle del job, run 45062599725, job 137331621766), `G-01-actions-lista.png` (historial de ejecuciones en verde en `main` y `develop`), `evidencias/cypress/salida-consola-cypress.txt`.
 
 ---
 
@@ -406,18 +414,18 @@ Evidencias: `evidencias/github/G-02-pipeline-tests-main.png` (run #54 en verde),
 ### 5.3 Métricas (4.3)
 
 Fuente: `evidencias/sonarqube/metricas.json`, `quality-gate.json`, `ultimo-analisis.json` (API de SonarQube).
-Análisis del código del commit **2c0b80b (el mismo que está desplegado)** ejecutado el **22/11/2026 a las 06:58 UTC (01:58 hora de Perú)**.
+Análisis del código del commit **0ec9db8 (el mismo que está desplegado)** ejecutado el **22/11/2026 a las 19:59 UTC (14:59 hora de Perú)**.
 
 | Métrica | Resultado | Interpretación |
 |---|---|---|
-| Quality Gate | **OK** (Passed) | Cumple todas las condiciones del «Sonar way» sobre el código nuevo: confiabilidad A, seguridad A, mantenibilidad A, cobertura nueva 94.9 % (≥ 80 %), duplicación nueva 0.63 % (≤ 3 %). |
+| Quality Gate | **OK** (Passed) | Cumple todas las condiciones del «Sonar way» sobre el código nuevo: confiabilidad A, seguridad A, mantenibilidad A, cobertura nueva 94.9 % (≥ 80 %), duplicación nueva 0.62 % (≤ 3 %). |
 | Bugs | 0 | No se detectaron defectos probables. Calificación de confiabilidad A. |
 | Vulnerabilities | 0 | Sin problemas de seguridad. Calificación de seguridad A. *Security hotspots*: 0 pendientes (100 % revisados). |
 | Code Smells | 734 | Problemas de mantenibilidad (deuda técnica estimada 2 546 min ≈ 42 h). Calificación de mantenibilidad A. Ver detalle abajo. |
-| Coverage | 90.0 % | Porcentaje de líneas de `app/` ejecutadas por las 773 pruebas PHP (7 678 líneas a cubrir, 771 sin cubrir). |
+| Coverage | 90.0 % | Porcentaje de líneas de `app/` ejecutadas por las 775 pruebas PHP (7 678 líneas a cubrir, 771 sin cubrir). |
 | Duplicated Lines | 3.2 % | Código duplicado bajo; se concentra en componentes de interfaz similares. |
 
-Tamaño analizado: 43 779 líneas de código en 243 archivos.
+Tamaño analizado: 43 787 líneas de código en 243 archivos.
 
 **Detalle de los code smells** (`code-smells-por-carpeta-y-regla.json`):
 
@@ -453,7 +461,7 @@ Tamaño analizado: 43 779 líneas de código en 243 archivos.
 
 ### 5.4 Respuestas (4.4)
 
-1. **¿Qué resultado obtuvo el proyecto en el Quality Gate?** **Aprobado (OK / Passed).** Se cumplen las 5 condiciones sobre el código nuevo: confiabilidad A, seguridad A, mantenibilidad A, cobertura del código nuevo 94.9 % (mínimo 80 %) y duplicación del código nuevo 0.63 % (máximo 3 %). Antes de corregir los 18 *security hotspots* el Quality Gate había fallado.
+1. **¿Qué resultado obtuvo el proyecto en el Quality Gate?** **Aprobado (OK / Passed).** Se cumplen las 5 condiciones sobre el código nuevo: confiabilidad A, seguridad A, mantenibilidad A, cobertura del código nuevo 94.9 % (mínimo 80 %) y duplicación del código nuevo 0.62 % (máximo 3 %). Antes de corregir los 18 *security hotspots* el Quality Gate había fallado.
 2. **¿Qué problemas fueron identificados?** 0 bugs y 0 vulnerabilidades. Se identificaron 734 *code smells* (50 CRITICAL, 644 MAJOR, 28 MINOR, 12 INFO, ninguno BLOCKER). El más
    frecuente es la regla `php:S103` (líneas demasiado largas, sobre todo
    textos normativos y datos de demostración). Le siguen el uso de excepciones genéricas (`php:S112`), detalles de formato
@@ -472,9 +480,13 @@ Tamaño analizado: 43 779 líneas de código en 243 archivos.
    automático con Quality Gate bloqueante ya está en `tests.yml` y se activa al disponer de un servidor accesible;
    hoy se ejecuta con el mismo escáner en Docker local por la restricción de red del servidor.
 
-**Capturas del panel:** el panel de SonarQube requiere iniciar sesión; el equipo debe tomar dos capturas con su propia
-cuenta y guardarlas como `evidencias/sonarqube/S-01-panel-general.png` (http://localhost:9000/dashboard?id=ITSE) y
-`evidencias/sonarqube/S-02-issues.png` (pestaña *Issues*). Los JSON de la API contienen las mismas cifras.
+**Capturas del panel** (tomadas del SonarQube local con la sesión del administrador del proyecto):
+`S-00-panel-codigo-total.png` (pestaña *Overall Code*: Passed, 0 bugs, 0 vulnerabilidades, 0 hotspots revisados al
+100 %, 734 code smells, cobertura 90.0 %, duplicación 3.2 %; en «Activity» se ve el Quality Gate **Failed** a la 1:05 y
+**Passed** a la 1:24 tras corregir los hotspots), `S-01-panel-general.png` (pestaña *New Code*), `S-02-issues.png`
+(issues por severidad), `S-03-cobertura.png` (cobertura por carpeta) y `S-04-actividad.png` (historial de análisis).
+El panel muestra el aviso «You're running a version of SonarQube that is no longer active»: SonarQube 9.9 LTS ya no
+recibe soporte; se recomienda actualizar a la versión LTA vigente (ver recomendaciones).
 
 ---
 
@@ -600,7 +612,7 @@ hace falta recoger ese dato; se propone como trabajo futuro.
 
 | Conjunto | Resultado | Fuente |
 |---|---|---|
-| Pruebas PHP (Pest) | 773 pruebas aprobadas, 0 fallidas (5 351 aserciones) | `scripts/cobertura-docker.ps1` y job de CI |
+| Pruebas PHP (Pest) | 775 pruebas aprobadas, 0 fallidas (5 356 aserciones) | `scripts/cobertura-docker.ps1` y job de CI |
 | Pruebas de interfaz (`node --test`) | 30/30 aprobadas | `npm run test:frontend` |
 | Estilo y tipos | Pint, Prettier, ESLint y `tsc` sin errores | flujo `linter` en verde |
 
@@ -623,6 +635,88 @@ Los tres integrantes revisaron el pipeline completo y deben poder explicar la ar
 
 ---
 
+## 8b. Matrices para el informe
+
+### M-1 Matriz de trazabilidad: requisito de la guía → implementación → evidencia
+
+| Req. guía | Qué pide | Implementación en el proyecto | Verificación / evidencia |
+|---|---|---|---|
+| 1.1 | Arquitectura actual | Monolito modular Laravel + Inertia + React (sección 2.1) | Figura D1, D3 |
+| 1.2 | Adaptación de la arquitectura | `config/inertia.php`, 3 bases separadas, `.env` por entorno, sitio Apache versionado | Pipeline en verde (G-01, G-02) |
+| 1.3 | Diagrama + APIs | D1 + tabla de 7 APIs/servicios (2.3) | Figura D1 |
+| 2.1 | Tabla de tecnologías | Sección 3.1 | `evidencias-texto-servidor.txt` |
+| 2.2 | Características del servidor | `scripts/info-servidor.ps1` | `evidencias-texto-servidor.txt` |
+| 2.3 | Adaptación tecnológica | Vite estático, `optimize`, PHP 8.2 en CI y servidor, tareas sin cron (`tareas-xampp.ps1`) | `ProgramadorTareasTest` |
+| 2.4 | Pipeline de 7 etapas | `tests.yml`, `lint.yml`, `desplegar-xampp.ps1` con puerta de CI | `registro-despliegue-xampp.txt`, G-02 |
+| 2.5 | Diagrama tecnológico | D2 | Figura D2 |
+| 3.1 | Integrar Cypress | `cypress.config.ts`, base `sisweb_e2e`, `checkitse:e2e-preparar` | E2E-00 |
+| 3.2 | ≥ 5 escenarios con ficha | 8 escenarios / 10 casos (4.2) | Capturas E2E-00 a E2E-07 |
+| 3.3 | Resultados | 10/10, 247.3 s | `resumen-cypress.json` |
+| 3.4 | Cypress en el pipeline | Job `Pruebas end-to-end (Cypress)` + E2E-00 tras el despliegue | G-03, `resumen-verificacion-despliegue.json` |
+| 4.1 | Configurar SonarQube | `sonar-project.properties`, `sonar.ps1`, `cobertura-docker.ps1` | S-00 a S-04 |
+| 4.2 | SonarQube en el pipeline | Job `sonarqube` condicional + ejecución local antes de integrar | `tests.yml`, S-04 |
+| 4.3 | Métricas | Tabla 5.3 | `metricas.json`, `quality-gate.json` |
+| 4.4 | 6 preguntas | Sección 5.4 | — |
+| 5.1 | ≥ 3 indicadores | 6 indicadores (6.1) | R-01 |
+| 5.2 | Módulo con filtros, gráficos, tablas, datos reales | `/admin/reportes` + CSV | R-01 a R-05, `ReportesImpactoTest`, E2E-06 |
+| 5.3 | Impacto, 6 preguntas, medido vs. esperado | Sección 6.4 | `reportes-consulta-servicio.json` |
+
+### M-2 Matriz de cobertura de escenarios Cypress (tipos sugeridos por la guía)
+
+| Tipo sugerido en la guía (3.2) | E2E-00 | E2E-01 | E2E-02 | E2E-03 | E2E-04 | E2E-05 | E2E-06 | E2E-07 |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Autenticación de usuarios | | ✔ | | | ✔ | ✔ | ✔ | |
+| Registro de información | | | ✔ | ✔ | | ✔ | | |
+| Actualización de registros | | | | | ✔ | | | |
+| Eliminación de información | | | | | | ✔ | | |
+| Validación de formularios | | ✔ | ✔ | | | | | |
+| Navegación entre módulos | ✔ | | | | | | | ✔ |
+| Procesos principales del negocio | | | | ✔ | ✔ | ✔ | ✔ | |
+| Verificación de despliegue | ✔ | | | | | | | |
+
+(E2E-04, 05 y 06 inician sesión como paso previo, por eso también ejercitan la autenticación.)
+
+### M-3 Matriz de responsabilidades (RACI) por actividad
+
+R = responsable, A = aprueba, C = consultado, I = informado. Ajustar a lo que realmente hizo cada integrante.
+
+| Actividad | Integrante 1 | Integrante 2 | Integrante 3 |
+|---|:-:|:-:|:-:|
+| Act. 1 Arquitectura de software | R/A | C | C |
+| Act. 2 Tecnología, servidor y pipelines | R | C | A |
+| Act. 3 Cypress | C | R/A | I |
+| Act. 4 SonarQube | I | R/A | C |
+| Act. 5 Reportes e impacto | C | I | R/A |
+| Informe y sustentación | R | R | R |
+
+### M-4 Matriz de control y monitoreo (procesos × indicadores)
+
+Generada por el propio sistema con `php artisan checkitse:matriz-monitoreo` a partir del reporte JUnit de las pruebas,
+la cobertura Clover y la API de SonarQube. Archivos: `evidencias/matriz-monitoreo/matriz-monitoreo.md` (tabla),
+`matriz-monitoreo.xlsx` (Excel) e `historial.csv`. El pipeline de CI también la publica en el resumen de cada ejecución.
+
+| Nivel | Código | Proceso | Pruebas | Fallidas | % Éxito | Cobertura % | Bugs | Vuln. | Code smells | Estado | Observación |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: | --- |
+| Estratégico | E1 | Modelo de negocio y planes | 2 | 0 | 100 | 89.5 | 0 | 0 | 7 | 🟢 Verde | Sin observaciones |
+| Estratégico | E2 | Calidad y mejora continua | 85 | 0 | 100 | 98.6 | 0 | 0 | 66 | 🟢 Verde | Sin observaciones |
+| Misional | M1 | Registro del local | 47 | 0 | 100 | 93.4 | 0 | 0 | 45 | 🟢 Verde | Sin observaciones |
+| Misional | M2 | Autoevaluación ITSE | 127 | 0 | 100 | 96.5 | 0 | 0 | 33 | 🟢 Verde | Sin observaciones |
+| Misional | M3 | Resultado y plan de mejora | 42 | 0 | 100 | 85 | 0 | 0 | 19 | 🟢 Verde | Sin observaciones |
+| Misional | M4 | Subsanación con proveedores | 109 | 0 | 100 | 89.3 | 0 | 0 | 72 | 🟢 Verde | Sin observaciones |
+| Misional | M5 | Expediente digital | 150 | 0 | 100 | 87.5 | 0 | 0 | 148 | 🟢 Verde | Sin observaciones |
+| Misional | M6 | Seguimiento del local | 75 | 0 | 100 | 100 | 0 | 0 | 2 | 🟢 Verde | Sin observaciones |
+| Soporte | S1 | Cuentas y accesos | 47 | 0 | 100 | 97.9 | 0 | 0 | 0 | 🟢 Verde | Sin observaciones |
+| Soporte | S2 | Gestión de proveedores | 13 | 0 | 100 | 92.7 | 0 | 0 | 24 | 🟢 Verde | Sin observaciones |
+| Soporte | S3 | Cobros de planes | 19 | 0 | 100 | 100 | 0 | 0 | 0 | 🟢 Verde | Sin observaciones |
+| Soporte | S4 | Administración y monitoreo | 30 | 0 | 100 | 96.9 | 0 | 0 | 37 | 🟢 Verde | Sin observaciones |
+| Soporte | S5 | Plataforma y datos | 48 | 0 | 100 | 96.1 | 0 | 0 | 5 | 🟢 Verde | Sin observaciones |
+
+Nota: la suma de la columna «Pruebas» (794) supera las 775 pruebas porque algunas pruebas verifican más de un proceso y se cuentan en cada uno.
+
+Resumen: 775 pruebas (0 fallidas), cobertura de la lógica 90.2 % (calculada por la matriz sobre el Clover; SonarQube informa 90.0 % con su propio conteo de líneas), Quality Gate aprobado, 13 de 13 procesos en verde (100 %). Regla del semáforo: verde = todas sus pruebas pasan, cobertura ≥ mínimo y sin bugs ni vulnerabilidades; amarillo = pruebas pasan pero falta cobertura o alguna prueba declarada; rojo = alguna prueba falla, no hay pruebas o hay bugs/vulnerabilidades.
+
+---
+
 ## 9. Índice de figuras (insertar en este orden)
 
 | N.° | Archivo | Título sugerido | Sección |
@@ -631,7 +725,7 @@ Los tres integrantes revisaron el pipeline completo y deben poder explicar la ar
 | 2 | `figuras/D3-modelo-datos.png` | Modelo de datos principal | Act. 1 |
 | 3 | `figuras/D2-arquitectura-tecnologica.png` | Arquitectura tecnológica y flujo del pipeline | Act. 2 |
 | 4 | `evidencias/github/G-01-actions-lista.png` | Historial de ejecuciones de GitHub Actions | Act. 2 |
-| 5 | `evidencias/github/G-02-pipeline-tests-main.png` | Pipeline `tests` del commit 2c0b80b en `main` | Act. 2 / 3 |
+| 5 | `evidencias/github/G-02-pipeline-tests-main.png` | Pipeline `tests` del commit 0ec9db8 en `main` | Act. 2 / 3 |
 | 6 | `evidencias/app/A-02-salud-up-200.png` | Verificación de salud de la aplicación desplegada (`/up`) | Act. 2 |
 | 7 | `evidencias/app/A-01-portada-desplegada.png` | Aplicación desplegada en Apache (puerto 8081) | Act. 2 |
 | 8 | `evidencias/cypress-despliegue/E2E-00-despliegue-login.png` | Prueba de humo tras el despliegue | Act. 2 / 3 |
@@ -649,15 +743,18 @@ Los tres integrantes revisaron el pipeline completo y deben poder explicar la ar
 | 20 | `evidencias/cypress/E2E-06-reportes-filtrado.png` | E2E-06: reportes filtrados | Act. 3 |
 | 21 | `evidencias/cypress/E2E-07-directorio-filtrado.png` | E2E-07: directorio filtrado | Act. 3 |
 | 22 | `evidencias/github/G-03-job-cypress.png` | Job de Cypress en GitHub Actions | Act. 3 |
-| 23 | `evidencias/sonarqube/S-01-panel-general.png` (la toma el equipo) | Panel de SonarQube del proyecto ITSE | Act. 4 |
-| 24 | `evidencias/sonarqube/S-02-issues.png` (la toma el equipo) | Problemas detectados por SonarQube | Act. 4 |
-| 25 | `evidencias/app/R-01-reportes-indicadores.png` | Indicadores del módulo de reportes | Act. 5 |
-| 26 | `evidencias/app/R-02-reportes-completo.png` | Módulo de reportes completo (gráficos y tablas) | Act. 5 |
-| 27 | `evidencias/app/R-03-reportes-filtro-distrito.png` | Reporte filtrado por distrito (El Tambo) | Act. 5 |
-| 28 | `evidencias/app/R-04-reportes-solo-reales.png` | Reporte solo con registros reales | Act. 5 |
-| 29 | `evidencias/app/R-05-reportes-filtro-estado-giro.png` | Reporte filtrado por estado y giro | Act. 5 |
-| 30 | `evidencias/app/A-03-directorio.png` | Directorio de proveedores desplegado | Anexo |
-| 31 | `evidencias/app/A-04-admin-panel.png` | Panel de administración con el menú Reportes | Anexo |
+| 23 | `evidencias/sonarqube/S-00-panel-codigo-total.png` | Panel de SonarQube: código total y Quality Gate | Act. 4 |
+| 24 | `evidencias/sonarqube/S-01-panel-general.png` | Panel de SonarQube: código nuevo | Act. 4 |
+| 25 | `evidencias/sonarqube/S-02-issues.png` | Problemas detectados por SonarQube (por severidad) | Act. 4 |
+| 26 | `evidencias/sonarqube/S-03-cobertura.png` | Cobertura por carpeta | Act. 4 |
+| 27 | `evidencias/sonarqube/S-04-actividad.png` | Historial de análisis (Failed → Passed) | Act. 4 |
+| 28 | `evidencias/app/R-01-reportes-indicadores.png` | Indicadores del módulo de reportes | Act. 5 |
+| 29 | `evidencias/app/R-02-reportes-completo.png` | Módulo de reportes completo (gráficos y tablas) | Act. 5 |
+| 30 | `evidencias/app/R-03-reportes-filtro-distrito.png` | Reporte filtrado por distrito (El Tambo) | Act. 5 |
+| 31 | `evidencias/app/R-04-reportes-solo-reales.png` | Reporte solo con registros reales | Act. 5 |
+| 32 | `evidencias/app/R-05-reportes-filtro-estado-giro.png` | Reporte filtrado por estado y giro | Act. 5 |
+| 33 | `evidencias/app/A-03-directorio.png` | Directorio de proveedores desplegado | Anexo |
+| 34 | `evidencias/app/A-04-admin-panel.png` | Panel de administración con el menú Reportes | Anexo |
 
 Fuente de las figuras 1–3: elaboración propia. Resto: captura del sistema CheckITSE / GitHub / SonarQube.
 
@@ -672,6 +769,16 @@ Fuente de las figuras 1–3: elaboración propia. Resto: captura del sistema Che
 | 3. Cypress | 5 | 8 escenarios / 10 casos (mínimo exigido: 5), fichas completas, 10/10 aprobadas, job en el pipeline que bloquea el despliegue, evidencias. |
 | 4. SonarQube | 4 | Configuración, análisis con cobertura, métricas e interpretación, 6 respuestas, integración (job condicional + ejecución local) y corrección real de *hotspots*. |
 | 5. Reportes e impacto | 4 | 6 indicadores (mínimo: 3), filtros por fecha/distrito/giro/estado/origen, gráficos, tablas, CSV, datos de la base, distinción medido/esperado y real/demostración. |
+
+---
+
+## 10b. Recomendaciones sugeridas (con base en los resultados)
+
+1. Publicar SonarQube en un servidor accesible (o usar SonarQube Cloud) y definir `SONAR_HOST_URL` / `SONAR_TOKEN` en GitHub para activar el job automático con Quality Gate bloqueante; de paso, actualizar SonarQube 9.9 (sin soporte) a la versión LTA vigente.
+2. Reducir los 734 code smells empezando por `app/Services/Espacio` y `EvaluacionController` (complejidad y líneas largas), y reemplazar excepciones genéricas por excepciones del dominio.
+3. Activar las tareas de fondo en el servidor con `scripts/tareas-xampp.ps1` y, si el servidor pasa a producción real, añadir HTTPS y respaldo automático de la base de datos.
+4. Recoger el resultado de la inspección municipal real (aprobó / fue observado) para medir el impacto final del sistema con datos de usuarios reales, no solo de demostración.
+5. Ampliar Cypress a los flujos de proveedor (publicar productos, solicitar plan) y ejecutar la prueba de humo de forma programada contra el servidor.
 
 ---
 
@@ -690,7 +797,7 @@ Fuente de las figuras 1–3: elaboración propia. Resto: captura del sistema Che
 
 ## 12. Anexos sugeridos
 
-- A. Enlace al repositorio y a la ejecución del pipeline: https://github.com/WilliamAndree/SisWeb y https://github.com/WilliamAndree/SisWeb/actions/runs/44994598436
+- A. Enlace al repositorio y a la ejecución del pipeline: https://github.com/WilliamAndree/SisWeb y https://github.com/WilliamAndree/SisWeb/actions/runs/45062599725
 - B. Registro completo del despliegue: `evidencias/registro-despliegue-xampp.txt`.
 - C. Características del servidor: `evidencias-texto-servidor.txt`.
 - D. Salida completa de Cypress: `evidencias/cypress/salida-consola-cypress.txt` y `resumen-cypress.json`.

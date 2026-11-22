@@ -2,7 +2,7 @@
 ==> 1/6 Obteniendo la versión validada (william/main)
 From https://github.com/WilliamAndree/SisWeb
  * branch            main       -> FETCH_HEAD
-CI en verde para 2c0b80b: 8 verificaciones aprobadas.
+CI en verde para 0ec9db8: 8 verificaciones aprobadas.
 Already up to date.
 
 ==> 2/6 Instalando dependencias y construyendo el frontend
@@ -33,7 +33,7 @@ Generating optimized autoload files
 Use the `composer fund` command to find out more!
 npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
 
-added 578 packages in 37s
+added 578 packages in 35s
 npm warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
 npm warn allow-scripts   cypress@16.2.1 (postinstall: node dist/index.js --exec install)
 npm warn allow-scripts   esbuild@0.24.2 (postinstall: node install.js)
@@ -172,7 +172,7 @@ public/build/assets/AnexoOficial-_XfNfRpy.js                 64.88 kB │ gzip: 
 public/build/assets/Resumen-IkzNHiFj.js                      85.44 kB │ gzip:  22.06 kB
 public/build/assets/Checklist-BNUVd3Tp.js                   112.51 kB │ gzip:  33.12 kB
 public/build/assets/app-CBoKHKmL.js                         351.42 kB │ gzip: 115.87 kB
-✓ built in 7.73s
+✓ built in 8.05s
 
 ==> 3/6 Aplicando migraciones
 
@@ -183,20 +183,20 @@ public/build/assets/app-CBoKHKmL.js                         351.42 kB │ gzip: 
 
    INFO  Clearing cached bootstrap files.
 
-  config ................................................................................................ 59.67ms DONE
-  cache ................................................................................................ 109.31ms DONE
-  compiled ............................................................................................... 2.60ms DONE
-  events ................................................................................................. 1.48ms DONE
-  routes ................................................................................................. 1.26ms DONE
-  views ................................................................................................. 28.07ms DONE
+  config ................................................................................................. 3.96ms DONE
+  cache ................................................................................................. 28.17ms DONE
+  compiled ............................................................................................... 3.47ms DONE
+  events ................................................................................................. 2.30ms DONE
+  routes ................................................................................................. 2.90ms DONE
+  views ................................................................................................. 33.78ms DONE
 
 
    INFO  Caching framework bootstrap, configuration, and metadata.
 
-  config ................................................................................................ 45.96ms DONE
-  events ................................................................................................. 2.29ms DONE
-  routes ............................................................................................... 195.24ms DONE
-  views ................................................................................................ 224.10ms DONE
+  config ................................................................................................ 57.25ms DONE
+  events ................................................................................................. 2.25ms DONE
+  routes ................................................................................................ 73.42ms DONE
+  views ................................................................................................ 202.97ms DONE
 
 
 ==> 5/6 Publicando en Apache (puerto 8081)
@@ -231,7 +231,7 @@ Read more about supported browsers: https://on.cypress.io/launching-browsers
 
 
   E2E-00 · Verificación del despliegue
-    √ la aplicación responde: salud, portada, directorio e ingreso (6180ms)
+    √ la aplicación responde: salud, portada, directorio e ingreso (6130ms)
 
 
   1 passing (6s)
@@ -255,7 +255,7 @@ Read more about supported browsers: https://on.cypress.io/launching-browsers
   (Screenshots)
 
   -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\00-humo-despliegue.cy.ts\E2E-     (1280x768)
-     00-despliegue-login (2).png
+     00-despliegue-login (4).png
 
 
 ====================================================================================================
