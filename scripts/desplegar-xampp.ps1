@@ -13,6 +13,8 @@
       3. Aplica las migraciones de base de datos.
       4. Optimiza Laravel para producción (config, rutas y vistas en caché).
       5. Registra el sitio en Apache (puerto 8081) si aún no lo está y reinicia Apache.
+         Las tareas de fondo (cola y planes vencidos) se activan aparte, una sola vez, con
+         scripts/tareas-xampp.ps1.
       6. Verifica: /up responde 200 y, con -Verificar, ejecuta las pruebas de humo de Cypress
          contra la aplicación desplegada.
 

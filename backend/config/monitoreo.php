@@ -102,8 +102,16 @@ return [
             'codigo' => 'M5',
             'nombre' => 'Expediente digital',
             'responsable' => 'Emprendedor',
-            'pruebas' => ['ExpedienteDigitalTest', 'InformePreventivoTest', 'InformePreventivoFase16Test'],
-            'codigo_fuente' => ['app/Http/Controllers/ExpedienteDigitalController.php', 'app/Models/DocumentoExpediente.php'],
+            // Incluye el croquis del local (plano y análisis espacial), que forma parte del expediente.
+            'pruebas' => [
+                'ExpedienteDigitalTest', 'InformePreventivoTest', 'InformePreventivoFase16Test',
+                'AnalisisEspacialPreventivoTest', 'ConectividadGrafosTddTest', 'CroquisIntegridadTddTest', 'GeometriaPuntoSegmentoTest',
+                'GeometriaRobustezTddTest', 'ModeloEspacialVersionadoTest', 'SugerenciasEspacialesMultimodalTest',
+            ],
+            'codigo_fuente' => [
+                'app/Http/Controllers/ExpedienteDigitalController.php', 'app/Models/DocumentoExpediente.php',
+                'app/Http/Controllers/PlanoEstablecimientoController.php', 'app/Services/Espacio/',
+            ],
         ],
         [
             'codigo' => 'M6',
@@ -147,7 +155,7 @@ return [
             'codigo' => 'S5',
             'nombre' => 'Plataforma y datos',
             'responsable' => 'Sistema',
-            'pruebas' => ['AutoevaluacionIntegridadCicloVidaTest', 'IntegridadEvaluacionServiceTest', 'IntegridadCanonicaTddTest', 'EvidenciasSeguridadTddTest'],
+            'pruebas' => ['AutoevaluacionIntegridadCicloVidaTest', 'IntegridadEvaluacionServiceTest', 'IntegridadCanonicaTddTest', 'EvidenciasSeguridadTddTest', 'ProgramadorTareasTest'],
             'codigo_fuente' => [
                 'app/Services/Evaluacion/IntegridadEvaluacionService.php', 'app/Services/Evaluacion/EvidenciaPrivadaService.php', 'app/Models/Autoevaluacion.php',
             ],
