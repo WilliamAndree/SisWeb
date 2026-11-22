@@ -63,13 +63,25 @@ class DemoImpactoSeeder extends Seeder
         'CRIT-13' => 0.33, // Estanterías ancladas
     ];
 
+    /** Estado del generador pseudoaleatorio con semilla fija: los datos de demostración son reproducibles. */
+    private int $semilla = 2026;
+
+    /**
+     * Número entero entre $minimo y $maximo con un generador congruencial lineal de semilla fija.
+     * No es criptográfico ni necesita serlo: solo reparte datos ficticios (distritos, nombres, fechas).
+     */
+    private function azar(int $minimo, int $maximo): int
+    {
+        $this->semilla = ($this->semilla * 1103515245 + 12345) & 0x7FFFFFFF;
+
+        return $minimo + ($this->semilla % ($maximo - $minimo + 1));
+    }
+
     public function run(): void
     {
         if (CriterioNormativo::count() === 0) {
             $this->call(NormativaCatalogSeeder::class);
         }
-
-        mt_srand(2026);
         $motor = app(ApplicabilityEngineService::class);
         $riesgo = app(ItseRiskService::class);
         $correcciones = app(SubsanacionSyncService::class);
@@ -85,15 +97,15 @@ class DemoImpactoSeeder extends Seeder
 
             for ($i = 1; $i <= self::TOTAL_LOCALES; $i++) {
                 // Más locales en los meses recientes: la plataforma va ganando usuarios.
-                $diasAtras = (int) round(180 * (1 - sqrt(mt_rand(0, 1000) / 1000)));
-                $momento = Carbon::now()->subDays($diasAtras)->setTime(mt_rand(8, 19), mt_rand(0, 59));
+                $diasAtras = (int) round(180 * (1 - sqrt($this->azar(0, 1000) / 1000)));
+                $momento = Carbon::now()->subDays($diasAtras)->setTime($this->azar(8, 19), $this->azar(0, 59));
                 Carbon::setTestNow($momento);
 
                 $evaluacion = $this->crearLocal($i, $usuario, $motor, $criterios);
                 $this->sellar($evaluacion, $motor, $riesgo);
 
                 // Corrige parte de lo que le faltaba, días después de evaluar.
-                Carbon::setTestNow($momento->copy()->addDays(mt_rand(2, 25)));
+                Carbon::setTestNow($momento->copy()->addDays($this->azar(2, 25)));
                 $this->corregirParte($evaluacion, $correcciones);
                 Carbon::setTestNow();
             }
@@ -106,16 +118,16 @@ class DemoImpactoSeeder extends Seeder
     private function crearLocal(int $numero, User $usuario, ApplicabilityEngineService $motor, $criterios): Autoevaluacion
     {
         [$giro, , $nombres] = $this->elegirGiro();
-        $distrito = array_keys(self::DISTRITOS)[mt_rand(0, 2)];
+        $distrito = array_keys(self::DISTRITOS)[$this->azar(0, 2)];
         $calles = self::DISTRITOS[$distrito];
-        $area = mt_rand(25, 160);
+        $area = $this->azar(25, 160);
         $caracteristicas = [
             'aforo' => max(5, (int) round($area / 4)),
             'area_m2' => $area,
-            'galones_glp' => $giro === 'Encuentro' ? mt_rand(20, 80) : null,
-            'pisos' => mt_rand(1, 10) > 8 ? 2 : 1,
+            'galones_glp' => $giro === 'Encuentro' ? $this->azar(20, 80) : null,
+            'pisos' => $this->azar(1, 10) > 8 ? 2 : 1,
             'tiene_equipos_fritura' => $giro === 'Encuentro',
-            'tiene_escaleras' => mt_rand(1, 10) > 7,
+            'tiene_escaleras' => $this->azar(1, 10) > 7,
             'tiene_estanterias_altas' => in_array($giro, ['Comercio', 'Educacion'], true),
             'usa_caldero' => false,
             'usa_glp' => $giro === 'Encuentro',
@@ -127,11 +139,11 @@ class DemoImpactoSeeder extends Seeder
             'uuid_trazabilidad' => (string) Str::uuid(),
             'codigo_acceso' => self::PREFIJO.str_pad((string) $numero, 4, '0', STR_PAD_LEFT),
             'estado' => Autoevaluacion::ESTADO_INICIADA,
-            'nombre_comercio' => $nombres[mt_rand(0, count($nombres) - 1)].' '.$this->apellido(),
+            'nombre_comercio' => $nombres[$this->azar(0, count($nombres) - 1)].' '.$this->apellido(),
             'funcion_economica' => $giro,
             'distrito' => $distrito,
             'sector_huancayo' => $distrito,
-            'direccion' => $calles[mt_rand(0, count($calles) - 1)].' '.mt_rand(100, 1500).', '.$distrito,
+            'direccion' => $calles[$this->azar(0, count($calles) - 1)].' '.$this->azar(100, 1500).', '.$distrito,
             'area_m2' => $area,
             'pisos' => $caracteristicas['pisos'],
             'aforo' => $caracteristicas['aforo'],
@@ -152,9 +164,9 @@ class DemoImpactoSeeder extends Seeder
             if (! $criterio) {
                 continue;
             }
-            $falta = mt_rand(0, 100) / 100 < (self::PROBABILIDAD_FALTA[$item['codigo']] ?? 0.15);
+            $falta = $this->azar(0, 100) / 100 < (self::PROBABILIDAD_FALTA[$item['codigo']] ?? 0.15);
             $estado = $falta
-                ? (mt_rand(1, 10) > 8 ? ApplicabilityEngineService::ESTADO_POR_REVISAR : ApplicabilityEngineService::ESTADO_PENDIENTE_ATENDER)
+                ? ($this->azar(1, 10) > 8 ? ApplicabilityEngineService::ESTADO_POR_REVISAR : ApplicabilityEngineService::ESTADO_PENDIENTE_ATENDER)
                 : ApplicabilityEngineService::ESTADO_CUMPLE_DECLARADO;
             RespuestaAutoevaluacion::create([
                 'autoevaluacion_id' => $evaluacion->id,
@@ -199,14 +211,14 @@ class DemoImpactoSeeder extends Seeder
             ->get();
 
         foreach ($pendientes as $respuesta) {
-            if (mt_rand(1, 100) > 64) {
+            if ($this->azar(1, 100) > 64) {
                 continue; // Esta condición sigue pendiente.
             }
             Subsanacion::create([
                 'autoevaluacion_id' => $evaluacion->id,
                 'criterio_id' => $respuesta->criterio_id,
                 'codigo_item' => $respuesta->criterioNormativo->codigo_criterio,
-                'descripcion' => mt_rand(1, 10) > 4 ? 'Lo compré a un aliado de CheckITSE y ya está instalado.' : 'Lo resolví por mi cuenta.',
+                'descripcion' => $this->azar(1, 10) > 4 ? 'Lo compré a un aliado de CheckITSE y ya está instalado.' : 'Lo resolví por mi cuenta.',
                 'estado' => SubsanacionSyncService::ESTADO_SUBSANADO,
                 'fecha_subsanacion' => now(),
             ]);
@@ -219,7 +231,7 @@ class DemoImpactoSeeder extends Seeder
     private function elegirGiro(): array
     {
         $total = array_sum(array_column(self::GIROS, 1));
-        $valor = mt_rand(1, $total);
+        $valor = $this->azar(1, $total);
         foreach (self::GIROS as $giro) {
             $valor -= $giro[1];
             if ($valor <= 0) {
@@ -234,6 +246,6 @@ class DemoImpactoSeeder extends Seeder
     {
         $apellidos = ['Quispe', 'Huamán', 'Rojas', 'Ccanto', 'Poma', 'Soto', 'Yupanqui', 'Mendoza', 'Vilca', 'Huaynate', 'Rivera', 'Ñaupari'];
 
-        return $apellidos[mt_rand(0, count($apellidos) - 1)];
+        return $apellidos[$this->azar(0, count($apellidos) - 1)];
     }
 }

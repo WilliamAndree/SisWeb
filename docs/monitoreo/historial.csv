@@ -38,3 +38,16 @@ fecha,commit,codigo,proceso,estado,pruebas,fallidas,cobertura,bugs,vulnerabilida
 "2026-11-21 13:58",8cb0b86,S3,"Cobros de planes",verde,19,0,100,0,0,0
 "2026-11-21 13:58",8cb0b86,S4,"Administración y monitoreo",verde,25,0,96.1,0,0,18
 "2026-11-21 13:58",8cb0b86,S5,"Plataforma y datos",verde,46,0,96.1,0,0,5
+"2026-11-22 01:21",19bb291,E1,"Modelo de negocio y planes",verde,2,0,89.5,0,0,7
+"2026-11-22 01:21",19bb291,E2,"Calidad y mejora continua",verde,85,0,98.6,0,0,66
+"2026-11-22 01:21",19bb291,M1,"Registro del local",verde,47,0,93.4,0,0,45
+"2026-11-22 01:21",19bb291,M2,"Autoevaluación ITSE",verde,127,0,96.5,0,0,33
+"2026-11-22 01:21",19bb291,M3,"Resultado y plan de mejora",verde,42,0,85,0,0,19
+"2026-11-22 01:21",19bb291,M4,"Subsanación con proveedores",verde,109,0,89.3,0,0,72
+"2026-11-22 01:21",19bb291,M5,"Expediente digital",verde,22,0,89.7,0,0,6
+"2026-11-22 01:21",19bb291,M6,"Seguimiento del local",verde,75,0,100,0,0,2
+"2026-11-22 01:21",19bb291,S1,"Cuentas y accesos",verde,47,0,97.9,0,0,0
+"2026-11-22 01:21",19bb291,S2,"Gestión de proveedores",verde,13,0,92.5,0,0,24
+"2026-11-22 01:21",19bb291,S3,"Cobros de planes",verde,19,0,100,0,0,0
+"2026-11-22 01:21",19bb291,S4,"Administración y monitoreo",verde,25,0,96.4,0,0,18
+"2026-11-22 01:21",19bb291,S5,"Plataforma y datos",verde,46,0,96.1,0,0,5
