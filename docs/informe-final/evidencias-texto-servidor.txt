@@ -1,0 +1,21 @@
+﻿PS C:\xampp\htdocs\SisWeb> .\scripts\info-servidor.ps1
+
+Sistema operativo : Microsoft Windows 11 Home Single Language (build 22621, 64 bits)
+Procesador        : 11th Gen Intel(R) Core(TM) i5-11400H @ 2.70GHz
+NÃºcleos / hilos   : 6 nÃºcleos / 12 hilos
+Memoria RAM       : 11.8 GB
+Disco C:          : 238 GB total, 61 GB libres
+
+Servidor web      : Apache/2.4.58 (Win64)
+PHP               : PHP 8.2.12 (cli) (built: Oct 24 2023 21:15:15) (ZTS Visual C++ 2019 x64)
+Base de datos     : 10.4.32-MariaDB for Win64 on AMD64 (mariadb.org binary distribution)
+Node.js / npm     : v24.19.0 / 11.17.0
+Composer          : Composer version 2.10.2
+Git               : git version 2.55.0.windows.5
+Docker            : Docker version 29.9.3, build 5457199
+
+Extensiones PHP requeridas:
+  bcmath, ctype, curl, fileinfo, json, mbstring, openssl, pdo_mysql, tokenizer, xml, zip
+
+LÃ­mites de PHP:
+  memory_limit=512M   post_max_size=40M   upload_max_filesize=40M

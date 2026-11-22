@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-11-22T05:56:19.108Z",
+  "navegador": "electron 146.0.7680.216",
+  "cypress": "16.2.1",
+  "total": 1,
+  "aprobadas": 1,
+  "fallidas": 0,
+  "pendientes": 0,
+  "omitidas": 0,
+  "duracion_ms": 4401,
+  "escenarios": [
+    {
+      "archivo": "cypress\\e2e\\00-humo-despliegue.cy.ts",
+      "titulo": "E2E-00 · Verificación del despliegue › la aplicación responde: salud, portada, directorio e ingreso",
+      "estado": "passed",
+      "duracion_ms": 4394
+    }
+  ]
+}

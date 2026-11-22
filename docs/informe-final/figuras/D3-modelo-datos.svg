@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <style>
+      .tabla{fill:#fff;stroke:#94a3b8;stroke-width:2}
+      .cab{font-size:17px;font-weight:800;fill:#fff}
+      .c{font-size:14px;fill:#334155}
+      .k{font-size:14px;fill:#a1360c;font-weight:700}
+      .rel{stroke:#475569;stroke-width:2;fill:none}
+      .et{font-size:13px;fill:#334155;font-weight:600}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#fbf6ee"/>
+  <text x="40" y="52" font-size="30" font-weight="800" fill="#17133a">CheckITSE Huancayo · Modelo de datos principal (MariaDB)</text>
+  <text x="40" y="82" font-size="16" fill="#334155">Tablas que usan los procesos de evaluación, corrección, expediente, proveedores y reportes. 1 ─&lt; N = uno a muchos.</text>
+
+  <!-- users -->
+  <g transform="translate(40 120)"><rect width="300" height="150" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#17133a"/><text x="14" y="25" class="cab">users</text>
+    <text x="14" y="62" class="k">id</text><text x="14" y="86" class="c">name, email, telefono</text><text x="14" y="110" class="c">tipo_cuenta (cliente/proveedor/admin)</text><text x="14" y="134" class="c">password (bcrypt)</text></g>
+  <!-- autoevaluaciones -->
+  <g transform="translate(470 120)"><rect width="360" height="250" rx="10" class="tabla"/><rect width="360" height="36" rx="10" fill="#c2410c"/><text x="14" y="25" class="cab">autoevaluaciones</text>
+    <text x="14" y="62" class="k">id · user_id → users</text><text x="14" y="86" class="c">uuid_trazabilidad, codigo_acceso (CHK-…)</text><text x="14" y="110" class="c">nombre_comercio, funcion_economica, distrito</text><text x="14" y="134" class="c">area_m2, pisos, aforo, características</text><text x="14" y="158" class="c">estado (INICIADA / REGISTRADA), registrada_at</text><text x="14" y="182" class="c">payload_canonico + hash_integridad (sellado)</text><text x="14" y="206" class="c">porcentaje_cumplimiento, semaforo</text><text x="14" y="230" class="c">total_pendiente_atender, total_por_revisar…</text></g>
+  <!-- criterios -->
+  <g transform="translate(1000 120)"><rect width="300" height="150" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#3a307a"/><text x="14" y="25" class="cab">criterios_normativos</text>
+    <text x="14" y="62" class="k">id · codigo_criterio (CRIT-01…)</text><text x="14" y="86" class="c">titulo, pregunta, que_observar</text><text x="14" y="110" class="c">norma_base, accion_mejora</text><text x="14" y="134" class="c">+ reglas_aplicabilidad (13)</text></g>
+  <!-- respuestas -->
+  <g transform="translate(1000 330)"><rect width="300" height="130" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#3a307a"/><text x="14" y="25" class="cab">respuestas_autoevaluacion</text>
+    <text x="14" y="62" class="k">autoevaluacion_id · criterio_id</text><text x="14" y="86" class="c">estado_respuesta: CUMPLE_DECLARADO /</text><text x="14" y="108" class="c">PENDIENTE_ATENDER / POR_REVISAR / NO_APLICA</text></g>
+  <!-- subsanaciones -->
+  <g transform="translate(470 430)"><rect width="360" height="170" rx="10" class="tabla"/><rect width="360" height="36" rx="10" fill="#9a5b00"/><text x="14" y="25" class="cab">subsanaciones (correcciones)</text>
+    <text x="14" y="62" class="k">autoevaluacion_id · codigo_item</text><text x="14" y="86" class="c">descripcion, evidencia_url (foto/PDF), hash_sha256</text><text x="14" y="110" class="c">estado: PENDIENTE / EN_PROCESO /</text><text x="14" y="132" class="c">SUBSANADO_DECLARADO, fecha_subsanacion</text><text x="14" y="156" class="c">+ historial_subsanaciones (auditoría)</text></g>
+  <!-- documentos -->
+  <g transform="translate(40 430)"><rect width="320" height="130" rx="10" class="tabla"/><rect width="320" height="36" rx="10" fill="#9a5b00"/><text x="14" y="25" class="cab">documentos_expediente</text>
+    <text x="14" y="62" class="k">autoevaluacion_id · tipo</text><text x="14" y="86" class="c">declaracion_jurada, croquis, pozo a tierra…</text><text x="14" y="108" class="c">ruta privada, mime, tamaño</text></g>
+  <!-- proveedores -->
+  <g transform="translate(40 640)"><rect width="320" height="150" rx="10" class="tabla"/><rect width="320" height="36" rx="10" fill="#17133a"/><text x="14" y="25" class="cab">proveedores_recursos</text>
+    <text x="14" y="62" class="k">id · user_id → users</text><text x="14" y="86" class="c">categoría, distrito, WhatsApp</text><text x="14" y="110" class="c">plan, plan_vence_at, estado_revision</text><text x="14" y="134" class="c">+ ofertas_proveedor (productos)</text></g>
+  <g transform="translate(470 660)"><rect width="360" height="130" rx="10" class="tabla"/><rect width="360" height="36" rx="10" fill="#17133a"/><text x="14" y="25" class="cab">eventos_proveedor · ventas_proveedor</text>
+    <text x="14" y="62" class="k">proveedor_id · oferta_id</text><text x="14" y="86" class="c">tipo: aparicion, vista_ficha, clic_whatsapp…</text><text x="14" y="108" class="c">ventas registradas por el proveedor</text></g>
+  <g transform="translate(1000 640)"><rect width="300" height="130" rx="10" class="tabla"/><rect width="300" height="36" rx="10" fill="#17133a"/><text x="14" y="25" class="cab">solicitudes_plan</text>
+    <text x="14" y="62" class="k">proveedor_id</text><text x="14" y="86" class="c">plan, meses, monto, comprobante</text><text x="14" y="108" class="c">estado: pendiente/aprobado/rechazado</text></g>
+
+  <!-- relaciones -->
+  <path class="rel" d="M340 190 H470"/><text x="350" y="182" class="et">1 ─&lt; N</text>
+  <path class="rel" d="M830 245 H1000 V395"/><text x="850" y="236" class="et">1 ─&lt; N respuestas</text>
+  <path class="rel" d="M1150 270 V330"/><text x="1160" y="304" class="et">N &gt;─ 1</text>
+  <path class="rel" d="M650 370 V430"/><text x="660" y="404" class="et">1 ─&lt; N</text>
+  <path class="rel" d="M470 330 H200 V430"/><text x="220" y="322" class="et">1 ─&lt; N</text>
+  <path class="rel" d="M190 270 V300 H120 V640"/><text x="128" y="600" class="et">1 ─ 1</text>
+  <path class="rel" d="M360 715 H470"/><text x="376" y="706" class="et">1 ─&lt; N</text>
+  <path class="rel" d="M360 690 C700 640 900 640 1000 690"/><text x="760" y="636" class="et">1 ─&lt; N</text>
+
+  <rect x="1330" y="120" width="230" height="650" rx="14" fill="#fff8e6" stroke="#ffd56b" stroke-width="2"/>
+  <text x="1346" y="150" font-size="15" font-weight="800" fill="#9a5b00">LO QUE LEEN</text>
+  <text x="1346" y="172" font-size="15" font-weight="800" fill="#9a5b00">LOS REPORTES</text>
+  <g font-size="14" fill="#334155">
+    <text x="1346" y="206">• autoevaluaciones</text><text x="1356" y="226">(registradas, fecha,</text><text x="1356" y="246">distrito, giro, estado)</text>
+    <text x="1346" y="280">• payload_canonico</text><text x="1356" y="300">(cómo estaba al</text><text x="1356" y="320">evaluar → "antes")</text>
+    <text x="1346" y="354">• porcentaje actual</text><text x="1356" y="374">(con correcciones →</text><text x="1356" y="394">"después")</text>
+    <text x="1346" y="428">• subsanaciones</text><text x="1356" y="448">(corregidas, días)</text>
+    <text x="1346" y="482">• eventos_proveedor</text><text x="1356" y="502">(clics a WhatsApp)</text>
+    <text x="1346" y="536">• criterios_normativos</text><text x="1356" y="556">(nombres de lo que</text><text x="1356" y="576">más falta)</text>
+  </g>
+</svg>

@@ -1,5 +1,18 @@
 name: tests
 
+# Pipeline de integración continua (CI) de CheckITSE Huancayo.
+#
+#   1. pruebas     → pruebas PHP (Pest) con cobertura + matriz de monitoreo.
+#   2. e2e         → pruebas end-to-end con Cypress contra la aplicación levantada en el runner.
+#   3. sonarqube   → análisis estático y Quality Gate (solo si el servidor SonarQube es accesible:
+#                    variable SONAR_HOST_URL y secreto SONAR_TOKEN). Si no, se ejecuta en el equipo
+#                    del equipo con scripts/sonar.ps1 (SonarQube corre en Docker local).
+#
+# El despliegue (CD) lo hace el propio servidor XAMPP con scripts/desplegar-xampp.ps1: trae la
+# versión de main que pasó este pipeline (el servidor no tiene IP pública para recibir un push).
+#
+# Se usa PHP 8.2, la misma versión del servidor XAMPP donde se despliega.
+
 on:
   push:
     branches:
@@ -10,8 +23,12 @@ on:
       - develop
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  ci:
+  pruebas:
+    name: Pruebas PHP y cobertura
     runs-on: ubuntu-latest
 
     services:
@@ -47,13 +64,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: Setup PHP (misma versión que el servidor)
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
-          extensions: pdo_mysql
+          php-version: '8.2'
+          extensions: pdo_mysql, zip
           tools: composer:v2
-          coverage: xdebug
+          # PCOV mide cobertura mucho más rápido y con menos memoria que Xdebug.
+          coverage: pcov
+          ini-values: memory_limit=-1
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -64,6 +83,8 @@ jobs:
 
       - name: Install Node Dependencies
         run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: '0'
 
       - name: Build Assets
         run: npm run build
@@ -87,10 +108,15 @@ jobs:
         run: php tests/preflight.php
 
       - name: Tests
-        run: ./vendor/bin/pest --fail-on-risky --coverage-clover coverage.xml --log-junit junit.xml
+        run: php -d memory_limit=-1 -d pcov.directory=app ./vendor/bin/pest --fail-on-risky --coverage-clover coverage.xml --log-junit junit.xml
+
+      # Si algo falla, cada prueba fallida aparece como anotación con su nombre y mensaje.
+      - name: Señalar pruebas fallidas
+        if: failure() && hashFiles('backend/junit.xml') != ''
+        run: |
+          php -r '$x = simplexml_load_file("junit.xml"); foreach ($x->xpath("//testcase[failure or error]") as $t) { $m = (string) ($t->failure ?? $t->error); echo "::error title=".$t["class"]."::".$t["name"]." — ".str_replace(["\r","\n"], " ", substr($m, 0, 400)).PHP_EOL; }'
 
       # Matriz de doble entrada (procesos × indicadores) para el control y monitoreo.
-      # Se genera aunque fallen pruebas, para que el semáforo muestre dónde.
       - name: Matriz de control y monitoreo
         if: always()
         continue-on-error: true
@@ -98,10 +124,134 @@ jobs:
           php artisan checkitse:matriz-monitoreo --salida=storage/monitoreo
           cat storage/monitoreo/matriz-monitoreo.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Publicar matriz (Excel y Markdown)
+      - name: Guardar reportes (cobertura, JUnit y matriz)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: matriz-monitoreo
-          path: backend/storage/monitoreo/
+          name: reportes-pruebas
+          path: |
+            backend/coverage.xml
+            backend/junit.xml
+            backend/storage/monitoreo/
           if-no-files-found: ignore
+
+  e2e:
+    name: Pruebas end-to-end (Cypress)
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: sisweb_e2e
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, zip
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npx cypress install
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Build Assets
+        run: npm run build
+
+      - name: Preparar entorno e2e
+        run: |
+          cp .env.e2e.example .env.e2e
+          sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env.e2e
+
+      - name: Levantar la aplicación
+        env:
+          APP_ENV: e2e
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8010 > storage/logs/servidor-e2e.log 2>&1 &
+          for i in $(seq 1 40); do curl -fs http://127.0.0.1:8010/up && break; sleep 1; done
+
+      - name: Cypress
+        env:
+          APP_ENV: e2e
+        run: npx cypress run --browser electron
+
+      - name: Resumen de Cypress
+        if: always()
+        run: |
+          if [ -f cypress/reports/resumen.json ]; then
+            php -r '$r = json_decode(file_get_contents("cypress/reports/resumen.json"), true); echo "## Cypress\n\n| Total | Aprobadas | Fallidas | Tiempo |\n|---|---|---|---|\n| {$r["total"]} | {$r["aprobadas"]} | {$r["fallidas"]} | ".round($r["duracion_ms"]/1000, 1)." s |\n";' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guardar evidencias de Cypress
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-cypress
+          path: |
+            backend/cypress/screenshots/
+            backend/cypress/videos/
+            backend/cypress/reports/
+            backend/storage/logs/
+          if-no-files-found: ignore
+
+  sonarqube:
+    name: Análisis de calidad (SonarQube)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    # Solo si hay un servidor SonarQube accesible desde Internet configurado en el repositorio.
+    if: ${{ vars.SONAR_HOST_URL != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Descargar cobertura
+        uses: actions/download-artifact@v4
+        with:
+          name: reportes-pruebas
+          path: backend
+
+      - name: Análisis SonarQube
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          projectBaseDir: backend
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+      - name: Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
+        with:
+          scanMetadataReportFile: backend/.scannerwork/report-task.txt
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

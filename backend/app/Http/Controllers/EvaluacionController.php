@@ -1816,7 +1816,7 @@ class EvaluacionController extends Controller
             'desglose_especialidades' => $resumenData['desglose_especialidades'],
             'clasificacion_tramite' => $this->clasificarModalidadTramite($autoevaluacion),
             // Cuántas condiciones corrigió el emprendedor después de evaluar (con foto o descripción).
-            'corregidas' => $autoevaluacion->subsanaciones()->where('estado', SubsanacionSyncService::ESTADO_SUBSANADO)->count(),
+            'corregidas' => $this->subsanacionSync()->codigosCorregidos($autoevaluacion)->count(),
         ];
 
         if (! $request->wantsJson() && ! $request->is(self::RUTA_API_PATTERN)) {

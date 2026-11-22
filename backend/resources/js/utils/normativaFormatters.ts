@@ -1,11 +1,5 @@
 import { CATEGORIA_LABELS, type CategoriaChecklist } from '@/data/checklistCatalogo';
-import {
-    AlertCircle,
-    AlertTriangle,
-    CheckCircle2,
-    MinusCircle,
-    type LucideIcon,
-} from 'lucide-react';
+import { AlertCircle, AlertTriangle, CheckCircle2, MinusCircle, type LucideIcon } from 'lucide-react';
 
 export interface EstadoBadgeConfig {
     label: string;

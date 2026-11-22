@@ -32,3 +32,11 @@ yarn-error.log
 /tests/coverage/
 /.scannerwork/
 /test-results/
+
+# Respaldos locales y artefactos de Cypress
+*.bak
+/cypress/videos
+/cypress/screenshots
+/cypress/reports
+/.env.e2e
+/cypress/screenshots-despliegue

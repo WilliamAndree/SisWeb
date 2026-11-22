@@ -112,7 +112,11 @@ function TarjetaDocumento({ numero, documento, uuid, tamanoMaximoMb }: Readonly<
     const esImagen = documento.archivo?.mime.startsWith('image/');
 
     return (
-        <li id={`doc-${documento.tipo}`} className={`rounded-2xl border-2 bg-white p-5 sm:p-7 ${listo ? 'border-emerald-300' : 'border-slate-200'}`}>
+        <li
+            id={`doc-${documento.tipo}`}
+            data-cy={`documento-${documento.tipo}`}
+            className={`rounded-2xl border-2 bg-white p-5 sm:p-7 ${listo ? 'border-emerald-300' : 'border-slate-200'}`}
+        >
             <div className="flex flex-wrap items-start justify-between gap-3">
                 <h3 className="text-xl leading-snug font-bold text-slate-900">
                     <span className="text-primary-700 mr-1.5">{numero}.</span>
@@ -197,6 +201,7 @@ function TarjetaDocumento({ numero, documento, uuid, tamanoMaximoMb }: Readonly<
                                 type="button"
                                 onClick={() => setConfirmarBorrado(true)}
                                 aria-label={`Eliminar ${documento.titulo}`}
+                                data-cy="quitar-documento"
                                 className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-3 text-base font-semibold text-rose-700 hover:bg-rose-50"
                             >
                                 <Trash2 aria-hidden="true" className="size-5" />

@@ -35,17 +35,19 @@ function claseEnlace(activo: boolean, movil = false, sobreImagen = false): strin
 function enlacesPorCuenta(usuario: Usuario | null, esInicio: boolean, url: string): EnlaceNav[] {
     if (usuario?.tipo_cuenta === 'admin') {
         const seccion = new URLSearchParams(url.split('?')[1] ?? '').get('seccion') ?? 'resumen';
-        const enAdmin = Boolean(route().current('admin.*'));
+        const enAdmin = Boolean(route().current('admin.panel'));
         return [
             ['resumen', 'Resumen'],
             ['pagos', 'Pagos'],
             ['negocios', 'Negocios'],
             ['vencimientos', 'Vencimientos'],
-        ].map(([clave, etiqueta]) => ({
-            etiqueta,
-            href: clave === 'resumen' ? route('admin.panel') : `${route('admin.panel')}?seccion=${clave}`,
-            activo: enAdmin && seccion === clave,
-        }));
+        ]
+            .map(([clave, etiqueta]) => ({
+                etiqueta,
+                href: clave === 'resumen' ? route('admin.panel') : `${route('admin.panel')}?seccion=${clave}`,
+                activo: enAdmin && seccion === clave,
+            }))
+            .concat({ etiqueta: 'Reportes', href: route('admin.reportes'), activo: Boolean(route().current('admin.reportes')) });
     }
     if (usuario?.tipo_cuenta === 'proveedor') {
         return [

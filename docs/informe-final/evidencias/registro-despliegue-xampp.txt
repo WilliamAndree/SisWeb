@@ -1,0 +1,268 @@
+﻿
+==> 2/6 Instalando dependencias y construyendo el frontend
+Installing dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Nothing to install, update or remove
+Generating optimized autoload files
+> Illuminate\Foundation\ComposerScripts::postAutoloadDump
+> @php artisan package:discover --ansi
+
+  [37;44m INFO [39;49m Discovering packages.  
+
+  inertiajs/inertia-laravel [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/boost [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/mcp [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/pail [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/roster [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/sail [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/sanctum [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  laravel/tinker [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nesbot/carbon [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nunomaduro/collision [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  nunomaduro/termwind [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  pestphp/pest-plugin-laravel [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+  tightenco/ziggy [90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m[90m.[39m [32;1mDONE[39;22m
+
+89 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+
+added 578 packages in 28s
+npm warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn allow-scripts   cypress@16.2.1 (postinstall: node dist/index.js --exec install)
+npm warn allow-scripts   esbuild@0.24.2 (postinstall: node install.js)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+
+> build
+> vite build
+
+vite v6.1.1 building for production...
+transforming...
+✓ 1877 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/manifest.json                                   42.88 kB │ gzip:   4.96 kB
+public/build/assets/app-Cgze7WNZ.css                        128.99 kB │ gzip:  20.12 kB
+public/build/assets/index-DqgCulqc.js                         0.09 kB │ gzip:   0.10 kB
+public/build/assets/minus-Dsm8pqBx.js                         0.29 kB │ gzip:   0.24 kB
+public/build/assets/check-BVsfO7Ut.js                         0.29 kB │ gzip:   0.24 kB
+public/build/assets/chevron-up-BALI2xda.js                    0.30 kB │ gzip:   0.25 kB
+public/build/assets/chevron-down-BSWDd1LU.js                  0.30 kB │ gzip:   0.25 kB
+public/build/assets/loader-circle-CCe7G5yu.js                 0.31 kB │ gzip:   0.26 kB
+public/build/assets/riesgo-CeCQ2hS4.js                        0.32 kB │ gzip:   0.21 kB
+public/build/assets/message-circle-CYH8H_NH.js                0.32 kB │ gzip:   0.26 kB
+public/build/assets/plus-BfQB3Yev.js                          0.32 kB │ gzip:   0.25 kB
+public/build/assets/arrow-left-Blg-o1D9.js                    0.34 kB │ gzip:   0.27 kB
+public/build/assets/arrow-right-8W3h-PZi.js                   0.34 kB │ gzip:   0.27 kB
+public/build/assets/circle-minus-BQlzrxA0.js                  0.34 kB │ gzip:   0.27 kB
+public/build/assets/search-BAGW92-5.js                        0.34 kB │ gzip:   0.27 kB
+public/build/assets/circle-check-BMkOXtOk.js                  0.34 kB │ gzip:   0.27 kB
+public/build/assets/gauge-Ce06DFTc.js                         0.35 kB │ gzip:   0.27 kB
+public/build/assets/clock-UBNeYAyq.js                         0.35 kB │ gzip:   0.27 kB
+public/build/assets/clock-3-PnOzWHrz.js                       0.35 kB │ gzip:   0.28 kB
+public/build/assets/circle-play-CdvSkEIZ.js                   0.36 kB │ gzip:   0.28 kB
+public/build/assets/user-BSRp6ppJ.js                          0.36 kB │ gzip:   0.28 kB
+public/build/assets/rotate-ccw-CdwfObrE.js                    0.37 kB │ gzip:   0.29 kB
+public/build/assets/info-DOZSk-Nj.js                          0.37 kB │ gzip:   0.28 kB
+public/build/assets/lock-mm4H6c9q.js                          0.37 kB │ gzip:   0.30 kB
+public/build/assets/trending-up-BjMKVkwm.js                   0.38 kB │ gzip:   0.29 kB
+public/build/assets/trending-down-DbqklAEv.js                 0.38 kB │ gzip:   0.28 kB
+public/build/assets/target-CJblfKIa.js                        0.39 kB │ gzip:   0.27 kB
+public/build/assets/copy-CdX-S3wx.js                          0.40 kB │ gzip:   0.31 kB
+public/build/assets/circle-help-DxeiN0kf.js                   0.40 kB │ gzip:   0.31 kB
+public/build/assets/compass-7u8cvndT.js                       0.42 kB │ gzip:   0.31 kB
+public/build/assets/circle-alert-hM8qtGNs.js                  0.42 kB │ gzip:   0.30 kB
+public/build/assets/chart-column-mURmc2pH.js                  0.42 kB │ gzip:   0.30 kB
+public/build/assets/external-link-Dq6LlQyV.js                 0.42 kB │ gzip:   0.30 kB
+public/build/assets/eye-DeIrMPUm.js                           0.42 kB │ gzip:   0.31 kB
+public/build/assets/map-pin-BuYBhION.js                       0.42 kB │ gzip:   0.33 kB
+public/build/assets/wrench-Cv2wgC5S.js                        0.43 kB │ gzip:   0.31 kB
+public/build/assets/calendar-CgOtKuh3.js                      0.43 kB │ gzip:   0.31 kB
+public/build/assets/upload-Drl53CKU.js                        0.43 kB │ gzip:   0.32 kB
+public/build/assets/log-in-CgJPUcYE.js                        0.43 kB │ gzip:   0.32 kB
+public/build/assets/download-BozfIsgQ.js                      0.43 kB │ gzip:   0.32 kB
+public/build/assets/zap-CdVASwMD.js                           0.43 kB │ gzip:   0.31 kB
+public/build/assets/triangle-alert-D72RtEtp.js                0.44 kB │ gzip:   0.32 kB
+public/build/assets/file-check-CfYqP1xO.js                    0.44 kB │ gzip:   0.30 kB
+public/build/assets/flame-CWOvHEk2.js                         0.44 kB │ gzip:   0.33 kB
+public/build/assets/folder-check-tiDhyfZZ.js                  0.45 kB │ gzip:   0.32 kB
+public/build/assets/book-open-B3l_C5II.js                     0.45 kB │ gzip:   0.31 kB
+public/build/assets/send-rAz5GgcO.js                          0.46 kB │ gzip:   0.34 kB
+public/build/assets/folder-open-B27w92Bo.js                   0.46 kB │ gzip:   0.32 kB
+public/build/assets/hash-BbkJxEEx.js                          0.47 kB │ gzip:   0.30 kB
+public/build/assets/users-DCL8drtr.js                         0.48 kB │ gzip:   0.33 kB
+public/build/assets/user-plus-BamgyuUz.js                     0.48 kB │ gzip:   0.34 kB
+public/build/assets/printer-DHcBb5n0.js                       0.49 kB │ gzip:   0.34 kB
+public/build/assets/refresh-cw-Dzbb3bFT.js                    0.49 kB │ gzip:   0.33 kB
+public/build/assets/save-CahHOPnK.js                          0.50 kB │ gzip:   0.33 kB
+public/build/assets/file-text-BIdnRQHI.js                     0.50 kB │ gzip:   0.32 kB
+public/build/assets/shield-alert-BIvo0ExV.js                  0.52 kB │ gzip:   0.37 kB
+public/build/assets/crosshair-B0wmAmm0.js                     0.52 kB │ gzip:   0.32 kB
+public/build/assets/trash-2-DVtgyVtl.js                       0.53 kB │ gzip:   0.36 kB
+public/build/assets/hourglass-CAIaY5wD.js                     0.53 kB │ gzip:   0.34 kB
+public/build/assets/scale-BL-L9m7m.js                         0.53 kB │ gzip:   0.34 kB
+public/build/assets/calendar-clock-D3I6-zr2.js                0.55 kB │ gzip:   0.36 kB
+public/build/assets/phone-C-4w8g0x.js                         0.57 kB │ gzip:   0.36 kB
+public/build/assets/bell-ring-qBgm-e10.js                     0.57 kB │ gzip:   0.39 kB
+public/build/assets/ruler-CrcUO2Hu.js                         0.57 kB │ gzip:   0.35 kB
+public/build/assets/landmark-Vdup4OIy.js                      0.58 kB │ gzip:   0.34 kB
+public/build/assets/clipboard-list-DYww2kJe.js                0.58 kB │ gzip:   0.36 kB
+public/build/assets/layers-CIy2qhyR.js                        0.59 kB │ gzip:   0.34 kB
+public/build/assets/eye-off-_v5ajNzQ.js                       0.60 kB │ gzip:   0.38 kB
+public/build/assets/building-2-D_EflpWX.js                    0.61 kB │ gzip:   0.35 kB
+public/build/assets/sparkles-BGEdaxPy.js                      0.68 kB │ gzip:   0.41 kB
+public/build/assets/fingerprint-BvOrZFdt.js                   0.77 kB │ gzip:   0.46 kB
+public/build/assets/store-CEWvCmpZ.js                         0.82 kB │ gzip:   0.41 kB
+public/build/assets/MisAutoevaluaciones-B2fckJhM.js           0.85 kB │ gzip:   0.51 kB
+public/build/assets/rotate-cw-D6RebUo8.js                     0.87 kB │ gzip:   0.42 kB
+public/build/assets/eventos-BEA09YH7.js                       0.96 kB │ gzip:   0.62 kB
+public/build/assets/InformeDatosGenerales-gtO9zCHt.js         2.10 kB │ gzip:   0.98 kB
+public/build/assets/FlujoCiudadano-Dg3INA28.js                2.11 kB │ gzip:   1.00 kB
+public/build/assets/imagen-negocio-lxYe-Ion.js                2.45 kB │ gzip:   1.32 kB
+public/build/assets/proveedor-BAOi70lX.js                     2.54 kB │ gzip:   1.07 kB
+public/build/assets/DesgloseEspecialidades-tKOFMWs8.js        2.79 kB │ gzip:   1.27 kB
+public/build/assets/Login-DqxN6dJT.js                         2.90 kB │ gzip:   1.36 kB
+public/build/assets/Pregunta-CLAK0Na8.js                      3.26 kB │ gzip:   1.35 kB
+public/build/assets/AuthLayout-CEcX6QgC.js                    3.42 kB │ gzip:   1.35 kB
+public/build/assets/item-visual-BD3wBQH7.js                   3.88 kB │ gzip:   1.33 kB
+public/build/assets/Register-CjghszNT.js                      4.34 kB │ gzip:   1.95 kB
+public/build/assets/CuentaProveedor-1nVsl0Yr.js               4.44 kB │ gzip:   1.74 kB
+public/build/assets/ModalConfirmarReevaluacion-CI1ab4bi.js    4.80 kB │ gzip:   1.82 kB
+public/build/assets/InformeMatrizCondiciones-CkrxY5rs.js      4.84 kB │ gzip:   1.46 kB
+public/build/assets/GuiaModal-CGTgtULX.js                     5.72 kB │ gzip:   2.20 kB
+public/build/assets/Perfil-DcVLnSiS.js                        7.04 kB │ gzip:   2.77 kB
+public/build/assets/ResumenHeader-aM92VldS.js                 7.37 kB │ gzip:   2.48 kB
+public/build/assets/InformeTrazabilidadLegal-Bpa6ChA9.js      7.62 kB │ gzip:   2.69 kB
+public/build/assets/HeroCinematico-BWVfNruw.js                7.86 kB │ gzip:   2.95 kB
+public/build/assets/PerfilUsuario-CZhvxM3b.js                 8.54 kB │ gzip:   2.90 kB
+public/build/assets/RecursoEducativoModal-1SPT_rgr.js         9.25 kB │ gzip:   2.97 kB
+public/build/assets/ModalGuardarProgreso-DXqv6ovG.js          9.96 kB │ gzip:   3.34 kB
+public/build/assets/Ventas-BBZjI0XK.js                       10.20 kB │ gzip:   3.32 kB
+public/build/assets/checklistCatalogo-CpfijrvY.js            11.29 kB │ gzip:   4.56 kB
+public/build/assets/SimulacionRevision-Dj4I8WEY.js           11.50 kB │ gzip:   3.27 kB
+public/build/assets/InformePreventivo-BFSNbLKW.js            11.77 kB │ gzip:   3.70 kB
+public/build/assets/Inicio-DGi46YPX.js                       12.00 kB │ gzip:   3.67 kB
+public/build/assets/Afiliacion-aFKg2fx6.js                   12.06 kB │ gzip:   4.25 kB
+public/build/assets/LoQueTeFalta-CPxFdHut.js                 14.83 kB │ gzip:   5.13 kB
+public/build/assets/Reportes-BNy9xvvw.js                     15.23 kB │ gzip:   4.26 kB
+public/build/assets/ExpedienteDigital-BnFn85pb.js            15.79 kB │ gzip:   5.29 kB
+public/build/assets/Productos-TGQRWzZ7.js                    15.98 kB │ gzip:   5.06 kB
+public/build/assets/Plan-DOMwnndI.js                         19.59 kB │ gzip:   6.39 kB
+public/build/assets/Dashboard-BJdw_gLu.js                    19.84 kB │ gzip:   5.38 kB
+public/build/assets/utils-BGeKnM1B.js                        21.89 kB │ gzip:   7.34 kB
+public/build/assets/Panel-DSw2IVRj.js                        22.68 kB │ gzip:   6.09 kB
+public/build/assets/tabs-4WlZK5IP.js                         28.10 kB │ gzip:   9.83 kB
+public/build/assets/HojaModeloAnexo-CXyCW0KZ.js              28.12 kB │ gzip:   6.97 kB
+public/build/assets/Nueva-Du0fRX4I.js                        28.43 kB │ gzip:   9.16 kB
+public/build/assets/Index-Bv9TDFF7.js                        29.71 kB │ gzip:   8.17 kB
+public/build/assets/accordion-BxdNXVr7.js                    36.18 kB │ gzip:  10.25 kB
+public/build/assets/ExpedienteLocal-Bo3wYT8p.js              37.53 kB │ gzip:   8.04 kB
+public/build/assets/Home-CCCdpqRm.js                         40.08 kB │ gzip:  11.71 kB
+public/build/assets/Resultado-BqrQXIzq.js                    43.30 kB │ gzip:  10.49 kB
+public/build/assets/SubsanacionDirecta-DTw2-2nV.js           57.65 kB │ gzip:  14.84 kB
+public/build/assets/CroquisEditor-evK4tD9K.js                57.87 kB │ gzip:  13.39 kB
+public/build/assets/AnexoOficial-Dlh1pmNk.js                 64.88 kB │ gzip:  11.43 kB
+public/build/assets/Resumen-cmmJR_hl.js                      85.44 kB │ gzip:  22.06 kB
+public/build/assets/Checklist-ClIcrlGi.js                   112.51 kB │ gzip:  33.12 kB
+public/build/assets/app-B7QpZHbU.js                         351.42 kB │ gzip: 115.86 kB
+✓ built in 6.13s
+
+==> 3/6 Aplicando migraciones
+
+   INFO  Nothing to migrate.  
+
+
+==> 4/6 Optimizando para producción
+
+   INFO  Clearing cached bootstrap files.  
+
+  config ................................................................................................. 1.53ms DONE
+  cache ................................................................................................. 25.68ms DONE
+  compiled ............................................................................................... 2.79ms DONE
+  events ................................................................................................. 0.99ms DONE
+  routes ................................................................................................. 0.69ms DONE
+  views ................................................................................................. 70.74ms DONE
+
+
+   INFO  Caching framework bootstrap, configuration, and metadata.  
+
+  config ................................................................................................ 62.09ms DONE
+  events ................................................................................................. 2.31ms DONE
+  routes ................................................................................................ 52.75ms DONE
+  views ................................................................................................ 216.31ms DONE
+
+
+==> 5/6 Publicando en Apache (puerto 8081)
+Syntax OK
+
+==> 6/6 Verificando que la aplicación responda
+OK: http://localhost:8081/up respondió 200.
+
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.2.1                                                                         │
+  │ Browser:        Electron 146 (headless) (deprecated)                                           │
+  │ Node Version:   v24.19.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          1 found (00-humo-despliegue.cy.ts)                                             │
+  │ Searched:       C:\xampp\htdocs\SisWeb\backend\cypress\e2e\00-humo-despliegue.cy.ts            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Warning: The Electron browser is deprecated as a test browser and will be removed in a future version of Cypress.
+
+Switch to Chrome or another installed browser to avoid a breaking change when you upgrade.
+
+Read more about supported browsers: https://on.cypress.io/launching-browsers
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  00-humo-despliegue.cy.ts                                                        (1 of 1)
+
+
+  E2E-00 · Verificación del despliegue
+    √ la aplicación responde: salud, portada, directorio e ingreso (4351ms)
+
+
+  1 passing (4s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     4 seconds                                                                        │
+  │ Spec Ran:     00-humo-despliegue.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\00-humo-despliegue.cy.ts\E2E-     (1280x768)
+     00-despliegue-login.png                                                                        
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ √  00-humo-despliegue.cy.ts                 00:04        1        1        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    √  All specs passed!                        00:04        1        1        -        -        -  
+
+
+Despliegue listo: http://localhost:8081
+

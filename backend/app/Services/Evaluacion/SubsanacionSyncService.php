@@ -57,6 +57,21 @@ class SubsanacionSyncService
     }
 
     /**
+     * Condiciones corregidas: una por código, según su corrección más reciente. Una misma
+     * condición puede tener dos filas (corrección directa y la de la simulación): se cuenta una
+     * vez, y si después se deshizo, ya no cuenta.
+     *
+     * @return Collection<int, string>
+     */
+    public function codigosCorregidos(Autoevaluacion $autoevaluacion): Collection
+    {
+        return $this->ultimaSubsanacionPorCondicion($autoevaluacion)
+            ->filter(fn (Subsanacion $subsanacion): bool => $subsanacion->estado === self::ESTADO_SUBSANADO)
+            ->keys()
+            ->values();
+    }
+
+    /**
      * Guarda en la autoevaluación los totales que muestran el panel y el listado de locales.
      *
      * @return array<string, mixed>

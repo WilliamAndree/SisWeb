@@ -9,6 +9,7 @@ use App\Http\Controllers\ExpedienteDigitalController;
 use App\Http\Controllers\MisRegistrosController;
 use App\Http\Controllers\PlanoEstablecimientoController;
 use App\Http\Controllers\ProveedorPanelController;
+use App\Http\Controllers\ReportesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -153,6 +154,8 @@ Route::middleware('auth')->group(function () {
     // Administración: comprobantes de pago y aprobación de negocios
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('panel');
+        Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes');
+        Route::get('/reportes/exportar', [ReportesController::class, 'exportar'])->name('reportes.exportar');
         Route::get('/pagos/{solicitud}/comprobante', [AdminController::class, 'evidencia'])->whereNumber('solicitud')->name('pagos.comprobante');
         Route::post('/pagos/{solicitud}/aprobar', [AdminController::class, 'aprobarPago'])->whereNumber('solicitud')->name('pagos.aprobar');
         Route::post('/pagos/{solicitud}/rechazar', [AdminController::class, 'rechazarPago'])->whereNumber('solicitud')->name('pagos.rechazar');

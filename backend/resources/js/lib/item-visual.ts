@@ -30,7 +30,12 @@ export interface VisualItem {
 
 const POR_CODIGO: Record<string, VisualItem> = {
     'CRIT-01': { nombreCorto: 'Extintor con carga vigente', imagen: '/images/extintor.webp', icono: 'extintor', especialidad: 'incendios' },
-    'CRIT-02A': { nombreCorto: 'Extintor Clase K para cocina', imagen: '/images/cocina-comercial.webp', icono: 'extintor', especialidad: 'incendios' },
+    'CRIT-02A': {
+        nombreCorto: 'Extintor Clase K para cocina',
+        imagen: '/images/cocina-comercial.webp',
+        icono: 'extintor',
+        especialidad: 'incendios',
+    },
     'CRIT-02B': {
         nombreCorto: 'Señales de seguridad y evacuación',
         imagen: '/images/salida-emergencia.webp',

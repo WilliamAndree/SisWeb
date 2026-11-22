@@ -1,0 +1,73 @@
+{
+  "fecha": "2026-11-22T06:01:53.312Z",
+  "navegador": "electron 146.0.7680.216",
+  "cypress": "16.2.1",
+  "total": 10,
+  "aprobadas": 10,
+  "fallidas": 0,
+  "pendientes": 0,
+  "omitidas": 0,
+  "duracion_ms": 247277,
+  "escenarios": [
+    {
+      "archivo": "cypress\\e2e\\00-humo-despliegue.cy.ts",
+      "titulo": "E2E-00 · Verificación del despliegue › la aplicación responde: salud, portada, directorio e ingreso",
+      "estado": "passed",
+      "duracion_ms": 4194
+    },
+    {
+      "archivo": "cypress\\e2e\\01-autenticacion.cy.ts",
+      "titulo": "E2E-01 · Autenticación de usuarios › rechaza una contraseña incorrecta",
+      "estado": "passed",
+      "duracion_ms": 19939
+    },
+    {
+      "archivo": "cypress\\e2e\\01-autenticacion.cy.ts",
+      "titulo": "E2E-01 · Autenticación de usuarios › ingresa con una cuenta válida, ve su panel y cierra sesión",
+      "estado": "passed",
+      "duracion_ms": 25298
+    },
+    {
+      "archivo": "cypress\\e2e\\02-registro-validacion.cy.ts",
+      "titulo": "E2E-02 · Registro de cuenta y validación del formulario › no deja crear la cuenta si las contraseñas no coinciden",
+      "estado": "passed",
+      "duracion_ms": 22518
+    },
+    {
+      "archivo": "cypress\\e2e\\02-registro-validacion.cy.ts",
+      "titulo": "E2E-02 · Registro de cuenta y validación del formulario › crea la cuenta de emprendedor y queda con la sesión iniciada",
+      "estado": "passed",
+      "duracion_ms": 28845
+    },
+    {
+      "archivo": "cypress\\e2e\\03-evaluacion-local.cy.ts",
+      "titulo": "E2E-03 · Evaluación de un local (proceso principal) › registra el local, responde las condiciones y ve su resultado",
+      "estado": "passed",
+      "duracion_ms": 29905
+    },
+    {
+      "archivo": "cypress\\e2e\\04-correccion-pendientes.cy.ts",
+      "titulo": "E2E-04 · Corrección de lo que falta › una corrección por cuenta propia actualiza el resumen y se puede deshacer",
+      "estado": "passed",
+      "duracion_ms": 33702
+    },
+    {
+      "archivo": "cypress\\e2e\\05-expediente-documentos.cy.ts",
+      "titulo": "E2E-05 · Expediente digital: subir y eliminar un documento › sube la declaración jurada firmada y luego la elimina",
+      "estado": "passed",
+      "duracion_ms": 29610
+    },
+    {
+      "archivo": "cypress\\e2e\\06-reportes-admin.cy.ts",
+      "titulo": "E2E-06 · Reportes de impacto (administración) › muestra los indicadores, filtra por distrito y exporta a CSV",
+      "estado": "passed",
+      "duracion_ms": 28197
+    },
+    {
+      "archivo": "cypress\\e2e\\07-directorio-proveedores.cy.ts",
+      "titulo": "E2E-07 · Directorio de proveedores › navega desde la portada y filtra proveedores por especialidad",
+      "estado": "passed",
+      "duracion_ms": 24975
+    }
+  ]
+}

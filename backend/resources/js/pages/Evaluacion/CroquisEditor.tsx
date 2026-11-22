@@ -75,7 +75,7 @@ export interface AnalisisEspacialData {
         };
         elementos_declarados_totales?: number;
         elementos_plantilla_excluidos?: number;
-        [key: string]: any;
+        [key: string]: unknown;
     };
     resultado_preventivo: {
         es_integro: boolean;
@@ -87,7 +87,7 @@ export interface AnalisisEspacialData {
             ambiente_codigo?: string;
             conector_idx?: number;
             coordenadas?: { x: number; y: number };
-            [key: string]: any;
+            [key: string]: unknown;
         }>;
         resumen_ambientes?: Array<{
             codigo: string;
@@ -167,7 +167,6 @@ interface CroquisEditorProps {
 
 export default function CroquisEditor({
     autoevaluacion,
-    plano,
     versionActiva,
     plantillas,
     historialVersiones: historialInicial,
@@ -213,7 +212,7 @@ export default function CroquisEditor({
         };
 
     const [geometria, setGeometria] = useState<GeometriaPlanoData>(geometriaInicial);
-    const [nivelActivoIndex, setNivelActivoIndex] = useState(0);
+    const [nivelActivoIndex] = useState(0);
     const [ambienteSeleccionadoCodigo, setAmbienteSeleccionadoCodigo] = useState<string | null>(geometria.niveles[0]?.ambientes[0]?.codigo ?? null);
     const [tabSidebar, setTabSidebar] = useState<'ambientes' | 'conectores' | 'elementos' | 'analisis' | 'plantillas' | 'sugerencias' | 'historial'>(
         'ambientes',
@@ -261,7 +260,7 @@ export default function CroquisEditor({
     };
 
     // Modificar ambiente seleccionado
-    const handleModificarAmbiente = (campo: keyof AmbienteData, valor: any) => {
+    const handleModificarAmbiente = (campo: keyof AmbienteData, valor: AmbienteData[keyof AmbienteData]) => {
         if (!ambienteSeleccionado) return;
 
         setGeometria((prev) => {
@@ -276,8 +275,8 @@ export default function CroquisEditor({
 
                 // Recalcular área si se modifican ancho o largo rectangular
                 if (campo === 'ancho_metros' || campo === 'largo_metros') {
-                    const w = Number.parseFloat(campo === 'ancho_metros' ? valor : (nivel.ambientes[ambIndex].ancho_metros ?? 0));
-                    const l = Number.parseFloat(campo === 'largo_metros' ? valor : (nivel.ambientes[ambIndex].largo_metros ?? 0));
+                    const w = Number(campo === 'ancho_metros' ? valor : (nivel.ambientes[ambIndex].ancho_metros ?? 0));
+                    const l = Number(campo === 'largo_metros' ? valor : (nivel.ambientes[ambIndex].largo_metros ?? 0));
                     if (w > 0 && l > 0) {
                         nivel.ambientes[ambIndex].area_m2 = Math.round(w * l * 100) / 100;
                     }
@@ -439,8 +438,8 @@ export default function CroquisEditor({
             setNumeroVersionActual(data.version.numero_version);
             setHashActual(data.version.hash_geometria_sha256);
             setMensajeExito('Elemento confirmado como declaración ciudadana de existencia física.');
-        } catch (err: any) {
-            setMensajeError(err.message || 'Error al confirmar elemento.');
+        } catch (err: unknown) {
+            setMensajeError((err instanceof Error && err.message) || 'Error al confirmar elemento.');
         } finally {
             setGuardando(false);
         }
@@ -475,8 +474,8 @@ export default function CroquisEditor({
             setNumeroVersionActual(data.version.numero_version);
             setHashActual(data.version.hash_geometria_sha256);
             setDescripcionCambio('');
-        } catch (err: any) {
-            setMensajeError(err.message || 'Error inesperado al guardar el croquis.');
+        } catch (err: unknown) {
+            setMensajeError((err instanceof Error && err.message) || 'Error inesperado al guardar el croquis.');
         } finally {
             setGuardando(false);
         }
@@ -508,8 +507,8 @@ export default function CroquisEditor({
             setAnalisisActual(data.analisis);
             setTabSidebar('analisis');
             setMensajeExito('Diagnóstico de conectividad espacial completado.');
-        } catch (err: any) {
-            setMensajeError(err.message || 'Error inesperado al ejecutar el análisis.');
+        } catch (err: unknown) {
+            setMensajeError((err instanceof Error && err.message) || 'Error inesperado al ejecutar el análisis.');
         } finally {
             setEjecutandoAnalisis(false);
         }
@@ -595,8 +594,8 @@ export default function CroquisEditor({
             );
             setSugerenciaAConfirmar(null);
             setModoColocacionManualActivo(false);
-        } catch (err: any) {
-            setMensajeError(err.message || 'Error al confirmar la sugerencia.');
+        } catch (err: unknown) {
+            setMensajeError((err instanceof Error && err.message) || 'Error al confirmar la sugerencia.');
         } finally {
             setProcesandoConfirmacion(false);
         }
@@ -642,8 +641,8 @@ export default function CroquisEditor({
             setMensajeExito('Sugerencia descartada correctamente.');
             setSugerenciaARechazar(null);
             setMotivoRechazo('');
-        } catch (err: any) {
-            setMensajeError(err.message || 'Error al descartar la sugerencia.');
+        } catch (err: unknown) {
+            setMensajeError((err instanceof Error && err.message) || 'Error al descartar la sugerencia.');
         } finally {
             setProcesandoRechazo(false);
         }
@@ -1419,7 +1418,6 @@ export default function CroquisEditor({
                                             sugerencias.map((sug) => {
                                                 const esPendiente = sug.estado === 'PENDIENTE';
                                                 const esConfirmada = sug.estado === 'CONFIRMADA';
-                                                const esRechazada = sug.estado === 'RECHAZADA';
                                                 const esInvalidada = sug.estado === 'INVALIDADA';
 
                                                 return (

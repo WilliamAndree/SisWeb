@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+    <marker id="fn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c2410c"/></marker>
+    <style>
+      .zona{rx:18;stroke-width:2}
+      .tz{font-size:16px;font-weight:800;letter-spacing:1.5px}
+      .caja{fill:#fff;stroke:#cbd5e1;stroke-width:2;rx:12}
+      .t{font-size:18px;font-weight:700;fill:#0f172a}
+      .m{font-size:14px;fill:#475569}
+      .l{stroke:#334155;stroke-width:2.2;fill:none;marker-end:url(#f)}
+      .ln{stroke:#c2410c;stroke-width:2.6;fill:none;marker-end:url(#fn)}
+      .p{stroke:#64748b;stroke-width:2;fill:none;stroke-dasharray:7 6;marker-end:url(#f)}
+      .et{font-size:13.5px;fill:#1e293b;font-weight:600}
+      .num{font-size:13px;font-weight:800;fill:#fff}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#fbf6ee"/>
+  <text x="40" y="52" font-size="30" font-weight="800" fill="#17133a">CheckITSE Huancayo · Arquitectura tecnológica y pipelines</text>
+  <text x="40" y="82" font-size="16" fill="#334155">Desarrollo local → GitHub (CI en la nube) → despliegue "pull" en el servidor XAMPP. SonarQube corre en Docker en el equipo del equipo.</text>
+
+  <!-- Desarrollo -->
+  <rect x="40" y="110" width="440" height="400" class="zona" fill="#fff" stroke="#cbd5e1"/>
+  <text x="62" y="142" class="tz" fill="#17133a">1 · ENTORNO DE DESARROLLO</text>
+  <rect x="62" y="160" width="396" height="92" class="caja"/><text x="78" y="190" class="t">VS Code + Git 2.55</text><text x="78" y="214" class="m">Node 24 / npm 11 · Composer 2.10</text><text x="78" y="236" class="m">PHP 8.2 (XAMPP) · Prettier · ESLint · Pint</text>
+  <rect x="62" y="266" width="396" height="92" class="caja"/><text x="78" y="296" class="t">Pruebas locales</text><text x="78" y="320" class="m">Pest (772 pruebas) · node --test (30)</text><text x="78" y="342" class="m">Cypress 16.2.1 → base sisweb_e2e</text>
+  <rect x="62" y="372" width="396" height="118" class="caja" style="stroke:#6a59cf;stroke-width:3"/><text x="78" y="402" class="t">SonarQube 9.9 LTS (Docker)</text><text x="78" y="426" class="m">http://localhost:9000 · proyecto ITSE</text><text x="78" y="448" class="m">scripts/cobertura-docker.ps1 (PCOV)</text><text x="78" y="470" class="m">scripts/sonar.ps1 → Quality Gate</text>
+
+  <!-- GitHub -->
+  <rect x="560" y="110" width="480" height="560" class="zona" fill="#f3f1fd" stroke="#cdc6f4"/>
+  <text x="582" y="142" class="tz" fill="#3a307a">2 · GITHUB (REPOSITORIO + ACTIONS)</text>
+  <rect x="582" y="160" width="436" height="74" class="caja"/><text x="598" y="190" class="t">Repositorio WilliamAndree/SisWeb</text><text x="598" y="214" class="m">ramas: feature → develop → main</text>
+  <rect x="582" y="250" width="436" height="90" class="caja"/><text x="598" y="280" class="t">Workflow «linter»</text><text x="598" y="304" class="m">Pint · Prettier · ESLint · TypeScript</text><text x="598" y="326" class="m">(frontend y pruebas Cypress)</text>
+  <rect x="582" y="356" width="436" height="90" class="caja"/><text x="598" y="386" class="t">Job «Pruebas PHP y cobertura»</text><text x="598" y="410" class="m">PHP 8.2 + MariaDB 10.11 (servicio) · Pest + PCOV</text><text x="598" y="432" class="m">artefactos: coverage.xml, junit.xml, matriz</text>
+  <rect x="582" y="462" width="436" height="90" class="caja" style="stroke:#c2410c;stroke-width:3"/><text x="598" y="492" class="t">Job «Pruebas end-to-end (Cypress)»</text><text x="598" y="516" class="m">levanta la app (APP_ENV=e2e) y corre 8 escenarios</text><text x="598" y="538" class="m">artefactos: capturas, videos, resumen.json</text>
+  <rect x="582" y="568" width="436" height="86" class="caja" style="stroke-dasharray:6 5"/><text x="598" y="598" class="t">Job «SonarQube» (condicional)</text><text x="598" y="622" class="m">se activa si hay SONAR_HOST_URL accesible;</text><text x="598" y="642" class="m">si no, el análisis se hace localmente (zona 1)</text>
+
+  <!-- Servidor -->
+  <rect x="1120" y="110" width="440" height="560" class="zona" fill="#fff4ec" stroke="#ffc7a5"/>
+  <text x="1142" y="142" class="tz" fill="#a1360c">3 · SERVIDOR XAMPP (WINDOWS 11)</text>
+  <rect x="1142" y="160" width="396" height="100" class="caja"/><text x="1158" y="190" class="t">scripts/desplegar-xampp.ps1</text><text x="1158" y="214" class="m">git pull main → composer/npm → build</text><text x="1158" y="236" class="m">migrate --force → optimize → Apache</text>
+  <rect x="1142" y="276" width="396" height="110" class="caja"/><text x="1158" y="306" class="t">Apache 2.4.58 :8081</text><text x="1158" y="330" class="m">VirtualHost → backend/public (mod_rewrite)</text><text x="1158" y="352" class="m">deploy/xampp/checkitse.conf (versionado)</text><text x="1158" y="374" class="m">PHP 8.2.12 (módulo de Apache)</text>
+  <rect x="1142" y="402" width="396" height="92" class="caja"/><text x="1158" y="432" class="t">MariaDB 10.4.32 :3306</text><text x="1158" y="456" class="m">sisweb (producción) · sisweb_e2e (Cypress)</text><text x="1158" y="478" class="m">sesiones y caché en base de datos</text>
+  <rect x="1142" y="510" width="396" height="140" class="caja" style="stroke:#c2410c;stroke-width:3"/><text x="1158" y="540" class="t">Aplicación desplegada</text><text x="1158" y="564" class="m">http://localhost:8081 · APP_ENV=production</text><text x="1158" y="586" class="m">Verificación: /up = 200 y Cypress</text><text x="1158" y="608" class="m">00-humo-despliegue contra :8081</text><text x="1158" y="630" class="m">almacenamiento privado en storage/app</text>
+
+  <!-- Flechas principales -->
+  <path class="l" d="M458 206 H582"/>
+  <text x="470" y="196" class="et">git push</text>
+  <path class="ln" d="M1018 196 C1080 196 1080 210 1142 210"/>
+  <text x="1030" y="180" class="et" fill="#a1360c">git pull (main validado)</text>
+  <path class="p" d="M582 610 C520 610 520 430 458 430"/>
+  <text x="470" y="540" class="et">análisis local</text>
+  <path class="l" d="M1340 494 V510"/>
+
+  <!-- Pipeline -->
+  <rect x="40" y="700" width="1520" height="280" class="zona" fill="#fff" stroke="#cbd5e1"/>
+  <text x="62" y="732" class="tz" fill="#17133a">FLUJO DEL PIPELINE (CI/CD)</text>
+  <g font-size="15">
+    <g transform="translate(62 754)"><rect width="196" height="150" rx="14" fill="#17133a"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">1</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Control de</text><text x="16" y="92" fill="#fff" font-weight="700" font-size="17">versiones</text><text x="16" y="120" fill="#e2e8f0" font-size="13">Git · GitHub</text><text x="16" y="138" fill="#e2e8f0" font-size="13">(desarrollo)</text></g>
+    <g transform="translate(276 754)"><rect width="196" height="150" rx="14" fill="#3a307a"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">2</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Integración</text><text x="16" y="120" fill="#e2e8f0" font-size="13">GitHub Actions</text><text x="16" y="138" fill="#e2e8f0" font-size="13">(en cada push/PR)</text></g>
+    <g transform="translate(490 754)"><rect width="196" height="150" rx="14" fill="#3a307a"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">3</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Construcción</text><text x="16" y="120" fill="#e2e8f0" font-size="13">composer · npm ci</text><text x="16" y="138" fill="#e2e8f0" font-size="13">vite build</text></g>
+    <g transform="translate(704 754)"><rect width="196" height="150" rx="14" fill="#c2410c"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">4</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Pruebas</text><text x="16" y="120" fill="#ffe5d3" font-size="13">Pest (CI) · Cypress (CI)</text><text x="16" y="138" fill="#ffe5d3" font-size="13">fallan → se detiene</text></g>
+    <g transform="translate(918 754)"><rect width="196" height="150" rx="14" fill="#6a59cf"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">5</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Calidad</text><text x="16" y="120" fill="#ede9fe" font-size="13">SonarQube + Quality Gate</text><text x="16" y="138" fill="#ede9fe" font-size="13">(local / job condicional)</text></g>
+    <g transform="translate(1132 754)"><rect width="196" height="150" rx="14" fill="#9a5b00"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">6</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Despliegue</text><text x="16" y="120" fill="#fff8e6" font-size="13">desplegar-xampp.ps1</text><text x="16" y="138" fill="#fff8e6" font-size="13">(pull en el servidor)</text></g>
+    <g transform="translate(1346 754)"><rect width="196" height="150" rx="14" fill="#17133a"/><circle cx="26" cy="26" r="14" fill="#ffc233"/><text x="26" y="31" text-anchor="middle" class="num" fill="#17133a">7</text><text x="16" y="70" fill="#fff" font-weight="700" font-size="17">Verificación</text><text x="16" y="120" fill="#e2e8f0" font-size="13">/up = 200 · Cypress</text><text x="16" y="138" fill="#e2e8f0" font-size="13">humo contra :8081</text></g>
+  </g>
+  <g stroke="#334155" stroke-width="2.2" marker-end="url(#f)">
+    <path d="M258 829 H272"/><path d="M472 829 H486"/><path d="M686 829 H700"/><path d="M900 829 H914"/><path d="M1114 829 H1128"/><path d="M1328 829 H1342"/>
+  </g>
+  <text x="62" y="938" font-size="14" fill="#334155">Etapas 1–4 en GitHub (nube) · Etapa 5 en Docker local (el servidor SonarQube no es accesible desde Internet) · Etapas 6–7 en el servidor XAMPP (sin IP pública: el servidor trae la versión validada).</text>
+  <text x="62" y="962" font-size="14" fill="#334155">Si una prueba falla, el pipeline queda en rojo y desplegar-xampp.ps1 se niega a desplegar ese commit (lo consulta en la API de GitHub).</text>
+</svg>

@@ -1,0 +1,330 @@
+﻿
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        16.2.1                                                                         │
+  │ Browser:        Electron 146 (headless) (deprecated)                                           │
+  │ Node Version:   v24.19.0 (C:\Program Files\nodejs\node.exe)                                    │
+  │ Specs:          8 found (00-humo-despliegue.cy.ts, 01-autenticacion.cy.ts, 02-registro-validac │
+  │                 ion.cy.ts, 03-evaluacion-local.cy.ts, 04-correccion-pendientes.cy.ts, 05-exped │
+  │                 iente-documentos.cy.ts, 06-reportes-admin.cy.ts, 07-directorio-proveedores.cy. │
+  │                 ts)                                                                            │
+  │ Searched:       cypress/e2e/**/*.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Warning: The Electron browser is deprecated as a test browser and will be removed in a future version of Cypress.
+
+Switch to Chrome or another installed browser to avoid a breaking change when you upgrade.
+
+Read more about supported browsers: https://on.cypress.io/launching-browsers
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  00-humo-despliegue.cy.ts                                                        (1 of 8)
+
+
+  E2E-00 · Verificación del despliegue
+    √ la aplicación responde: salud, portada, directorio e ingreso (4152ms)
+
+
+  1 passing (4s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     4 seconds                                                                        │
+  │ Spec Ran:     00-humo-despliegue.cy.ts                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\00-humo-despliegue.cy.ts\E2E-     (1280x768)
+     00-despliegue-login.png                                                                        
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  01-autenticacion.cy.ts                                                          (2 of 8)
+
+
+  E2E-01 · Autenticación de usuarios
+    √ rechaza una contraseña incorrecta (19925ms)
+    √ ingresa con una cuenta válida, ve su panel y cierra sesión (25263ms)
+
+
+  2 passing (45s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     45 seconds                                                                       │
+  │ Spec Ran:     01-autenticacion.cy.ts                                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\01-autenticacion.cy.ts\E2E-01     (1280x827)
+     -login-rechazado.png                                                                           
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\01-autenticacion.cy.ts\E2E-01    (1280x2380)
+     -panel-emprendedora.png                                                                        
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  02-registro-validacion.cy.ts                                                    (3 of 8)
+
+
+  E2E-02 · Registro de cuenta y validación del formulario
+    √ no deja crear la cuenta si las contraseñas no coinciden (22473ms)
+    √ crea la cuenta de emprendedor y queda con la sesión iniciada (28771ms)
+
+
+  2 passing (51s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     51 seconds                                                                       │
+  │ Spec Ran:     02-registro-validacion.cy.ts                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\02-registro-validacion.cy.ts\    (1280x1355)
+     E2E-02-registro-validacion.png                                                                 
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\02-registro-validacion.cy.ts\    (1280x1992)
+     E2E-02-cuenta-creada.png                                                                       
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  03-evaluacion-local.cy.ts                                                       (4 of 8)
+
+
+  E2E-03 · Evaluación de un local (proceso principal)
+    √ registra el local, responde las condiciones y ve su resultado (29811ms)
+
+
+  1 passing (30s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     29 seconds                                                                       │
+  │ Spec Ran:     03-evaluacion-local.cy.ts                                                        │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\03-evaluacion-local.cy.ts\E2E    (1280x3475)
+     -03-condiciones-respondidas.png                                                                
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\03-evaluacion-local.cy.ts\E2E    (1280x3511)
+     -03-resultado.png                                                                              
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  04-correccion-pendientes.cy.ts                                                  (5 of 8)
+
+
+  E2E-04 · Corrección de lo que falta
+    √ una corrección por cuenta propia actualiza el resumen y se puede deshacer (33676ms)
+
+
+  1 passing (34s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     33 seconds                                                                       │
+  │ Spec Ran:     04-correccion-pendientes.cy.ts                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\04-correccion-pendientes.cy.t    (1280x4078)
+     s\E2E-04-corregido.png                                                                         
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\04-correccion-pendientes.cy.t    (1280x3445)
+     s\E2E-04-resumen-actualizado.png                                                               
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  05-expediente-documentos.cy.ts                                                  (6 of 8)
+
+
+  E2E-05 · Expediente digital: subir y eliminar un documento
+    √ sube la declaración jurada firmada y luego la elimina (29557ms)
+
+
+  1 passing (30s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     29 seconds                                                                       │
+  │ Spec Ran:     05-expediente-documentos.cy.ts                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\05-expediente-documentos.cy.t    (1280x3991)
+     s\E2E-05-documento-subido.png                                                                  
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\05-expediente-documentos.cy.t    (1280x4037)
+     s\E2E-05-documento-eliminado.png                                                               
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  06-reportes-admin.cy.ts                                                         (7 of 8)
+
+
+  E2E-06 · Reportes de impacto (administración)
+    √ muestra los indicadores, filtra por distrito y exporta a CSV (28174ms)
+
+
+  1 passing (28s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     28 seconds                                                                       │
+  │ Spec Ran:     06-reportes-admin.cy.ts                                                          │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\06-reportes-admin.cy.ts\E2E-0    (1280x4488)
+     6-reportes.png                                                                                 
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\06-reportes-admin.cy.ts\E2E-0    (1280x3949)
+     6-reportes-filtrado.png                                                                        
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  07-directorio-proveedores.cy.ts                                                 (8 of 8)
+
+
+  E2E-07 · Directorio de proveedores
+    √ navega desde la portada y filtra proveedores por especialidad (24917ms)
+
+
+  1 passing (25s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     24 seconds                                                                       │
+  │ Spec Ran:     07-directorio-proveedores.cy.ts                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  C:\xampp\htdocs\SisWeb\backend\cypress\screenshots\07-directorio-proveedores.cy.    (1280x6098)
+     ts\E2E-07-directorio-filtrado.png                                                              
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ √  00-humo-despliegue.cy.ts                 00:04        1        1        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  01-autenticacion.cy.ts                   00:45        2        2        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  02-registro-validacion.cy.ts             00:51        2        2        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  03-evaluacion-local.cy.ts                00:29        1        1        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  04-correccion-pendientes.cy.ts           00:33        1        1        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  05-expediente-documentos.cy.ts           00:29        1        1        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  06-reportes-admin.cy.ts                  00:28        1        1        -        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ √  07-directorio-proveedores.cy.ts          00:24        1        1        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    √  All specs passed!                        04:07       10       10        -        -        -  
+
+
+Cypress: 10 pruebas Â· 10 aprobadas Â· 0 fallidas Â· 247.3 s
+

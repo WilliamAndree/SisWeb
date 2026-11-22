@@ -140,8 +140,8 @@ return [
             'codigo' => 'S4',
             'nombre' => 'Administración y monitoreo',
             'responsable' => 'Administrador',
-            'pruebas' => ['PlanesYAdministracionTest', 'MatrizMonitoreoTest'],
-            'codigo_fuente' => ['app/Http/Controllers/AdminController.php', 'app/Console/Commands/CrearAdministrador.php', 'app/Console/Commands/GenerarMatrizMonitoreo.php'],
+            'pruebas' => ['PlanesYAdministracionTest', 'MatrizMonitoreoTest', 'ReportesImpactoTest'],
+            'codigo_fuente' => ['app/Http/Controllers/AdminController.php', 'app/Http/Controllers/ReportesController.php', 'app/Services/ReportesImpactoService.php', 'app/Console/Commands/CrearAdministrador.php', 'app/Console/Commands/GenerarMatrizMonitoreo.php'],
         ],
         [
             'codigo' => 'S5',

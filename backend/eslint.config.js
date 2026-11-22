@@ -38,7 +38,16 @@ export default [
         },
     },
     {
-        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
+        // Pruebas de frontend que corren en Node (node --test) y pruebas E2E de Cypress.
+        files: ['tests/**/*.mjs', 'cypress.config.ts'],
+        languageOptions: { globals: { ...globals.node } },
+    },
+    {
+        files: ['cypress/**/*.{ts,js}'],
+        languageOptions: { globals: { ...globals.browser, ...globals.mocha, cy: 'readonly', Cypress: 'readonly' } },
+    },
+    {
+        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js', 'cypress/videos', 'cypress/screenshots', 'cypress/reports'],
     },
     prettier, // Turn off all rules that might conflict with Prettier
 ];
