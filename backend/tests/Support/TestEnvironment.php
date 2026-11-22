@@ -30,12 +30,10 @@ final class TestEnvironment
             throw new RuntimeException('Falta .env.testing: no se permite cargar .env como alternativa.');
         }
 
-        if (is_file($base.'/bootstrap/cache/config.php')) {
-            throw new RuntimeException('Configuración cacheada: ejecutar las pruebas en un checkout sin caché de configuración.');
-        }
-
         $storage = self::storagePath();
-        foreach (['services', 'packages', 'routes', 'events'] as $cache) {
+        // Todas las cachés de Laravel (incluida la de configuración) apuntan a un directorio temporal:
+        // la caché de producción de esta misma carpeta (php artisan optimize) nunca llega a las pruebas.
+        foreach (['config', 'services', 'packages', 'routes', 'events'] as $cache) {
             $key = 'APP_'.strtoupper($cache).'_CACHE';
             $_ENV[$key] = $_SERVER[$key] = $storage.'/bootstrap/'.$cache.'.php';
             putenv($key.'='.$_ENV[$key]);

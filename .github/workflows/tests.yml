@@ -189,6 +189,9 @@ jobs:
         run: |
           cp .env.e2e.example .env.e2e
           sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env.e2e
+          # La base del runner nace vacía: se migra y siembra antes de levantar la app
+          # (la prueba de humo 00 solo lee y no prepara la base por sí misma).
+          APP_ENV=e2e php artisan checkitse:e2e-preparar
 
       - name: Levantar la aplicación
         env:
