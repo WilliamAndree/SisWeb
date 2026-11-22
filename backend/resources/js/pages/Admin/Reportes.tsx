@@ -53,9 +53,9 @@ interface ReportesProps {
 const COLOR_ESTADO: Record<Estado, string> = { VERDE: 'bg-emerald-500', AMBAR: 'bg-sun-400', ROJO: 'bg-primary-600' };
 const TEXTO_ESTADO: Record<Estado, string> = { VERDE: 'Listo', AMBAR: 'Casi listo', ROJO: 'Necesita atención' };
 const ORIGENES = [
-    { valor: 'todos', texto: 'Todos los registros' },
-    { valor: 'reales', texto: 'Solo usuarios reales' },
-    { valor: 'demo', texto: 'Solo demostración (DEMO-)' },
+    { valor: 'todos', texto: 'Todos' },
+    { valor: 'reales', texto: 'Reales' },
+    { valor: 'demo', texto: 'Demostración' },
 ] as const;
 
 const pct = (valor: number) => `${valor.toLocaleString('es-PE', { maximumFractionDigits: 1 })} %`;

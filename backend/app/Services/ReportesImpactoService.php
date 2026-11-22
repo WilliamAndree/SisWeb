@@ -30,6 +30,9 @@ class ReportesImpactoService
 
     public const ESTADOS = ['VERDE', 'AMBAR', 'ROJO'];
 
+    /** Dominio de las cuentas de demostración (admin, proveedores y datos DEMO-). */
+    public const DOMINIO_DEMO = '@checkitse.local';
+
     private const ETIQUETA_ESTADO = ['VERDE' => 'Listo', 'AMBAR' => 'Casi listo', 'ROJO' => 'Necesita atención'];
 
     /**
@@ -240,12 +243,21 @@ class ReportesImpactoService
         return $meses;
     }
 
-    /** @param  array<string, string>  $filtros */
+    /**
+     * Clics a WhatsApp de proveedores. Respeta el filtro "Origen": los proveedores de las
+     * cuentas de demostración (correo @checkitse.local) cuentan como datos de demostración.
+     *
+     * @param  array<string, string>  $filtros
+     */
     private function contactosWhatsapp(array $filtros): int
     {
+        $deDemostracion = fn (Builder $proveedor) => $proveedor->whereHas('user', fn (Builder $u) => $u->where('email', 'like', '%'.self::DOMINIO_DEMO));
+
         return EventoProveedor::query()
             ->where('tipo', EventoProveedor::CLIC_WHATSAPP)
             ->whereBetween('created_at', [Carbon::parse($filtros['desde'])->startOfDay(), Carbon::parse($filtros['hasta'])->endOfDay()])
+            ->when($filtros['origen'] === 'demo', fn (Builder $q) => $q->whereHas('proveedor', $deDemostracion))
+            ->when($filtros['origen'] === 'reales', fn (Builder $q) => $q->whereDoesntHave('proveedor', $deDemostracion))
             ->count();
     }
 

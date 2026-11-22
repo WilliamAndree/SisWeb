@@ -2,8 +2,10 @@
 
 use App\Models\Autoevaluacion;
 use App\Models\User;
+use Database\Seeders\DemoCuentasSeeder;
 use Database\Seeders\DemoImpactoSeeder;
 use Database\Seeders\NormativaCatalogSeeder;
+use Database\Seeders\ProveedorRecursoSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 
 /**
@@ -75,4 +77,19 @@ test('el reporte se descarga en CSV con una fila por local', function () {
     $lineas = array_filter(explode("\n", trim($respuesta->streamedContent())));
     expect(count($lineas) - 1)->toBe(Autoevaluacion::where('distrito', 'Chilca')->where('estado', 'REGISTRADA')->count())
         ->and($lineas[0])->toContain('Preparación al evaluar (%)');
+});
+
+test('los contactos por WhatsApp respetan el filtro de origen (cuentas de demostración aparte)', function () {
+    $this->seed(ProveedorRecursoSeeder::class);
+    $this->seed(DemoCuentasSeeder::class);
+    $this->actingAs($this->admin);
+    $desde = now()->subYear()->toDateString();
+
+    $todos = reporte(['desde' => $desde])['indicadores']['contactos_whatsapp'];
+    $demo = reporte(['desde' => $desde, 'origen' => 'demo'])['indicadores']['contactos_whatsapp'];
+    $reales = reporte(['desde' => $desde, 'origen' => 'reales'])['indicadores']['contactos_whatsapp'];
+
+    expect($todos)->toBeGreaterThan(0)
+        ->and($demo)->toBe($todos)
+        ->and($reales)->toBe(0);
 });
