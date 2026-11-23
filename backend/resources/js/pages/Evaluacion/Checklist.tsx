@@ -715,6 +715,8 @@ async function enviarRespuestasChecklist(uuid: string, respuestasAEnviar: Respue
             'X-CSRF-TOKEN': csrfToken,
         },
         body: JSON.stringify({ respuestas: respuestasAEnviar }),
+        // Termina de enviarse aunque el usuario salga de la página (p. ej. a ver un proveedor).
+        keepalive: true,
     });
 }
 
@@ -1806,6 +1808,7 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
     const [criteriosGuardados, setCriteriosGuardados] = useState<Record<string, boolean>>(() => inicializarCriteriosGuardados(criteriosAplicables));
 
     const [guardandoAvance, setGuardandoAvance] = useState<boolean>(false);
+    const [estadoAutoguardado, setEstadoAutoguardado] = useState<'inactivo' | 'guardando' | 'guardado' | 'error'>('inactivo');
     const [guardandoContinuar, setGuardandoContinuar] = useState<boolean>(false);
     const [mensajeExito, setMensajeExito] = useState<string | null>(null);
     const [mensajeError, setMensajeError] = useState<string | null>(null);
@@ -1854,12 +1857,9 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
             return;
         }
 
-        setRespuestas((prev) => ({
-            ...prev,
-            [codigo]: estado,
-        }));
+        const nuevasRespuestas = { ...respuestas, [codigo]: estado };
+        setRespuestas(nuevasRespuestas);
 
-        // Si el usuario cambia su respuesta, ya no se considera "guardada" en el servidor hasta que presione guardar
         setCriteriosGuardados((prev) => ({
             ...prev,
             [codigo]: false,
@@ -1868,8 +1868,45 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
         setMensajeExito(null);
         setMensajeError(null);
 
+        // Guardado automático: cada respuesta queda en el servidor al instante, ligada a esta
+        // autoevaluación (y a la cuenta). Si el usuario sale a ver un proveedor y vuelve, la
+        // página recupera lo respondido.
+        void autoguardar(nuevasRespuestas);
+
         // Desplazamiento suave guiado hacia la siguiente pregunta sin responder tras 350ms
         programarDesplazamientoSiguiente(especialidadVisible, codigo, respuestas);
+    };
+
+    const autoguardar = async (respuestasActuales: Record<string, string>) => {
+        const respuestasAEnviar = construirRespuestasAvance(respuestasActuales, notas);
+        if (respuestasAEnviar.length === 0) {
+            return;
+        }
+        setEstadoAutoguardado('guardando');
+        try {
+            const response = await enviarRespuestasChecklist(autoevaluacion.uuid, respuestasAEnviar);
+            if (response.ok) {
+                setCriteriosGuardados((prev) => marcarComoGuardados(prev, respuestasAEnviar));
+                setEstadoAutoguardado('guardado');
+            } else {
+                setEstadoAutoguardado('error');
+            }
+        } catch {
+            setEstadoAutoguardado('error');
+        }
+    };
+
+    const indiceEspecialidad = especialidadVisible ? areas.findIndex((a) => a.id === especialidadVisible.id) : -1;
+    const siguienteEspecialidad = indiceEspecialidad >= 0 ? areas[indiceEspecialidad + 1] : undefined;
+
+    const irASiguienteEspecialidad = () => {
+        if (!siguienteEspecialidad) {
+            return;
+        }
+        setEspecialidadActiva(siguienteEspecialidad.id);
+        globalThis.setTimeout(() => {
+            document.getElementById(`area-${siguienteEspecialidad.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 60);
     };
 
     // Acción Secundaria: Guardar Avance (persiste desde 1 respuesta, mantiene INICIADA)
@@ -1973,7 +2010,16 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                     {/* Widget de progreso */}
                     <div className="sticky top-0 z-30 -mx-4 border-y border-slate-200 bg-white/85 px-4 py-3 shadow-xs backdrop-blur-md sm:-mx-6 sm:px-6">
                         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
-                            <p className="text-sm font-black text-slate-500">Avance de tus respuestas</p>
+                            <p className="text-sm font-black text-slate-500">
+                                Avance de tus respuestas
+                                {estadoAutoguardado === 'guardando' && <span className="ml-2 font-semibold text-slate-500">· Guardando…</span>}
+                                {estadoAutoguardado === 'guardado' && (
+                                    <span className="ml-2 font-semibold text-emerald-700">· Guardado automáticamente</span>
+                                )}
+                                {estadoAutoguardado === 'error' && (
+                                    <span className="ml-2 font-semibold text-rose-700">· No se pudo guardar, revisa tu conexión</span>
+                                )}
+                            </p>
                             <p className="text-sm font-semibold text-slate-600">
                                 <span className="text-slate-900">
                                     {respondidosCount} de {criteriosAplicables.length}
@@ -2097,6 +2143,32 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                                         />
                                     ))}
                                 </div>
+
+                                {/* Al terminar una sección: pasar a la siguiente o al resumen. */}
+                                {!esRegistrada && (
+                                    <div className="flex justify-end pt-2">
+                                        {siguienteEspecialidad ? (
+                                            <button
+                                                type="button"
+                                                onClick={irASiguienteEspecialidad}
+                                                className="bg-primary hover:bg-primary-700 inline-flex min-h-12 items-center gap-2 rounded-xl px-6 py-3 text-base font-bold text-white shadow-sm"
+                                            >
+                                                Continuar con {siguienteEspecialidad.nombre}
+                                                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={handleContinuarAlResumen}
+                                                disabled={guardandoContinuar}
+                                                className="bg-primary hover:bg-primary-700 inline-flex min-h-12 items-center gap-2 rounded-xl px-6 py-3 text-base font-bold text-white shadow-sm disabled:opacity-60"
+                                            >
+                                                {guardandoContinuar ? 'Guardando…' : 'Continuar al resumen'}
+                                                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
                             </section>
                         )}
                     </div>
