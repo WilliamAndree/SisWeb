@@ -714,6 +714,15 @@ Resumen: 775 pruebas (0 fallidas), cobertura de la lógica 90.2 % (calculada por
 
 ---
 
+## 8c. Metodología de desarrollo y arquitectura por capas (agregadas al informe final)
+
+- **Metodología de desarrollo** (`figuras/D4-metodologia-desarrollo.png`, Figura 1 del informe, sección 1.6): 13 pasos en tres carriles. El equipo pide, aprueba y revisa. Claude Code (IA con ejecución delegada) investiga, propone, programa, prueba como cliente nuevo, hace commit y push y verifica en el enlace público. La automatización sin IA ejecuta GitHub Actions, SonarQube y el despliegue. Incluye un caso real: el local que no se guardaba al crear una cuenta, que se corrigió con una línea en `routes/web.php`.
+- **Arquitectura por capas** (`figuras/D5-arquitectura-capas.png`, Figura 3 del informe, sección 2.3): visualización (emprendedor, proveedor y administración), servidor web (Apache/Render), servicio (Laravel con sus módulos y servicios de dominio) y datos (MariaDB/MySQL y servicios externos). El proyecto **no usa sensores ni IoT**.
+- **Registro del local en 2 pasos** (desde el commit 8935607):
+  - Paso 1 «Tu negocio»: nombre, tipo de negocio con tarjetas con foto, distrito, dirección y RUC.
+  - Paso 2 «Cómo es tu local»: m², pisos, aforo y solo las preguntas de ese tipo de negocio. Las demás quedan en «No» dentro de «Otras situaciones».
+  - Cada condición del checklist muestra una imagen de referencia.
+
 ## 9. Índice de figuras (insertar en este orden)
 
 | N.° | Archivo | Título sugerido | Sección |
