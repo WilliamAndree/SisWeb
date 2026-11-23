@@ -51,7 +51,7 @@ export const FOTOS_POR_RUBRO: Record<RubroNegocio, readonly string[]> = {
 /** Orden importante: los rubros específicos se revisan antes que los genéricos. */
 const PALABRAS_CLAVE: ReadonlyArray<[RubroNegocio, readonly string[]]> = [
     ['perfumeria', ['perfum', 'essence', 'esencia', 'fragan', 'aroma', 'cosmet', 'maquillaje', 'makeup', 'beauty store']],
-    ['farmacia', ['farmac', 'botica', 'drogueria', 'pharma']],
+    ['farmacia', ['farmac', 'botica', 'drogueria', 'pharma', 'salud', 'clinic', 'consultorio', 'dental', 'odontolog', 'laboratorio']],
     ['salon', ['salon', ' spa ', 'barber', 'peluquer', ' unas ', 'nail', 'estetica', 'belleza', 'beauty']],
     [
         'restaurante',
