@@ -1,11 +1,32 @@
 .git
+.github
 **/node_modules
 **/vendor
 **/scratch
-**/storage/logs/*
 **/public/build
 **/public/hot
 **/.env*
 !**/.env.example
 !**/.env.testing.example
 docs
+**/*.bak
+
+# Datos locales: nunca deben entrar en la imagen (archivos subidos por usuarios, sesiones, cachés).
+backend/storage/app/private/*
+backend/storage/app/public/*
+backend/storage/app/.app-key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+backend/storage/monitoreo
+backend/bootstrap/cache/*.php
+
+# Artefactos de pruebas y análisis.
+backend/coverage.xml
+backend/junit.xml
+backend/.scannerwork
+backend/cypress/videos
+backend/cypress/screenshots
+backend/cypress/screenshots-despliegue
+backend/cypress/reports
