@@ -30,6 +30,25 @@ test('sin --clave genera una aleatoria y no usa la clave pública', function () 
         ->each(fn (User $u) => expect(Hash::check(DemoCuentasSeeder::CLAVE_DEMO, $u->password))->toBeFalse());
 });
 
+test('en producción también crea las cuentas de demostración, con clave propia', function () {
+    app()->detectEnvironment(fn () => 'production');
+
+    $this->artisan('checkitse:servidor-preparar', ['--clave' => 'ClaveProduccion2026'])->assertSuccessful();
+
+    $admin = User::where('email', 'admin@checkitse.local')->first();
+    expect($admin)->not->toBeNull()
+        ->and(Hash::check('ClaveProduccion2026', $admin->password))->toBeTrue()
+        ->and(config('checkitse.permitir_cuentas_demo'))->toBeFalse();
+});
+
+test('fuera del comando, el seeder de cuentas sigue bloqueado en producción', function () {
+    app()->detectEnvironment(fn () => 'production');
+
+    app(DemoCuentasSeeder::class)->run();
+
+    expect(User::where('email', 'admin@checkitse.local')->exists())->toBeFalse();
+});
+
 test('si la base ya tiene datos, solo migra y no los vuelve a cargar', function () {
     $this->artisan('checkitse:servidor-preparar', ['--clave' => 'Primera2026'])->assertSuccessful();
     $locales = Autoevaluacion::count();

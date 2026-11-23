@@ -27,7 +27,8 @@ class DemoCuentasSeeder extends Seeder
 
     public function run(): void
     {
-        if (app()->environment('production')) {
+        // En producción solo lo permite checkitse:servidor-preparar, que cambia las claves al terminar.
+        if (app()->environment('production') && ! config('checkitse.permitir_cuentas_demo')) {
             $this->command?->warn('DemoCuentasSeeder no se ejecuta en producción.');
 
             return;

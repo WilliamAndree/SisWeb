@@ -29,6 +29,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn () => route('login'));
 
         $middleware->alias(['admin' => EnsureUserIsAdmin::class]);
+
+        // Detrás de un proxy con HTTPS (p. ej. Render) hay que confiar en sus cabeceras
+        // X-Forwarded-*; si no, los recursos se piden por http y el navegador los bloquea.
+        // Solo se activa con TRUSTED_PROXIES: en XAMPP no hay proxy y queda desactivado.
+        if ($proxies = env('TRUSTED_PROXIES')) {
+            $middleware->trustProxies(at: $proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

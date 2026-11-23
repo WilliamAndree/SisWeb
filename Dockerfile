@@ -38,6 +38,8 @@ RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.l
 
 COPY deploy/contenedor/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY deploy/contenedor/php.ini /usr/local/etc/php/conf.d/checkitse.ini
+COPY deploy/contenedor/mariadb.cnf /etc/mysql/mariadb.conf.d/99-checkitse.cnf
+COPY deploy/contenedor/apache-memoria.conf /etc/apache2/conf-enabled/checkitse-memoria.conf
 COPY deploy/contenedor/entrypoint.sh /usr/local/bin/checkitse-inicio
 RUN chmod +x /usr/local/bin/checkitse-inicio
 

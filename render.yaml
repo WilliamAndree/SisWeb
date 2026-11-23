@@ -1,0 +1,29 @@
+# Publicación gratuita de CheckITSE Huancayo en Render (https://render.com), sin dominio propio.
+# Render construye el Dockerfile de la raíz y entrega una URL pública con HTTPS:
+#   https://checkitse-huancayo.onrender.com  (si el nombre está libre)
+#
+# Plan gratuito: 512 MB de RAM; el servicio se duerme tras 15 minutos sin visitas y despierta
+# solo con la siguiente visita (tarda ~1 minuto). No tiene disco persistente: cada vez que se
+# reinicia vuelve a los datos de demostración. Es una vitrina del proyecto, no un servidor de
+# producción con datos reales.
+services:
+  - type: web
+    name: checkitse-huancayo
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /up
+    autoDeploy: true
+    envVars:
+      # Render publica la app detrás de su proxy HTTPS.
+      - key: TRUSTED_PROXIES
+        value: '*'
+      # Clave de las cuentas de demostración (admin@checkitse.local, etc.): Render la genera
+      # y se ve en Dashboard → Environment. Nunca es la clave pública del repositorio.
+      - key: CLAVE_DEMO
+        generateValue: true
+      - key: APP_URL
+        value: https://checkitse-huancayo.onrender.com

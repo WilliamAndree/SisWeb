@@ -38,9 +38,12 @@ class PrepararServidor extends Command
             return self::SUCCESS;
         }
 
+        // Las cuentas de demostración se permiten aquí porque sus claves se cambian justo después.
+        config(['checkitse.permitir_cuentas_demo' => true]);
         foreach ([NormativaCatalogSeeder::class, ProveedorRecursoSeeder::class, DemoCuentasSeeder::class, DemoImpactoSeeder::class] as $seeder) {
             $this->call('db:seed', ['--class' => $seeder, '--force' => true]);
         }
+        config(['checkitse.permitir_cuentas_demo' => false]);
 
         $clave = (string) ($this->option('clave') ?: Str::password(16, symbols: false));
         $cuentas = User::query()

@@ -3,6 +3,12 @@
 set -e
 cd /var/www/html
 
+# 0) Puerto: algunas plataformas (p. ej. Render) indican en PORT dónde debe escuchar la app.
+if [ -n "$PORT" ] && [ "$PORT" != "80" ]; then
+    sed -i "s/^Listen 80$/Listen ${PORT}/" /etc/apache2/ports.conf
+    sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
+fi
+
 # 1) Base de datos: la del servidor si existe; si no, la MariaDB interna (como en XAMPP).
 if [ "$DB_HOST" = "127.0.0.1" ] || [ "$DB_HOST" = "localhost" ]; then
     export DB_HOST=127.0.0.1
