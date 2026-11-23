@@ -30,7 +30,7 @@ import {
     Users,
     Zap,
 } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 interface OpcionConfig {
     label: string;
@@ -552,6 +552,36 @@ function inicializarRespuestas(criterios: CriterioEvaluable[]): Record<string, s
         }
     }
     return inicial;
+}
+
+const clavePorLocal = (uuid: string) => `checkitse-respuestas-${uuid}`;
+
+function leerRespaldo(uuid?: string): Record<string, string> {
+    if (!uuid) return {};
+    try {
+        const guardado = globalThis.localStorage?.getItem(clavePorLocal(uuid));
+        const datos: unknown = guardado ? JSON.parse(guardado) : {};
+        return datos && typeof datos === 'object' ? (datos as Record<string, string>) : {};
+    } catch {
+        return {};
+    }
+}
+
+function guardarRespaldo(uuid: string, respuestas: Record<string, string>): void {
+    try {
+        globalThis.localStorage?.setItem(clavePorLocal(uuid), JSON.stringify(respuestas));
+    } catch {
+        // Sin almacenamiento local (modo privado): queda el guardado en el servidor.
+    }
+}
+
+/** Lo respondido en este navegador prevalece: es lo último que eligió el usuario. */
+function combinarConRespaldo(delServidor: Record<string, string>, criterios: CriterioEvaluable[], uuid?: string): Record<string, string> {
+    const validos = new Set(criterios.map((c) => c.codigo));
+    const locales = Object.fromEntries(
+        Object.entries(leerRespaldo(uuid)).filter(([codigo, estado]) => validos.has(codigo) && typeof estado === 'string' && estado !== ''),
+    );
+    return { ...delServidor, ...locales };
 }
 
 function inicializarNotas(criterios: CriterioEvaluable[]): Record<string, string> {
@@ -1794,8 +1824,14 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
     // criterios, su estado y el payload enviado al servidor no dependen de ella.
     const [especialidadActiva, setEspecialidadActiva] = useState<string>('');
 
-    // Inicializar respuestas locales a partir de los estados previos que el backend entregue
-    const [respuestas, setRespuestas] = useState<Record<string, string>>(() => inicializarRespuestas(criteriosAplicables));
+    // Respuestas iniciales: lo guardado en el servidor más el respaldo local de este local.
+    // El respaldo cubre el botón «Atrás» del navegador (Inertia muestra la versión de la página
+    // que se abrió al inicio, sin las respuestas dadas después) y una conexión que falló.
+    const [respuestas, setRespuestas] = useState<Record<string, string>>(() =>
+        autoevaluacion?.estado === 'REGISTRADA'
+            ? inicializarRespuestas(criteriosAplicables)
+            : combinarConRespaldo(inicializarRespuestas(criteriosAplicables), criteriosAplicables, autoevaluacion?.uuid),
+    );
 
     // Inicializar notas privadas del ciudadano
     const [notas] = useState<Record<string, string>>(() => inicializarNotas(criteriosAplicables));
@@ -1871,6 +1907,7 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
         // Guardado automático: cada respuesta queda en el servidor al instante, ligada a esta
         // autoevaluación (y a la cuenta). Si el usuario sale a ver un proveedor y vuelve, la
         // página recupera lo respondido.
+        guardarRespaldo(autoevaluacion.uuid, nuevasRespuestas);
         void autoguardar(nuevasRespuestas);
 
         // Desplazamiento suave guiado hacia la siguiente pregunta sin responder tras 350ms
@@ -1895,6 +1932,20 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
             setEstadoAutoguardado('error');
         }
     };
+
+    // Al abrir la página: si el respaldo local tiene respuestas que el servidor aún no tiene,
+    // se suben para que ambos queden iguales.
+    useEffect(() => {
+        if (esRegistrada) {
+            return;
+        }
+        const delServidor = inicializarRespuestas(criteriosAplicables);
+        if (Object.keys(respuestas).some((codigo) => delServidor[codigo] !== respuestas[codigo])) {
+            void autoguardar(respuestas);
+        }
+        // Solo al montar la página.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const indiceEspecialidad = especialidadVisible ? areas.findIndex((a) => a.id === especialidadVisible.id) : -1;
     const siguienteEspecialidad = indiceEspecialidad >= 0 ? areas[indiceEspecialidad + 1] : undefined;
