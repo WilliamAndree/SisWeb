@@ -27,3 +27,12 @@ services:
         generateValue: true
       - key: APP_URL
         value: https://checkitse-huancayo.onrender.com
+      # Clave de cifrado fija: las sesiones y datos cifrados sobreviven a los reinicios.
+      - key: APP_KEY
+        generateValue: true
+      # Base de datos persistente (MySQL gratuito, p. ej. Aiven): sin ella, el plan gratuito
+      # vuelve a los datos de demostración en cada reinicio. Formato:
+      #   mysql://USUARIO:CLAVE@HOST:PUERTO/defaultdb
+      # Se escribe en Dashboard → Environment (no se guarda en el repositorio).
+      - key: DB_URL
+        sync: false
