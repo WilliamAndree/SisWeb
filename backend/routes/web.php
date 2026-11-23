@@ -33,7 +33,9 @@ Route::post('/eventos-proveedor', EventosProveedorController::class)->middleware
 
 // Flujo de Autoevaluación Ciudadana
 Route::prefix('autoevaluacion')->name('autoevaluacion.')->group(function () use ($rutaChecklist) {
-    Route::redirect('/', '/autoevaluacion/nueva');
+    // Solo GET: Route::redirect() responde a todos los métodos y, con las rutas en caché
+    // (producción), capturaba el POST de abajo y el local nunca se guardaba.
+    Route::get('/', \Illuminate\Routing\RedirectController::class)->defaults('destination', '/autoevaluacion/nueva')->defaults('status', 302);
     Route::get('/nueva', [EvaluacionController::class, 'nueva'])->name('nueva');
     Route::post('/', [EvaluacionController::class, 'store'])->name('store');
 
