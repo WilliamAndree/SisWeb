@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="f" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+    <marker id="fi" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#334155"/></marker>
+    <style>
+      .t{font-size:18px;font-weight:800;fill:#0f172a}
+      .s{font-size:14px;fill:#334155}
+      .cap{font-size:15px;font-weight:800;fill:#0f172a}
+      .lat{font-size:13px;fill:#475569}
+      .web{fill:#dbeafe;stroke:#2563eb;stroke-width:2}
+      .srv{fill:#dcfce7;stroke:#16a34a;stroke-width:2}
+      .iot{fill:#ede9fe;stroke:#7c3aed;stroke-width:2;stroke-dasharray:8 5}
+      .bd{fill:#fef3c7;stroke:#d97706;stroke-width:2}
+      .ext{fill:#f1f5f9;stroke:#64748b;stroke-width:2}
+      .mod{fill:#ffffff;stroke:#16a34a;stroke-width:1.5}
+      .ln{stroke:#334155;stroke-width:2;fill:none}
+      .lnd{stroke:#7c3aed;stroke-width:2;fill:none;stroke-dasharray:7 5}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#ffffff"/>
+  <text x="800" y="42" text-anchor="middle" font-size="26" font-weight="800" fill="#17133a">CheckITSE Huancayo · Arquitectura de software y conexión IoT</text>
+  <text x="800" y="68" text-anchor="middle" class="s">Línea continua: implementado y desplegado. Línea punteada morada: integración IoT propuesta (fase 2, no implementada aún).</text>
+
+  <!-- Columnas de capas y niveles -->
+  <text x="40" y="110" class="cap">Capas</text>
+  <text x="1560" y="110" text-anchor="end" class="cap">Niveles IoT</text>
+
+  <!-- Visualización -->
+  <text x="40" y="190" class="cap">Visualización</text>
+  <line x1="150" y1="130" x2="150" y2="260" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="130" width="560" height="120" rx="12" class="web"/>
+  <text x="460" y="165" text-anchor="middle" class="t">Aplicación web (navegador o celular)</text>
+  <text x="460" y="190" text-anchor="middle" class="s">React 19 + TypeScript + Tailwind (Inertia)</text>
+  <text x="460" y="212" text-anchor="middle" class="s">Emprendedor · Proveedor · Administración</text>
+  <text x="460" y="234" text-anchor="middle" class="s">Autoevaluación, correcciones, expediente, reportes</text>
+
+  <!-- Sensores IoT -->
+  <rect x="820" y="130" width="300" height="120" rx="12" class="iot"/>
+  <text x="970" y="163" text-anchor="middle" class="t">Sensores del local</text>
+  <text x="970" y="188" text-anchor="middle" class="s">Humo y temperatura · presión</text>
+  <text x="970" y="208" text-anchor="middle" class="s">del extintor · luz de emergencia</text>
+  <text x="970" y="228" text-anchor="middle" class="s">(batería) · puerta de evacuación</text>
+  <rect x="1140" y="130" width="250" height="120" rx="12" class="iot"/>
+  <text x="1265" y="163" text-anchor="middle" class="t">Tablero eléctrico</text>
+  <text x="1265" y="188" text-anchor="middle" class="s">Corriente y estado del</text>
+  <text x="1265" y="208" text-anchor="middle" class="s">interruptor diferencial</text>
+  <line x1="1430" y1="130" x2="1430" y2="250" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1445" y="180" class="cap">Nivel 1</text><text x="1445" y="200" class="lat">Sensores</text>
+
+  <!-- Nginx/Apache + Gateway -->
+  <rect x="180" y="320" width="560" height="80" rx="12" class="srv"/>
+  <text x="460" y="353" text-anchor="middle" class="t">Apache (XAMPP :8081) · Render (HTTPS)</text>
+  <text x="460" y="378" text-anchor="middle" class="s">Punto de entrada web · /up (salud)</text>
+  <rect x="820" y="320" width="570" height="80" rx="12" class="iot"/>
+  <text x="1105" y="353" text-anchor="middle" class="t">Microcontrolador ESP32 (gateway del local)</text>
+  <text x="1105" y="378" text-anchor="middle" class="s">WiFi del negocio · lee los sensores cada minuto · guarda si no hay internet</text>
+  <line x1="1430" y1="320" x2="1430" y2="400" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1445" y="355" class="cap">Nivel 2</text><text x="1445" y="375" class="lat">Gateway</text>
+
+  <line x1="460" y1="252" x2="460" y2="318" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <text x="470" y="290" class="lat">HTTPS · Inertia (HTML + JSON)</text>
+  <line x1="970" y1="252" x2="970" y2="318" class="lnd" marker-end="url(#f)"/>
+  <line x1="1265" y1="252" x2="1265" y2="318" class="lnd" marker-end="url(#f)"/>
+  <text x="980" y="290" class="lat">Cable / I2C</text>
+
+  <!-- Backend -->
+  <text x="40" y="560" class="cap">Servicio</text>
+  <line x1="150" y1="440" x2="150" y2="720" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="440" width="1210" height="280" rx="14" class="srv"/>
+  <text x="785" y="472" text-anchor="middle" class="t">Backend Laravel 12 (PHP 8.2): rutas web + API /api/v1</text>
+  <text x="785" y="496" text-anchor="middle" class="s">Middleware (auth, admin, CSRF, throttle) → controladores → servicios de dominio por proceso</text>
+  <g font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">
+    <rect x="205" y="515" width="135" height="44" rx="8" class="mod"/><text x="272" y="542">Registro (M1)</text>
+    <rect x="352" y="515" width="150" height="44" rx="8" class="mod"/><text x="427" y="542">Autoevaluación</text>
+    <rect x="514" y="515" width="140" height="44" rx="8" class="mod"/><text x="584" y="542">Resultado</text>
+    <rect x="666" y="515" width="150" height="44" rx="8" class="mod"/><text x="741" y="542">Correcciones</text>
+    <rect x="828" y="515" width="140" height="44" rx="8" class="mod"/><text x="898" y="542">Expediente</text>
+    <rect x="980" y="515" width="140" height="44" rx="8" class="mod"/><text x="1050" y="542">Proveedores</text>
+    <rect x="1132" y="515" width="120" height="44" rx="8" class="mod"/><text x="1192" y="542">Reportes</text>
+    <rect x="1264" y="515" width="110" height="44" rx="8" class="mod"/><text x="1319" y="542">Acceso</text>
+  </g>
+  <text x="785" y="590" text-anchor="middle" class="s">ApplicabilityEngine (qué condiciones aplican) · ItseRiskService (semáforo) · SubsanacionSync · sello SHA-256</text>
+  <text x="785" y="612" text-anchor="middle" class="s">Cola de trabajos (análisis de fotos con Gemini) · tareas programadas (vencimiento de planes)</text>
+  <rect x="820" y="630" width="550" height="72" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="1095" y="658" text-anchor="middle" font-size="15" font-weight="800" fill="#5b21b6">Módulo IoT (propuesto): POST /api/v1/iot/lecturas</text>
+  <text x="1095" y="682" text-anchor="middle" class="s">Token por dispositivo (Sanctum) → evidencia automática + alerta</text>
+  <line x1="1430" y1="440" x2="1430" y2="720" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1445" y="575" class="cap">Nivel 3</text><text x="1445" y="595" class="lat">Servidor web</text>
+
+  <line x1="460" y1="402" x2="460" y2="438" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <line x1="1105" y1="402" x2="1105" y2="628" class="lnd" marker-end="url(#f)"/>
+  <text x="1115" y="425" font-size="13" font-weight="700" fill="#5b21b6">HTTPS + token (o MQTT)</text>
+
+  <!-- Datos -->
+  <text x="40" y="845" class="cap">Datos</text>
+  <line x1="150" y1="770" x2="150" y2="900" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="770" width="560" height="120" rx="12" class="bd"/>
+  <text x="460" y="805" text-anchor="middle" class="t">MariaDB / MySQL</text>
+  <text x="460" y="830" text-anchor="middle" class="s">XAMPP local · Aiven (nube) para el enlace público</text>
+  <text x="460" y="852" text-anchor="middle" class="s">Autoevaluaciones, respuestas, correcciones, proveedores</text>
+  <text x="460" y="874" text-anchor="middle" font-size="14" font-weight="700" fill="#5b21b6">+ lecturas_iot (propuesta)</text>
+  <rect x="820" y="770" width="570" height="120" rx="12" class="ext"/>
+  <text x="1105" y="805" text-anchor="middle" class="t">Servicios externos</text>
+  <text x="1105" y="830" text-anchor="middle" class="s">WhatsApp (contacto y alertas) · Google Maps / OpenStreetMap</text>
+  <text x="1105" y="852" text-anchor="middle" class="s">Gemini (orientación de fotos) · YouTube sin cookies</text>
+  <text x="1105" y="874" text-anchor="middle" class="s">GitHub Actions · SonarQube · Render</text>
+  <line x1="460" y1="722" x2="460" y2="768" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <line x1="1105" y1="722" x2="1105" y2="768" class="ln" marker-end="url(#f)"/>
+
+  <text x="800" y="940" text-anchor="middle" font-size="14" fill="#334155">Ejemplo IoT: si el sensor de presión detecta el extintor descargado, el sistema marca CRIT-01 como «Necesito atenderlo»,</text>
+  <text x="800" y="962" text-anchor="middle" font-size="14" fill="#334155">avisa al emprendedor por WhatsApp y le muestra proveedores de recarga cercanos.</text>
+</svg>
