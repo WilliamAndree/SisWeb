@@ -1,6 +1,6 @@
 import '../css/app.css';
 
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, router } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -47,6 +47,15 @@ void createInertiaApp({
     progress: {
         color: 'var(--color-primary-500)',
     },
+});
+
+// Mantiene vigente el token CSRF de la etiqueta <meta>: Laravel lo renueva al registrarse o
+// ingresar, y las peticiones fetch (guardar respuestas, correcciones, croquis) lo leen de ahí.
+router.on('navigate', (evento) => {
+    const token = (evento.detail.page.props as { csrf_token?: unknown }).csrf_token;
+    if (typeof token === 'string' && token !== '') {
+        document.querySelector('meta[name="csrf-token"]')?.setAttribute('content', token);
+    }
 });
 
 // This will set light / dark mode on load...

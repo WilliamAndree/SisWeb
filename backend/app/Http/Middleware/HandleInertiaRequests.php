@@ -46,6 +46,9 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'name' => config('app.name'),
+            // Token CSRF vigente: al registrarse o ingresar, Laravel lo renueva y la etiqueta
+            // <meta> de la primera carga queda vieja (las peticiones fetch fallaban con 419).
+            'csrf_token' => fn () => csrf_token(),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user(),

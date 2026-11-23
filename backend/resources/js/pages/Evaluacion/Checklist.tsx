@@ -732,7 +732,22 @@ function resolverMensajeErrorGuardado(status: number, data: { errors?: Record<st
         }
         return data.message || 'Algunas declaraciones no son válidas.';
     }
+    if (status === 419) {
+        return 'Tu sesión expiró. Recarga la página (F5) y vuelve a pulsar el botón: tus respuestas siguen guardadas en este navegador.';
+    }
+    if (status === 401 || status === 403 || status === 404) {
+        return 'Este local ya no está disponible con tu sesión actual (el sitio pudo reiniciarse). Ingresa de nuevo a tu cuenta o registra el local otra vez desde «Revisar mi local».';
+    }
     return data.mensaje || 'No fue posible guardar su avance. Intente nuevamente.';
+}
+
+/** Lee la respuesta JSON del servidor sin fallar si llega una página HTML de error. */
+async function leerJsonSeguro(response: Response): Promise<{ errors?: Record<string, unknown>; message?: string; mensaje?: string }> {
+    try {
+        return await response.json();
+    } catch {
+        return {};
+    }
 }
 
 async function enviarRespuestasChecklist(uuid: string, respuestasAEnviar: RespuestaEnvioItem[]): Promise<Response> {
@@ -1721,6 +1736,8 @@ interface BarraInferiorAccionesProps {
     guardandoContinuar: boolean;
     onGuardarAvance: () => void;
     onContinuarAlResumen: () => void;
+    mensajeExito?: string | null;
+    mensajeError?: string | null;
 }
 
 function BarraInferiorAcciones({
@@ -1733,6 +1750,8 @@ function BarraInferiorAcciones({
     guardandoContinuar,
     onGuardarAvance,
     onContinuarAlResumen,
+    mensajeExito,
+    mensajeError,
 }: Readonly<BarraInferiorAccionesProps>) {
     const claseBotonContinuar = todosRespondidos
         ? 'cursor-pointer bg-primary text-white hover:bg-emerald-500'
@@ -1740,6 +1759,25 @@ function BarraInferiorAcciones({
 
     return (
         <div className="sticky bottom-0 z-30 mt-6 border-t border-slate-200 bg-white/95 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-sm">
+            {/* El resultado de los botones se muestra junto a ellos (antes solo aparecía arriba de la página). */}
+            {(mensajeError || mensajeExito) && (
+                <div className="mx-auto mb-2.5 max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {mensajeError ? (
+                        <p
+                            role="alert"
+                            className="flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-900"
+                        >
+                            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" aria-hidden="true" />
+                            {mensajeError}
+                        </p>
+                    ) : (
+                        <output className="flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-900">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
+                            {mensajeExito}
+                        </output>
+                    )}
+                </div>
+            )}
             <div className="mx-auto flex max-w-7xl flex-col gap-2.5 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                 <div className="flex items-center gap-2 text-sm text-slate-600">
                     <ClipboardList className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
@@ -1978,7 +2016,7 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
 
         try {
             const response = await enviarRespuestasChecklist(autoevaluacion.uuid, respuestasAEnviar);
-            const data = await response.json();
+            const data = await leerJsonSeguro(response);
 
             if (response.ok) {
                 setMensajeExito(
@@ -2031,8 +2069,7 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                     preserveState: false,
                 });
             } else {
-                const data = await response.json();
-                setMensajeError(data.mensaje || 'No fue posible guardar las declaraciones para continuar. Intente nuevamente.');
+                setMensajeError(resolverMensajeErrorGuardado(response.status, await leerJsonSeguro(response)));
                 setGuardandoContinuar(false);
             }
         } catch {
@@ -2249,6 +2286,8 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                 guardandoContinuar={guardandoContinuar}
                 onGuardarAvance={handleGuardarAvance}
                 onContinuarAlResumen={handleContinuarAlResumen}
+                mensajeExito={mensajeExito}
+                mensajeError={mensajeError}
             />
 
             <ModalGuardarProgreso
