@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 960" width="1600" height="960" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="f" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+    <marker id="fi" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#334155"/></marker>
+    <style>
+      .t{font-size:18px;font-weight:800;fill:#0f172a}
+      .s{font-size:14px;fill:#334155}
+      .cap{font-size:15px;font-weight:800;fill:#0f172a}
+      .lat{font-size:13px;fill:#475569}
+      .web{fill:#dbeafe;stroke:#2563eb;stroke-width:2}
+      .srv{fill:#dcfce7;stroke:#16a34a;stroke-width:2}
+      .bd{fill:#fef3c7;stroke:#d97706;stroke-width:2}
+      .ext{fill:#f1f5f9;stroke:#64748b;stroke-width:2}
+      .mod{fill:#ffffff;stroke:#16a34a;stroke-width:1.5}
+      .ln{stroke:#334155;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect width="1600" height="960" fill="#ffffff"/>
+  <text x="800" y="42" text-anchor="middle" font-size="26" font-weight="800" fill="#17133a">CheckITSE Huancayo · Arquitectura de software por capas</text>
+  <text x="800" y="68" text-anchor="middle" class="s">Monolito modular: Laravel 12 sirve la interfaz React (Inertia) y la lógica de negocio en un solo despliegue.</text>
+
+  <text x="40" y="110" class="cap">Capas</text>
+  <text x="1560" y="110" text-anchor="end" class="cap">Despliegue</text>
+
+  <!-- Visualización -->
+  <text x="40" y="190" class="cap">Visualización</text>
+  <line x1="150" y1="130" x2="150" y2="260" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="130" width="380" height="120" rx="12" class="web"/>
+  <text x="370" y="165" text-anchor="middle" class="t">Emprendedor</text>
+  <text x="370" y="190" text-anchor="middle" class="s">Revisa su local en 2 pasos, responde</text>
+  <text x="370" y="210" text-anchor="middle" class="s">con imágenes, corrige y arma su expediente</text>
+  <rect x="590" y="130" width="380" height="120" rx="12" class="web"/>
+  <text x="780" y="165" text-anchor="middle" class="t">Proveedor</text>
+  <text x="780" y="190" text-anchor="middle" class="s">Publica productos, recibe contactos</text>
+  <text x="780" y="210" text-anchor="middle" class="s">por WhatsApp y ve sus estadísticas</text>
+  <rect x="1000" y="130" width="380" height="120" rx="12" class="web"/>
+  <text x="1190" y="165" text-anchor="middle" class="t">Administración</text>
+  <text x="1190" y="190" text-anchor="middle" class="s">Pagos, negocios, vencimientos y</text>
+  <text x="1190" y="210" text-anchor="middle" class="s">reportes de impacto con filtros y CSV</text>
+  <text x="40" y="212" class="lat">React 19 · TypeScript</text>
+  <text x="40" y="230" class="lat">Tailwind CSS 4</text>
+  <line x1="1430" y1="130" x2="1430" y2="250" stroke="#64748b" stroke-width="2"/>
+  <text x="1445" y="180" class="cap">Cliente</text><text x="1445" y="200" class="lat">Navegador</text>
+
+  <!-- Entrada -->
+  <rect x="180" y="310" width="1200" height="70" rx="12" class="srv"/>
+  <text x="780" y="340" text-anchor="middle" class="t">Servidor web: Apache (XAMPP, puerto 8081) · Render (HTTPS público)</text>
+  <text x="780" y="364" text-anchor="middle" class="s">Punto de entrada único · salud en /up · archivos compilados por Vite</text>
+  <line x1="780" y1="252" x2="780" y2="308" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <text x="790" y="285" class="lat">HTTPS · Inertia (HTML la primera vez, luego JSON por página)</text>
+  <line x1="1430" y1="310" x2="1430" y2="380" stroke="#64748b" stroke-width="2"/>
+  <text x="1445" y="340" class="cap">Servidor</text><text x="1445" y="360" class="lat">Web</text>
+
+  <!-- Servicio -->
+  <text x="40" y="560" class="cap">Servicio</text>
+  <line x1="150" y1="420" x2="150" y2="700" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="420" width="1200" height="280" rx="14" class="srv"/>
+  <text x="780" y="452" text-anchor="middle" class="t">Backend Laravel 12 (PHP 8.2)</text>
+  <text x="780" y="476" text-anchor="middle" class="s">Rutas y middleware (auth, admin, CSRF, límite de intentos) → controladores → servicios de dominio por proceso</text>
+  <g font-size="14" font-weight="700" fill="#0f172a" text-anchor="middle">
+    <rect x="200" y="495" width="135" height="44" rx="8" class="mod"/><text x="267" y="522">Registro</text>
+    <rect x="345" y="495" width="155" height="44" rx="8" class="mod"/><text x="422" y="522">Autoevaluación</text>
+    <rect x="510" y="495" width="130" height="44" rx="8" class="mod"/><text x="575" y="522">Resultado</text>
+    <rect x="650" y="495" width="145" height="44" rx="8" class="mod"/><text x="722" y="522">Correcciones</text>
+    <rect x="805" y="495" width="135" height="44" rx="8" class="mod"/><text x="872" y="522">Expediente</text>
+    <rect x="950" y="495" width="140" height="44" rx="8" class="mod"/><text x="1020" y="522">Proveedores</text>
+    <rect x="1100" y="495" width="125" height="44" rx="8" class="mod"/><text x="1162" y="522">Reportes</text>
+    <rect x="1235" y="495" width="125" height="44" rx="8" class="mod"/><text x="1297" y="522">Acceso</text>
+  </g>
+  <text x="780" y="575" text-anchor="middle" class="s">Motor de aplicabilidad: según el tipo de negocio y lo declarado, decide qué condiciones normativas aplican</text>
+  <text x="780" y="598" text-anchor="middle" class="s">ItseRiskService (semáforo y modalidad) · SubsanacionSync (correcciones) · sello de integridad SHA-256</text>
+  <text x="780" y="621" text-anchor="middle" class="s">ReportesImpactoService (indicadores) · cola de trabajos y tareas programadas</text>
+  <text x="780" y="665" text-anchor="middle" class="lat">Eloquent ORM · validación de formularios · guardado automático de respuestas</text>
+  <line x1="780" y1="382" x2="780" y2="418" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <line x1="1430" y1="420" x2="1430" y2="700" stroke="#64748b" stroke-width="2"/>
+  <text x="1445" y="555" class="cap">Aplicación</text><text x="1445" y="575" class="lat">PHP 8.2</text>
+
+  <!-- Datos -->
+  <text x="40" y="825" class="cap">Datos</text>
+  <line x1="150" y1="750" x2="150" y2="880" stroke="#334155" stroke-width="2"/>
+  <rect x="180" y="750" width="580" height="130" rx="12" class="bd"/>
+  <text x="470" y="785" text-anchor="middle" class="t">MariaDB / MySQL</text>
+  <text x="470" y="810" text-anchor="middle" class="s">XAMPP local (sisweb) · Aiven en la nube (enlace público)</text>
+  <text x="470" y="832" text-anchor="middle" class="s">Autoevaluaciones, respuestas, correcciones, expediente,</text>
+  <text x="470" y="854" text-anchor="middle" class="s">proveedores, eventos y planes</text>
+  <rect x="800" y="750" width="580" height="130" rx="12" class="ext"/>
+  <text x="1090" y="785" text-anchor="middle" class="t">Servicios externos</text>
+  <text x="1090" y="810" text-anchor="middle" class="s">WhatsApp (contacto con proveedores) · Google Maps / OpenStreetMap</text>
+  <text x="1090" y="832" text-anchor="middle" class="s">Gemini (orientación sobre fotos, opcional) · YouTube sin cookies</text>
+  <text x="1090" y="854" text-anchor="middle" class="s">GitHub Actions · SonarQube · Render (desarrollo y despliegue)</text>
+  <line x1="470" y1="702" x2="470" y2="748" class="ln" marker-start="url(#fi)" marker-end="url(#f)"/>
+  <line x1="1090" y1="702" x2="1090" y2="748" class="ln" marker-end="url(#f)"/>
+  <line x1="1430" y1="750" x2="1430" y2="880" stroke="#64748b" stroke-width="2"/>
+  <text x="1445" y="810" class="cap">Persistencia</text><text x="1445" y="830" class="lat">y terceros</text>
+
+  <text x="800" y="925" text-anchor="middle" font-size="14" fill="#334155">Archivos privados (fotos de correcciones y documentos del expediente) en storage/app; solo los ve el dueño del local.</text>
+</svg>

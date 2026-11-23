@@ -2,6 +2,7 @@ import { AvisoPreventivo, FlujoCiudadano } from '@/components/Evaluacion/FlujoCi
 import { GuiaPedagogicaModal } from '@/components/Evaluacion/GuiaPedagogicaModal';
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
 import { RecursoEducativoModal, type RecursoEducativoData } from '@/components/RecursoEducativoModal';
+import { visualDeItem } from '@/lib/item-visual';
 import type { ChecklistProps, CriterioEvaluable, CriterioInformacionPendiente, CriterioNoAplica } from '@/types/contrato';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
@@ -1198,6 +1199,7 @@ function TarjetaCriterio({
     const opciones = obtenerOpcionesRespuesta(criterio);
     const disciplina = resolverDisciplinaCriterio(criterio);
     const IconoDisciplina = disciplina.icono;
+    const visual = visualDeItem(criterio.codigo, criterio.titulo);
 
     return (
         <article
@@ -1225,11 +1227,25 @@ function TarjetaCriterio({
                     <legend className="sr-only">{criterio.titulo}</legend>
 
                     {/* Enunciado y pregunta técnica al comerciante */}
-                    <div>
-                        <p className="text-lg leading-snug font-semibold text-slate-900">{criterio.titulo}</p>
-                        <p className="mt-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-3.5 text-base leading-relaxed font-medium text-slate-800">
-                            {criterio.pregunta_ciudadana}
-                        </p>
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                        {/* Imagen de referencia: el emprendedor reconoce de qué se le pregunta (extintor, pozo a tierra…). */}
+                        {visual.imagen && (
+                            <figure className="w-full shrink-0 sm:w-44">
+                                <img
+                                    src={visual.imagen}
+                                    alt={`Ejemplo: ${visual.nombreCorto}`}
+                                    loading="lazy"
+                                    className="h-32 w-full rounded-xl border border-slate-200 bg-white object-cover sm:h-28"
+                                />
+                                <figcaption className="mt-1 text-center text-xs font-semibold text-slate-500">{visual.nombreCorto}</figcaption>
+                            </figure>
+                        )}
+                        <div className="min-w-0 flex-1">
+                            <p className="text-lg leading-snug font-semibold text-slate-900">{criterio.titulo}</p>
+                            <p className="mt-2.5 rounded-2xl border border-slate-100 bg-slate-50 p-3.5 text-base leading-relaxed font-medium text-slate-800">
+                                {criterio.pregunta_ciudadana}
+                            </p>
+                        </div>
                     </div>
 
                     <details className="rounded-xl border border-slate-200 p-3">

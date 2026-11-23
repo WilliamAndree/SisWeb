@@ -9,10 +9,11 @@ import {
     type ClasificacionItse,
     type ModalidadItse,
 } from '@/lib/clasificacion-itse';
+import { FOTOS_POR_RUBRO, type RubroNegocio } from '@/lib/imagen-negocio';
 import { formatearNivelRiesgo } from '@/lib/riesgo';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { AlertCircle, AlertTriangle, ArrowLeft, ArrowRight, BookOpen, Building2, Check, CheckCircle2, Clock, MapPin, RefreshCw } from 'lucide-react';
+import { AlertCircle, AlertTriangle, ArrowLeft, ArrowRight, BookOpen, Building2, Check, CheckCircle2, Clock, RefreshCw } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 type ValorNumericoFlexible = string | number | null;
@@ -22,6 +23,7 @@ export interface ReevaluacionData {
     nombre_comercio: string;
     funcion_economica: string;
     ruc?: string | null;
+    distrito?: string | null;
     direccion?: string | null;
     referencia?: string | null;
     area_m2?: ValorNumericoFlexible;
@@ -51,6 +53,7 @@ interface FormEvaluacionData {
     nombre_comercio: string;
     funcion_economica: string;
     ruc: string;
+    distrito: string;
     direccion: string;
     referencia: string;
     area_m2: string;
@@ -103,6 +106,178 @@ const CRITERIOS_POR_DECLARACION = [
 ] as const;
 
 const CAMPOS_DECLARACION = ['usa_glp', 'tiene_equipos_fritura', 'tiene_escaleras', 'tiene_estanterias_altas'] as const;
+
+type CampoSiNo =
+    | 'usa_glp'
+    | 'tiene_equipos_fritura'
+    | 'tiene_escaleras'
+    | 'tiene_estanterias_altas'
+    | 'usa_caldero'
+    | 'usa_liquidos_inflamables'
+    | 'en_sotano'
+    | 'galeria_sin_itse';
+
+/** Preguntas Sí/No que dependen del tipo de negocio (sótano y galería se preguntan a todos, aparte). */
+const CAMPOS_POR_RUBRO: readonly CampoSiNo[] = [
+    'usa_glp',
+    'tiene_equipos_fritura',
+    'usa_caldero',
+    'usa_liquidos_inflamables',
+    'tiene_estanterias_altas',
+    'tiene_escaleras',
+];
+
+export type RubroId =
+    | 'bodega'
+    | 'perfumeria'
+    | 'farmacia'
+    | 'restaurante'
+    | 'salon'
+    | 'ropa'
+    | 'ferreteria'
+    | 'consultorio'
+    | 'academia'
+    | 'oficina'
+    | 'hospedaje'
+    | 'otro';
+
+interface RubroNegocioOpcion {
+    id: RubroId;
+    nombre: string;
+    ejemplos: string;
+    /** Función económica que usa el motor normativo (FUNCIONES_ECONOMICAS). */
+    funcion: string;
+    foto: RubroNegocio;
+    /** Solo estas preguntas se muestran; las demás quedan en «No» y se pueden corregir. */
+    preguntas: readonly CampoSiNo[];
+}
+
+/**
+ * Tipos de negocio que reconoce un emprendedor. Cada uno se traduce a la función económica
+ * del D.S. 002-2018-PCM y decide qué preguntas tienen sentido: a una perfumería no se le
+ * pregunta si fríe con aceite, pero sí si guarda productos inflamables (perfumes con alcohol).
+ */
+export const RUBROS: readonly RubroNegocioOpcion[] = [
+    {
+        id: 'bodega',
+        nombre: 'Bodega o minimarket',
+        ejemplos: 'Abarrotes, bazar',
+        funcion: 'Comercio',
+        foto: 'bodega',
+        preguntas: ['tiene_estanterias_altas', 'usa_glp', 'tiene_escaleras'],
+    },
+    {
+        id: 'perfumeria',
+        nombre: 'Perfumería o cosméticos',
+        ejemplos: 'Perfumes, maquillaje',
+        funcion: 'Comercio',
+        foto: 'perfumeria',
+        preguntas: ['usa_liquidos_inflamables', 'tiene_estanterias_altas', 'tiene_escaleras'],
+    },
+    {
+        id: 'farmacia',
+        nombre: 'Farmacia o botica',
+        ejemplos: 'Medicamentos',
+        funcion: 'Comercio',
+        foto: 'farmacia',
+        preguntas: ['usa_liquidos_inflamables', 'tiene_estanterias_altas', 'tiene_escaleras'],
+    },
+    {
+        id: 'restaurante',
+        nombre: 'Restaurante o cafetería',
+        ejemplos: 'Comida, pollería, café',
+        funcion: 'Encuentro',
+        foto: 'restaurante',
+        preguntas: ['usa_glp', 'tiene_equipos_fritura', 'usa_caldero', 'tiene_escaleras'],
+    },
+    {
+        id: 'salon',
+        nombre: 'Salón de belleza o barbería',
+        ejemplos: 'Peluquería, uñas',
+        funcion: 'Comercio',
+        foto: 'salon',
+        preguntas: ['usa_liquidos_inflamables', 'tiene_escaleras'],
+    },
+    {
+        id: 'ropa',
+        nombre: 'Tienda de ropa o calzado',
+        ejemplos: 'Boutique, zapatería',
+        funcion: 'Comercio',
+        foto: 'ropa',
+        preguntas: ['tiene_estanterias_altas', 'tiene_escaleras'],
+    },
+    {
+        id: 'ferreteria',
+        nombre: 'Ferretería',
+        ejemplos: 'Herramientas, pinturas',
+        funcion: 'Comercio',
+        foto: 'taller',
+        preguntas: ['usa_liquidos_inflamables', 'tiene_estanterias_altas', 'usa_glp', 'tiene_escaleras'],
+    },
+    {
+        id: 'consultorio',
+        nombre: 'Consultorio de salud',
+        ejemplos: 'Dental, médico, laboratorio',
+        funcion: 'Salud',
+        foto: 'farmacia',
+        preguntas: ['tiene_escaleras'],
+    },
+    {
+        id: 'academia',
+        nombre: 'Academia o nido',
+        ejemplos: 'Clases, talleres',
+        funcion: 'Educacion',
+        foto: 'oficina',
+        preguntas: ['tiene_escaleras'],
+    },
+    {
+        id: 'oficina',
+        nombre: 'Oficina',
+        ejemplos: 'Estudio, consultora',
+        funcion: 'Oficinas',
+        foto: 'oficina',
+        preguntas: ['tiene_estanterias_altas', 'tiene_escaleras'],
+    },
+    {
+        id: 'hospedaje',
+        nombre: 'Hospedaje',
+        ejemplos: 'Hostal, hotel',
+        funcion: 'Hospedaje',
+        foto: 'general',
+        preguntas: ['usa_glp', 'usa_caldero', 'tiene_escaleras'],
+    },
+    { id: 'otro', nombre: 'Otro tipo', ejemplos: 'Te preguntamos todo', funcion: 'Comercio', foto: 'general', preguntas: CAMPOS_POR_RUBRO },
+];
+
+const PREGUNTAS_SI_NO: Record<CampoSiNo, { texto: string; ayuda: string }> = {
+    usa_glp: { texto: '¿Usas gas (balones de GLP)?', ayuda: 'Para cocinar, calentar agua o para algún equipo del negocio.' },
+    tiene_equipos_fritura: {
+        texto: '¿Fríes o cocinas con aceite?',
+        ayuda: 'Freidoras, cocina con mucho aceite o grasa. Si respondes Sí, te pedirán un extintor Clase K.',
+    },
+    usa_caldero: { texto: '¿Usas caldero?', ayuda: 'Calderas a vapor o industriales. Si respondes Sí, la inspección será antes de la licencia.' },
+    usa_liquidos_inflamables: {
+        texto: '¿Guardas productos que arden?',
+        ayuda: 'Perfumes y alcohol, acetona, tintes, pinturas, thinner, gasolina u otros líquidos inflamables.',
+    },
+    tiene_estanterias_altas: {
+        texto: '¿Tienes estantes o muebles altos que podrían caerse?',
+        ayuda: 'Por ejemplo, anaqueles de más de 1,8 m. Deben estar fijados a la pared o al piso.',
+    },
+    tiene_escaleras: { texto: '¿Tu local tiene escaleras?', ayuda: 'Escaleras que usan clientes o trabajadores. Deben tener pasamanos.' },
+    en_sotano: { texto: '¿Atiendes al público en un sótano?', ayuda: 'Reuniones o atención bajo el nivel de la calle.' },
+    galeria_sin_itse: {
+        texto: '¿Tu local está en una galería sin certificado ITSE?',
+        ayuda: 'Si las áreas comunes de la galería no tienen ITSE, puede subir el nivel de riesgo de tu local.',
+    },
+};
+
+const DISTRITOS = ['Huancayo', 'El Tambo', 'Chilca', 'Otro distrito de Junín'] as const;
+
+function rubroInicial(reevaluacionDe: ReevaluacionData | null): RubroId | '' {
+    // En una reevaluación no se conoce el tipo exacto: se pregunta todo.
+    return reevaluacionDe ? 'otro' : '';
+}
 
 const ESTILO_NIVEL: Record<ClasificacionItse['nivel'], { fondo: string; texto: string; borde: string }> = {
     BAJO_MEDIO: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
@@ -227,6 +402,7 @@ function construirValoresIniciales(reevaluacionDe: ReevaluacionData | null): For
         nombre_comercio: reevaluacionDe?.nombre_comercio ?? '',
         funcion_economica: reevaluacionDe?.funcion_economica ?? 'Comercio',
         ruc: reevaluacionDe?.ruc ?? '',
+        distrito: reevaluacionDe?.distrito ?? '',
         direccion: reevaluacionDe?.direccion ?? '',
         referencia: reevaluacionDe?.referencia ?? '',
         area_m2: String(reevaluacionDe?.area_m2 ?? ''),
@@ -501,11 +677,22 @@ interface SeccionIdentificacionGiroProps {
     erroresFormulario: Record<string, string>;
     errors: Partial<Record<string, string>>;
     limpiarErrorDe: (campo: string) => void;
+    rubro: RubroId | '';
+    onRubro: (rubro: RubroId) => void;
 }
 
-function SeccionIdentificacionGiro({ data, setData, erroresFormulario, errors, limpiarErrorDe }: Readonly<SeccionIdentificacionGiroProps>) {
+function SeccionIdentificacionGiro({
+    data,
+    setData,
+    erroresFormulario,
+    errors,
+    limpiarErrorDe,
+    rubro,
+    onRubro,
+}: Readonly<SeccionIdentificacionGiroProps>) {
     const errorNombre = obtenerErrorCampo('nombre_comercio', erroresFormulario, errors);
     const errorRuc = obtenerErrorCampo('ruc', erroresFormulario, errors);
+    const errorRubro = erroresFormulario.rubro;
 
     return (
         <div className={claseTarjetaGrupo}>
@@ -531,29 +718,105 @@ function SeccionIdentificacionGiro({ data, setData, erroresFormulario, errors, l
                 <MensajeError id="error-nombre" mensaje={errorNombre} />
             </div>
 
-            <div id="campo-funcion_economica">
-                <EtiquetaPregunta numero={2} texto="¿Qué tipo de negocio es?" htmlFor="est-funcion" />
-                <p id="ayuda-funcion" className="mt-1 text-base text-slate-600">
-                    Elige el que más se parezca. Con esto sabemos qué normas te aplican.
+            <div id="campo-rubro">
+                <EtiquetaPregunta numero={2} texto="¿Qué tipo de negocio es?" id="label-rubro" />
+                <p id="ayuda-rubro" className="mt-1 text-base text-slate-600">
+                    Toca el que más se parezca. Así solo te preguntamos lo que corresponde a tu negocio.
                 </p>
-                <select
-                    id="est-funcion"
-                    required
-                    value={data.funcion_economica}
-                    onChange={(e) => setData('funcion_economica', e.target.value)}
-                    aria-describedby="ayuda-funcion"
-                    className={`mt-3 cursor-pointer ${claseCampo()}`}
+                <div
+                    role="radiogroup"
+                    aria-labelledby="label-rubro"
+                    aria-describedby="ayuda-rubro"
+                    className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3"
                 >
-                    {FUNCIONES_ECONOMICAS.map((funcion) => (
-                        <option key={funcion.valor} value={funcion.valor}>
-                            {funcion.etiqueta} ({funcion.ejemplos})
+                    {RUBROS.map((opcion) => {
+                        const activo = rubro === opcion.id;
+                        return (
+                            <button
+                                key={opcion.id}
+                                type="button"
+                                role="radio"
+                                aria-checked={activo}
+                                data-cy={`rubro-${opcion.id}`}
+                                onClick={() => onRubro(opcion.id)}
+                                className={`group flex cursor-pointer flex-col overflow-hidden rounded-xl border-2 text-left transition focus-visible:ring-4 focus-visible:ring-emerald-100 focus-visible:outline-none ${
+                                    activo ? 'border-primary-700 ring-primary-100 shadow-md ring-2' : 'border-slate-200 hover:border-slate-400'
+                                }`}
+                            >
+                                <span className="relative block h-20 w-full overflow-hidden bg-slate-100">
+                                    <img
+                                        src={FOTOS_POR_RUBRO[opcion.foto][0]}
+                                        alt=""
+                                        loading="lazy"
+                                        className="h-full w-full object-cover transition group-hover:scale-105"
+                                    />
+                                    {activo && (
+                                        <span className="bg-primary-700 absolute top-1.5 right-1.5 rounded-full p-1 text-white">
+                                            <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                                        </span>
+                                    )}
+                                </span>
+                                <span className="block px-2.5 py-2">
+                                    <span className="block text-sm leading-tight font-bold text-slate-900">{opcion.nombre}</span>
+                                    <span className="mt-0.5 block text-xs text-slate-500">{opcion.ejemplos}</span>
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+                <MensajeError id="error-rubro" mensaje={errorRubro} />
+            </div>
+
+            <div id="campo-distrito">
+                <EtiquetaPregunta numero={3} texto="¿En qué distrito está tu local?" htmlFor="est-distrito" />
+                <select
+                    id="est-distrito"
+                    value={data.distrito}
+                    onChange={(e) => setData('distrito', e.target.value)}
+                    className={`mt-3 cursor-pointer sm:max-w-sm ${claseCampo()}`}
+                >
+                    <option value="">Elige el distrito</option>
+                    {DISTRITOS.map((distrito) => (
+                        <option key={distrito} value={distrito}>
+                            {distrito}
                         </option>
                     ))}
                 </select>
             </div>
 
+            <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                    <label htmlFor="est-direccion" className="block text-lg font-semibold text-slate-900">
+                        Dirección <span className="font-normal text-slate-500">(opcional)</span>
+                    </label>
+                    <input
+                        id="est-direccion"
+                        type="text"
+                        maxLength={255}
+                        value={data.direccion}
+                        onChange={(e) => setData('direccion', e.target.value)}
+                        placeholder="Ej: Jr. Ancash 345"
+                        className={`mt-2 ${claseCampo()}`}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="est-referencia" className="block text-lg font-semibold text-slate-900">
+                        Referencia <span className="font-normal text-slate-500">(opcional)</span>
+                    </label>
+                    <input
+                        id="est-referencia"
+                        type="text"
+                        maxLength={255}
+                        value={data.referencia}
+                        onChange={(e) => setData('referencia', e.target.value)}
+                        placeholder="Ej: frente al parque Huamanmarca"
+                        className={`mt-2 ${claseCampo()}`}
+                    />
+                </div>
+            </div>
+
             <div id="campo-ruc">
-                <EtiquetaPregunta numero={3} texto="RUC del negocio" htmlFor="est-ruc" opcional />
+                <EtiquetaPregunta numero={4} texto="RUC del negocio" htmlFor="est-ruc" opcional />
                 <p id="ayuda-ruc" className="mt-1 text-base text-slate-600">
                     Si aún no tienes RUC, déjalo vacío y continúa.
                 </p>
@@ -595,7 +858,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
         {
             campo: 'area_m2',
             id: 'est-area',
-            numero: 4,
+            numero: 1,
             texto: 'Área techada en metros cuadrados',
             ayuda: 'Si no lo sabes exacto, pon un aproximado. Ej. un local de 5 x 12 metros = 60 m².',
             error: errorArea,
@@ -608,7 +871,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
         {
             campo: 'pisos',
             id: 'est-pisos',
-            numero: 5,
+            numero: 2,
             texto: '¿Cuántos pisos usa tu local?',
             ayuda: 'Cuenta el sótano como un piso.',
             error: errorPisos,
@@ -621,7 +884,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
         {
             campo: 'aforo',
             id: 'est-aforo',
-            numero: 6,
+            numero: 3,
             texto: '¿Cuántas personas puede haber al mismo tiempo?',
             ayuda: 'Clientes y trabajadores juntos, en el momento de más gente.',
             error: errorAforo,
@@ -665,15 +928,7 @@ function SeccionEscalaFisica({ data, setData, erroresFormulario, errors, limpiar
 }
 
 interface PreguntaSiNoProps {
-    campo:
-        | 'usa_glp'
-        | 'tiene_equipos_fritura'
-        | 'tiene_escaleras'
-        | 'tiene_estanterias_altas'
-        | 'usa_caldero'
-        | 'usa_liquidos_inflamables'
-        | 'en_sotano'
-        | 'galeria_sin_itse';
+    campo: CampoSiNo;
     numero: number;
     texto: string;
     ayuda: string;
@@ -702,141 +957,98 @@ interface SeccionInstalacionesCondicionesProps {
     setData: ActualizarCampoFormulario;
     erroresFormulario: Record<string, string>;
     limpiarErrorDe: (campo: string) => void;
+    relevantes: readonly CampoSiNo[];
+    nombreRubro?: string;
 }
 
-function SeccionInstalacionesCondiciones({ data, setData, erroresFormulario, limpiarErrorDe }: Readonly<SeccionInstalacionesCondicionesProps>) {
-    const responder = (campo: PreguntaSiNoProps['campo']) => (valor: boolean | null) => {
-        setData(campo, valor);
-        limpiarErrorDe(campo);
-    };
-    const tieneEspeciales = Boolean(data.usa_caldero || data.usa_liquidos_inflamables || data.en_sotano || data.galeria_sin_itse);
+/**
+ * Preguntas Sí/No del local. Se muestran primero las que corresponden al tipo de negocio;
+ * las demás quedan plegadas en «Otras situaciones» (ya marcadas en «No») por si el local
+ * tiene algo fuera de lo común.
+ */
+function SeccionInstalacionesCondiciones({
+    data,
+    setData,
+    erroresFormulario,
+    limpiarErrorDe,
+    relevantes,
+    nombreRubro,
+}: Readonly<SeccionInstalacionesCondicionesProps>) {
+    const otras: CampoSiNo[] = [...CAMPOS_POR_RUBRO.filter((c) => !relevantes.includes(c)), 'en_sotano', 'galeria_sin_itse'];
+    const otrasConSi = otras.some((c) => data[c] === true);
+
+    const pregunta = (campo: CampoSiNo, numero: number) => (
+        <PreguntaSiNo
+            key={campo}
+            campo={campo}
+            numero={numero}
+            texto={PREGUNTAS_SI_NO[campo].texto}
+            ayuda={PREGUNTAS_SI_NO[campo].ayuda}
+            valor={data[campo] as boolean | null | undefined}
+            error={erroresFormulario[campo]}
+            onSeleccion={(valor) => {
+                setData(campo, valor);
+                if (campo === 'usa_glp' && !valor) setData('galones_glp', '');
+                if (campo === 'usa_liquidos_inflamables' && !valor) setData('combustibles_liquidos_m3', '');
+                limpiarErrorDe(campo);
+            }}
+        >
+            {campo === 'usa_glp' && data.usa_glp === true && (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <label htmlFor="est-galones" className="block text-base font-semibold text-slate-900">
+                        ¿Cuántos galones de gas tienes en total? <span className="font-normal text-slate-500">(opcional)</span>
+                    </label>
+                    <p id="ayuda-galones" className="mt-1 text-base text-slate-700">
+                        Un balón doméstico de 10 kg tiene unos 5 galones.
+                    </p>
+                    <input
+                        id="est-galones"
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        value={data.galones_glp}
+                        onChange={(e) => setData('galones_glp', e.target.value === '' ? '' : Number.parseFloat(e.target.value))}
+                        placeholder="Ej. 10"
+                        aria-describedby="ayuda-galones"
+                        className={`mt-3 sm:max-w-xs ${claseCampo()}`}
+                    />
+                </div>
+            )}
+        </PreguntaSiNo>
+    );
 
     return (
         <div className={claseTarjetaGrupo}>
-            <PreguntaSiNo
-                campo="usa_glp"
-                numero={7}
-                texto="¿Usas gas (balones de GLP)?"
-                ayuda="Para cocinar o para algún equipo del negocio."
-                valor={data.usa_glp}
-                error={erroresFormulario.usa_glp}
-                onSeleccion={(valor) => {
-                    setData('usa_glp', valor);
-                    if (!valor) setData('galones_glp', '');
-                    limpiarErrorDe('usa_glp');
-                }}
-            >
-                {data.usa_glp === true && (
-                    <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
-                        <label htmlFor="est-galones" className="block text-base font-semibold text-slate-900">
-                            ¿Cuántos galones de gas tienes en total? <span className="font-normal text-slate-500">(opcional)</span>
-                        </label>
-                        <p id="ayuda-galones" className="mt-1 text-base text-slate-700">
-                            Un balón doméstico de 10 kg tiene unos 5 galones.
-                        </p>
-                        <input
-                            id="est-galones"
-                            type="number"
-                            min="0"
-                            step="0.5"
-                            value={data.galones_glp}
-                            onChange={(e) => setData('galones_glp', e.target.value === '' ? '' : Number.parseFloat(e.target.value))}
-                            placeholder="Ej. 10"
-                            aria-describedby="ayuda-galones"
-                            className={`mt-3 sm:max-w-xs ${claseCampo()}`}
-                        />
-                    </div>
-                )}
-            </PreguntaSiNo>
-            <PreguntaSiNo
-                campo="tiene_equipos_fritura"
-                numero={8}
-                texto="¿Fríes o cocinas con aceite?"
-                ayuda="Freidoras, cocina con mucho aceite o grasa. Si respondes Sí, te pedirán un extintor Clase K."
-                valor={data.tiene_equipos_fritura}
-                error={erroresFormulario.tiene_equipos_fritura}
-                onSeleccion={responder('tiene_equipos_fritura')}
-            />
-            <PreguntaSiNo
-                campo="tiene_escaleras"
-                numero={9}
-                texto="¿Tu local tiene escaleras?"
-                ayuda="Escaleras que usan clientes o trabajadores. Deben tener pasamanos."
-                valor={data.tiene_escaleras}
-                error={erroresFormulario.tiene_escaleras}
-                onSeleccion={responder('tiene_escaleras')}
-            />
-            <PreguntaSiNo
-                campo="tiene_estanterias_altas"
-                numero={10}
-                texto="¿Tienes estantes o muebles altos que podrían caerse?"
-                ayuda="Por ejemplo, anaqueles de más de 1,8 m. Deben estar fijados a la pared o al piso."
-                valor={data.tiene_estanterias_altas}
-                error={erroresFormulario.tiene_estanterias_altas}
-                onSeleccion={responder('tiene_estanterias_altas')}
-            />
+            {nombreRubro && (
+                <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-900">
+                    Preguntas para <strong>{nombreRubro}</strong>. Lo demás ya quedó marcado en «No»; puedes cambiarlo en «Otras situaciones».
+                </p>
+            )}
+            {relevantes.map((campo, i) => pregunta(campo, 4 + i))}
 
-            {/* Condiciones poco frecuentes: plegadas para no recargar el formulario. */}
-            <details className="group rounded-xl border border-slate-300" open={tieneEspeciales}>
+            <details className="group rounded-xl border border-slate-300" open={otrasConSi}>
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-lg font-semibold text-slate-900">
                     <span>
-                        ¿Tu local tiene algo especial?{' '}
-                        <span className="block text-base font-normal text-slate-600 sm:inline">Caldero, productos inflamables, sótano o galería</span>
+                        Otras situaciones{' '}
+                        <span className="block text-base font-normal text-slate-600 sm:inline">Solo si tu local tiene algo fuera de lo común</span>
                     </span>
                     <span aria-hidden="true" className="text-slate-500 transition group-open:rotate-180">
                         ▾
                     </span>
                 </summary>
-                <div className="space-y-7 border-t border-slate-200 p-5">
-                    <PreguntaSiNo
-                        campo="usa_caldero"
-                        numero={11}
-                        texto="¿Usas caldero?"
-                        ayuda="Calderas a vapor o industriales. Si respondes Sí, la inspección será antes de la licencia."
-                        valor={data.usa_caldero}
-                        onSeleccion={(valor) => setData('usa_caldero', valor)}
-                    />
-                    <PreguntaSiNo
-                        campo="usa_liquidos_inflamables"
-                        numero={12}
-                        texto="¿Guardas combustibles, pinturas o solventes?"
-                        ayuda="Gasolina, petróleo, thinner, pinturas u otros líquidos que arden."
-                        valor={data.usa_liquidos_inflamables}
-                        onSeleccion={(valor) => {
-                            setData('usa_liquidos_inflamables', valor);
-                            if (!valor) setData('combustibles_liquidos_m3', '');
-                        }}
-                    />
-                    <PreguntaSiNo
-                        campo="en_sotano"
-                        numero={13}
-                        texto="¿Atiendes al público en un sótano?"
-                        ayuda="Reuniones o atención bajo el nivel de la calle."
-                        valor={data.en_sotano}
-                        onSeleccion={(valor) => setData('en_sotano', valor)}
-                    />
-                    <PreguntaSiNo
-                        campo="galeria_sin_itse"
-                        numero={14}
-                        texto="¿Tu local está en una galería sin certificado ITSE?"
-                        ayuda="Si las áreas comunes de la galería no tienen ITSE, puede subir el nivel de riesgo de tu local."
-                        valor={data.galeria_sin_itse}
-                        onSeleccion={(valor) => setData('galeria_sin_itse', valor)}
-                    />
-                </div>
+                <div className="space-y-7 border-t border-slate-200 p-5">{otras.map((campo, i) => pregunta(campo, 4 + relevantes.length + i))}</div>
             </details>
         </div>
     );
 }
 
 const GRUPOS = [
-    { boton: 'Tu local', titulo: 'Tu local', ayuda: 'Solo el nombre y el tipo de negocio son obligatorios.' },
+    { boton: 'Tu negocio', titulo: 'Tu negocio', ayuda: 'El nombre y el tipo de negocio son obligatorios.' },
     {
-        boton: 'Características',
-        titulo: 'Características del establecimiento',
+        boton: 'Cómo es tu local',
+        titulo: 'Cómo es tu local',
         ayuda: 'Responde con lo que ves hoy en tu local. Si no sabes algo, elige “Aún no lo sé”.',
     },
-    { boton: 'Revisar datos', titulo: 'Revisa antes de continuar', ayuda: 'Puedes volver a cualquier paso para corregir.' },
 ] as const;
 
 export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
@@ -846,6 +1058,33 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
     const primerRender = useRef(true);
 
     const { data, setData, post, processing, errors } = useForm<FormEvaluacionData>(construirValoresIniciales(reevaluacionDe));
+    const [rubro, setRubro] = useState<RubroId | ''>(() => rubroInicial(reevaluacionDe));
+    const opcionRubro = RUBROS.find((r) => r.id === rubro);
+    const relevantes = opcionRubro?.preguntas ?? CAMPOS_POR_RUBRO;
+    // Respuestas que puso el sistema (no el usuario) al elegir el tipo de negocio.
+    const autoRespondidas = useRef<Set<CampoSiNo>>(new Set());
+
+    const elegirRubro = (id: RubroId) => {
+        const opcion = RUBROS.find((r) => r.id === id);
+        if (!opcion) return;
+        setRubro(id);
+        limpiarErrorDe('rubro');
+        const cambios: Partial<FormEvaluacionData> = { funcion_economica: opcion.funcion };
+        for (const campo of CAMPOS_POR_RUBRO) {
+            if (opcion.preguntas.includes(campo)) {
+                // Pregunta relevante: si la había respondido el sistema, se deja para el usuario.
+                if (autoRespondidas.current.has(campo)) {
+                    cambios[campo] = null;
+                    autoRespondidas.current.delete(campo);
+                }
+            } else if (data[campo] == null || autoRespondidas.current.has(campo)) {
+                // No aplica a este tipo de negocio: queda en «No» (se puede corregir en «Otras situaciones»).
+                cambios[campo] = false;
+                autoRespondidas.current.add(campo);
+            }
+        }
+        setData((prev) => ({ ...prev, ...cambios }));
+    };
 
     useEffect(() => {
         // Al cambiar de grupo se mueve el foco al título para lectores de pantalla,
@@ -872,16 +1111,19 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const errs = validarFormularioNueva(data);
+        if (!rubro) {
+            errs.rubro = 'Elige el tipo de negocio para saber qué preguntarte.';
+        }
         setErroresFormulario(errs);
 
         if (Object.keys(errs).length > 0) {
             const campo = Object.keys(errs)[0];
-            setGrupo(['nombre_comercio', 'ruc'].includes(campo) ? 0 : 1);
+            setGrupo(['nombre_comercio', 'rubro', 'ruc'].includes(campo) ? 0 : 1);
             setTimeout(() => enfocarPrimerError(errs), 0);
             return;
         }
 
-        if (grupo < 2) {
+        if (grupo < 1) {
             setGrupo(grupo + 1);
             return;
         }
@@ -894,7 +1136,9 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
 
     const resumenDatos: Array<[string, string | number]> = [
         ['Local', data.nombre_comercio || 'Sin nombre'],
-        ['Actividad', FUNCIONES_ECONOMICAS.find((f) => f.valor === data.funcion_economica)?.etiqueta ?? data.funcion_economica],
+        ['Tipo de negocio', opcionRubro?.nombre ?? 'Sin elegir'],
+        ['Actividad (norma ITSE)', FUNCIONES_ECONOMICAS.find((f) => f.valor === data.funcion_economica)?.etiqueta ?? data.funcion_economica],
+        ['Distrito', data.distrito || 'No indicado'],
         ['Área', data.area_m2 ? data.area_m2 + ' m²' : 'No declarada'],
         ['Pisos', data.pisos || 'No declarado'],
         ['Aforo', data.aforo || 'No declarado'],
@@ -937,7 +1181,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
 
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                     <nav aria-label="Grupos de datos">
-                        <ol className="grid grid-cols-3 gap-1 rounded-2xl bg-slate-200/60 p-1">
+                        <ol className="grid grid-cols-2 gap-1 rounded-2xl bg-slate-200/60 p-1">
                             {GRUPOS.map((g, index) => (
                                 <li key={g.boton}>
                                     <button
@@ -977,7 +1221,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                         </div>
                     )}
 
-                    {/* Grupo 1: identificación y ubicación opcional */}
+                    {/* Paso 1: el negocio (tipo, ubicación y datos de identificación) */}
                     <div hidden={grupo !== 0} className="space-y-4">
                         <SeccionIdentificacionGiro
                             data={data}
@@ -985,51 +1229,12 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             erroresFormulario={erroresFormulario}
                             errors={errors}
                             limpiarErrorDe={limpiarErrorDe}
+                            rubro={rubro}
+                            onRubro={elegirRubro}
                         />
-                        <details className="group rounded-3xl border border-slate-200 bg-white" open={Boolean(data.direccion || data.referencia)}>
-                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-6 py-4 text-lg font-semibold text-slate-900">
-                                <span className="flex items-center gap-2">
-                                    <MapPin aria-hidden="true" className="h-4 w-4 text-emerald-600" />
-                                    Agregar dirección <span className="font-normal text-slate-500">(opcional)</span>
-                                </span>
-                                <span aria-hidden="true" className="text-slate-400 transition group-open:rotate-180">
-                                    ▾
-                                </span>
-                            </summary>
-                            <div className="grid gap-4 border-t border-slate-100 p-6 sm:grid-cols-2">
-                                <div>
-                                    <label htmlFor="est-direccion" className="mb-2 block text-lg font-semibold text-slate-900">
-                                        Dirección
-                                    </label>
-                                    <input
-                                        id="est-direccion"
-                                        type="text"
-                                        maxLength={255}
-                                        value={data.direccion}
-                                        onChange={(e) => setData('direccion', e.target.value)}
-                                        placeholder="Ej: Jr. Ancash 345, Huancayo"
-                                        className={claseCampo()}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="est-referencia" className="mb-2 block text-lg font-semibold text-slate-900">
-                                        Referencia
-                                    </label>
-                                    <input
-                                        id="est-referencia"
-                                        type="text"
-                                        maxLength={255}
-                                        value={data.referencia}
-                                        onChange={(e) => setData('referencia', e.target.value)}
-                                        placeholder="Ej: frente al parque Huamanmarca"
-                                        className={claseCampo()}
-                                    />
-                                </div>
-                            </div>
-                        </details>
                     </div>
 
-                    {/* Grupo 2: escala física e instalaciones */}
+                    {/* Paso 2: cómo es el local (tamaño y solo las preguntas de su tipo) + resumen */}
                     <div hidden={grupo !== 1} className="space-y-4">
                         <SeccionEscalaFisica
                             data={data}
@@ -1043,11 +1248,9 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                             setData={setData}
                             erroresFormulario={erroresFormulario}
                             limpiarErrorDe={limpiarErrorDe}
+                            relevantes={relevantes}
+                            nombreRubro={opcionRubro?.id === 'otro' ? undefined : opcionRubro?.nombre}
                         />
-                    </div>
-
-                    {/* Grupo 3: revisión y orientación */}
-                    <div hidden={grupo !== 2} className="space-y-4">
                         <section className="rounded-3xl border border-slate-200 bg-white p-6">
                             <h3 className="text-lg font-bold text-slate-900">Lo que vas a declarar</h3>
                             <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
@@ -1075,7 +1278,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                 onClick={() => setGrupo(grupo - 1)}
                             >
                                 <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-                                Volver al grupo anterior
+                                Volver al paso anterior
                             </button>
                         ) : (
                             <Link
@@ -1109,5 +1312,5 @@ function respuestaSiNo(valor: boolean | null | undefined): string {
 
 function textoBotonEnviar(procesando: boolean, grupo: number): string {
     if (procesando) return 'Iniciando autoevaluación...';
-    return grupo < 2 ? 'Continuar' : 'Guardar datos y revisar condiciones';
+    return grupo < 1 ? 'Continuar' : 'Guardar y ver las condiciones';
 }

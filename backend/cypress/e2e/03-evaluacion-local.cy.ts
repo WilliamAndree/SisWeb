@@ -9,23 +9,21 @@ describe('E2E-03 · Evaluación de un local (proceso principal)', () => {
     it('registra el local, responde las condiciones y ve su resultado', () => {
         cy.visit('/autoevaluacion/nueva');
 
-        // Grupo 1: datos del local.
+        // Paso 1: el negocio. El tipo se elige con una tarjeta y define qué se pregunta después.
         cy.get('#est-nombre').type('Bodega Cypress');
-        cy.get('#est-funcion').select('Comercio');
+        cy.get('[data-cy="rubro-bodega"]').click();
+        cy.get('#est-distrito').select('Huancayo');
         cy.get('#est-ruc').type('10456789123');
         cy.get('form').find('button[type="submit"]').click();
 
-        // Grupo 2: características físicas (todas las preguntas Sí/No en "No").
+        // Paso 2: cómo es el local (solo las preguntas de una bodega, todas en "No").
         cy.get('#est-area').type('60');
         cy.get('#est-pisos').type('1');
         cy.get('#est-aforo').type('12');
-        // Solo las preguntas visibles: las de «¿Tu local tiene algo especial?» están plegadas.
+        // Solo las preguntas visibles: «Otras situaciones» está plegada y ya viene en «No».
         cy.get('form fieldset:visible').each(($grupo) => {
             cy.wrap($grupo).contains('button', /^No$/).click();
         });
-        cy.get('form').find('button[type="submit"]').click();
-
-        // Grupo 3: revisión y envío.
         cy.get('form').find('button[type="submit"]').click();
         cy.location('pathname', { timeout: 20000 }).should('match', /\/autoevaluacion\/[\w-]+\/checklist$/);
 

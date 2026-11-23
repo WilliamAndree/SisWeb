@@ -79,17 +79,18 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await wait('document.querySelector("#est-nombre") !== null');
         await evaluate(`(()=>{const input=document.querySelector('#est-nombre');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,'Local sintético UX');input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
         const click = (label) => evaluate(`([...document.querySelectorAll('button')].find(el=>el.textContent.trim()===${JSON.stringify(label)})).click()`);
-        await click('2. Características');
-        await wait(`document.querySelector('#grupo-datos').textContent.includes('Características')`);
+        // Tipo «Otro»: se pregunta todo y ninguna respuesta queda puesta por el sistema.
+        await evaluate('document.querySelector("[data-cy=rubro-otro]").click()');
+        await click('2. Cómo es tu local');
+        await wait(`document.querySelector('#grupo-datos').textContent.includes('Cómo es tu local')`);
         assert.equal(await evaluate('document.querySelectorAll("[aria-pressed=true]").length > 0'), true);
         await evaluate(`document.querySelector('[aria-labelledby="label-usa_glp"] button').click()`);
-        await click('3. Revisar datos');
-        await wait(`document.querySelector('#grupo-datos').textContent.includes('Revisa')`);
+        // El resumen está al final del paso 2.
         assert.match(await evaluate('document.body.innerText'), /Local sintético UX/);
-        await click('1. Tu local');
+        await click('1. Tu negocio');
         assert.equal(await evaluate('document.querySelector("#est-nombre").value'), 'Local sintético UX');
-        await click('3. Revisar datos');
-        await click('Guardar datos y revisar condiciones');
+        await click('2. Cómo es tu local');
+        await click('Guardar y ver las condiciones');
         await wait('document.body.textContent.includes("Error de prueba")');
         assert.equal(received.length, 1);
         assert.equal(received[0].body.usa_glp, false);
@@ -102,17 +103,20 @@ test('UX-01 pantallas reales con fixtures: responsive, teclado, triestado y payl
         await send('Input.dispatchKeyEvent', { type: 'keyUp', key: ' ', code: 'Space', windowsVirtualKeyCode: 32 });
         assert.equal(await evaluate('document.querySelector("input[type=radio]").checked'), true);
         assert.equal(await evaluate('document.querySelector("progress").value'), 1);
+        // Al responder ya se envía un guardado automático; los de «Pausar» se cuentan desde aquí.
+        await new Promise((r) => setTimeout(r, 300));
+        const previos = await evaluate('window.__uxRequests.length');
         await evaluate('window.__uxSaveFails = true');
         await click('Pausar y guardar progreso');
-        await wait('window.__uxRequests.length === 1');
+        await wait(`window.__uxRequests.length === ${previos + 1}`);
         await wait('document.body.textContent.includes("Error sintético al guardar")');
         assert.equal(await evaluate('document.querySelector("input[type=radio]").checked'), true);
         assert.equal(await evaluate('document.body.textContent.includes("Avance guardado correctamente")'), false);
         await evaluate('window.__uxSaveFails = false');
         await click('Pausar y guardar progreso');
         await wait('document.body.textContent.includes("Avance guardado correctamente")');
-        assert.equal(await evaluate('window.__uxRequests.length'), 2);
-        const saved = await evaluate('window.__uxRequests[0]');
+        assert.equal(await evaluate('window.__uxRequests.length'), previos + 2);
+        const saved = await evaluate('window.__uxRequests[window.__uxRequests.length - 1]');
         assert.ok(JSON.stringify(saved.body).includes('CUMPLE_DECLARADO'));
         await send('Page.navigate', { url: `http://127.0.0.1:${port}/?pantalla=Condiciones&cerrada=1` });
         await wait('document.querySelector("input[type=radio]") !== null');

@@ -48,10 +48,15 @@ const POR_CODIGO: Record<string, VisualItem> = {
         icono: 'senal',
         especialidad: 'arquitectura_senaletica',
     },
-    'CRIT-04': { nombreCorto: 'Puertas de salida sin trabas', imagen: '/images/salida-emergencia.webp', icono: 'senal', especialidad: 'estructuras' },
+    'CRIT-04': {
+        nombreCorto: 'Puertas de salida sin trabas',
+        imagen: '/images/condiciones/puerta-evacuacion.svg',
+        icono: 'senal',
+        especialidad: 'estructuras',
+    },
     'CRIT-05': {
         nombreCorto: 'Pozo a tierra con certificado',
-        imagen: '/images/tablero-electrico.webp',
+        imagen: '/images/condiciones/pozo-tierra.svg',
         icono: 'electricidad',
         especialidad: 'electricas',
     },
@@ -63,7 +68,7 @@ const POR_CODIGO: Record<string, VisualItem> = {
     },
     'CRIT-07': {
         nombreCorto: 'Cables protegidos en canaletas',
-        imagen: '/images/tablero-electrico.webp',
+        imagen: '/images/condiciones/cables-canaleta.svg',
         icono: 'electricidad',
         especialidad: 'electricas',
     },
@@ -71,7 +76,12 @@ const POR_CODIGO: Record<string, VisualItem> = {
     'CRIT-09': { nombreCorto: 'Botiquín de primeros auxilios', imagen: '/images/botiquin.webp', icono: 'botiquin', especialidad: null },
     'CRIT-10': { nombreCorto: 'Instalación segura de gas', imagen: '/images/balon-gas.webp', icono: 'gas', especialidad: null },
     'CRIT-11': { nombreCorto: 'Escaleras con pasamanos', imagen: '/images/escalera-pasamanos.webp', icono: 'escalera', especialidad: 'estructuras' },
-    'CRIT-12': { nombreCorto: 'Cartel de aforo', imagen: null, icono: 'aforo', especialidad: 'arquitectura_senaletica' },
+    'CRIT-12': {
+        nombreCorto: 'Cartel de aforo',
+        imagen: '/images/condiciones/cartel-aforo.svg',
+        icono: 'aforo',
+        especialidad: 'arquitectura_senaletica',
+    },
     'CRIT-13': { nombreCorto: 'Estantes anclados a la pared', imagen: '/images/estanteria.webp', icono: 'estante', especialidad: 'estructuras' },
     'CRIT-14A': {
         nombreCorto: 'Espacio libre frente al tablero',
@@ -80,9 +90,14 @@ const POR_CODIGO: Record<string, VisualItem> = {
         especialidad: 'electricas',
     },
     'CRIT-14B': { nombreCorto: 'Materiales lejos del calor', imagen: '/images/extintor.webp', icono: 'extintor', especialidad: 'incendios' },
-    'CRIT-15': { nombreCorto: 'Detectores y alarma contra incendios', imagen: null, icono: 'alarma', especialidad: 'incendios' },
+    'CRIT-15': {
+        nombreCorto: 'Detectores y alarma contra incendios',
+        imagen: '/images/condiciones/detector-humo.svg',
+        icono: 'alarma',
+        especialidad: 'incendios',
+    },
     'CRIT-16': { nombreCorto: 'Campana extractora de cocina', imagen: '/images/cocina-comercial.webp', icono: 'cocina', especialidad: null },
-    'CRIT-17': { nombreCorto: 'Caldero revisado', imagen: null, icono: 'caldero', especialidad: null },
+    'CRIT-17': { nombreCorto: 'Caldero revisado', imagen: '/images/condiciones/caldero.svg', icono: 'caldero', especialidad: null },
 };
 
 const POR_PALABRA: ReadonlyArray<[RegExp, string]> = [
