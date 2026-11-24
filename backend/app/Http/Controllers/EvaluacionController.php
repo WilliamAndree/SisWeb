@@ -651,6 +651,8 @@ class EvaluacionController extends Controller
             ],
             'items' => $itemsObservados->values()->all(),
             'total_observaciones' => $itemsObservados->count(),
+            // Sin clave de Gemini no se ofrece el botón (fallaría frente al usuario).
+            'analisis_ia_disponible' => filled(config('services.gemini.api_key')),
         ]);
     }
 

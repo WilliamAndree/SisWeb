@@ -1,7 +1,6 @@
 import { LoQueTeFalta } from '@/components/Evaluacion/LoQueTeFalta';
 import type { CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
 import { PanelResultadoAnalisisIA } from '@/components/Evaluacion/PanelResultadoAnalisisIA';
-import { EvidenciaUploadModal } from '@/components/EvidenciaUploadModal';
 import { ProveedoresCercanosModal } from '@/components/ProveedoresCercanosModal';
 import { RecursoEducativoModal } from '@/components/RecursoEducativoModal';
 import { adaptarAnalisis, mensajeErrorAnalisis, sondearAnalisis } from '@/lib/analisis-ia';
@@ -75,9 +74,17 @@ export interface SubsanacionDirectaProps {
     };
     readonly items: CriterioObservadoItem[];
     readonly total_observaciones: number;
+    /** Solo se ofrece la orientación con IA si el servidor tiene la clave configurada. */
+    readonly analisis_ia_disponible?: boolean;
 }
 
-export default function SubsanacionDirecta({ autoevaluacion, items: itemsIniciales }: Readonly<SubsanacionDirectaProps>) {
+const TIPOS_FOTO = new Set(['image/jpeg', 'image/png', 'image/webp']);
+
+export default function SubsanacionDirecta({
+    autoevaluacion,
+    items: itemsIniciales,
+    analisis_ia_disponible = false,
+}: Readonly<SubsanacionDirectaProps>) {
     const [items, setItems] = useState(() =>
         itemsIniciales.map((item) => ({ ...item, ultimo_analisis: adaptarAnalisis(item.ultimo_analisis, 'inicial') })),
     );
@@ -85,9 +92,11 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
     const [modalProveedoresAbierto, setModalProveedoresAbierto] = useState(false);
     const [modalRecursosAbierto, setModalRecursosAbierto] = useState(false);
     const [criterioSeleccionado, setCriterioSeleccionado] = useState<CriterioObservadoItem | null>(null);
-    const [criterioEvidenciaModal, setCriterioEvidenciaModal] = useState<CriterioObservadoItem | null>(null);
     const [notaSubsanacion, setNotaSubsanacion] = useState<Record<string, string>>({});
     const [itemParaDeclarar, setItemParaDeclarar] = useState<CriterioObservadoItem | null>(null);
+    const [fotoCorreccion, setFotoCorreccion] = useState<File | null>(null);
+    const [vistaFoto, setVistaFoto] = useState<string | null>(null);
+    const [errorCorreccion, setErrorCorreccion] = useState<string | null>(null);
     const [solicitandoAnalisis, setSolicitandoAnalisis] = useState<Record<string, boolean>>({});
     const sondeosRef = useRef<Record<string, () => void>>({});
     const [erroresAnalisis, setErroresAnalisis] = useState<Record<string, string>>({});
@@ -178,9 +187,55 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
 
     const porcentajeAvance = totalObservados > 0 ? Math.round((subsanados.length / totalObservados) * 100) : 100;
 
+    /** Cambia el estado de una condición en pantalla al instante (antes de que responda el servidor). */
+    const marcarEnPantalla = (codigo: string, cambios: Pick<Partial<CriterioObservadoItem>, 'estado' | 'notas'>) =>
+        setItems((prev) => prev.map((it) => (it.codigo === codigo ? { ...it, ...cambios } : it)));
+
+    /** El respaldo local del checklist no debe volver a poner «Necesito atenderlo» en algo ya corregido. */
+    const olvidarRespuestaLocal = (codigo: string) => {
+        try {
+            const clave = `checkitse-respuestas-${autoevaluacion.uuid}`;
+            const guardado = JSON.parse(globalThis.localStorage?.getItem(clave) ?? '{}') as Record<string, string>;
+            delete guardado[codigo];
+            globalThis.localStorage?.setItem(clave, JSON.stringify(guardado));
+        } catch {
+            // Sin almacenamiento local: no hay nada que limpiar.
+        }
+    };
+
+    const abrirCorreccion = (item: CriterioObservadoItem) => {
+        setErrorCorreccion(null);
+        setFotoCorreccion(null);
+        setVistaFoto(null);
+        setItemParaDeclarar(item);
+    };
+
+    const cerrarCorreccion = () => {
+        if (vistaFoto) URL.revokeObjectURL(vistaFoto);
+        setVistaFoto(null);
+        setFotoCorreccion(null);
+        setItemParaDeclarar(null);
+    };
+
+    const elegirFoto = (archivo: File | null) => {
+        setErrorCorreccion(null);
+        if (archivo && !TIPOS_FOTO.has(archivo.type)) {
+            setErrorCorreccion('Usa una foto en JPG, PNG o WEBP.');
+            return;
+        }
+        if (archivo && archivo.size > 5 * 1024 * 1024) {
+            setErrorCorreccion('La foto pesa más de 5 MB. Toma otra con menos resolución.');
+            return;
+        }
+        if (vistaFoto) URL.revokeObjectURL(vistaFoto);
+        setFotoCorreccion(archivo);
+        setVistaFoto(archivo ? URL.createObjectURL(archivo) : null);
+    };
+
     /** Deshace una corrección: la condición vuelve a "por corregir" y el resumen se recalcula. */
     const handleDeshacer = (item: CriterioObservadoItem) => {
         setProcesandoCodigo(item.codigo);
+        marcarEnPantalla(item.codigo, { estado: 'PENDIENTE_ATENDER' });
         router.post(
             route('autoevaluacion.subsanacion.store', { uuid: autoevaluacion.uuid }),
             {
@@ -193,60 +248,58 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
     };
 
     const handleDeclararSubsanado = async (item: CriterioObservadoItem, notaManual?: string) => {
+        const nota = (notaManual ?? notaSubsanacion[item.codigo] ?? '').trim();
+        const foto = fotoCorreccion;
+        const estadoAnterior = item.estado;
         setProcesandoCodigo(item.codigo);
+        setErrorCorreccion(null);
+
+        // Se ve corregido de inmediato; si el servidor no lo acepta, vuelve a como estaba.
+        marcarEnPantalla(item.codigo, { estado: 'CUMPLE_DECLARADO', notas: nota || item.notas });
+        olvidarRespuestaLocal(item.codigo);
+
+        const revertir = (mensaje: string) => {
+            marcarEnPantalla(item.codigo, { estado: estadoAnterior });
+            setErrorCorreccion(mensaje);
+            setItemParaDeclarar(item);
+        };
+
+        if (foto) {
+            cerrarCorreccion();
+            router.post(
+                route('autoevaluacion.subsanacion.store', { uuid: autoevaluacion.uuid }),
+                {
+                    codigo_item: item.codigo,
+                    descripcion_subsanacion: nota.length >= 5 ? nota : 'Corregido en el local; adjunto foto como prueba.',
+                    estado: 'SUBSANADO_DECLARADO',
+                    evidencia: foto,
+                },
+                {
+                    forceFormData: true,
+                    preserveScroll: true,
+                    onError: (errores) => revertir(String(Object.values(errores)[0] ?? 'No se pudo guardar la foto. Intenta de nuevo.')),
+                    onFinish: () => setProcesandoCodigo(null),
+                },
+            );
+            return;
+        }
 
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-
             const res = await fetch(`/autoevaluacion/${autoevaluacion.uuid}/declarar-subsanado`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                body: JSON.stringify({
-                    criterio_id: item.criterio_id,
-                    codigo_criterio: item.codigo,
-                    nota: notaManual || notaSubsanacion[item.codigo] || null,
-                }),
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ criterio_id: item.criterio_id, codigo_criterio: item.codigo, nota: nota || null }),
             });
-
             if (!res.ok) {
-                throw new Error('No fue posible declarar la condición en este momento.');
+                revertir(res.status === 419 ? 'Tu sesión se renovó. Vuelve a intentarlo.' : 'No se pudo guardar. Intenta de nuevo.');
+                return;
             }
-
-            // Actualizar estado local inmediatamente
-            setItems((prev) =>
-                prev.map((it) =>
-                    it.codigo === item.codigo
-                        ? {
-                              ...it,
-                              estado: 'CUMPLE_DECLARADO',
-                              notas: notaManual || notaSubsanacion[item.codigo] || it.notas,
-                          }
-                        : it,
-                ),
-            );
-
-            setItemParaDeclarar(null);
+            cerrarCorreccion();
+            // Trae del servidor el estado definitivo (evidencias, totales) sin mover la pantalla.
+            router.reload({ only: ['items', 'autoevaluacion'] });
         } catch {
-            // Fallback con Inertia router si fetch directo falla por red
-            router.post(
-                `/autoevaluacion/${autoevaluacion.uuid}/declarar-subsanado`,
-                {
-                    criterio_id: item.criterio_id,
-                    codigo_criterio: item.codigo,
-                    nota: notaManual || notaSubsanacion[item.codigo] || null,
-                },
-                {
-                    preserveScroll: true,
-                    onSuccess: () => {
-                        setItems((prev) => prev.map((it) => (it.codigo === item.codigo ? { ...it, estado: 'CUMPLE_DECLARADO' } : it)));
-                        setItemParaDeclarar(null);
-                    },
-                },
-            );
+            revertir('Sin conexión. Revisa tu internet e intenta de nuevo.');
         } finally {
             setProcesandoCodigo(null);
         }
@@ -380,7 +433,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                             nombreLocal={autoevaluacion.nombre_comercio}
                             onAdjuntarEvidencia={(codigo) => {
                                 const item = items.find((it) => it.codigo === codigo);
-                                if (item) setCriterioEvidenciaModal(item);
+                                if (item) abrirCorreccion(item);
                             }}
                         />
                     )}
@@ -473,22 +526,6 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                 {/* Cabecera del ítem */}
                                                 <div className="flex-1 space-y-2">
                                                     <div className="flex flex-wrap items-center gap-2">
-                                                        <span className="inline-flex items-center gap-1 rounded-md bg-slate-900 px-2 py-0.5 font-mono text-sm font-bold text-white">
-                                                            {item.codigo}
-                                                        </span>
-
-                                                        <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-sm font-semibold text-slate-700">
-                                                            {item.categoria}
-                                                        </span>
-
-                                                        {item.norma_base && (
-                                                            <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-sm font-medium text-slate-600">
-                                                                <BookOpen className="h-3 w-3 text-slate-400" />
-                                                                {item.norma_base}
-                                                                {item.articulo_referencia ? ` — Art. ${item.articulo_referencia}` : ''}
-                                                            </span>
-                                                        )}
-
                                                         {estaSubsanado ? (
                                                             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-sm font-bold text-emerald-800">
                                                                 <Check className="h-3 w-3 text-emerald-600" />
@@ -582,14 +619,16 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         </button>
                                                     )}
 
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setCriterioEvidenciaModal(item)}
-                                                        className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
-                                                    >
-                                                        <Camera className="h-4 w-4 text-slate-500" />
-                                                        <span>{item.evidencia_url ? 'Cambiar foto o documento' : 'Subir foto o documento'}</span>
-                                                    </button>
+                                                    {estaSubsanado && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => abrirCorreccion(item)}
+                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 active:scale-95"
+                                                        >
+                                                            <Camera className="h-4 w-4 text-slate-500" />
+                                                            <span>{item.evidencia_url ? 'Cambiar foto' : 'Agregar foto'}</span>
+                                                        </button>
+                                                    )}
 
                                                     {item.evidencia_url && (
                                                         <a
@@ -599,27 +638,31 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-2 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100"
                                                         >
                                                             <FileCheck className="h-4 w-4 text-emerald-600" />
-                                                            <span>Ver evidencia</span>
+                                                            <span>Ver foto</span>
                                                         </a>
                                                     )}
 
                                                     {/* Botón Asistente IA si tiene evidencia y no se ha analizado aún */}
-                                                    {item.subsanacion_id && item.evidencia_url && !item.es_pdf && !item.ultimo_analisis && (
-                                                        <button
-                                                            type="button"
-                                                            disabled={Boolean(solicitandoAnalisis[item.codigo])}
-                                                            onClick={() => handleSolicitarAnalisis(item)}
-                                                            className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3.5 py-2 text-sm font-bold text-indigo-700 shadow-2xs transition hover:border-indigo-300 hover:bg-indigo-100 active:scale-95 disabled:opacity-50"
-                                                            title="Solicitar orientación visual con IA (Gemini)"
-                                                        >
-                                                            {solicitandoAnalisis[item.codigo] ? (
-                                                                <Loader2 className="h-4 w-4 animate-spin text-indigo-600" />
-                                                            ) : (
-                                                                <Sparkles className="h-4 w-4 text-indigo-600" />
-                                                            )}
-                                                            <span>Orientación visual con IA</span>
-                                                        </button>
-                                                    )}
+                                                    {analisis_ia_disponible &&
+                                                        item.subsanacion_id &&
+                                                        item.evidencia_url &&
+                                                        !item.es_pdf &&
+                                                        !item.ultimo_analisis && (
+                                                            <button
+                                                                type="button"
+                                                                disabled={Boolean(solicitandoAnalisis[item.codigo])}
+                                                                onClick={() => handleSolicitarAnalisis(item)}
+                                                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/80 px-3.5 py-2 text-sm font-bold text-indigo-700 shadow-2xs transition hover:border-indigo-300 hover:bg-indigo-100 active:scale-95 disabled:opacity-50"
+                                                                title="Solicitar orientación visual con IA (Gemini)"
+                                                            >
+                                                                {solicitandoAnalisis[item.codigo] ? (
+                                                                    <Loader2 className="h-4 w-4 animate-spin text-indigo-600" />
+                                                                ) : (
+                                                                    <Sparkles className="h-4 w-4 text-indigo-600" />
+                                                                )}
+                                                                <span>Orientación visual con IA</span>
+                                                            </button>
+                                                        )}
                                                 </div>
 
                                                 {/* Botón de Subsanación */}
@@ -643,7 +686,7 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                                         <button
                                                             type="button"
                                                             disabled={cargandoEsteItem}
-                                                            onClick={() => setItemParaDeclarar(item)}
+                                                            onClick={() => abrirCorreccion(item)}
                                                             className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs transition hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
                                                         >
                                                             {cargandoEsteItem ? (
@@ -707,34 +750,27 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                     aria-labelledby="modal-subsanar-title"
                     className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs"
                 >
-                    <div className="w-full max-w-md space-y-4 rounded-3xl bg-white p-6 shadow-xl">
+                    <div className="max-h-[92vh] w-full max-w-md space-y-4 overflow-y-auto rounded-3xl bg-white p-6 shadow-xl">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
                                 <Check className="h-5 w-5" />
                             </div>
                             <div>
-                                <h3 id="modal-subsanar-title" className="text-base font-black text-slate-900">
+                                <h3 id="modal-subsanar-title" className="text-lg font-black text-slate-900">
                                     ¿Ya lo corregiste?
                                 </h3>
-                                <span className="font-mono text-sm font-bold text-slate-500">
-                                    {itemParaDeclarar.codigo} — {itemParaDeclarar.titulo}
-                                </span>
+                                <p className="text-base font-semibold text-slate-600">{itemParaDeclarar.titulo}</p>
                             </div>
                         </div>
 
-                        <p className="text-sm leading-relaxed text-slate-600">
-                            Puedes haberlo comprado a un aliado de CheckITSE o por tu cuenta. Cuéntanos qué hiciste; si tienes una foto, súbela
-                            después con «Subir foto o documento».
-                        </p>
-
                         <div className="space-y-1.5">
-                            <label htmlFor="nota-subsanacion" className="block text-sm font-bold text-slate-700">
-                                ¿Cómo lo solucionaste? (Opcional)
+                            <label htmlFor="nota-subsanacion" className="block text-base font-bold text-slate-800">
+                                ¿Qué hiciste? <span className="font-normal text-slate-500">(opcional)</span>
                             </label>
                             <textarea
                                 id="nota-subsanacion"
                                 rows={3}
-                                placeholder="Ej. Compré un extintor PQS de 6 kg en una ferretería del centro y lo colgué junto a la puerta."
+                                placeholder="Ej. Compré un extintor de 6 kg y lo colgué junto a la puerta."
                                 value={notaSubsanacion[itemParaDeclarar.codigo] || ''}
                                 onChange={(e) =>
                                     setNotaSubsanacion({
@@ -742,15 +778,43 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                         [itemParaDeclarar.codigo]: e.target.value,
                                     })
                                 }
-                                className="w-full rounded-2xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-2xs focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
+                                className="w-full rounded-2xl border border-slate-300 bg-white p-3 text-base text-slate-800 placeholder-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none"
                             />
                         </div>
+
+                        <div className="space-y-2">
+                            <span className="block text-base font-bold text-slate-800">
+                                Foto como prueba <span className="font-normal text-slate-500">(opcional)</span>
+                            </span>
+                            {vistaFoto && (
+                                <div className="overflow-hidden rounded-2xl border border-slate-200">
+                                    <img src={vistaFoto} alt="Foto de la corrección" className="max-h-56 w-full object-cover" />
+                                </div>
+                            )}
+                            <label className="flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50 px-4 text-base font-bold text-emerald-800 hover:bg-emerald-100">
+                                <Camera aria-hidden="true" className="h-5 w-5" />
+                                {vistaFoto ? 'Tomar otra foto' : 'Tomar o elegir una foto'}
+                                <input
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    capture="environment"
+                                    className="sr-only"
+                                    onChange={(e) => elegirFoto(e.target.files?.[0] ?? null)}
+                                />
+                            </label>
+                        </div>
+
+                        {errorCorreccion && (
+                            <p role="alert" className="rounded-xl bg-rose-50 p-3 text-base font-semibold text-rose-800">
+                                {errorCorreccion}
+                            </p>
+                        )}
 
                         <div className="flex items-center justify-end gap-2.5 pt-2">
                             <button
                                 type="button"
-                                onClick={() => setItemParaDeclarar(null)}
-                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                                onClick={cerrarCorreccion}
+                                className="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-4 text-base font-bold text-slate-700 hover:bg-slate-50"
                             >
                                 Cancelar
                             </button>
@@ -758,17 +822,17 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                                 type="button"
                                 disabled={procesandoCodigo !== null}
                                 onClick={() => handleDeclararSubsanado(itemParaDeclarar, notaSubsanacion[itemParaDeclarar.codigo])}
-                                className="inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-xs hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
+                                className="inline-flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 text-base font-bold text-white hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
                             >
                                 {procesandoCodigo === itemParaDeclarar.codigo ? (
                                     <>
                                         <Loader2 className="h-4 w-4 animate-spin" />
-                                        <span>Guardando...</span>
+                                        <span>Guardando…</span>
                                     </>
                                 ) : (
                                     <>
                                         <Check className="h-4 w-4" />
-                                        <span>Confirmar Cumplimiento</span>
+                                        <span>Sí, ya está corregido</span>
                                     </>
                                 )}
                             </button>
@@ -808,19 +872,6 @@ export default function SubsanacionDirecta({ autoevaluacion, items: itemsInicial
                     }))}
                     criterioCodigo={criterioSeleccionado.codigo}
                     criterioTitulo={criterioSeleccionado.titulo}
-                />
-            )}
-
-            {/* Modal de Carga de Evidencia Fotográfica / PDF Voluntaria */}
-            {criterioEvidenciaModal && (
-                <EvidenciaUploadModal
-                    isOpen={Boolean(criterioEvidenciaModal)}
-                    onClose={() => setCriterioEvidenciaModal(null)}
-                    uuid={autoevaluacion.uuid}
-                    codigoItem={criterioEvidenciaModal.codigo}
-                    nombreItem={criterioEvidenciaModal.titulo}
-                    estadoInicial="SUBSANADO_DECLARADO"
-                    accionInicial={criterioEvidenciaModal.notas || ''}
                 />
             )}
         </>

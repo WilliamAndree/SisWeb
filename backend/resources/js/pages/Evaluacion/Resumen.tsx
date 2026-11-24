@@ -1,11 +1,6 @@
-import { CajaNotasSubsanacion } from '@/components/Evaluacion/CajaNotasSubsanacion';
-import { DesgloseEspecialidades } from '@/components/Evaluacion/DesgloseEspecialidades';
 import { FlujoCiudadano } from '@/components/Evaluacion/FlujoCiudadano';
-import { HojaModeloAnexo } from '@/components/Evaluacion/HojaModeloAnexo';
 import { LoQueTeFalta } from '@/components/Evaluacion/LoQueTeFalta';
-import { NubeAsistenciaModal, type CriterioAsistencia } from '@/components/Evaluacion/NubeAsistenciaModal';
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
-import { RecursoEducativoModal, type RecursoEducativoData } from '@/components/RecursoEducativoModal';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fechaLarga } from '@/lib/fechas';
@@ -15,7 +10,6 @@ import {
     AlertTriangle,
     ArrowLeft,
     ArrowRight,
-    BookOpen,
     Building2,
     Check,
     CheckCircle2,
@@ -25,8 +19,6 @@ import {
     FileCheck,
     FileText,
     Files,
-    HelpCircle,
-    Layers,
     Loader2,
     Lock,
     RefreshCw,
@@ -34,8 +26,6 @@ import {
     Save,
     ShieldAlert,
     ShieldCheck,
-    Sparkles,
-    Store,
     TrendingDown,
     Wrench,
     X,
@@ -71,10 +61,8 @@ const CARACTERISTICAS_DECLARADAS: Record<string, { etiqueta: string; sufijo?: st
 /** Pestañas del "Ver detalle técnico": una cosa a la vez en lugar de todo junto. */
 const PESTANAS_DETALLE = [
     { valor: 'tramite', etiqueta: 'Tu trámite', icono: FileText },
-    { valor: 'falta', etiqueta: 'Lo que falta y su norma', icono: AlertTriangle },
-    { valor: 'especialidad', etiqueta: 'Por especialidad', icono: Layers },
-    { valor: 'costos', etiqueta: 'Costos', icono: Coins },
-    { valor: 'datos', etiqueta: 'Lo que declaraste', icono: ClipboardList },
+    { valor: 'costos', etiqueta: 'Cuánto cuesta', icono: Coins },
+    { valor: 'datos', etiqueta: 'Lo que ya tienes bien', icono: CheckCircle2 },
 ] as const;
 
 /**
@@ -110,346 +98,6 @@ const MODALIDAD_TRAMITE = {
         plazoIcono: Clock,
     },
 } as const;
-
-interface TagEspecialista {
-    texto: string;
-    icono: string;
-    clase: string;
-}
-
-/**
- * Asigna un tag sutil del especialista requerido según la disciplina normativa.
- */
-function obtenerTagEspecialista(codigo: string, titulo: string, queObservar?: string): TagEspecialista {
-    const cod = (codigo || '').toUpperCase().trim();
-    const texto = ((titulo || '') + ' ' + (queObservar || '')).toLowerCase();
-
-    // 1. EXTINTORES E INCENDIOS
-    if (cod === 'CRIT-01' || cod === 'CRIT-02' || (texto.includes('extintor') && !texto.includes('clase k') && !texto.includes('fritura'))) {
-        return {
-            texto: 'Proveedor de Extintores NTP / Incendios',
-            icono: '🧯',
-            clase: 'bg-rose-50 text-rose-900 border-rose-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-02A' || texto.includes('clase k') || texto.includes('fritura') || texto.includes('aceite')) {
-        return {
-            texto: 'Proveedor de Extintores Clase K / Incendios',
-            icono: '🧯',
-            clase: 'bg-rose-50 text-rose-900 border-rose-200/90',
-        };
-    }
-
-    // 2. SEÑALÉTICA Y PRIMEROS AUXILIOS
-    if (cod === 'CRIT-02B' || cod === 'CRIT-09' || texto.includes('señal') || texto.includes('botiquín')) {
-        return {
-            texto: 'Implementación de Señalética / Rotulación',
-            icono: '🏷️',
-            clase: 'bg-indigo-50 text-indigo-900 border-indigo-200/90',
-        };
-    }
-
-    // 3. ARQUITECTURA Y EVACUACIÓN
-    if (cod === 'CRIT-04' || (texto.includes('puerta') && (texto.includes('evacuac') || texto.includes('salida')))) {
-        return {
-            texto: 'Adecuación de Puertas de Evacuación',
-            icono: '📐',
-            clase: 'bg-sky-50 text-sky-900 border-sky-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-03' || cod === 'CRIT-12' || texto.includes('pasadizo') || texto.includes('evacuac') || texto.includes('aforo')) {
-        return {
-            texto: 'Adecuación Arquitectónica y Evacuación',
-            icono: '📐',
-            clase: 'bg-sky-50 text-sky-900 border-sky-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-11' || texto.includes('escalera') || texto.includes('pasamano')) {
-        return {
-            texto: 'Carpintería / Pasamanos y Antideslizantes',
-            icono: '📐',
-            clase: 'bg-sky-50 text-sky-900 border-sky-200/90',
-        };
-    }
-
-    // 4. ELÉCTRICAS
-    if (cod === 'CRIT-05' || texto.includes('pozo') || texto.includes('tierra') || texto.includes('puesta a tierra')) {
-        return {
-            texto: 'Protocolo de Pozo a Tierra (Ing. Colegiado)',
-            icono: '⚡',
-            clase: 'bg-amber-50 text-amber-900 border-amber-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-06' || cod === 'CRIT-14A' || texto.includes('tablero') || texto.includes('mandil') || texto.includes('diferencial')) {
-        return {
-            texto: 'Técnico o Ing. Electricista (Tableros)',
-            icono: '⚡',
-            clase: 'bg-amber-50 text-amber-900 border-amber-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-07' || texto.includes('cable') || texto.includes('canaleta') || texto.includes('conduit') || texto.includes('mellizo')) {
-        return {
-            texto: 'Técnico Electricista (Canalización)',
-            icono: '⚡',
-            clase: 'bg-amber-50 text-amber-900 border-amber-200/90',
-        };
-    }
-
-    if (cod === 'CRIT-08' || texto.includes('luces de emergencia') || texto.includes('luz de emergencia')) {
-        return {
-            texto: 'Instalación de Luces de Emergencia (Técnico)',
-            icono: '💡',
-            clase: 'bg-amber-50 text-amber-900 border-amber-200/90',
-        };
-    }
-
-    // 5. GAS / GLP
-    if (cod === 'CRIT-10' || texto.includes('glp') || texto.includes('gas') || texto.includes('caldero')) {
-        return {
-            texto: 'Técnico Especialista en GLP / Osinergmin',
-            icono: '🔥',
-            clase: 'bg-orange-50 text-orange-900 border-orange-200/90',
-        };
-    }
-
-    // 6. ESTRUCTURAL
-    if (cod === 'CRIT-13' || texto.includes('estanter') || texto.includes('anclaje') || texto.includes('mobiliario') || texto.includes('volteo')) {
-        return {
-            texto: 'Adecuación Estructural / Anclaje Antisísmico',
-            icono: '🔨',
-            clase: 'bg-slate-100 text-slate-800 border-slate-200/90',
-        };
-    }
-
-    return {
-        texto: 'Especialista Técnico Calificado',
-        icono: '🔧',
-        clase: 'bg-slate-100 text-slate-700 border-slate-200/90',
-    };
-}
-
-/**
- * Determina la clave de especialidad del Directorio Cívico para pre-filtrar aliados.
- */
-function obtenerEspecialidadDirectorio(codigo: string, titulo: string, queObservar?: string): string {
-    const cod = (codigo || '').toUpperCase().trim();
-    const texto = ((titulo || '') + ' ' + (queObservar || '')).toLowerCase();
-
-    if (cod === 'CRIT-01' || cod === 'CRIT-02' || cod === 'CRIT-02A' || texto.includes('extintor') || texto.includes('incendio')) {
-        return 'incendios';
-    }
-
-    if (
-        cod === 'CRIT-05' ||
-        cod === 'CRIT-06' ||
-        cod === 'CRIT-07' ||
-        cod === 'CRIT-08' ||
-        cod === 'CRIT-14' ||
-        cod === 'CRIT-14A' ||
-        texto.includes('pozo') ||
-        texto.includes('puesta a tierra') ||
-        texto.includes('tablero') ||
-        texto.includes('electr') ||
-        texto.includes('luz de emergencia') ||
-        texto.includes('luces de emergencia')
-    ) {
-        return 'electricas';
-    }
-
-    if (cod === 'CRIT-10' || texto.includes('gas') || texto.includes('glp') || texto.includes('calder')) {
-        return 'gas';
-    }
-
-    if (
-        cod === 'CRIT-13' ||
-        cod === 'CRIT-15' ||
-        texto.includes('vidrio') ||
-        texto.includes('estanter') ||
-        texto.includes('anclaje') ||
-        texto.includes('estructur')
-    ) {
-        return 'estructuras';
-    }
-
-    return 'arquitectura_senaletica';
-}
-
-interface AccionCorrectivaOficial {
-    norma: string;
-    solucionTecnica: string;
-    requerimientoProfesional?: string;
-}
-
-const ACCIONES_POR_CODIGO: Record<string, AccionCorrectivaOficial> = {
-    'CRIT-04': {
-        norma: 'RNE A.130 Arts. 5 y 6 / RNE A.010 Art. 26',
-        solucionTecnica:
-            'Acondicionar las puertas utilizadas como medios de evacuación para que abran en el sentido del flujo de los evacuantes o permanezcan abiertas en horario de atención, sin pestillos, candados ni trabas que obstruyan la libre salida.',
-        requerimientoProfesional: 'Técnico cerrajero / Administrador del local',
-    },
-    'CRIT-11': {
-        norma: 'RNE A.010 (Arts. 23 al 31) y RNE A.130 Art. 16',
-        solucionTecnica:
-            'Colocar pasamanos a ambos lados en escaleras de evacuación (ancho 1.20 m a 2.40 m) e instalar bandas o acabados antideslizantes de alto tránsito en los peldaños.',
-        requerimientoProfesional: 'Contratista de acabados / Carpintería metálica',
-    },
-    'CRIT-06': {
-        norma: 'CNE-U 020.202.1, 070.302 y 020.132 / Reglas 080.010 y 150.400',
-        solucionTecnica:
-            'Instalar placa de protección (mandil) para cubrir conexiones internas, sellar espacios de reserva con tapas ciegas e instalar interruptores diferenciales (30 mA) en todos los circuitos derivados.',
-        requerimientoProfesional: 'Técnico Electricista calificado o Ing. Electricista colegiado',
-    },
-    'CRIT-02B': {
-        norma: 'NTP 399.010-1 y RNE A.130 Art. 39',
-        solucionTecnica:
-            'Implementar señalización de seguridad fotoluminiscente normalizada (direccionales de salida, zona segura en caso de sismo, riesgo eléctrico y ubicación de extintores).',
-        requerimientoProfesional: 'Proveedor de señalética de seguridad / Administrador',
-    },
-    'CRIT-01': {
-        norma: 'NTP 350.043-1 / RNE A.130 Art. 163',
-        solucionTecnica:
-            'Efectuar recarga o mantenimiento preventivo anual con empresa autorizada de extintores, comprobar manómetro en franja verde y fijar el equipo a una altura máxima de 1.50 m con tarjeta de control vigente y señalética superior visible.',
-        requerimientoProfesional: 'Empresa autorizada de mantenimiento y recarga de extintores',
-    },
-    'CRIT-02A': {
-        norma: 'RNE A.130 Art. 165 / NTP 350.043-1 num. 8.1.4',
-        solucionTecnica:
-            'Instalar un extintor de Acetato de Potasio (Clase K) a no más de 9 metros de los equipos de fritura o cocción comercial con aceites, con tarjeta de control y mantenimiento vigente por empresa recargadora autorizada.',
-        requerimientoProfesional: 'Proveedor acreditado de extintores Clase K',
-    },
-    'CRIT-03': {
-        norma: 'RNE Norma A.010 Art. 25 / RNE Norma A.130 Art. 22',
-        solucionTecnica:
-            'Despejar completamente los pasadizos de circulación interna y rutas de evacuación hacia la salida, asegurando un ancho libre continuo mínimo de 1.20 m sin fardos, cajas de mercadería ni mobiliario.',
-        requerimientoProfesional: 'Administrador del local / Personal del establecimiento',
-    },
-    'CRIT-05': {
-        norma: 'CNE Utilización Regla 060.712 / R.J. N° 016-2018 Anexo 4',
-        solucionTecnica:
-            'Ejecutar mantenimiento preventivo al sistema de puesta a tierra y obtener el Certificado de Medición de Resistencia (≤ 25 Ω) con vigencia no mayor a 1 año, suscrito por Ingeniero Electricista o Mecánico-Electricista colegiado y habilitado.',
-        requerimientoProfesional: 'Ingeniero Electricista o Mecánico-Electricista Colegiado',
-    },
-    'CRIT-07': {
-        norma: 'CNE Utilización Reglas 010.010 y 070.300',
-        solucionTecnica:
-            'Erradicar el uso de cables mellizos expuestos y reemplazarlos por conductores no propagadores de llama (NH-80 o THHN) debidamente entubados en conduit PVC pesado o canaletas con tapa y cajas de paso cerradas.',
-        requerimientoProfesional: 'Técnico Electricista calificado',
-    },
-    'CRIT-08': {
-        norma: 'RNE Norma A.130 Art. 40 / CNE Utilización Regla 240.202',
-        solucionTecnica:
-            'Instalar equipos autónomos de alumbrado de emergencia de 2 faros LED con batería recargable que garantice al menos 90 minutos de autonomía, conectados permanentemente al circuito de iluminación de la zona en pasadizos, escaleras y puertas de salida.',
-        requerimientoProfesional: 'Técnico electricista calificado',
-    },
-    'CRIT-10': {
-        norma: 'D.S. N° 027-94-EM Arts. 45 y 48 / NTP 321.123',
-        solucionTecnica:
-            'Ubicar balones de gas GLP en lugares ventilados a nivel del terreno (terminantemente prohibidos en sótanos o semisótanos), alejados a más de 0.50 m de tomacorrientes e interruptores eléctricos. Emplear reguladores y mangueras con certificación técnica para GLP.',
-        requerimientoProfesional: 'Instalador de gas registrado / Técnico calificado',
-    },
-    'CRIT-13': {
-        norma: 'RNE Norma E.030 Cap. 9 (Elementos No Estructurales)',
-        solucionTecnica:
-            'Efectuar anclaje mecánico rígido de estanterías, vitrinas y racks con altura mayor a 1.80 m fijándolos a muros portantes o losa mediante escuadras metálicas o pernos de expansión para prevenir colapso sísmico sobre pasadizos.',
-        requerimientoProfesional: 'Técnico de montaje y adecuación estructural',
-    },
-    'CRIT-14A': {
-        norma: 'CNE Utilización Regla 020.024',
-        solucionTecnica:
-            'Garantizar un espacio de trabajo frontal continuo de al menos 1.00 metro de profundidad y ancho libre frente al tablero eléctrico, retirando cualquier mercadería o material combustible.',
-        requerimientoProfesional: 'Administrador del local / Personal del establecimiento',
-    },
-};
-
-interface ReglaFallback {
-    coincide: (texto: string) => boolean;
-    accion: AccionCorrectivaOficial;
-}
-
-const REGLAS_FALLBACK: ReglaFallback[] = [
-    {
-        coincide: (t) => t.includes('puerta') && (t.includes('evacuac') || t.includes('traba') || t.includes('candado')),
-        accion: ACCIONES_POR_CODIGO['CRIT-04'],
-    },
-    {
-        coincide: (t) => t.includes('escalera') && (t.includes('pasamano') || t.includes('peldaño') || t.includes('antideslizante')),
-        accion: ACCIONES_POR_CODIGO['CRIT-11'],
-    },
-    {
-        coincide: (t) => t.includes('mandil') || (t.includes('tablero') && t.includes('diferencial')),
-        accion: ACCIONES_POR_CODIGO['CRIT-06'],
-    },
-    {
-        coincide: (t) => t.includes('señal') && (t.includes('evacuac') || t.includes('fotoluminiscente') || t.includes('salida')),
-        accion: ACCIONES_POR_CODIGO['CRIT-02B'],
-    },
-    {
-        coincide: (t) => t.includes('extintor') && !t.includes('clase k') && !t.includes('fritura'),
-        accion: ACCIONES_POR_CODIGO['CRIT-01'],
-    },
-    {
-        coincide: (t) => t.includes('clase k') || t.includes('fritura') || t.includes('aceite'),
-        accion: ACCIONES_POR_CODIGO['CRIT-02A'],
-    },
-    {
-        coincide: (t) => t.includes('pasadizo') || (t.includes('ruta') && t.includes('evacuac')),
-        accion: ACCIONES_POR_CODIGO['CRIT-03'],
-    },
-    {
-        coincide: (t) => t.includes('pozo') || t.includes('puesta a tierra') || t.includes('resistencia'),
-        accion: ACCIONES_POR_CODIGO['CRIT-05'],
-    },
-    {
-        coincide: (t) => t.includes('cable mellizo') || t.includes('mellizo') || t.includes('canaliz') || t.includes('conduit'),
-        accion: ACCIONES_POR_CODIGO['CRIT-07'],
-    },
-    {
-        coincide: (t) => t.includes('luz de emergencia') || t.includes('luces de emergencia'),
-        accion: ACCIONES_POR_CODIGO['CRIT-08'],
-    },
-    {
-        coincide: (t) => t.includes('glp') || t.includes('balón') || t.includes('gas') || t.includes('caldero'),
-        accion: ACCIONES_POR_CODIGO['CRIT-10'],
-    },
-    {
-        coincide: (t) => t.includes('estanter') || t.includes('anclaje') || t.includes('volteo') || t.includes('rack'),
-        accion: ACCIONES_POR_CODIGO['CRIT-13'],
-    },
-    {
-        coincide: (t) => t.includes('espacio libre') && t.includes('tablero'),
-        accion: ACCIONES_POR_CODIGO['CRIT-14A'],
-    },
-];
-
-/**
- * Provee la solución técnica oficial y normativa (D.S. N° 002-2018-PCM / R.J. N° 016-2018-CENEPRED / RNE / CNE)
- * para cada no-conformidad detectada.
- */
-function obtenerAccionCorrectivaOficial(codigo: string, titulo: string, queObservar?: string, accionBase?: string): AccionCorrectivaOficial {
-    const cod = (codigo || '').toUpperCase().trim();
-
-    if (cod && ACCIONES_POR_CODIGO[cod]) {
-        return ACCIONES_POR_CODIGO[cod];
-    }
-
-    const texto = ((titulo || '') + ' ' + (queObservar || '') + ' ' + (accionBase || '')).toLowerCase();
-    const coincidencia = REGLAS_FALLBACK.find((r) => r.coincide(texto));
-
-    if (coincidencia) {
-        return coincidencia.accion;
-    }
-
-    return {
-        norma: 'D.S. N° 002-2018-PCM / Manual CENEPRED',
-        solucionTecnica: accionBase || 'Implementar la adecuación física y documental conforme a las especificaciones técnicas del Manual CENEPRED.',
-        requerimientoProfesional: 'Responsable técnico del establecimiento',
-    };
-}
 
 interface EstimacionItem {
     codigo: string;
@@ -652,48 +300,6 @@ function formatearFechaEmisionHero(registradaAt?: string | null): string | undef
     return fechaLarga(registradaAt) ?? undefined;
 }
 
-interface AccionesSolucionCriterioProps {
-    asistencia?: CriterioAsistencia | null;
-    codigoCriterio?: string;
-    tituloCriterio?: string;
-    queObservar?: string;
-    onAbrirAsistencia: (asistencia: CriterioAsistencia) => void;
-}
-
-function AccionesSolucionCriterio({
-    asistencia,
-    codigoCriterio,
-    tituloCriterio,
-    queObservar,
-    onAbrirAsistencia,
-}: Readonly<AccionesSolucionCriterioProps>) {
-    const tieneAliados = Boolean(asistencia && Array.isArray(asistencia.aliados) && asistencia.aliados.length > 0);
-    const especialidadSlug = obtenerEspecialidadDirectorio(codigoCriterio || '', tituloCriterio || '', queObservar);
-
-    return (
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
-            {tieneAliados && asistencia && (
-                <button
-                    type="button"
-                    onClick={() => onAbrirAsistencia(asistencia)}
-                    className="bg-primary hover:bg-primary-700 inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-bold text-white shadow-2xs transition-colors"
-                >
-                    <Wrench className="h-3.5 w-3.5" />
-                    <span>Ver especialistas sugeridos</span>
-                </button>
-            )}
-            <Link
-                href={route('directorio.index', { especialidad: especialidadSlug })}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
-                title="Explorar especialistas habilitados para este rubro en el Directorio Cívico"
-            >
-                <Store className="h-3.5 w-3.5 text-slate-500" />
-                <span>Ver en Directorio</span>
-            </Link>
-        </div>
-    );
-}
-
 interface BarraFlujoSuperiorResumenProps {
     mostrarBotonGuardar: boolean;
     onAbrirGuardar: () => void;
@@ -726,185 +332,6 @@ function BarraFlujoSuperiorResumen({ mostrarBotonGuardar, onAbrirGuardar }: Read
     );
 }
 
-type CriterioPendienteItem = NonNullable<ResumenProps['pendiente_atender']>[number];
-
-interface TarjetaCriterioPendienteProps {
-    item: CriterioPendienteItem;
-    uuid?: string;
-    onAbrirRecurso: (item: { codigo: string; titulo: string; recursos_educativos?: RecursoEducativoData[] }) => void;
-    onAbrirAsistencia: (asistencia: CriterioAsistencia) => void;
-}
-
-function TarjetaCriterioPendiente({ item, uuid, onAbrirRecurso, onAbrirAsistencia }: Readonly<TarjetaCriterioPendienteProps>) {
-    const tag = obtenerTagEspecialista(item.codigo, item.titulo, item.que_observar);
-    const accionOficial = obtenerAccionCorrectivaOficial(item.codigo, item.titulo, item.que_observar, item.accion_mejora_orientativa);
-
-    return (
-        <div className="space-y-4 rounded-3xl border border-slate-200/90 bg-white p-5 shadow-xs sm:p-6">
-            {/* Cabecera del Criterio con Tag de Especialista */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-sm font-bold text-slate-900">
-                        {item.codigo}
-                    </span>
-                    <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-sm font-semibold shadow-2xs ${tag.clase}`}
-                    >
-                        <span>{tag.icono}</span>
-                        <span>{tag.texto}</span>
-                    </span>
-                </div>
-
-                {(item.norma_base || item.articulo_referencia) && (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600">
-                        {item.norma_base}
-                        {item.articulo_referencia && ` (${item.articulo_referencia})`}
-                    </span>
-                )}
-            </div>
-
-            <h3 className="text-sm font-bold text-slate-900 sm:text-base">{item.titulo}</h3>
-
-            {item.que_observar && (
-                <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-3.5 text-sm text-slate-700">
-                    <strong className="mb-1 block font-bold text-slate-900">Qué observar en el establecimiento:</strong>
-                    {item.que_observar}
-                </div>
-            )}
-
-            {item.accion_mejora_orientativa && (
-                <div className="bg-warning-700/5 rounded-2xl border border-[#FF9500]/25 p-3.5 text-sm text-slate-800">
-                    <strong className="text-warning-800 mb-1 block font-bold">Acción de corrección prioritaria:</strong>
-                    {item.accion_mejora_orientativa}
-                </div>
-            )}
-
-            {/* Solución Técnica Oficial según CENEPRED / RNE / CNE con Acordeón interactivo */}
-            <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="solucion-tecnica" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-4">
-                    <AccordionTrigger className="py-3 text-sm font-bold text-slate-900 hover:no-underline">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-warning-700/10 text-warning-800 flex h-6 w-6 items-center justify-center rounded-lg">
-                                <Wrench className="h-3.5 w-3.5" />
-                            </div>
-                            <span>Orientación Técnica Normativa (CENEPRED / RNE)</span>
-                            <span className="ml-2 rounded-full border border-slate-200 bg-white px-2 py-0.5 font-mono text-sm text-slate-600">
-                                {accionOficial.norma}
-                            </span>
-                        </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="pt-1 pb-3 text-sm text-slate-700">
-                        <p className="leading-relaxed font-normal">{accionOficial.solucionTecnica}</p>
-                        {accionOficial.requerimientoProfesional && (
-                            <div className="mt-2.5 flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2.5 text-sm text-slate-600">
-                                <span className="font-semibold text-slate-900">Responsable recomendado:</span>
-                                <span className="text-warning-800 font-medium">{accionOficial.requerimientoProfesional}</span>
-                            </div>
-                        )}
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-
-            <CajaNotasSubsanacion
-                codigo={item.codigo}
-                uuid={uuid}
-                notaInicial={item.notas}
-                placeholder="Escribe recordatorios de subsanación (ej. contacto del técnico, cotización, fecha de reparación)..."
-            />
-
-            {/* Botonera de Asistencia y Recursos */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
-                {item.recursos_educativos && item.recursos_educativos.length > 0 ? (
-                    <button
-                        type="button"
-                        onClick={() => onAbrirRecurso(item)}
-                        className="hover:text-success-800 inline-flex cursor-pointer items-center gap-1.5 text-sm font-bold text-slate-700 transition-colors"
-                    >
-                        <BookOpen className="text-success-800 h-3.5 w-3.5" />
-                        <span>Guía pedagógica ({item.recursos_educativos.length})</span>
-                    </button>
-                ) : (
-                    <span />
-                )}
-
-                <AccionesSolucionCriterio
-                    asistencia={item.asistencia_tecnica}
-                    codigoCriterio={item.codigo}
-                    tituloCriterio={item.titulo}
-                    queObservar={item.que_observar}
-                    onAbrirAsistencia={onAbrirAsistencia}
-                />
-            </div>
-        </div>
-    );
-}
-
-interface SeccionPlanSubsanacionProps {
-    pendienteAtender: CriterioPendienteItem[];
-    totalPendienteAtender: number;
-    uuid?: string;
-    onAbrirRecurso: (item: { codigo: string; titulo: string; recursos_educativos?: RecursoEducativoData[] }) => void;
-    onAbrirAsistencia: (asistencia: CriterioAsistencia) => void;
-}
-
-function SeccionPlanSubsanacion({
-    pendienteAtender,
-    totalPendienteAtender,
-    uuid,
-    onAbrirRecurso,
-    onAbrirAsistencia,
-}: Readonly<SeccionPlanSubsanacionProps>) {
-    return (
-        <section aria-labelledby="subsanacion-title" className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                    <div className="bg-warning-700/10 text-warning-800 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl">
-                        <AlertTriangle className="h-5 w-5" />
-                    </div>
-                    <div>
-                        <h2 id="subsanacion-title" className="text-base font-bold text-slate-900 sm:text-lg">
-                            Plan de Subsanación Preventiva
-                        </h2>
-                        <p className="text-sm text-slate-500">Criterios que presentan observaciones técnicas para subsanar antes de la inspección.</p>
-                    </div>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="bg-warning-700/10 text-warning-800 rounded-full border border-[#FF9500]/25 px-3.5 py-1 text-sm font-bold">
-                        {totalPendienteAtender} observaciones
-                    </span>
-                    <Link
-                        href={route('directorio.index')}
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
-                    >
-                        <Store className="h-3.5 w-3.5 text-slate-500" />
-                        <span>Directorio</span>
-                    </Link>
-                </div>
-            </div>
-
-            {pendienteAtender.length === 0 ? (
-                <div className="bg-success-700/5 space-y-2 rounded-2xl border border-[#34C759]/20 p-6 text-center">
-                    <CheckCircle2 className="text-success-800 mx-auto h-8 w-8" />
-                    <p className="text-sm font-bold text-slate-900">¡Sin observaciones críticas pendientes!</p>
-                    <p className="text-sm text-slate-600">No declaraste condiciones en estado pendiente de atención preventiva.</p>
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    {pendienteAtender.map((item) => (
-                        <TarjetaCriterioPendiente
-                            key={item.codigo}
-                            item={item}
-                            uuid={uuid}
-                            onAbrirRecurso={onAbrirRecurso}
-                            onAbrirAsistencia={onAbrirAsistencia}
-                        />
-                    ))}
-                </div>
-            )}
-        </section>
-    );
-}
-
 interface SeccionEstimadorEconomicoProps {
     pendienteAtenderCount: number;
     estimacionEconomica: ReturnType<typeof calcularEstimacionEconomica>;
@@ -920,16 +347,11 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                     </div>
                     <div>
                         <h2 id="estimador-economico-title" className="text-base font-bold text-slate-900 sm:text-lg">
-                            Estimación de Inversión Preventiva vs. Sanción Municipal
+                            Corregirlo ahora cuesta mucho menos que una multa
                         </h2>
-                        <p className="text-sm text-slate-500">
-                            Comparativa económica de subsanación técnica local frente al Régimen de Aplicación de Sanciones (RAS Huancayo).
-                        </p>
+                        <p className="text-sm text-slate-500">Precios referenciales en Huancayo frente a la multa municipal por no cumplir.</p>
                     </div>
                 </div>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-mono text-sm font-semibold text-slate-600">
-                    CUIS / Ley N° 27972
-                </span>
             </div>
 
             {pendienteAtenderCount === 0 ? (
@@ -989,7 +411,7 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
 
                     {/* Desglose individual de costos por criterio observado */}
                     <div className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                        <span className="block text-sm font-bold text-slate-800">Desglose orientativo por criterio observado:</span>
+                        <span className="block text-sm font-bold text-slate-800">Cuánto cuesta cada cosa:</span>
                         <div className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
                             {estimacionEconomica.items.map((it) => (
                                 <div
@@ -997,13 +419,7 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
                                     className="flex items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-white p-2.5 shadow-2xs"
                                 >
                                     <div className="min-w-0">
-                                        <span className="mr-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-sm font-bold text-slate-900">
-                                            {it.codigo}
-                                        </span>
-                                        <span
-                                            className="inline-block max-w-[170px] truncate align-middle text-sm text-slate-700 sm:max-w-[190px]"
-                                            title={it.rubro}
-                                        >
+                                        <span className="text-sm text-slate-700" title={it.rubro}>
                                             {it.rubro}
                                         </span>
                                     </div>
@@ -1031,139 +447,6 @@ function SeccionEstimadorEconomico({ pendienteAtenderCount, estimacionEconomica 
     );
 }
 
-type CriterioPorRevisarItem = NonNullable<ResumenProps['por_revisar']>[number];
-
-interface TarjetaCriterioPorRevisarProps {
-    item: CriterioPorRevisarItem;
-    uuid?: string;
-    onAbrirRecurso: (item: { codigo: string; titulo: string; recursos_educativos?: RecursoEducativoData[] }) => void;
-    onAbrirAsistencia: (asistencia: CriterioAsistencia) => void;
-}
-
-function TarjetaCriterioPorRevisar({ item, uuid, onAbrirRecurso, onAbrirAsistencia }: Readonly<TarjetaCriterioPorRevisarProps>) {
-    const tag = obtenerTagEspecialista(item.codigo, item.titulo, item.que_observar);
-
-    return (
-        <div className="space-y-4 rounded-3xl border border-slate-200/90 bg-white p-5 shadow-xs sm:p-6">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-1 font-mono text-sm font-bold text-slate-900">
-                        {item.codigo}
-                    </span>
-                    <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-0.5 text-sm font-semibold shadow-2xs ${tag.clase}`}
-                    >
-                        <span>{tag.icono}</span>
-                        <span>{tag.texto}</span>
-                    </span>
-                </div>
-                {item.norma_base && (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600">
-                        {item.norma_base}
-                    </span>
-                )}
-            </div>
-
-            <h3 className="text-sm font-bold text-slate-900 sm:text-base">{item.titulo}</h3>
-
-            {item.orientacion && (
-                <div className="rounded-2xl border border-sky-200/70 bg-sky-50/70 p-3.5 text-sm text-sky-950">
-                    <strong className="mb-1 block font-bold text-sky-900">Orientación para la verificación:</strong>
-                    {item.orientacion}
-                </div>
-            )}
-
-            <CajaNotasSubsanacion
-                codigo={item.codigo}
-                uuid={uuid}
-                notaInicial={item.notas}
-                placeholder="Escribe recordatorios para la verificación (ej. inspección pendiente con el especialista, fecha de visita)..."
-            />
-
-            <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
-                {item.recursos_educativos && item.recursos_educativos.length > 0 ? (
-                    <button
-                        type="button"
-                        onClick={() => onAbrirRecurso(item)}
-                        className="inline-flex cursor-pointer items-center gap-1.5 text-sm font-bold text-slate-700 transition-colors hover:text-sky-700"
-                    >
-                        <BookOpen className="h-3.5 w-3.5 text-sky-600" />
-                        <span>Material técnico ({item.recursos_educativos.length})</span>
-                    </button>
-                ) : (
-                    <span />
-                )}
-
-                <AccionesSolucionCriterio
-                    asistencia={item.asistencia_tecnica}
-                    codigoCriterio={item.codigo}
-                    tituloCriterio={item.titulo}
-                    queObservar={item.que_observar}
-                    onAbrirAsistencia={onAbrirAsistencia}
-                />
-            </div>
-        </div>
-    );
-}
-
-interface SeccionPorRevisarProps {
-    porRevisar: CriterioPorRevisarItem[];
-    totalPorRevisar: number;
-    uuid?: string;
-    onAbrirRecurso: (item: { codigo: string; titulo: string; recursos_educativos?: RecursoEducativoData[] }) => void;
-    onAbrirAsistencia: (asistencia: CriterioAsistencia) => void;
-}
-
-function SeccionPorRevisar({ porRevisar, totalPorRevisar, uuid, onAbrirRecurso, onAbrirAsistencia }: Readonly<SeccionPorRevisarProps>) {
-    return (
-        <section aria-labelledby="por-revisar-title" className="space-y-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-                        <HelpCircle className="h-5 w-5" />
-                    </div>
-                    <div>
-                        <h2 id="por-revisar-title" className="text-base font-bold text-slate-900 sm:text-lg">
-                            Aspectos con Verificación Pendiente
-                        </h2>
-                        <p className="text-sm text-slate-500">Condiciones que requieren corroboración con un especialista calificado.</p>
-                    </div>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full border border-sky-200 bg-sky-50 px-3.5 py-1 text-sm font-bold text-sky-800">
-                        {totalPorRevisar} por verificar
-                    </span>
-                    <Link
-                        href={route('directorio.index')}
-                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
-                    >
-                        <Store className="h-3.5 w-3.5 text-slate-500" />
-                        <span>Directorio</span>
-                    </Link>
-                </div>
-            </div>
-
-            {porRevisar.length === 0 ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500 italic">
-                    No hay condiciones con verificación pendiente.
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    {porRevisar.map((item) => (
-                        <TarjetaCriterioPorRevisar
-                            key={item.codigo}
-                            item={item}
-                            uuid={uuid}
-                            onAbrirRecurso={onAbrirRecurso}
-                            onAbrirAsistencia={onAbrirAsistencia}
-                        />
-                    ))}
-                </div>
-            )}
-        </section>
-    );
-}
-
 interface SeccionPuntosFuertesProps {
     cumpleDeclarado: NonNullable<ResumenProps['cumple_declarado']>;
     totalCumpleDeclarado: number;
@@ -1179,7 +462,7 @@ function SeccionPuntosFuertes({ cumpleDeclarado, totalCumpleDeclarado }: Readonl
                     </div>
                     <div>
                         <h2 id="cumple-title" className="text-base font-bold text-slate-900 sm:text-lg">
-                            Puntos Fuertes del Establecimiento
+                            Lo que tu local ya tiene bien
                         </h2>
                         <p className="text-sm text-slate-500">Condiciones de seguridad que tu local ya cumple satisfactoriamente.</p>
                     </div>
@@ -1202,9 +485,6 @@ function SeccionPuntosFuertes({ cumpleDeclarado, totalCumpleDeclarado }: Readonl
                         >
                             <div className="space-y-1.5">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-0.5 font-mono text-sm font-bold text-slate-900">
-                                        {item.codigo}
-                                    </span>
                                     <span className="bg-success-700/10 text-success-800 inline-flex items-center gap-1 rounded-full border border-[#34C759]/25 px-2.5 py-0.5 text-sm font-bold">
                                         <Check className="h-3 w-3 stroke-[3]" />
                                         Cumple declarado
@@ -1225,10 +505,9 @@ interface SeccionModalidadTramiteProps {
     modalidadTramite: ReturnType<typeof resolverModalidadTramite>;
     esModalidadExAnte: boolean;
     uuid: string;
-    onAbrirHojaModelo: () => void;
 }
 
-function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, onAbrirHojaModelo }: Readonly<SeccionModalidadTramiteProps>) {
+function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid }: Readonly<SeccionModalidadTramiteProps>) {
     if (!modalidadTramite) return null;
 
     return (
@@ -1293,7 +572,6 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     <CheckCircle2 className="h-3 w-3 text-emerald-700" />
                                     El más importante
                                 </span>
-                                <span className="font-mono text-sm font-bold text-emerald-700">D.S. 002-2018-PCM</span>
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold text-emerald-950">Declaración Jurada ITSE (Anexo 4)</h4>
@@ -1310,14 +588,6 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                 <FileText className="h-3.5 w-3.5" />
                                 <span>Descargar Declaración Jurada (Anexo 4)</span>
                             </a>
-                            <button
-                                type="button"
-                                onClick={onAbrirHojaModelo}
-                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-emerald-400 bg-white px-3.5 py-2 text-sm font-bold text-emerald-950 shadow-2xs transition hover:bg-emerald-50"
-                            >
-                                <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-                                <span>Cómo llenarla, paso a paso</span>
-                            </button>
                         </div>
 
                         <a
@@ -1352,7 +622,6 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     <FileCheck className="h-3 w-3 text-sky-700" />
                                     El más importante
                                 </span>
-                                <span className="font-mono text-sm font-bold text-sky-700">ITSE Previa</span>
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold text-sky-950">Solicitud de ITSE Previa (Anexo 9)</h4>
@@ -1369,14 +638,6 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                 <ClipboardList className="h-3.5 w-3.5" />
                                 <span>Descargar Solicitud de ITSE Previa (Anexo 9)</span>
                             </a>
-                            <button
-                                type="button"
-                                onClick={onAbrirHojaModelo}
-                                className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-sky-400 bg-white px-3.5 py-2 text-sm font-bold text-sky-950 shadow-2xs transition hover:bg-sky-50"
-                            >
-                                <Sparkles className="h-3.5 w-3.5 text-sky-600" />
-                                <span>Cómo llenarla, paso a paso</span>
-                            </button>
                         </div>
 
                         {/* Tarjeta de Checklist de Requisitos del Expediente Técnico */}
@@ -1386,7 +647,6 @@ function SeccionModalidadTramite({ modalidadTramite, esModalidadExAnte, uuid, on
                                     <Files className="h-3.5 w-3.5 text-slate-600" />
                                     Expediente Técnico Requerido (ITSE Previa)
                                 </h4>
-                                <span className="font-mono text-sm font-bold text-slate-500">D.S. 002-2018-PCM</span>
                             </div>
                             <p className="text-sm leading-tight text-slate-600">
                                 Para admitir a trámite su solicitud de ITSE Previa en Mesa de Partes (Huancayo), debe adjuntar la documentación
@@ -1491,46 +751,6 @@ function SeccionCaracteristicasDeclaradas({ caracteristicasDeclaradas }: Readonl
                                 </div>
                             ))}
                         </dl>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </section>
-    );
-}
-
-interface SeccionCondicionesNoAplicablesProps {
-    noAplica: NonNullable<ResumenProps['no_aplica']>;
-}
-
-function SeccionCondicionesNoAplicables({ noAplica }: Readonly<SeccionCondicionesNoAplicablesProps>) {
-    if (noAplica.length === 0) return null;
-
-    return (
-        <section aria-label="Condiciones no aplicables">
-            <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="no-aplica" className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xs">
-                    <AccordionTrigger className="px-5 py-4 text-left hover:no-underline">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
-                                <ShieldAlert className="h-4 w-4" />
-                            </div>
-                            <div>
-                                <h3 className="text-sm font-bold text-slate-700">Condiciones No Aplicables ({noAplica.length})</h3>
-                                <p className="text-sm font-normal text-slate-400">Descartadas automáticamente por reglas del sistema.</p>
-                            </div>
-                        </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="space-y-2.5 border-t border-slate-100 bg-slate-50/50 p-5">
-                        {noAplica.map((item) => (
-                            <div key={item.codigo} className="space-y-1 rounded-2xl border border-slate-200 bg-white p-3 text-sm">
-                                <div className="flex items-center justify-between">
-                                    <span className="font-mono text-sm font-bold text-slate-800">{item.codigo}</span>
-                                    <span className="text-sm text-slate-400">Excluido por motor</span>
-                                </div>
-                                <p className="font-semibold text-slate-800">{item.titulo}</p>
-                                <p className="text-sm text-slate-500 italic">Razón: {item.motivo}</p>
-                            </div>
-                        ))}
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
@@ -1827,28 +1047,15 @@ export default function Resumen({
     pendiente_atender = [],
     por_revisar = [],
     cumple_declarado = [],
-    no_aplica = [],
-    desglose_especialidades = null,
     clasificacion_tramite = null,
     corregidas = 0,
 }: Readonly<ResumenProps>) {
     const { auth } = usePage().props as { auth?: { user: { id?: number; name?: string; email?: string; [key: string]: unknown } | null } };
     const [mostrarModalGuardar, setMostrarModalGuardar] = useState<boolean>(false);
     const [mostrarModalConfirmacion, setMostrarModalConfirmacion] = useState<boolean>(false);
-    const [modalRecurso, setModalRecurso] = useState<{
-        isOpen: boolean;
-        recursos: RecursoEducativoData[];
-        codigo?: string;
-        titulo?: string;
-    }>({
-        isOpen: false,
-        recursos: [],
-    });
     const [finalizando, setFinalizando] = useState<boolean>(false);
     const [errorFinalizar, setErrorFinalizar] = useState<string | null>(null);
     const [pendientesFinalizar, setPendientesFinalizar] = useState<FinalizarPendiente[]>([]);
-    const [criterioSeleccionadoParaAsistencia, setCriterioSeleccionadoParaAsistencia] = useState<CriterioAsistencia | null>(null);
-    const [modalHojaModeloAbierto, setModalHojaModeloAbierto] = useState<boolean>(false);
 
     const triggerRef = useRef<HTMLElement | null>(null);
     const modalRef = useRef<HTMLDivElement | null>(null);
@@ -1902,19 +1109,6 @@ export default function Resumen({
     const esModalidadExAnte = useMemo(() => determinarEsModalidadExAnte(clasificacion_tramite, esRiesgoAlto), [clasificacion_tramite, esRiesgoAlto]);
 
     const estimacionEconomica = useMemo(() => calcularEstimacionEconomica(pendiente_atender), [pendiente_atender]);
-
-    const abrirRecurso = (item: { codigo: string; titulo: string; recursos_educativos?: RecursoEducativoData[] }) => {
-        setModalRecurso({
-            isOpen: true,
-            recursos: item.recursos_educativos || [],
-            codigo: item.codigo,
-            titulo: item.titulo,
-        });
-    };
-
-    const abrirAsistencia = (asistencia: CriterioAsistencia) => {
-        setCriterioSeleccionadoParaAsistencia(asistencia);
-    };
 
     const cerrarModalConfirmacion = () => {
         if (!finalizando) {
@@ -2019,8 +1213,8 @@ export default function Resumen({
                     <details className="group rounded-3xl border border-slate-200 bg-white">
                         <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 sm:px-8 [&::-webkit-details-marker]:hidden">
                             <span>
-                                <span className="font-display block text-xl font-bold text-slate-900 sm:text-2xl">Ver detalle técnico</span>
-                                <span className="block text-base text-slate-600">Tu tipo de trámite, documentos, base legal y costos.</span>
+                                <span className="font-display block text-xl font-bold text-slate-900 sm:text-2xl">Más detalles de tu trámite</span>
+                                <span className="block text-base text-slate-600">Qué trámite te toca, qué documentos llevar y cuánto cuesta.</span>
                             </span>
                             <span className="bg-ink-900 flex size-10 shrink-0 items-center justify-center rounded-full text-xl font-bold text-white transition group-open:rotate-45">
                                 +
@@ -2045,46 +1239,7 @@ export default function Resumen({
                                         modalidadTramite={modalidadTramite}
                                         esModalidadExAnte={esModalidadExAnte}
                                         uuid={autoevaluacion.uuid}
-                                        onAbrirHojaModelo={() => setModalHojaModeloAbierto(true)}
                                     />
-                                </TabsContent>
-
-                                <TabsContent value="falta" className="space-y-5 focus-visible:outline-hidden">
-                                    {pendiente_atender.length === 0 && por_revisar.length === 0 ? (
-                                        <p className="rounded-2xl bg-slate-50 p-6 text-center text-lg text-slate-700">
-                                            No te falta nada. ¡Bien hecho!
-                                        </p>
-                                    ) : (
-                                        <>
-                                            <SeccionPlanSubsanacion
-                                                pendienteAtender={pendiente_atender}
-                                                totalPendienteAtender={resumen?.total_pendiente_atender ?? 0}
-                                                uuid={autoevaluacion?.uuid}
-                                                onAbrirRecurso={abrirRecurso}
-                                                onAbrirAsistencia={abrirAsistencia}
-                                            />
-                                            <SeccionPorRevisar
-                                                porRevisar={por_revisar}
-                                                totalPorRevisar={resumen?.total_por_revisar ?? 0}
-                                                uuid={autoevaluacion?.uuid}
-                                                onAbrirRecurso={abrirRecurso}
-                                                onAbrirAsistencia={abrirAsistencia}
-                                            />
-                                        </>
-                                    )}
-                                </TabsContent>
-
-                                <TabsContent value="especialidad" className="focus-visible:outline-hidden">
-                                    {desglose_especialidades ? (
-                                        <section aria-labelledby="especialidades-title" className="space-y-3.5">
-                                            <h2 id="especialidades-title" className="text-lg font-bold text-slate-900">
-                                                Cómo está tu local en cada especialidad
-                                            </h2>
-                                            <DesgloseEspecialidades desglose={desglose_especialidades} variante="detallada" />
-                                        </section>
-                                    ) : (
-                                        <p className="text-base text-slate-600">No hay desglose disponible.</p>
-                                    )}
                                 </TabsContent>
 
                                 <TabsContent value="costos" className="focus-visible:outline-hidden">
@@ -2100,7 +1255,6 @@ export default function Resumen({
                                         totalCumpleDeclarado={resumen?.total_cumple_declarado ?? 0}
                                     />
                                     <SeccionCaracteristicasDeclaradas caracteristicasDeclaradas={caracteristicasDeclaradas} />
-                                    <SeccionCondicionesNoAplicables noAplica={no_aplica} />
                                 </TabsContent>
                             </Tabs>
                         </div>
@@ -2141,33 +1295,6 @@ export default function Resumen({
                 uuid={autoevaluacion?.uuid}
                 establecimiento={autoevaluacion?.nombre_comercio}
                 destino="resumen"
-            />
-
-            <RecursoEducativoModal
-                isOpen={modalRecurso.isOpen}
-                onClose={() => setModalRecurso((prev) => ({ ...prev, isOpen: false }))}
-                recursos={modalRecurso.recursos}
-                criterioCodigo={modalRecurso.codigo}
-                criterioTitulo={modalRecurso.titulo}
-            />
-
-            <NubeAsistenciaModal
-                isOpen={criterioSeleccionadoParaAsistencia !== null}
-                onClose={() => setCriterioSeleccionadoParaAsistencia(null)}
-                criterio={criterioSeleccionadoParaAsistencia}
-            />
-
-            <HojaModeloAnexo
-                isOpen={modalHojaModeloAbierto}
-                onClose={() => setModalHojaModeloAbierto(false)}
-                autoevaluacion={autoevaluacion}
-                clasificacion={clasificacion_tramite}
-                resumen={resumen}
-                condicionesConformes={cumple_declarado.map((c) => ({
-                    codigo: c.codigo,
-                    nombre: c.titulo,
-                    norma: c.norma_base ?? undefined,
-                }))}
             />
         </>
     );

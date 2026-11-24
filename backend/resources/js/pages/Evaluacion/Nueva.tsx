@@ -10,10 +10,10 @@ import {
     type ModalidadItse,
 } from '@/lib/clasificacion-itse';
 import { FOTOS_POR_RUBRO, type RubroNegocio } from '@/lib/imagen-negocio';
-import { formatearNivelRiesgo } from '@/lib/riesgo';
+import { visualDeItem } from '@/lib/item-visual';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { AlertCircle, AlertTriangle, ArrowLeft, ArrowRight, BookOpen, Building2, Check, CheckCircle2, Clock, RefreshCw } from 'lucide-react';
+import { AlertCircle, ArrowLeft, ArrowRight, BookOpen, Check, RefreshCw, Search } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 type ValorNumericoFlexible = string | number | null;
@@ -94,16 +94,17 @@ export interface PrecalificacionOrientativa {
     avisos: string[];
 }
 
-/**
- * Criterios normativos que el motor de aplicabilidad habilita a partir de cada
- * declaración física del ciudadano (R.J. 016-2018-CENEPRED/J y D.S. 002-2018-PCM).
- */
-const CRITERIOS_POR_DECLARACION = [
-    { codigo: 'CRIT-10', etiqueta: 'Gas Licuado de Petróleo', campo: 'usa_glp' },
-    { codigo: 'CRIT-02A', etiqueta: 'Cocción con aceites · Clase K', campo: 'tiene_equipos_fritura' },
-    { codigo: 'CRIT-11', etiqueta: 'Escaleras y pasamanos', campo: 'tiene_escaleras' },
-    { codigo: 'CRIT-13', etiqueta: 'Arriostramiento antisísmico', campo: 'tiene_estanterias_altas' },
-] as const;
+/** Lo que se revisa en todo local (con la foto de ejemplo del checklist). */
+const REVISION_BASE = ['CRIT-01', 'CRIT-02B', 'CRIT-08', 'CRIT-06', 'CRIT-09'] as const;
+
+/** Lo que se suma según lo que el emprendedor declara de su local. */
+const REVISION_POR_DECLARACION: ReadonlyArray<{ codigo: string; campo: CampoSiNo }> = [
+    { codigo: 'CRIT-02A', campo: 'tiene_equipos_fritura' },
+    { codigo: 'CRIT-10', campo: 'usa_glp' },
+    { codigo: 'CRIT-11', campo: 'tiene_escaleras' },
+    { codigo: 'CRIT-13', campo: 'tiene_estanterias_altas' },
+    { codigo: 'CRIT-17', campo: 'usa_caldero' },
+];
 
 const CAMPOS_DECLARACION = ['usa_glp', 'tiene_equipos_fritura', 'tiene_escaleras', 'tiene_estanterias_altas'] as const;
 
@@ -279,11 +280,6 @@ function rubroInicial(reevaluacionDe: ReevaluacionData | null): RubroId | '' {
     return reevaluacionDe ? 'otro' : '';
 }
 
-const ESTILO_NIVEL: Record<ClasificacionItse['nivel'], { fondo: string; texto: string; borde: string }> = {
-    BAJO_MEDIO: { fondo: 'bg-emerald-50', texto: 'text-emerald-900', borde: 'border-emerald-200' },
-    ALTO_MUY_ALTO: { fondo: 'bg-amber-50', texto: 'text-amber-900', borde: 'border-amber-200' },
-};
-
 function tieneDatosParaClasificar(input: PrecalificacionInput): boolean {
     return (
         [input.area_m2, input.pisos, input.aforo].some((valor) => leerNumero(valor) !== null) ||
@@ -374,26 +370,6 @@ function SelectorSiNo({ etiquetaId, descripcionId, valor, onSeleccion }: Readonl
             })}
         </fieldset>
     );
-}
-
-const renderIconoIndicador = (activo: boolean, descartado: boolean) => {
-    if (activo) {
-        return <CheckCircle2 className="h-3 w-3" />;
-    }
-    if (descartado) {
-        return <span aria-hidden="true">—</span>;
-    }
-    return <AlertTriangle className="h-3 w-3" />;
-};
-
-function claseChipCriterio(activo: boolean, descartado: boolean): string {
-    if (activo) {
-        return 'border-emerald-600 bg-primary text-white';
-    }
-    if (descartado) {
-        return 'border-slate-200 bg-white text-slate-400 line-through';
-    }
-    return 'border-amber-200 bg-amber-50 text-amber-800';
 }
 
 function construirValoresIniciales(reevaluacionDe: ReevaluacionData | null): FormEvaluacionData {
@@ -492,106 +468,40 @@ function parsearEnteroOpcional(valor: string): number | '' {
 
 type ActualizarCampoFormulario = <K extends keyof FormEvaluacionData>(campo: K, valor: FormEvaluacionData[K]) => void;
 
-interface PanelPrecalificacionOrientativaProps {
-    precalificacion: PrecalificacionOrientativa | null;
+interface PanelLoQueRevisaremosProps {
     data: FormEvaluacionData;
-    declaracionesPendientes: number;
+    nombreRubro?: string;
 }
 
-function PanelPrecalificacionOrientativa({ precalificacion, data, declaracionesPendientes }: Readonly<PanelPrecalificacionOrientativaProps>) {
+/**
+ * Vista previa de la revisión: con fotos, lo que se le va a preguntar al
+ * emprendedor según lo que declaró (sin códigos ni normas a la vista).
+ */
+function PanelLoQueRevisaremos({ data, nombreRubro }: Readonly<PanelLoQueRevisaremosProps>) {
+    const codigos = [...REVISION_BASE, ...REVISION_POR_DECLARACION.filter(({ campo }) => data[campo] === true).map(({ codigo }) => codigo)];
+    const items = codigos.map((codigo) => ({ codigo, ...visualDeItem(codigo) }));
+
     return (
-        <section
-            aria-label="Precalificación orientativa"
-            aria-live="polite"
-            className="mb-7 rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50/80 to-white p-5 shadow-xs sm:p-6"
-        >
-            <div className="flex items-start gap-4">
-                <div className="bg-primary shrink-0 rounded-2xl p-2.5 text-white">
-                    <Building2 className="h-5 w-5" />
-                </div>
-                <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2.5">
-                        <h2 className="text-sm font-extrabold text-slate-900">Precalificación orientativa</h2>
-                        {precalificacion ? (
-                            <>
-                                <span
-                                    className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-extrabold tracking-wide uppercase ${
-                                        ESTILO_NIVEL[precalificacion.nivel].fondo
-                                    } ${ESTILO_NIVEL[precalificacion.nivel].texto} ${ESTILO_NIVEL[precalificacion.nivel].borde}`}
-                                >
-                                    {formatearNivelRiesgo(precalificacion.nivel)}
-                                </span>
-                                <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-sm font-bold text-slate-600">
-                                    <Clock className="h-3 w-3" />
-                                    {precalificacion.titulo}
-                                </span>
-                            </>
-                        ) : (
-                            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-sm font-bold text-slate-500">
-                                Reúne datos
-                            </span>
-                        )}
-                    </div>
-
-                    {precalificacion ? (
-                        <ul className="mt-3.5 space-y-1.5">
-                            {precalificacion.factores.map((factor) => (
-                                <li key={factor} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700 sm:text-sm">
-                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
-                                    {factor}
-                                </li>
-                            ))}
-                            {precalificacion.avisos.map((aviso) => (
-                                <li key={aviso} className="flex items-start gap-2 text-sm leading-relaxed text-amber-900 sm:text-sm">
-                                    <AlertTriangle aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" />
-                                    {aviso}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-sm">
-                            Completa el área, los pisos o el aforo para ver una orientación preliminar. Puedes dejarlos en blanco si no los conoces
-                            con exactitud.
-                        </p>
-                    )}
+        <section aria-labelledby="revision-titulo" className="overflow-hidden rounded-3xl border border-emerald-200 bg-white shadow-xs">
+            <div className="bg-ink-900 trama-andina flex items-center gap-3 px-5 py-4 text-white sm:px-6">
+                <span className="bg-primary flex size-10 shrink-0 items-center justify-center rounded-2xl">
+                    <Search aria-hidden="true" className="size-5" />
+                </span>
+                <div>
+                    <h3 id="revision-titulo" className="text-lg font-bold">
+                        Esto vamos a revisar en tu {nombreRubro ? nombreRubro.toLowerCase() : 'local'}
+                    </h3>
+                    <p className="text-base text-slate-300">{items.length} cosas, con una foto de ejemplo cada una. Te toma unos 3 minutos.</p>
                 </div>
             </div>
-
-            {/* Criterios que el motor habilitará según lo declarado */}
-            <div className="mt-4 border-t border-emerald-200/70 pt-4">
-                <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="mr-1 text-sm font-bold text-slate-500">Criterios que se activarán</span>
-                    {CRITERIOS_POR_DECLARACION.map((criterio) => {
-                        const estado = data[criterio.campo] as boolean | null | undefined;
-                        const activo = estado === true;
-                        const descartado = estado === false;
-                        return (
-                            <span
-                                key={criterio.codigo}
-                                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold transition ${claseChipCriterio(activo, descartado)}`}
-                            >
-                                {renderIconoIndicador(activo, descartado)}
-                                <span className="font-mono">{criterio.codigo}</span>
-                                <span className="font-normal">{criterio.etiqueta}</span>
-                            </span>
-                        );
-                    })}
-                </div>
-
-                {declaracionesPendientes > 0 && (
-                    <p className="mt-2.5 text-sm leading-relaxed text-amber-800">
-                        Faltan {declaracionesPendientes} de 4 declaraciones obligatorias. Sin ellas el motor no puede filtrar los criterios que te
-                        corresponden.
-                    </p>
-                )}
-
-                <p className="mt-3 text-sm leading-relaxed text-slate-500">
-                    Orientación calculada en tu navegador a partir de lo que declaras, conforme a los umbrales del{' '}
-                    <strong className="font-semibold text-slate-700">Manual CENEPRED (R.J. 016-2018-CENEPRED/J)</strong> y el{' '}
-                    <strong className="font-semibold text-slate-700">D.S. 002-2018-PCM</strong>. No se envía ni se registra como clasificación: la
-                    determinación formal y los plazos de emisión dependen de cada municipalidad distrital.
-                </p>
-            </div>
+            <ul className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 sm:p-5">
+                {items.map((item) => (
+                    <li key={item.codigo} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                        {item.imagen && <img src={item.imagen} alt="" loading="lazy" className="h-24 w-full object-cover sm:h-28" />}
+                        <p className="p-2.5 text-sm leading-snug font-semibold text-slate-800">{item.nombreCorto}</p>
+                    </li>
+                ))}
+            </ul>
         </section>
     );
 }
@@ -1096,9 +1006,6 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
         document.getElementById('grupo-datos')?.focus();
     }, [grupo]);
 
-    const precalificacion = precalificarLocalmente(data);
-    const declaracionesPendientes = CAMPOS_DECLARACION.filter((campo) => data[campo] == null).length;
-
     const limpiarErrorDe = (campo: string) => {
         if (!erroresFormulario[campo]) return;
         setErroresFormulario((prev) => {
@@ -1262,11 +1169,7 @@ export default function Nueva({ reevaluacionDe = null }: Readonly<NuevaProps>) {
                                 ))}
                             </dl>
                         </section>
-                        <PanelPrecalificacionOrientativa
-                            precalificacion={precalificacion}
-                            data={data}
-                            declaracionesPendientes={declaracionesPendientes}
-                        />
+                        <PanelLoQueRevisaremos data={data} nombreRubro={opcionRubro?.id === 'otro' ? undefined : opcionRubro?.nombre} />
                     </div>
 
                     <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between">

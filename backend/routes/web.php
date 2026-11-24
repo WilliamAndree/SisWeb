@@ -7,6 +7,7 @@ use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\EventosProveedorController;
 use App\Http\Controllers\ExpedienteDigitalController;
 use App\Http\Controllers\MisRegistrosController;
+use App\Http\Controllers\PanelEnVivoController;
 use App\Http\Controllers\PlanoEstablecimientoController;
 use App\Http\Controllers\ProveedorPanelController;
 use App\Http\Controllers\ReportesController;
@@ -158,6 +159,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('panel');
         Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes');
+        Route::get('/en-vivo', [PanelEnVivoController::class, 'index'])->name('en_vivo');
         Route::get('/reportes/exportar', [ReportesController::class, 'exportar'])->name('reportes.exportar');
         Route::get('/pagos/{solicitud}/comprobante', [AdminController::class, 'evidencia'])->whereNumber('solicitud')->name('pagos.comprobante');
         Route::post('/pagos/{solicitud}/aprobar', [AdminController::class, 'aprobarPago'])->whereNumber('solicitud')->name('pagos.aprobar');

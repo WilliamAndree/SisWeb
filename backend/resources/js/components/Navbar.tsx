@@ -47,7 +47,10 @@ function enlacesPorCuenta(usuario: Usuario | null, esInicio: boolean, url: strin
                 href: clave === 'resumen' ? route('admin.panel') : `${route('admin.panel')}?seccion=${clave}`,
                 activo: enAdmin && seccion === clave,
             }))
-            .concat({ etiqueta: 'Reportes', href: route('admin.reportes'), activo: Boolean(route().current('admin.reportes')) });
+            .concat(
+                { etiqueta: 'Reportes', href: route('admin.reportes'), activo: Boolean(route().current('admin.reportes')) },
+                { etiqueta: 'En vivo', href: route('admin.en_vivo'), activo: Boolean(route().current('admin.en_vivo')) },
+            );
     }
     if (usuario?.tipo_cuenta === 'proveedor') {
         return [

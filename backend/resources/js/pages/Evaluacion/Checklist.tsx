@@ -3,7 +3,7 @@ import { GuiaPedagogicaModal } from '@/components/Evaluacion/GuiaPedagogicaModal
 import { ModalGuardarProgreso } from '@/components/ModalGuardarProgreso';
 import { RecursoEducativoModal, type RecursoEducativoData } from '@/components/RecursoEducativoModal';
 import { visualDeItem } from '@/lib/item-visual';
-import type { ChecklistProps, CriterioEvaluable, CriterioInformacionPendiente, CriterioNoAplica } from '@/types/contrato';
+import type { ChecklistProps, CriterioEvaluable, CriterioInformacionPendiente } from '@/types/contrato';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     AlertCircle,
@@ -576,13 +576,19 @@ function guardarRespaldo(uuid: string, respuestas: Record<string, string>): void
     }
 }
 
-/** Lo respondido en este navegador prevalece: es lo último que eligió el usuario. */
+/**
+ * El respaldo de este navegador solo completa lo que el servidor aún no recibió (por
+ * ejemplo, si se salió de la página antes de que llegara el autoguardado). Lo que ya
+ * está en el servidor manda: así una corrección hecha en «Lo que te falta» no se pierde.
+ */
 function combinarConRespaldo(delServidor: Record<string, string>, criterios: CriterioEvaluable[], uuid?: string): Record<string, string> {
     const validos = new Set(criterios.map((c) => c.codigo));
     const locales = Object.fromEntries(
-        Object.entries(leerRespaldo(uuid)).filter(([codigo, estado]) => validos.has(codigo) && typeof estado === 'string' && estado !== ''),
+        Object.entries(leerRespaldo(uuid)).filter(
+            ([codigo, estado]) => validos.has(codigo) && typeof estado === 'string' && estado !== '' && !delServidor[codigo],
+        ),
     );
-    return { ...delServidor, ...locales };
+    return { ...locales, ...delServidor };
 }
 
 function inicializarNotas(criterios: CriterioEvaluable[]): Record<string, string> {
@@ -1248,33 +1254,19 @@ function TarjetaCriterio({
                         </div>
                     </div>
 
-                    <details className="rounded-xl border border-slate-200 p-3">
-                        <summary className="cursor-pointer text-sm font-medium text-slate-600">Norma y referencia del criterio</summary>
-                        {/* Cabecera técnica de código + base normativa */}
-                        <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
-                            <span className="rounded-lg bg-slate-900 px-2.5 py-1 font-mono text-sm font-bold tracking-tight text-white shadow-2xs">
-                                {criterio.codigo}
-                            </span>
-                            {referenciaNormativa && (
-                                <span
-                                    className="inline-flex min-w-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-sm font-semibold text-slate-600"
-                                    title={referenciaNormativa}
-                                >
-                                    <Scale className="h-3 w-3 shrink-0 text-slate-400" aria-hidden="true" />
-                                    <span className="truncate">{referenciaNormativa}</span>
-                                </span>
-                            )}
-                            {criterio.categoria && (
-                                <span className="rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-sm font-bold text-slate-600">
-                                    {criterio.categoria}
-                                </span>
-                            )}
-                        </div>
-                    </details>
+                    {referenciaNormativa && (
+                        <details className="rounded-xl border border-slate-200 p-3">
+                            <summary className="cursor-pointer text-sm font-medium text-slate-600">¿Qué norma lo pide?</summary>
+                            <p className="mt-2 flex items-start gap-1.5 text-sm text-slate-600">
+                                <Scale className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
+                                <span>{referenciaNormativa}</span>
+                            </p>
+                        </details>
+                    )}
                     {/* Selector segmentado de las tres declaraciones ciudadanas
                         autorizadas. `NO_APLICA` se sigue filtrando aquí y en
                         el payload: es una determinación exclusiva del motor. */}
-                    <div role="radiogroup" aria-label={`Opciones de respuesta para ${criterio.codigo}`} className="grid gap-3 pt-1 sm:grid-cols-3">
+                    <div role="radiogroup" aria-label={`Opciones de respuesta para ${criterio.titulo}`} className="grid gap-3 pt-1 sm:grid-cols-3">
                         {opciones.map((opcionKey) => {
                             const esCumpleBloqueado = estaObservado && opcionKey === 'CUMPLE_DECLARADO';
                             return (
@@ -1515,8 +1507,7 @@ function SeccionCriteriosPendientes({ criteriosPendientes, mostrarPendientes, on
                     <div className="grid gap-2 sm:grid-cols-2">
                         {criteriosPendientes.map((cp) => (
                             <div key={cp.codigo} className="rounded-2xl border border-amber-200 bg-white p-3.5 shadow-2xs">
-                                <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-sm font-bold text-amber-900">{cp.codigo}</span>
+                                <div className="flex items-center justify-end gap-2">
                                     <span className="rounded-full bg-amber-100 px-2 py-0.5 text-sm font-semibold text-amber-700">
                                         Pendiente de dato
                                     </span>
@@ -1603,67 +1594,6 @@ function CabeceraEspecialidadActiva({
     );
 }
 
-interface SeccionCriteriosNoAplicanProps {
-    criteriosNoAplican: CriterioNoAplica[];
-    mostrarNoAplican: boolean;
-    onToggleNoAplican: () => void;
-}
-
-function SeccionCriteriosNoAplican({ criteriosNoAplican, mostrarNoAplican, onToggleNoAplican }: Readonly<SeccionCriteriosNoAplicanProps>) {
-    if (criteriosNoAplican.length === 0) {
-        return null;
-    }
-
-    return (
-        <section className="rounded-3xl border border-slate-200 bg-slate-50/60 p-5">
-            <button
-                type="button"
-                onClick={onToggleNoAplican}
-                aria-expanded={mostrarNoAplican}
-                className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl text-left focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:outline-none"
-            >
-                <div className="flex items-center gap-2.5">
-                    <ShieldAlert className="h-5 w-5 shrink-0 text-slate-400" />
-                    <h2 className="text-base font-bold text-slate-800">
-                        Condiciones que el sistema determinó como no aplicables ({criteriosNoAplican.length})
-                    </h2>
-                </div>
-                {mostrarNoAplican ? (
-                    <ChevronUp className="h-4 w-4 shrink-0 text-slate-500" />
-                ) : (
-                    <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
-                )}
-            </button>
-
-            {mostrarNoAplican && (
-                <div className="mt-3 space-y-3 border-t border-slate-200 pt-3">
-                    <p className="text-sm text-slate-500">
-                        El motor de aplicabilidad descartó estas condiciones a partir de lo que declaraste en el paso 1. La decisión es del sistema,
-                        no tuya: no son seleccionables ni requieren acción ciudadana.
-                    </p>
-                    <div className="space-y-2">
-                        {criteriosNoAplican.map((cna) => (
-                            <div key={cna.codigo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs">
-                                <div className="flex items-center justify-between gap-2">
-                                    <span className="font-mono text-sm font-bold text-slate-800">{cna.codigo}</span>
-                                    <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-sm font-bold text-slate-600">
-                                        No aplica
-                                    </span>
-                                </div>
-                                <p className="mt-1.5 text-sm font-bold text-slate-800">{cna.titulo}</p>
-                                <p className="mt-1.5 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-sm leading-relaxed text-slate-600">
-                                    <strong className="text-slate-700">Motivo del sistema: </strong>
-                                    {cna.motivo}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-        </section>
-    );
-}
-
 interface PanelHallazgosEnVivoProps {
     hallazgos: CriterioEvaluable[];
     respondidosCount: number;
@@ -1725,8 +1655,7 @@ function PanelHallazgosEnVivo({ hallazgos, respondidosCount, totalCriterios, por
                     <ul className="max-h-72 space-y-1.5 overflow-y-auto pr-0.5">
                         {hallazgos.map((hallazgo) => (
                             <li key={hallazgo.codigo} className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700">
-                                <span className="font-mono text-sm font-bold text-rose-500">{hallazgo.codigo}</span>
-                                <span className="mt-0.5 block text-sm leading-snug font-semibold">{hallazgo.titulo}</span>
+                                <span className="block text-sm leading-snug font-semibold">{hallazgo.titulo}</span>
                             </li>
                         ))}
                     </ul>
@@ -1868,7 +1797,6 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
     });
 
     const criteriosAplicables = useMemo(() => checklist?.criterios ?? [], [checklist]);
-    const criteriosNoAplican = useMemo(() => checklist?.no_aplican ?? [], [checklist]);
     const criteriosPendientes = useMemo(() => checklist?.informacion_pendiente ?? [], [checklist]);
 
     // Agrupación dinámica por especialidad normativa
@@ -1902,7 +1830,6 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
     const [guardandoContinuar, setGuardandoContinuar] = useState<boolean>(false);
     const [mensajeExito, setMensajeExito] = useState<string | null>(null);
     const [mensajeError, setMensajeError] = useState<string | null>(null);
-    const [mostrarNoAplican, setMostrarNoAplican] = useState<boolean>(false);
     const [mostrarPendientes, setMostrarPendientes] = useState<boolean>(true);
 
     // Cantidad de criterios aplicables con respuesta seleccionada
@@ -2276,12 +2203,6 @@ export default function Checklist({ autoevaluacion, checklist }: Readonly<Checkl
                             </section>
                         )}
                     </div>
-
-                    <SeccionCriteriosNoAplican
-                        criteriosNoAplican={criteriosNoAplican}
-                        mostrarNoAplican={mostrarNoAplican}
-                        onToggleNoAplican={() => setMostrarNoAplican(!mostrarNoAplican)}
-                    />
                 </div>
 
                 <PanelHallazgosEnVivo

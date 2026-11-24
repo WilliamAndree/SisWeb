@@ -58,5 +58,18 @@ router.on('navigate', (evento) => {
     }
 });
 
+// Al volver con «Atrás» o «Adelante», Inertia muestra la página guardada en el historial,
+// con los datos de ese momento. Se recargan del servidor para que una corrección o una
+// respuesta hecha en otra pantalla se vea de inmediato (sin mover el scroll).
+let volvioPorHistorial = false;
+globalThis.addEventListener?.('popstate', () => {
+    volvioPorHistorial = true;
+});
+router.on('navigate', () => {
+    if (!volvioPorHistorial) return;
+    volvioPorHistorial = false;
+    router.reload();
+});
+
 // This will set light / dark mode on load...
 void initializeTheme();
